@@ -95,18 +95,18 @@ Tasks
 
 
 ## Notes
-Open xampp/htdocs folder in vscode
-Open view -> Terminal
-Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
-Always pull before pushing changes.
-Use proper commit changes.
+- Open xampp/htdocs folder in vscode
+- Open view -> Terminal
+- Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
+- Always pull before pushing changes.
+- Use proper commit changes.
 
 ## How to Add the database
-Open phpmyadmin on xampp
-On the left side bar press "New"
-Create database named "inventory_db"
-Once done ignore the add table name
-Click the "Import" tab above
-Click the "Choose File"
-Select inventory_db.sql
-Once uploaded go to the bottom and click import
+- Open phpmyadmin on xampp
+- On the left side bar press "New"
+- Create database named "inventory_db"
+- Once done ignore the add table name
+- Click the "Import" tab above
+- Click the "Choose File"
+- Select inventory_db.sql
+- Once uploaded go to the bottom and click import
