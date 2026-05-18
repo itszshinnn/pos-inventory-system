@@ -85,14 +85,6 @@
 	- Stocks 
 	- Status
 	- Edit/Delete 
-	
-Tasks
-- Cerbo - Products/Add Products
-- Limo - Backend
-- Bettina - Gawa ka ng database connection, Database/Tables
-- Calinaya - Dashboard
-- Leah - Categories
-
 
 ## Notes
 - Open xampp/htdocs folder in vscode
