@@ -50,8 +50,10 @@
 - Webcam
 
 ## Database
-Database Name - POS_Inventory_System
-Table Name - Accounts, Products
+Database Name
+- POS_Inventory_System
+Table Name 
+- Accounts, Products
 
 Products Table
 - Item Number | Displays the id of the item in the table
@@ -62,7 +64,7 @@ Products Table
 - Status | Fine if there are enough stock, Low stock, Out of stock
 
 ##UI Design
-Side Navbar
+## Side Navbar
 	Dashboard
 	- Total Products
 	- Total Units
