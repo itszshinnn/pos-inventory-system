@@ -18,9 +18,9 @@
 
 <div class="layout">
   <nav class="sidebar">
-    <a href="Inventory_frontend/dashboard.php">Dashboard</a>
-    <a href="Inventory_frontend/categories.php" class="active">Categories</a>
-    <a href="Inventory_frontend/products.php">Products</a>
+    <a href="dashboard.php">Dashboard</a>
+    <a href="categories.php" class="active">Categories</a>
+    <a href="products.php">Products</a>
   </nav>
 
   <div class="main">
