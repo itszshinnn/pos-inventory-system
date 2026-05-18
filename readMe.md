@@ -9,7 +9,6 @@
 - Leah
  
 # Features
-
 ## Dashboard
 - Total Products
 - Total Units
@@ -86,13 +85,37 @@
 	- Status
 	- Edit/Delete 
 
-## Notes
+# Notes
+## How to clone the repo
 - Open xampp/htdocs folder in vscode
 - Open view -> Terminal
 - Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
 - Always pull before pushing changes.
 - Use proper commit changes.
-- ## PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
+- PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
+
+## Directory to place in the browser
+- http://localhost/inventory/inventory_frontend/dashboard.php
+- http://localhost/inventory/inventory_frontend/categories.php
+- http://localhost/inventory/inventory_frontend/products.php
+- http://localhost/inventory/inventory_frontend/add-product.php
+
+## Git Commands
+- git pull origin <branch name> | download all the latest code in this branch
+- git checkout <branch name> | switch your workspace into an existing branch
+- git merge <branch name> | merge your target branch to your active current branch
+- git push origin <branch name> | uploads your local commit to your branch
+- git status | checks what branch you are currently in
+
+## Step by step
+- Make sure you are in your own branch
+- Add/edit your code
+- Commit changes and add message/comment
+- Push your updates to GitHub (into your own branch)
+- Switch to main branch
+- Always make sure you are update in main branch
+- Merge your own branch into main branch
+- Push the updated main branch to GitHub
 
 ## How to Add the database
 - Open phpmyadmin on xampp
