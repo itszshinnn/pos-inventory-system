@@ -49,13 +49,13 @@
 - Monitor
 - Webcam
 
-## Database
-# Database Name
+# Database
+## Database Name
 - POS_Inventory_System
-# Table Name 
+## Table Name 
 - Accounts, Products
 
-Products Table
+## Products Table
 - Item Number | Displays the id of the item in the table
 - Name | The name of the item in the table
 - Category | Input Devices, Audio, Storage, Output Devices
@@ -63,8 +63,8 @@ Products Table
 - Stocks | Current number of item in stock
 - Status | Fine if there are enough stock, Low stock, Out of stock
 
-## UI Design
-	Side Navbar
+# UI Design
+## Side Navbar
 	Dashboard
 	- Total Products
 	- Total Units
