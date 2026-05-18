@@ -101,10 +101,10 @@
 - http://localhost/inventory/inventory_frontend/add-product.php
 
 ## Git Commands
-- git pull origin <branch name> | download all the latest code in this branch
-- git checkout <branch name> | switch your workspace into an existing branch
-- git merge <branch name> | merge your target branch to your active current branch
-- git push origin <branch name> | uploads your local commit to your branch
+- git pull origin (branch name) | download all the latest code in this branch
+- git checkout (branch name) | switch your workspace into an existing branch
+- git merge (branch name)  | merge your target branch to your active current branch
+- git push origin (branch name)  | uploads your local commit to your branch
 - git status | checks what branch you are currently in
 
 ## Step by step
