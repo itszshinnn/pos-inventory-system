@@ -65,7 +65,7 @@
   }
 
   async function loadCategories() {
-    const res  = await fetch('../Inventory Backend/api_categories.php');
+    const res  = await fetch('../Inventory_backend/api_categories.php');
     const cats = await res.json();
     const sel  = document.getElementById('prodCategory');
     sel.innerHTML = '<option value="" disabled selected>Select category</option>' +
@@ -83,7 +83,7 @@
     if (isNaN(price) || price < 0) return showToast('Please enter a valid price.', true);
     if (isNaN(stock) || stock < 0) return showToast('Please enter a valid stock quantity.', true);
 
-    const res  = await fetch('../Inventory Backend/api_products.php', {
+    const res  = await fetch('../Inventory_backend/api_products.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, category_id, price, stock })
