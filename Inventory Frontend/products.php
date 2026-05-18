@@ -18,10 +18,10 @@
 
 <div class="layout">
   <nav class="sidebar">
-    <a href="dashboard.php">Dashboard</a>
-    <a href="categories.php">Categories</a>
-    <a href="products.php" class="active">Products</a>
-    <a href="add-product.php" class="sub">- Add Products</a>
+    <a href="/Inventory Frontend/dashboard.php">Dashboard</a>
+    <a href="/Inventory Frontend/categories.php">Categories</a>
+    <a href="/Inventory Frontend/products.php" class="active">Products</a>
+    <a href="/Inventory Frontend/add-product.php" class="sub">- Add Products</a>
   </nav>
 
   <div class="main">
