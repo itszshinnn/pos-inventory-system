@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K's Inventory — Products</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -88,8 +88,8 @@
 
   async function loadData() {
     const [pRes, cRes] = await Promise.all([
-      fetch('api_products.php'),
-      fetch('api_categories.php')
+      fetch('../Inventory Backend/api_products.php'),
+      fetch('../Inventory Backend/api_categories.php')
     ]);
     allProducts   = await pRes.json();
     allCategories = await cRes.json();
@@ -127,7 +127,7 @@
 
   async function deleteProduct(id) {
     if (!confirm('Delete this product?')) return;
-    const res  = await fetch('api_products.php', {
+    const res  = await fetch('../Inventory Backend/api_products.php', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id })
@@ -166,7 +166,7 @@
 
     if (!name || !category_id || isNaN(price) || isNaN(stock)) return showToast('All fields are required.', true);
 
-    const res  = await fetch('api_products.php', {
+    const res  = await fetch('../Inventory Backend/api_products.php', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, name, category_id, price, stock })

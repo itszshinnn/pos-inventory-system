@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K's Inventory — Add Product</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -65,7 +65,7 @@
   }
 
   async function loadCategories() {
-    const res  = await fetch('api_categories.php');
+    const res  = await fetch('../Inventory Backend/api_categories.php');
     const cats = await res.json();
     const sel  = document.getElementById('prodCategory');
     sel.innerHTML = '<option value="" disabled selected>Select category</option>' +
@@ -83,7 +83,7 @@
     if (isNaN(price) || price < 0) return showToast('Please enter a valid price.', true);
     if (isNaN(stock) || stock < 0) return showToast('Please enter a valid stock quantity.', true);
 
-    const res  = await fetch('api_products.php', {
+    const res  = await fetch('../Inventory Backend/api_products.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, category_id, price, stock })

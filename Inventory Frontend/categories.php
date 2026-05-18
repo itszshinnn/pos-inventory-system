@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K's Inventory — Categories</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -79,7 +79,7 @@
   }
 
   async function loadCategories() {
-    const res  = await fetch('api_categories.php');
+    const res  = await fetch('../Inventory Backend/api_categories.php');
     const cats = await res.json();
     const tbody = document.getElementById('catTableBody');
     if (!cats.length) {
@@ -101,7 +101,7 @@
   async function addCategory() {
     const name = document.getElementById('catName').value.trim();
     if (!name) return showToast('Please enter a category name.', true);
-    const res  = await fetch('api_categories.php', {
+    const res  = await fetch('../Inventory Backend/api_categories.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name })
@@ -115,7 +115,7 @@
 
   async function deleteCategory(id) {
     if (!confirm('Delete this category? All its products will also be deleted.')) return;
-    const res  = await fetch('api_categories.php', {
+    const res  = await fetch('../Inventory Backend/api_categories.php', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id })
@@ -140,7 +140,7 @@
     const id   = document.getElementById('editId').value;
     const name = document.getElementById('editName').value.trim();
     if (!name) return showToast('Name cannot be empty.', true);
-    const res  = await fetch('api_categories.php', {
+    const res  = await fetch('../Inventory Backend/api_categories.php', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, name })

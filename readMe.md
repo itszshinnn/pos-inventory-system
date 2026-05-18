@@ -92,6 +92,7 @@
 - Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
 - Always pull before pushing changes.
 - Use proper commit changes.
+- ## PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
 
 ## How to Add the database
 - Open phpmyadmin on xampp
