@@ -105,8 +105,8 @@ if(isset($_POST['signup'])){
     <style>
 
         :root{
-            --dark-1: #2C2F33; /* primary dark */
-            --dark-2: #3A3F45; /* secondary */
+            --dark-1: #333538; /* primary dark */
+            --dark-2: #333538; /* secondary */
             --bg: #F5F6F8;    /* page background */
             --white: #FFFFFF; /* surface */
             --muted: #6b6f73;

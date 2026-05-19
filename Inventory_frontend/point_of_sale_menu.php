@@ -15,14 +15,17 @@ if (!isset($_SESSION['user_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>K's Inventory System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
+  </style>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
 
     body {
@@ -49,7 +52,7 @@ if (!isset($_SESSION['user_id'])) {
     /* TOPBAR */
     .topbar {
       height: 55px;
-      background: #181818;
+      background: #333538;
       display: flex;
       align-items: center;
       padding: 0 16px;
@@ -230,8 +233,9 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .price {
-      font-size: 12px;
-      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
       margin-top: 3px;
     }
 
@@ -302,8 +306,9 @@ if (!isset($_SESSION['user_id'])) {
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'DM Mono', monospace;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 500;
     }
 
     .order-items {
@@ -343,7 +348,9 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .cart-item-info .item-price {
-      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
       color: #000000;
     }
 
@@ -354,8 +361,9 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .qty-badge {
+      font-family: 'DM Mono', monospace;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
       background: #e0e0e0;
       padding: 2px 8px;
       border-radius: 6px;
@@ -386,6 +394,11 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 700;
     }
 
+    .summary-row span:last-child {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+    }
+
     .discount-row {
       display: flex;
       gap: 8px;
@@ -400,7 +413,6 @@ if (!isset($_SESSION['user_id'])) {
       border: 2px solid #a8a8a8;
       padding: 0 10px;
       font-size: 15px;
-      font-family: 'Poppins', sans-serif;
       outline: none;
       transition: .2s;
     }
@@ -416,7 +428,6 @@ if (!isset($_SESSION['user_id'])) {
       padding: 0 8px;
       font-size: 14px;
       font-weight: 600;
-      font-family: 'Poppins', sans-serif;
       cursor: pointer;
       outline: none;
       background: white;
@@ -424,8 +435,9 @@ if (!isset($_SESSION['user_id'])) {
 
     .discount-result {
       flex: 1;
-      font-size: 15px;
-      font-weight: 600;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
       color: #ff4b4b;
       text-align: right;
       white-space: nowrap;
@@ -435,8 +447,8 @@ if (!isset($_SESSION['user_id'])) {
       width: 100%;
       height: 48px;
       border: none;
-      background: #4d66ff;
-      color: white;
+      background: #00000036;
+      color: #0000006b;
       border-radius: 12px;
       font-size: 15px;
       font-weight: 700;
@@ -447,6 +459,7 @@ if (!isset($_SESSION['user_id'])) {
 
     .checkout-btn:hover {
       background: #2e2e2e;
+      color: white;
     }
 
     .clear-btn {
@@ -511,6 +524,10 @@ if (!isset($_SESSION['user_id'])) {
       margin-bottom: 8px;
     }
 
+    .modal-item-row span:last-child {
+      font-family: 'DM Mono', monospace;
+    }
+
     .modal-divider {
       border: none;
       border-top: 2px solid #000000;
@@ -524,6 +541,11 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 700;
       color: #000000;
       margin-bottom: 16px;
+    }
+
+    .modal-total-row span:last-child {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
     }
 
     .modal-label {
@@ -575,6 +597,7 @@ if (!isset($_SESSION['user_id'])) {
       border-radius: 10px;
       padding: 0 14px;
       font-size: 16px;
+      font-family: 'DM Mono', monospace;
       outline: none;
     }
 
@@ -583,8 +606,9 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .change-display {
+      font-family: 'DM Mono', monospace;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: #2db84d;
       margin-top: 6px;
       text-align: right;
