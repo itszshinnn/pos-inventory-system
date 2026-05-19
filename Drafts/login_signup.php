@@ -1,5 +1,81 @@
 <?php
 
+session_start();
+
+require '../Database/config.php';
+
+$loginError = '';
+$signupError = '';
+$signupSuccess = '';
+
+/* LOGIN */
+
+if(isset($_POST['login'])){
+
+    $username = trim($_POST['login_username']);
+    $password = trim($_POST['login_password']);
+
+    $stmt = $pdo->prepare("
+        SELECT * FROM users
+        WHERE username = ?
+    ");
+
+    $stmt->execute([$username]);
+
+    $user = $stmt->fetch();
+
+    if($user && password_verify($password, $user['password'])){
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+
+        header("Location: ../Inventory_Frontend/dashboard.php");
+        exit;
+
+    }else{
+
+        $loginError = "Invalid username or password.";
+
+    }
+
+}
+
+
+/* SIGNUP */
+
+if(isset($_POST['signup'])){
+
+    $username = trim($_POST['signup_username']);
+    $password = trim($_POST['signup_password']);
+
+    $check = $pdo->prepare("
+        SELECT id FROM users
+        WHERE username = ?
+    ");
+
+    $check->execute([$username]);
+
+    if($check->fetch()){
+
+        $signupError = "Username already exists.";
+
+    }else{
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $pdo->prepare("
+            INSERT INTO users(username, password)
+            VALUES(?, ?)
+        ");
+
+        $stmt->execute([$username, $hashedPassword]);
+
+        $signupSuccess = "Account created successfully.";
+
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -208,15 +284,31 @@
         <!-- LOGIN FORM -->
         <form id="loginForm" class="form active" method="POST">
 
+            <?php if($loginError): ?>
+                <div class="footer" style="color:red; margin-bottom:15px;">
+                    <?= $loginError ?>
+                </div>
+            <?php endif; ?>
+
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input
+                    type="text"
+                    name="login_username"
+                    placeholder="Username"
+                    required
+                >
             </div>
 
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <input
+                    type="password"
+                    name="login_password"
+                    placeholder="Password"
+                    required
+                >
             </div>
 
-            <button type="submit" class="btn">
+            <button type="submit" name="login" class="btn">
                 Login
             </button>
 
@@ -225,20 +317,45 @@
         <!-- SIGNUP FORM -->
         <form id="signupForm" class="form" method="POST">
 
-            <div class="input-box">
-                <input type="text" placeholder="Username" required>
-            </div>
+    <?php if($signupError): ?>
+        <div class="footer" style="color:red; margin-bottom:15px;">
+            <?= $signupError ?>
+        </div>
+    <?php endif; ?>
 
-            <div class="input-box">
-                <input type="password" placeholder="Password" required>
-            </div>
+    <?php if($signupSuccess): ?>
+        <div class="footer" style="color:green; margin-bottom:15px;">
+            <?= $signupSuccess ?>
+        </div>
+    <?php endif; ?>
 
-            <button type="submit" class="btn">
-                Create Account
-            </button>
+    <div class="input-box">
+        <input
+            type="text"
+            name="signup_username"
+            placeholder="Username"
+            required
+        >
+    </div>
+
+    <div class="input-box">
+        <input
+            type="password"
+            name="signup_password"
+            placeholder="Password"
+            required
+        >
+    </div>
+
+    <button type="submit" name="signup" class="btn">
+        Create Account
+    </button>
 
             <div class="footer">
-                Already have an account? <a href="javascript:void(0)" onclick="showForm('login')">Login</a>
+                Already have an account?
+                <a href="javascript:void(0)" onclick="showForm('login')">
+                    Login
+                </a>
             </div>
 
         </form>
