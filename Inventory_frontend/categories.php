@@ -1,19 +1,50 @@
+<?php 
+
+require '../Database/config.php';
+
+session_start();
+
+if(!isset($_SESSION['user_id'])){
+    header("Location: ../Drafts/login_signup.php");
+    exit;
+}
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K's Inventory — Categories</title>
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K's Inventory — Dashboard</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
 
 <div class="topbar">
-  <div class="topbar-admin">
-    <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.2)"/><circle cx="16" cy="13" r="5" fill="#fff"/><path d="M6 26c0-5 4.5-8 10-8s10 3 10 8" fill="#fff"/></svg>
-    Admin ▾
-  </div>
-  <span class="topbar-title">K's Inventory System</span>
+
+    <div class="topbar-admin">
+
+        <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.2)" />
+            <circle cx="16" cy="13" r="5" fill="#fff" />
+            <path d="M6 26c0-5 4.5-8 10-8s10 3 10 8" fill="#fff" />
+        </svg>
+
+        <?= $_SESSION['username'] ?? 'Admin' ?> ▾
+
+    </div>
+
+    <span class="topbar-title">
+        K's Inventory System
+    </span>
+
+    <a href="../Drafts/logout.php" class="logout-btn">
+        Logout
+    </a>
+
 </div>
 
 <div class="layout">
