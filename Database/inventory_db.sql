@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2026 at 08:25 AM
+-- Generation Time: May 19, 2026 at 05:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,7 +73,29 @@ INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_
 (6, 'Memory Card', 3, 599.00, 10, '2026-05-18 05:44:33'),
 (7, 'USB Flash Drive', 3, 699.00, 10, '2026-05-18 05:44:33'),
 (8, 'Micro SD Card', 3, 799.00, 10, '2026-05-18 05:47:26'),
-(9, 'Kulot', 6, 9.00, 10, '2026-05-18 05:51:17');
+(9, 'Kulot', 6, 9.00, 2, '2026-05-18 05:51:17'),
+(10, 'Test', 6, 111.00, 0, '2026-05-18 12:11:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
+(1, 'Triggerwords', '$2y$10$IM8P09BG7pdY8MUwV/73tOIvy6XemL5/CQfgVsNGGCEza04Fzwvqm', '2026-05-19 14:39:08'),
+(2, 'SeanPaulPogi', '$2y$10$fQNkNxCgCbup99ZbkOrw3ORQI3cglMLEdKdsIoDpG1wKEkm.pj0HS', '2026-05-19 14:43:05');
 
 --
 -- Indexes for dumped tables
@@ -94,6 +116,13 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -107,7 +136,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
