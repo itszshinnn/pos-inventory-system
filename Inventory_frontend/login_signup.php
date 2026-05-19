@@ -15,24 +15,40 @@ if(isset($_POST['login'])){
     $username = trim($_POST['login_username']);
     $password = trim($_POST['login_password']);
 
+    // 1. Permanent Hardcoded Admin Account Check
+    if($username === 'admin' && $password === 'admin') {
+        $_SESSION['user_id'] = 999;       // Temporary master ID for session verification
+        $_SESSION['username'] = 'Admin';
+        $_SESSION['role'] = 'admin';      // Explicitly sets role to bypass dashboard.php gatekeeper
+        
+        header("Location: ../Inventory_Frontend/dashboard.php");
+        exit;
+    }
+
+    // 2. Regular Database Account Lookup (for staff/cashiers)
     $stmt = $pdo->prepare("
         SELECT * FROM users
         WHERE username = ?
     ");
 
     $stmt->execute([$username]);
-
     $user = $stmt->fetch();
 
     if($user && password_verify($password, $user['password'])){
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role']; // Reads 'user' from the DB
 
-        header("Location: ../Inventory_Frontend/dashboard.php");
+        // Role-Based Redirection Engine
+        if($_SESSION['role'] === 'admin') {
+            header("Location: ../Inventory_f    rontend/dashboard.php");
+        } else {
+            header("Location: ../Inventory_frontend/point_of_sale_menu.php");
+        }
         exit;
 
-    }else{
+    } else {
 
         $loginError = "Invalid username or password.";
 
@@ -264,7 +280,7 @@ if(isset($_POST['signup'])){
 <body>
 
     <div class="topbar">
-        <div class="brand">K's Inventory</div>
+        <div class="brand">K's Inventory System</div>
     </div>
 
     <div class="container">

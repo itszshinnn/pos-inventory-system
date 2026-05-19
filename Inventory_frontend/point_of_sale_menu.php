@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../Inventory_frontend/login_signup.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,20 +58,59 @@
       flex-shrink: 0;
     }
 
-    .user-btn {
+    /* User Dropdown Profile Container */
+    .topbar-admin {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: #ff4b4b;
-      border: none;
-      color: white;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
       transition: .2s;
     }
 
-    .user-btn:hover {
+    .topbar-admin:hover {
       background: #ff2f2f;
+    }
+
+    .profile-img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Floating Dropdown Drawer */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 115%;
+      background-color: #ffffff;
+      min-width: 140px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1050;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+
+    .dropdown-menu a {
+      color: #ff4b4b;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #fff0f0;
     }
 
     .title {
@@ -124,7 +172,7 @@
       transform: scale(1.05);
     }
 
-    .active {
+    .category-btn.active {
       background: #4d66ff;
       color: white;
       border-color: #4d66ff;
@@ -586,7 +634,15 @@
     <div class="left-panel">
 
       <div class="topbar">
-        <button class="user-btn">👤 User ▼</button>
+        <div class="topbar-admin" onclick="toggleUserDropdown(event)">
+          <img src="../Images/profile.png" alt="Profile" class="profile-img">
+          <?= htmlspecialchars($_SESSION['username'] ?? 'User') ?> ▼
+          
+          <div id="userDropdownMenu" class="dropdown-menu">
+            <a href="../Inventory_frontend/logout.php">Logout</a>
+          </div>
+        </div>
+        
         <div class="title">K's Inventory System</div>
         <button class="history-btn">History</button>
       </div>
@@ -977,6 +1033,20 @@
       alert(`Sale Confirmed successfully!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
       closeCheckoutModal();
       clearOrder();
+    }
+
+    /* DROPDOWN TOGGLE ENGINE */
+    function toggleUserDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById("userDropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    window.onclick = function() {
+      const dropdown = document.getElementById("userDropdownMenu");
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+      }
     }
 
     // ── Boot ──────────────────────────────────────────────────────────────

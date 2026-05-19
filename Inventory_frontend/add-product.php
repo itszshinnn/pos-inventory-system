@@ -1,5 +1,4 @@
 <?php 
-
 require '../Database/config.php';
 
 session_start();
@@ -8,8 +7,7 @@ if(!isset($_SESSION['user_id'])){
     header("Location: ../Drafts/login_signup.php");
     exit;
 }
-
- ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,35 +15,71 @@ if(!isset($_SESSION['user_id'])){
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K's Inventory — Dashboard</title>
+  <title>K's Inventory — Add Product</title>
   <link rel="stylesheet" href="../style.css">
+
+  <style>
+    /* User Dropdown Profile Container */
+    .topbar-admin {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Floating Menu Drawer */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      background-color: #ffffff;
+      min-width: 140px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1050;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+
+    .dropdown-menu a {
+      color: #ff4b4b;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #fff0f0;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="topbar">
+    <div class="topbar-admin" onclick="toggleUserDropdown(event)">
+        <img src="../Images/profile.png" alt="Profile" class="profile-img">
+        <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
 
-    <div class="topbar-admin">
-
-        <svg viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.2)" />
-            <circle cx="16" cy="13" r="5" fill="#fff" />
-            <path d="M6 26c0-5 4.5-8 10-8s10 3 10 8" fill="#fff" />
-        </svg>
-
-        <?= $_SESSION['username'] ?? 'Admin' ?> ▾
-
+        <div id="userDropdownMenu" class="dropdown-menu">
+            <a href="../Inventory_frontend/logout.php">Logout</a>
+        </div>
     </div>
 
     <span class="topbar-title">
         K's Inventory System
     </span>
-
-    <a href="../Drafts/logout.php" class="logout-btn">
-        Logout
-    </a>
-
 </div>
+
 <div class="layout">
   <nav class="sidebar">
     <a href="dashboard.php">Dashboard</a>
@@ -121,13 +155,25 @@ if(!isset($_SESSION['user_id'])){
     const data = await res.json();
     if (data.error) return showToast(data.error, true);
 
-    // Reset
     document.getElementById('prodName').value  = '';
     document.getElementById('prodPrice').value = '';
     document.getElementById('prodStock').value = '';
     document.getElementById('prodCategory').selectedIndex = 0;
 
     showToast('Product added successfully!');
+  }
+
+  function toggleUserDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById("userDropdownMenu");
+    dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+  }
+
+  window.onclick = function() {
+    const dropdown = document.getElementById("userDropdownMenu");
+    if (dropdown && dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    }
   }
 
   loadCategories();
