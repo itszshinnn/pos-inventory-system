@@ -447,8 +447,8 @@ if (!isset($_SESSION['user_id'])) {
       width: 100%;
       height: 48px;
       border: none;
-      background: #00000036;
-      color: #0000006b;
+      background: #4d66ff;
+      color: white;
       border-radius: 12px;
       font-size: 15px;
       font-weight: 700;
@@ -842,7 +842,7 @@ if (!isset($_SESSION['user_id'])) {
       return n === 0 ? 'red' : n <= 3 ? 'orange' : 'green';
     }
 
-    // ── Render product cards ───────────────────────────────────────────────
+    // ── Render product cards dynamically ───────────────────────────────────
     function renderProducts() {
       const container = document.getElementById('products');
 
@@ -865,9 +865,16 @@ if (!isset($_SESSION['user_id'])) {
           `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` :
           '';
 
+        let imgUrl = DEFAULT_IMG;
+        if (productImages[p.name]) {
+            imgUrl = productImages[p.name];
+        } else if (p.image && p.image !== 'default_product.png') {
+            imgUrl = `../Images/${p.image}`;
+        }
+
         return `
           <div class="product-card${outClass}" onclick="${onclick}">
-            <img src="${productImages[p.name] || DEFAULT_IMG}" alt="${p.name}">
+            <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
             <div class="product-name">${p.name}</div>
             <div class="price">₱${price.toFixed(2)}</div>
             <div class="stock ${stockClass(stock)}">${stockLabel(stock)}</div>
