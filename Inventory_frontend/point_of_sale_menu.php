@@ -447,7 +447,7 @@ if (!isset($_SESSION['user_id'])) {
       width: 100%;
       height: 48px;
       border: none;
-      background: #4d66ff;
+      background: #00000062;
       color: white;
       border-radius: 12px;
       font-size: 15px;
