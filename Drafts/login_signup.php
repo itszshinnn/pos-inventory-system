@@ -1,0 +1,275 @@
+<?php
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K's Inventory System</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --dark-1: #2C2F33; /* primary dark */
+            --dark-2: #3A3F45; /* secondary */
+            --bg: #F5F6F8;    /* page background */
+            --white: #FFFFFF; /* surface */
+            --muted: #6b6f73;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'DM Sans', 'Segoe UI', sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:var(--bg);
+            color:var(--dark-1);
+            padding-top:64px; /* space for top bar */
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
+        }
+
+        .topbar{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            height:64px;
+            background:var(--dark-1);
+            color:var(--white);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:0 20px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.12);
+            z-index:1000;
+        }
+
+        .topbar .brand{
+            font-weight:700;
+            letter-spacing:0.4px;
+        }
+
+        .topbar .actions{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+
+        .topbar .pill{
+            background:transparent;
+            border:1px solid rgba(255,255,255,0.12);
+            color:var(--white);
+            padding:8px 12px;
+            border-radius:999px;
+            font-size:14px;
+        }
+
+        .container{
+            width:420px;
+            background:var(--white);
+            border-radius:14px;
+            padding:40px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.06);
+            margin-top:18px;
+        }
+
+        .title{
+            text-align:center;
+            font-size:30px;
+            font-weight:600;
+            color:var(--dark-1);
+            margin-bottom:30px;
+        }
+
+        .tabs{
+            display:flex;
+            background:var(--bg);
+            border-radius:10px;
+            overflow:hidden;
+            margin-bottom:25px;
+            border:1px solid rgba(0,0,0,0.04);
+        }
+
+        .tabs button{
+            flex:1;
+            padding:13px;
+            border:none;
+            background:transparent;
+            cursor:pointer;
+            font-size:15px;
+            color:var(--muted);
+            transition:0.2s;
+        }
+
+        .tabs button.active{
+            background:var(--dark-2);
+            color:var(--white);
+            font-weight:600;
+        }
+
+        .form{
+            display:none;
+        }
+
+        .form.active{
+            display:block;
+        }
+
+        .input-box{
+            margin-bottom:18px;
+        }
+
+        .input-box input{
+            width:100%;
+            padding:14px;
+            border:1px solid #e6e6e6;
+            border-radius:10px;
+            outline:none;
+            font-size:15px;
+            background:#fafafa;
+            transition:0.2s;
+        }
+
+        .input-box input:focus{
+            border-color:var(--dark-2);
+            background:var(--white);
+        }
+
+        .btn{
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:10px;
+            background:var(--dark-1);
+            color:var(--white);
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.2s;
+        }
+
+        .btn:hover{
+            background:var(--dark-2);
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:18px;
+            font-size:14px;
+            color:var(--muted);
+        }
+
+        .footer a{
+            color:var(--dark-2);
+            text-decoration:none;
+        }
+
+        @media(max-width:500px){
+
+            .container{
+                width:90%;
+                padding:30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="brand">K's Inventory</div>
+    </div>
+
+    <div class="container">
+
+        <div class="title">K's Inventory System</div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showForm('login')">
+                Login
+            </button>
+
+            <button class="tab-btn" onclick="showForm('signup')">
+                Sign Up
+            </button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm" class="form active" method="POST">
+
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn">
+                Login
+            </button>
+
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="signupForm" class="form" method="POST">
+
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn">
+                Create Account
+            </button>
+
+            <div class="footer">
+                Already have an account? <a href="javascript:void(0)" onclick="showForm('login')">Login</a>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        function showForm(type){
+
+            let login = document.getElementById('loginForm');
+            let signup = document.getElementById('signupForm');
+
+            let buttons = document.querySelectorAll('.tab-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if(type === 'login'){
+                login.classList.add('active');
+                signup.classList.remove('active');
+                buttons[0].classList.add('active');
+            }
+            else{
+                signup.classList.add('active');
+                login.classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
