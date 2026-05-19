@@ -1,0 +1,47 @@
+Input Devices
+
+Keyboard
+Mechanical Keyboard
+Mouse
+Gaming Mouse
+Graphics Tablet
+Webcam
+
+Audio Devices
+
+Headphones
+Earbuds
+Speakers
+USB Microphone
+Sound Card
+
+Storage Devices
+External Hard Drive
+Solid State Drive (SSD)
+USB Flash Drive
+Memory Card
+NAS (Network Attached Storage)
+
+Display Devices
+Monitor
+Portable Monitor
+Projector
+
+Networking Devices
+Wi-Fi Router
+Ethernet Switch
+USB Wi-Fi Adapter
+
+Power & Protection
+UPS (Uninterruptible Power Supply)
+Surge Protector
+Laptop Charger
+
+Cooling & Maintenance
+Laptop Cooling Pad
+Compressed Air Duster
+
+Connectivity Accessories
+USB Hub
+HDMI Cable
+Docking Station
