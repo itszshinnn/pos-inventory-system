@@ -156,21 +156,12 @@ if(isset($_POST['signup'])){
             align-items:center;
         }
 
-        .topbar .pill{
-            background:transparent;
-            border:1px solid rgba(255,255,255,0.12);
-            color:var(--white);
-            padding:8px 12px;
-            border-radius:999px;
-            font-size:14px;
-        }
-
         .container{
             width:420px;
             background:var(--white);
             border-radius:14px;
             padding:40px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.06);
+            box-shadow:0 6px 20px rgba(0, 0, 0, 0.25);
             margin-top:18px;
         }
 
@@ -188,7 +179,7 @@ if(isset($_POST['signup'])){
             border-radius:10px;
             overflow:hidden;
             margin-bottom:25px;
-            border:1px solid rgba(0,0,0,0.04);
+            border:2px solid rgba(0, 0, 0, 0.13);
         }
 
         .tabs button{
@@ -223,7 +214,7 @@ if(isset($_POST['signup'])){
         .input-box input{
             width:100%;
             padding:14px;
-            border:1px solid #e6e6e6;
+            border:2px solid rgba(0, 0, 0, 0.13);
             border-radius:10px;
             outline:none;
             font-size:15px;
