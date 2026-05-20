@@ -798,6 +798,10 @@ if (!isset($_SESSION['user_id'])) {
     // ── Render category buttons dynamically ───────────────────────────────
     function renderCategories(categories) {
       const container = document.getElementById('categories');
+
+      // FIXED: Wipe out old button elements so they don't pile up on data reloads!
+      container.innerHTML = '<button class="category-btn active" data-cat="All">All</button>';
+
       categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
