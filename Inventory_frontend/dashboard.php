@@ -96,11 +96,12 @@ $outOfStock      = $pdo->query('SELECT COUNT(*) FROM products WHERE stock = 0')-
   </div>
 
   <div class="layout">
-    <nav class="sidebar">
-      <a href="dashboard.php" class="active">Dashboard</a>
-      <a href="categories.php">Categories</a>
-      <a href="products.php">Products</a>
-    </nav>
+<nav class="sidebar">
+  <a href="dashboard.php" class="active">Dashboard</a>
+  <a href="categories.php">Categories</a>
+  <a href="products.php">Products</a>
+  <a href="history.php">History</a>
+</nav>
 
     <div class="main">
       <div class="stat-grid">

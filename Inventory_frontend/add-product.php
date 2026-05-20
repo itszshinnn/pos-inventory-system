@@ -113,8 +113,9 @@ if (!isset($_SESSION['user_id'])) {
     <nav class="sidebar">
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
-      <a href="products.php">Products</a>
-      <a href="add-product.php" class="sub active">- Add Products</a>
+      <a href="products.php" class="active">Products</a>
+      <a href="add-product.php" class="sub">- Add Products</a>
+      <a href="history.php">History</a>
     </nav>
 
     <div class="main">

@@ -1,4 +1,29 @@
-<!-- history.php -->
+<?php
+require '../Database/config.php';
+
+session_start();
+
+// Block users who aren't logged in, OR who are logged in but aren't an Admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../Inventory_frontend/login_signup.php");
+    exit;
+}
+
+// SAMPLE DATA (Connect your SQL queries here later)
+$totalRevenue = 69.00;
+$transactions = 1;
+$itemsSold = 1;
+
+$orders = [
+    [
+        "order_no" => "0001",
+        "item" => "Earphones 1x",
+        "payment" => "Cash",
+        "discount" => "-",
+        "total" => 69.00
+    ]
+];
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,399 +31,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>History</title>
-
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+  <title>K's Inventory — Transaction History</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
-    /* history.css */
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
+    /* Unify application font mappings explicitly */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
 
-    body {
-      background: #f3f3f3;
-      color: #222;
+    /* User Dropdown Profile Container */
+    .topbar-admin {
+      position: relative;
+      cursor: pointer;
     }
 
-    /* NAVBAR */
-
-    .navbar {
-      height: 90px;
-      background: #111;
-
-      display: flex;
-      align-items: center;
-      gap: 40px;
-
-      padding: 0 45px;
+    .profile-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
-    .user-box {
-      background: #ff4d4d;
-      color: white;
+    /* Floating Menu Drawer */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      background-color: #ffffff;
+      min-width: 140px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1050;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
 
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      padding: 14px 22px;
-      border-radius: 12px;
-
-      font-size: 20px;
+    .dropdown-menu a {
+      color: #ff4b4b;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
       font-weight: 600;
-
-      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .user-box i {
-      font-size: 24px;
+    .dropdown-menu a:hover {
+      background-color: #fff0f0;
     }
 
-    .navbar h1 {
-      color: white;
-      font-size: 30px;
-      font-weight: 700;
-    }
-
-    .history-btn {
-      background: #e9e9e9;
-      border: none;
-
-      padding: 14px 25px;
-      border-radius: 12px;
-
-      font-size: 20px;
-      font-weight: 700;
-
-      cursor: pointer;
-    }
-
-    /* MAIN */
-
-    .container {
-      padding: 30px;
-    }
-
-    /* STATS */
-
-    .stats {
+    .history-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-
-      margin-bottom: 35px;
+      gap: 16px;
+      margin-bottom: 20px;
     }
 
-    .stat-card {
-      background: #d9d9d9;
-
-      padding: 25px;
-      border-radius: 20px;
-
-      min-height: 120px;
+    .history-stat-card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border, #cfcfcf);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .stat-card h3 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    .history-stat-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .stat-card p {
-      font-size: 26px;
-      font-weight: 600;
-    }
-
-    .green {
-      color: #24b14d;
-    }
-
-    .blue {
-      color: #4a6cff;
-    }
-
-    /* FILTERS */
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 370px 230px;
-      gap: 30px;
-
-      margin-bottom: 35px;
-    }
-
-    .filters input,
-    .filters select {
-      height: 70px;
-
-      border: none;
-      outline: none;
-
-      background: #d9d9d9;
-
-      border-radius: 15px;
-
-      padding: 0 25px;
-
-      font-size: 22px;
-      font-weight: 600;
-
-      color: #333;
-    }
-
-    /* TABLE */
-
-    .table-section {
-      width: 100%;
-    }
-
-    /* HEADER */
-
-    .table-header {
-      background: #d9d9d9;
-
-      display: grid;
-      grid-template-columns: 1fr 1.8fr 1.8fr 1fr 1fr 1fr;
-
-      padding: 18px 28px;
-
-      border-radius: 15px;
-
+    .history-stat-card p {
       font-size: 22px;
       font-weight: 700;
-
-      margin-bottom: 15px;
+      color: #1a1a1a;
     }
 
-    /* ROW */
+    .history-stat-card p.green-txt {
+      color: #2db84d;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+    }
 
-    .table-row {
+    .history-stat-card p.blue-txt {
+      color: #4d66ff;
+    }
+
+    /* CONTROL TOOLBAR FILTER PANEL */
+    .history-toolbar {
       display: grid;
-      grid-template-columns: 1fr 1.8fr 1.8fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 180px 150px;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
 
-      align-items: center;
+    .history-toolbar input,
+    .history-toolbar select {
+      height: 40px;
+      border: 1.5px solid var(--border, #bcbcbc);
+      outline: none;
+      background: white;
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 14px;
+      color: #333;
+      transition: 0.2s;
+    }
 
-      padding: 10px 28px;
+    .history-toolbar input:focus,
+    .history-toolbar select:focus {
+      border-color: #4d66ff;
+    }
 
-      font-size: 22px;
+    /* TABLE LAYOUT ADJUSTMENTS */
+    .price-mono {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      color: #000;
+    }
+
+    .badge-payment {
+      display: inline-block;
+      background: #4d66ff;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
       font-weight: 600;
     }
 
-    /* BADGE */
-
-    .cash-badge {
-      background: #5871ff;
-      color: white;
-
-      padding: 8px 24px;
-      border-radius: 15px;
-
-      font-size: 18px;
-    }
-
-    /* VIEW BUTTON */
-
-    .view-btn {
-      border: 2px solid #5871ff;
+    .view-receipt-btn {
+      border: 1.5px solid #4d66ff;
       background: transparent;
-
-      color: #5871ff;
-
-      padding: 10px 25px;
-      border-radius: 15px;
-
-      font-size: 18px;
-      font-weight: 600;
-
+      color: #4d66ff;
+      padding: 4px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
-    .view-btn:hover {
-      background: #5871ff;
+    .view-receipt-btn:hover {
+      background: #4d66ff;
       color: white;
-    }
-
-    /* RESPONSIVE */
-
-    @media(max-width: 1200px) {
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .table-header,
-      .table-row {
-        grid-template-columns: repeat(6, minmax(120px, 1fr));
-
-        overflow-x: auto;
-        font-size: 18px;
-      }
-
-    }
-
-    @media(max-width: 768px) {
-
-      .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 20px;
-        gap: 20px;
-      }
-
-      .navbar h1 {
-        font-size: 24px;
-        text-align: center;
-      }
-
-      .filters input,
-      .filters select {
-        font-size: 18px;
-      }
-
     }
   </style>
 </head>
 
 <body>
 
-  <?php
-  // SAMPLE DATA
-  $totalRevenue = "₱69.00";
-  $transactions = 1;
-  $itemsSold = 1;
+  <div class="topbar">
+    <div class="topbar-admin" onclick="toggleUserDropdown(event)">
+      <img src="../Images/profile.png" alt="Profile" class="profile-img">
+      <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
 
-  $orders = [
-    [
-      "order_no" => "0001",
-      "item" => "Earphones 1x",
-      "payment" => "Cash",
-      "discount" => "-",
-      "total" => "₱69.00"
-    ]
-  ];
-  ?>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-
-    <div class="user-box">
-      <i class="fa-solid fa-circle-user"></i>
-      <span>User</span>
-      <i class="fa-solid fa-caret-down"></i>
+      <div id="userDropdownMenu" class="dropdown-menu">
+        <a href="../Inventory_frontend/logout.php">Logout</a>
+      </div>
     </div>
 
-    <h1>K's Inventory System</h1>
+    <span class="topbar-title">K's Inventory System</span>
+  </div>
 
-    <button class="history-btn">
-      History
-    </button>
+  <div class="layout">
+    <nav class="sidebar">
+      <a href="dashboard.php">Dashboard</a>
+      <a href="categories.php">Categories</a>
+      <a href="products.php">Products</a>
+      <a href="history.php" class="active">History</a> </nav>
 
-  </nav>
-
-  <!-- MAIN -->
-  <main class="container">
-
-    <!-- STATS -->
-    <section class="stats">
-
-      <div class="stat-card">
-        <h3>Total Revenue</h3>
-        <p class="green"><?php echo $totalRevenue; ?></p>
-      </div>
-
-      <div class="stat-card">
-        <h3>Transactions</h3>
-        <p class="blue"><?php echo $transactions; ?></p>
-      </div>
-
-      <div class="stat-card">
-        <h3>Items Sold</h3>
-        <p><?php echo $itemsSold; ?></p>
-      </div>
-
-    </section>
-
-    <!-- FILTERS -->
-    <section class="filters">
-
-      <input type="text" placeholder="Search...">
-
-      <select>
-        <option>All Payment Methods</option>
-        <option>Cash</option>
-        <option>GCash</option>
-      </select>
-
-      <select>
-        <option>Newest first</option>
-        <option>Oldest first</option>
-      </select>
-
-    </section>
-
-    <!-- TABLE -->
-    <section class="table-section">
-
-      <!-- TABLE HEADER -->
-      <div class="table-header">
-
-        <div>Order no.</div>
-        <div>Items</div>
-        <div>Payment Method</div>
-        <div>Discount</div>
-        <div>Total</div>
-        <div>Receipt</div>
-
-      </div>
-
-      <!-- TABLE ROWS -->
-      <?php foreach ($orders as $order): ?>
-
-        <div class="table-row">
-
-          <div><?php echo $order['order_no']; ?></div>
-
-          <div><?php echo $order['item']; ?></div>
-
-          <div>
-            <span class="cash-badge">
-              <?php echo $order['payment']; ?>
-            </span>
-          </div>
-
-          <div><?php echo $order['discount']; ?></div>
-
-          <div><?php echo $order['total']; ?></div>
-
-          <div>
-            <button class="view-btn">
-              View
-            </button>
-          </div>
-
+    <div class="main">
+      
+      <div class="history-stats-grid">
+        <div class="history-stat-card">
+          <h3>Total Revenue</h3>
+          <p class="green-txt">₱<?= number_format($totalRevenue, 2) ?></p>
         </div>
+        <div class="history-stat-card">
+          <h3>Transactions</h3>
+          <p class="blue-txt"><?= $transactions ?></p>
+        </div>
+        <div class="history-stat-card">
+          <h3>Items Sold</h3>
+          <p><?= $itemsSold ?></p>
+        </div>
+      </div>
 
-      <?php endforeach; ?>
+      <div class="history-toolbar">
+        <input type="text" id="historySearchInput" placeholder="Search order records...">
+        <select id="paymentFilter">
+          <option value="">All Payments</option>
+          <option value="Cash">Cash</option>
+          <option value="GCash">GCash</option>
+          <option value="Maya">Maya</option>
+        </select>
+        <select id="sortFilter">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
 
-    </section>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 100px;">Order no.</th>
+              <th>Items Summary</th>
+              <th style="width: 150px;">Payment Method</th>
+              <th style="width: 110px;">Discount</th>
+              <th style="width: 130px;">Total Amount</th>
+              <th style="width: 110px; text-align: center;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($orders as $order): ?>
+              <tr>
+                <td style="font-weight: 700;">#<?= htmlspecialchars($order['order_no']) ?></td>
+                <td><?= htmlspecialchars($order['item']) ?></td>
+                <td><span class="badge-payment"><?= htmlspecialchars($order['payment']) ?></span></td>
+                <td><?= htmlspecialchars($order['discount']) ?></td>
+                <td class="price-mono">₱<?= number_format($order['total'], 2) ?></td>
+                <td style="text-align: center;">
+                  <button class="view-receipt-btn">View</button>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
 
-  </main>
+    </div>
+  </div>
 
+  <script>
+    function toggleUserDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById("userDropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    window.onclick = function() {
+      const dropdown = document.getElementById("userDropdownMenu");
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+      }
+    }
+  </script>
 </body>
 
 </html>

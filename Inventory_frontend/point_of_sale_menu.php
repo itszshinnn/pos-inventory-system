@@ -122,16 +122,6 @@ if (!isset($_SESSION['user_id'])) {
       flex: 1;
     }
 
-    .history-btn {
-      background: #efefef;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
     /* SEARCH */
     .search-container {
       padding: 12px 14px 8px;
@@ -668,7 +658,6 @@ if (!isset($_SESSION['user_id'])) {
         </div>
         
         <div class="title">K's Inventory System</div>
-        <button class="history-btn">History</button>
       </div>
 
       <div class="search-container">
