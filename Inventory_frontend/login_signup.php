@@ -338,7 +338,7 @@ if (isset($_POST['signup'])) {
             <div class="input-box">
                 <input type="password" id="loginPassword" class="pass-field" name="login_password" placeholder="Password" required>
                 <button type="button" class="toggle-password" onclick="toggleVisibility('loginPassword', this)">
-                    <i class="fa-regular fa-eye"></i> </button>
+                    <i class="fa-regular fa-eye-slash"></i> </button>
             </div>
 
             <button type="submit" name="login" class="btn">
@@ -372,7 +372,7 @@ if (isset($_POST['signup'])) {
             <div class="input-box">
                 <input type="password" id="signupPassword" class="pass-field" name="signup_password" placeholder="Password" required>
                 <button type="button" class="toggle-password" onclick="toggleVisibility('signupPassword', this)">
-                    <i class="fa-regular fa-eye"></i> </button>
+                    <i class="fa-regular fa-eye-slash"></i> </button>
             </div>
 
             <button type="submit" name="signup" class="btn">
@@ -397,10 +397,10 @@ if (isset($_POST['signup'])) {
 
             if (inputField.type === "password") {
                 inputField.type = "text";
-                icon.className = "fa-regular fa-eye-slash";
+                icon.className = "fa-regular fa-eye";
             } else {
                 inputField.type = "password";
-                icon.className = "fa-regular fa-eye";
+                icon.className = "fa-regular fa-eye-slash";
             }
         }
 
