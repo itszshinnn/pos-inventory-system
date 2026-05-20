@@ -185,6 +185,11 @@ try {
       font-weight: 600;
     }
 
+    /* Dynamic styling colors for distinct payment types */
+    .badge-payment.gcash { background: #1a73e8; }
+    .badge-payment.maya { background: #00c483; }
+    .badge-payment.card { background: #ff9f00; }
+
     .view-receipt-btn {
       border: 1.5px solid #4d66ff;
       background: transparent;
@@ -251,14 +256,15 @@ try {
       </div>
 
       <div class="history-toolbar">
-        <input type="text" id="historySearchInput" placeholder="Search order records...">
-        <select id="paymentFilter">
+        <input type="text" id="historySearchInput" placeholder="Search order records..." oninput="filterHistoryTable()">
+        <select id="paymentFilter" onchange="filterHistoryTable()">
           <option value="">All Payments</option>
           <option value="Cash">Cash</option>
           <option value="GCash">GCash</option>
           <option value="Maya">Maya</option>
+          <option value="Card">Card</option>
         </select>
-        <select id="sortFilter">
+        <select id="sortFilter" onchange="filterHistoryTable()">
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
         </select>
@@ -276,28 +282,8 @@ try {
               <th style="width: 110px; text-align: center;">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <?php if (empty($orders)): ?>
-              <tr>
-                <td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">
-                  No transactions successfully logged yet.
-                </td>
-              </tr>
-            <?php else: ?>
-              <?php foreach ($orders as $order): ?>
-                <tr>
-                  <td style="font-weight: 700;">#<?= htmlspecialchars($order['order_no']) ?></td>
-                  <td><?= htmlspecialchars($order['item'] ?? 'No items tracked') ?></td>
-                  <td><span class="badge-payment"><?= htmlspecialchars($order['payment']) ?></span></td>
-                  <td><?= floatval($order['discount']) > 0 ? '₱' . number_format($order['discount'], 2) : '-' ?></td>
-                  <td class="price-mono">₱<?= number_format($order['total'], 2) ?></td>
-                  <td style="text-align: center;">
-                    <button class="view-receipt-btn">View</button>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            <?php endif; ?>
-          </tbody>
+          <tbody id="historyTableBody">
+            </tbody>
         </table>
       </div>
 
@@ -305,6 +291,80 @@ try {
   </div>
 
   <script>
+    // Inject the database PHP data directly into a JavaScript array safely
+    const allOrders = <?= json_encode($orders) ?>;
+
+    // Helper utility to style payment badges based on method string
+    function getPaymentBadgeClass(method) {
+      if (!method) return 'badge-payment';
+      const m = method.toLowerCase();
+      if (m === 'gcash') return 'badge-payment ghtml gcash';
+      if (m === 'maya') return 'badge-payment maya';
+      if (m === 'card') return 'badge-payment card';
+      return 'badge-payment';
+    }
+
+    function filterHistoryTable() {
+      const searchVal  = document.getElementById('historySearchInput').value.toLowerCase().trim();
+      const paymentVal = document.getElementById('paymentFilter').value;
+      const sortVal    = document.getElementById('sortFilter').value;
+      const tbody      = document.getElementById('historyTableBody');
+
+      // 1. Core Evaluation Loop Filtering Logic
+      let filtered = allOrders.filter(order => {
+        const orderNo = (order.order_no || '').toLowerCase();
+        const items   = (order.item || '').toLowerCase();
+        const payment = order.payment || '';
+
+        const matchesSearch  = orderNo.includes(searchVal) || items.includes(searchVal);
+        const matchesPayment = paymentVal === "" || payment === paymentVal;
+
+        return matchesSearch && matchesPayment;
+      });
+
+      // 2. Sorting Arrangement Operations
+      if (sortVal === 'oldest') {
+        // Arranges array incrementally from #0001 upwards
+        filtered.sort((a, b) => parseInt(a.order_no) - parseInt(b.order_no));
+      } else {
+        // Default: Newest first (descending order layout tracking)
+        filtered.sort((a, b) => parseInt(b.order_no) - parseInt(a.order_no));
+      }
+
+      // 3. Render HTML Rows to Table Document Body Container Partition
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">
+              No matching transaction histories found.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(order => {
+        const discountNum = parseFloat(order.discount) || 0;
+        const totalNum    = parseFloat(order.total) || 0;
+        
+        const discountDisplay = discountNum > 0 ? `₱${discountNum.toFixed(2)}` : '-';
+        const totalDisplay    = `₱${totalNum.toFixed(2)}`;
+        const itemDisplay     = order.item ? order.item : 'No items tracked';
+
+        return `
+          <tr>
+            <td style="font-weight: 700;">#${order.order_no}</td>
+            <td>${itemDisplay}</td>
+            <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
+            <td>${discountDisplay}</td>
+            <td class="price-mono">${totalDisplay}</td>
+            <td style="text-align: center;">
+              <button class="view-receipt-btn">View</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
     function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
@@ -317,6 +377,9 @@ try {
         dropdown.style.display = "none";
       }
     }
+
+    // Initialize/Render table contents on page boot load context
+    filterHistoryTable();
   </script>
 </body>
 
