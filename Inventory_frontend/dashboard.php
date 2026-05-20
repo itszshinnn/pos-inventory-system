@@ -3,7 +3,6 @@ require '../Database/config.php';
 
 session_start();
 
-// 1. Fetch individual logs from the database
 $productLogs = $pdo->query("
     SELECT
         product_name,
