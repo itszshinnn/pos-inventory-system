@@ -26,7 +26,7 @@ try {
     $staffUsers = $pdo->query("
         SELECT COUNT(*)
         FROM users
-        WHERE role = 'staff'
+        WHERE role = 'user'
     ")->fetchColumn();
 
     // FETCH USERS
@@ -382,7 +382,7 @@ try {
         </div>
 
         <div class="history-stat-card">
-        <h3>Staff Accounts</h3>
+        <h3>User Accounts</h3>
         <p><?= $staffUsers ?></p>
         </div>
 
