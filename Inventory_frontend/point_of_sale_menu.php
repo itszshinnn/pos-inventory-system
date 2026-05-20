@@ -763,17 +763,7 @@ if (!isset($_SESSION['user_id'])) {
     let cartCount = 0;
     let selectedPayment = 'Cash';
 
-    // ── Product image map ──
-    const productImages = {
-      'Wireless Mouse': '../Images/wireless_mouse.png',
-      'Wireless Keyboard': '../Images/wireless_keyboard.png',
-      'Earphones': '../Images/earphones.png',
-      'Wireless Earbuds': '../Images/earbuds.png',
-      'USB Flash Drive': '../Images/flash_drive.png',
-      'Speaker': '../Images/speaker.png',
-      'Micro SD Card': '../Images/micro_sd_card.png',
-    };
-
+    // Fallback placeholder image URL if database lookup fails
     const DEFAULT_IMG = 'https://cdn-icons-png.flaticon.com/512/2721/2721297.png';
 
     // ── Fetch products & categories from API ──────────────────────────────
@@ -799,7 +789,7 @@ if (!isset($_SESSION['user_id'])) {
     function renderCategories(categories) {
       const container = document.getElementById('categories');
 
-      // FIXED: Wipe out old button elements so they don't pile up on data reloads!
+      // Wipe out old button elements so they don't pile up on data reloads!
       container.innerHTML = '<button class="category-btn active" data-cat="All">All</button>';
 
       categories.forEach(cat => {
@@ -836,7 +826,6 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     // ── Render product cards dynamically ───────────────────────────────────
-    // ── Render product cards dynamically ───────────────────────────────────
     function renderProducts() {
       const container = document.getElementById('products');
 
@@ -867,10 +856,9 @@ if (!isset($_SESSION['user_id'])) {
           `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` :
           '';
 
+        // --- UPDATED IMAGE RESOLVER: Load dynamically from directory hashes ---
         let imgUrl = DEFAULT_IMG;
-        if (productImages[p.name]) {
-          imgUrl = productImages[p.name];
-        } else if (p.image && p.image !== 'default_product.png') {
+        if (p.image && p.image !== 'default_product.png') {
           imgUrl = `../Images/${p.image}`;
         }
 
@@ -893,20 +881,19 @@ if (!isset($_SESSION['user_id'])) {
 
     // ── Cart Core logic with Multipliers (x) ──────────────────────────────
     function addToCart(id, name, price) {
-      // Find the product record matching this ID inside our fetched database array
       const product = allProducts.find(p => p.id === id);
       if (!product) return;
 
       const currentStock = Number(product.stock);
       const qtyInCart = cart[id] ? cart[id].qty : 0;
 
-      // 1. BLOCK ADDITIONS IF REALTIME VALUE IS EXHAUSTED
+      // BLOCK ADDITIONS IF REALTIME VALUE IS EXHAUSTED
       if (qtyInCart >= currentStock) {
         alert(`Cannot add more! Only ${currentStock} units of ${name} are available in inventory.`);
         return;
       }
 
-      // 2. INCREMENT CART STATE SAFELY
+      // INCREMENT CART STATE SAFELY
       if (cart[id]) {
         cart[id].qty++;
       } else {
@@ -918,7 +905,7 @@ if (!isset($_SESSION['user_id'])) {
         };
       }
 
-      // 3. RENDER UI LAYOUT UPDATES LIVE
+      // RENDER UI LAYOUT UPDATES LIVE
       renderCart();
       renderProducts(); // Re-render product grids to instantly reflect updated stock label visuals!
     }
@@ -931,7 +918,7 @@ if (!isset($_SESSION['user_id'])) {
         }
       }
       renderCart();
-      renderProducts(); // FIXED: Restores displaying stock units instantly on card counts!
+      renderProducts(); // Restores displaying stock units instantly on card counts!
     }
 
     function renderCart() {
@@ -1087,7 +1074,6 @@ if (!isset($_SESSION['user_id'])) {
           alert("Insufficient cash amount received!");
           return;
         }
-        // 🌟 Compute the change amount directly from the variables
         changeAmt = cashAmt - finalCalculatedTotal;
       }
 
@@ -1113,8 +1099,8 @@ if (!isset($_SESSION['user_id'])) {
               payment_method: selectedPayment,
               discount_amount: computedDeduction,
               total_amount: finalCalculatedTotal,
-              cash_received: cashAmt, // 🌟 ADDED: Send cash to backend
-              change_amount: changeAmt // 🌟 ADDED: Send change to backend
+              cash_received: cashAmt, 
+              change_amount: changeAmt 
             })
           }
         );

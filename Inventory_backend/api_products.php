@@ -83,7 +83,7 @@ switch ($method) {
 
             // INSERT LOG
             $log = $pdo->prepare("
-                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
                 VALUES (?, ?, ?, ?, ?, ?)
             ");
             $log->execute([
@@ -186,7 +186,7 @@ switch ($method) {
 
             // INSERT LOG
             $log = $pdo->prepare("
-                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
                 VALUES (?, ?, ?, ?, ?, ?)
             ");
             $log->execute([
@@ -245,7 +245,7 @@ switch ($method) {
 
             // 1. Log the deletion event before references vanish
             $log = $pdo->prepare("
-                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
                 VALUES (?, ?, ?, ?, ?, ?)
             ");
             $log->execute([
