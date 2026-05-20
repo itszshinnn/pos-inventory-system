@@ -12,7 +12,7 @@ switch ($method) {
 
     // GET all products (joined with category name)
     case 'GET':
-        $sql = 'SELECT p.id, p.name, p.price, p.stock, p.category_id, p.image,
+        $sql = 'SELECT p.id, p.name, p.price, p.stock, p.category_id, 
                        c.name AS category
                 FROM products p
                 JOIN categories c ON p.category_id = c.id
