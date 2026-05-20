@@ -836,6 +836,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     // ── Render product cards dynamically ───────────────────────────────────
+// ── Render product cards dynamically ───────────────────────────────────
     function renderProducts() {
       const container = document.getElementById('products');
 
@@ -851,10 +852,18 @@ if (!isset($_SESSION['user_id'])) {
       }
 
       container.innerHTML = filtered.map(p => {
-        const stock = Number(p.stock);
+        const dbStock = Number(p.stock);
         const price = Number(p.price);
-        const outClass = stock === 0 ? ' out-of-stock' : '';
-        const onclick = stock > 0 ?
+        
+        // Calculate how many items of this product are currently added to your checkout bucket
+        const qtyInCart = cart[p.id] ? cart[p.id].qty : 0;
+        
+        // COMPUTE LIVE RUNTIME STOCK COUNT LEFT FOR THIS USER SESSION
+        const displayStock = Math.max(0, dbStock - qtyInCart);
+
+        // Turn card gray and strip onclick if no display stock is left
+        const outClass = displayStock === 0 ? ' out-of-stock' : '';
+        const onclick = displayStock > 0 ?
           `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` :
           '';
 
@@ -870,7 +879,7 @@ if (!isset($_SESSION['user_id'])) {
             <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
             <div class="product-name">${p.name}</div>
             <div class="price">₱${price.toFixed(2)}</div>
-            <div class="stock ${stockClass(stock)}">${stockLabel(stock)}</div>
+            <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
           </div>
         `;
       }).join('');
@@ -884,6 +893,20 @@ if (!isset($_SESSION['user_id'])) {
 
     // ── Cart Core logic with Multipliers (x) ──────────────────────────────
     function addToCart(id, name, price) {
+      // Find the product record matching this ID inside our fetched database array
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      const currentStock = Number(product.stock);
+      const qtyInCart = cart[id] ? cart[id].qty : 0;
+
+      // 1. BLOCK ADDITIONS IF REALTIME VALUE IS EXHAUSTED
+      if (qtyInCart >= currentStock) {
+        alert(`Cannot add more! Only ${currentStock} units of ${name} are available in inventory.`);
+        return;
+      }
+
+      // 2. INCREMENT CART STATE SAFELY
       if (cart[id]) {
         cart[id].qty++;
       } else {
@@ -894,10 +917,13 @@ if (!isset($_SESSION['user_id'])) {
           qty: 1
         };
       }
+
+      // 3. RENDER UI LAYOUT UPDATES LIVE
       renderCart();
+      renderProducts(); // Re-render product grids to instantly reflect updated stock label visuals!
     }
 
-    function removeFromCart(id) {
+function removeFromCart(id) {
       if (cart[id]) {
         cart[id].qty--;
         if (cart[id].qty <= 0) {
@@ -905,6 +931,7 @@ if (!isset($_SESSION['user_id'])) {
         }
       }
       renderCart();
+      renderProducts(); // FIXED: Restores displaying stock units instantly on card counts!
     }
 
     function renderCart() {
