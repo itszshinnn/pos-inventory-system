@@ -1,5 +1,97 @@
 <?php
 
+session_start();
+
+require '../Database/config.php';
+
+$loginError = '';
+$signupError = '';
+$signupSuccess = '';
+
+/* LOGIN */
+
+if(isset($_POST['login'])){
+
+    $username = trim($_POST['login_username']);
+    $password = trim($_POST['login_password']);
+
+    // 1. Permanent Hardcoded Admin Account Check
+    if($username === 'admin' && $password === 'admin') {
+        $_SESSION['user_id'] = 999;       // Temporary master ID for session verification
+        $_SESSION['username'] = 'Admin';
+        $_SESSION['role'] = 'admin';      // Explicitly sets role to bypass dashboard.php gatekeeper
+        
+        header("Location: ../Inventory_Frontend/dashboard.php");
+        exit;
+    }
+
+    // 2. Regular Database Account Lookup (for staff/cashiers)
+    $stmt = $pdo->prepare("
+        SELECT * FROM users
+        WHERE username = ?
+    ");
+
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if($user && password_verify($password, $user['password'])){
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role']; // Reads 'user' from the DB
+
+        // Role-Based Redirection Engine
+        if($_SESSION['role'] === 'admin') {
+            header("Location: ../Inventory_f    rontend/dashboard.php");
+        } else {
+            header("Location: ../Inventory_frontend/point_of_sale_menu.php");
+        }
+        exit;
+
+    } else {
+
+        $loginError = "Invalid username or password.";
+
+    }
+
+}
+
+
+/* SIGNUP */
+
+if(isset($_POST['signup'])){
+
+    $username = trim($_POST['signup_username']);
+    $password = trim($_POST['signup_password']);
+
+    $check = $pdo->prepare("
+        SELECT id FROM users
+        WHERE username = ?
+    ");
+
+    $check->execute([$username]);
+
+    if($check->fetch()){
+
+        $signupError = "Username already exists.";
+
+    }else{
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $pdo->prepare("
+            INSERT INTO users(username, password)
+            VALUES(?, ?)
+        ");
+
+        $stmt->execute([$username, $hashedPassword]);
+
+        $signupSuccess = "Account created successfully.";
+
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +105,8 @@
     <style>
 
         :root{
-            --dark-1: #2C2F33; /* primary dark */
-            --dark-2: #3A3F45; /* secondary */
+            --dark-1: #333538; /* primary dark */
+            --dark-2: #333538; /* secondary */
             --bg: #F5F6F8;    /* page background */
             --white: #FFFFFF; /* surface */
             --muted: #6b6f73;
@@ -64,21 +156,12 @@
             align-items:center;
         }
 
-        .topbar .pill{
-            background:transparent;
-            border:1px solid rgba(255,255,255,0.12);
-            color:var(--white);
-            padding:8px 12px;
-            border-radius:999px;
-            font-size:14px;
-        }
-
         .container{
             width:420px;
             background:var(--white);
             border-radius:14px;
             padding:40px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.06);
+            box-shadow:0 6px 20px rgba(0, 0, 0, 0.25);
             margin-top:18px;
         }
 
@@ -96,7 +179,7 @@
             border-radius:10px;
             overflow:hidden;
             margin-bottom:25px;
-            border:1px solid rgba(0,0,0,0.04);
+            border:2px solid rgba(0, 0, 0, 0.13);
         }
 
         .tabs button{
@@ -131,7 +214,7 @@
         .input-box input{
             width:100%;
             padding:14px;
-            border:1px solid #e6e6e6;
+            border:2px solid rgba(0, 0, 0, 0.13);
             border-radius:10px;
             outline:none;
             font-size:15px;
@@ -188,7 +271,7 @@
 <body>
 
     <div class="topbar">
-        <div class="brand">K's Inventory</div>
+        <div class="brand">K's Inventory System</div>
     </div>
 
     <div class="container">
@@ -208,15 +291,31 @@
         <!-- LOGIN FORM -->
         <form id="loginForm" class="form active" method="POST">
 
+            <?php if($loginError): ?>
+                <div class="footer" style="color:red; margin-bottom:15px;">
+                    <?= $loginError ?>
+                </div>
+            <?php endif; ?>
+
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input
+                    type="text"
+                    name="login_username"
+                    placeholder="Username"
+                    required
+                >
             </div>
 
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <input
+                    type="password"
+                    name="login_password"
+                    placeholder="Password"
+                    required
+                >
             </div>
 
-            <button type="submit" class="btn">
+            <button type="submit" name="login" class="btn">
                 Login
             </button>
 
@@ -225,20 +324,45 @@
         <!-- SIGNUP FORM -->
         <form id="signupForm" class="form" method="POST">
 
-            <div class="input-box">
-                <input type="text" placeholder="Username" required>
-            </div>
+    <?php if($signupError): ?>
+        <div class="footer" style="color:red; margin-bottom:15px;">
+            <?= $signupError ?>
+        </div>
+    <?php endif; ?>
 
-            <div class="input-box">
-                <input type="password" placeholder="Password" required>
-            </div>
+    <?php if($signupSuccess): ?>
+        <div class="footer" style="color:green; margin-bottom:15px;">
+            <?= $signupSuccess ?>
+        </div>
+    <?php endif; ?>
 
-            <button type="submit" class="btn">
-                Create Account
-            </button>
+    <div class="input-box">
+        <input
+            type="text"
+            name="signup_username"
+            placeholder="Username"
+            required
+        >
+    </div>
+
+    <div class="input-box">
+        <input
+            type="password"
+            name="signup_password"
+            placeholder="Password"
+            required
+        >
+    </div>
+
+    <button type="submit" name="signup" class="btn">
+        Create Account
+    </button>
 
             <div class="footer">
-                Already have an account? <a href="javascript:void(0)" onclick="showForm('login')">Login</a>
+                Already have an account?
+                <a href="javascript:void(0)" onclick="showForm('login')">
+                    Login
+                </a>
             </div>
 
         </form>
