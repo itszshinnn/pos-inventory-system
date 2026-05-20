@@ -1,23 +1,35 @@
 <?php
+session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: null'); // Restrict open cross-origin access
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
 require '../Database/config.php';
 
+// 1. GATEKEEPER: Ensure the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Authentication required. Please login.']);
+    exit;
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $input  = json_decode(file_get_contents('php://input'), true);
 
-switch ($method) {
+// 2. AUTHORIZATION: Restrict database modifications strictly to Admins
+if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admin')) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Access denied. Administrative privileges required.']);
+    exit;
+}
 
-    // GET all categories
+switch ($method) {
     case 'GET':
         $stmt = $pdo->query('SELECT * FROM categories ORDER BY id ASC');
-        echo json_encode($stmt->fetchAll());
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
         break;
 
-    // POST — add new category
     case 'POST':
         $name = trim($input['name'] ?? '');
         if (!$name) { http_response_code(400); echo json_encode(['error' => 'Name is required']); break; }
@@ -31,7 +43,6 @@ switch ($method) {
         }
         break;
 
-    // PUT — edit category
     case 'PUT':
         $id   = intval($input['id'] ?? 0);
         $name = trim($input['name'] ?? '');
@@ -46,7 +57,6 @@ switch ($method) {
         }
         break;
 
-    // DELETE — remove category (cascades to products)
     case 'DELETE':
         $id = intval($input['id'] ?? 0);
         if (!$id) { http_response_code(400); echo json_encode(['error' => 'ID required']); break; }
@@ -59,3 +69,4 @@ switch ($method) {
         http_response_code(405);
         echo json_encode(['error' => 'Method not allowed']);
 }
+?>

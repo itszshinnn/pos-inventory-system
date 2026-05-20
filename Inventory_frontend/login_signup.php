@@ -8,24 +8,20 @@ $loginError = '';
 $signupError = '';
 $signupSuccess = '';
 
-/* LOGIN */
-
 if (isset($_POST['login'])) {
 
     $username = trim($_POST['login_username']);
     $password = trim($_POST['login_password']);
 
-    // 1. Permanent Hardcoded Admin Account Check
     if ($username === 'admin' && $password === 'admin') {
-        $_SESSION['user_id'] = 999;       // Temporary master ID for session verification
+        $_SESSION['user_id'] = 999;
         $_SESSION['username'] = 'Admin';
-        $_SESSION['role'] = 'admin';      // Explicitly sets role to bypass dashboard.php gatekeeper
+        $_SESSION['role'] = 'admin';
 
-        header("Location: ../Inventory_Frontend/dashboard.php");
+        header("Location: ../Inventory_frontend/dashboard.php");
         exit;
     }
 
-    // 2. Regular Database Account Lookup (for staff/cashiers)
     $stmt = $pdo->prepare("
         SELECT * FROM users
         WHERE username = ?
@@ -38,9 +34,8 @@ if (isset($_POST['login'])) {
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role']; // Reads 'user' from the DB
+        $_SESSION['role'] = $user['role'];
 
-        // Role-Based Redirection Engine
         if ($_SESSION['role'] === 'admin') {
             header("Location: ../Inventory_frontend/dashboard.php");
         } else {
@@ -53,7 +48,6 @@ if (isset($_POST['login'])) {
     }
 }
 
-
 /* SIGNUP */
 
 if (isset($_POST['signup'])) {
@@ -61,28 +55,25 @@ if (isset($_POST['signup'])) {
     $username = trim($_POST['signup_username']);
     $password = trim($_POST['signup_password']);
 
-    $check = $pdo->prepare("
-        SELECT id FROM users
-        WHERE username = ?
-    ");
-
-    $check->execute([$username]);
-
-    if ($check->fetch()) {
-
-        $signupError = "Username already exists.";
+    if (empty($username) || empty($password)) {
+        $signupError = "Fields cannot be blank.";
     } else {
+        $check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+        $check->execute([$username]);
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        if ($check->fetch()) {
+            $signupError = "Username already exists.";
+        } else {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $pdo->prepare("
-            INSERT INTO users(username, password)
-            VALUES(?, ?)
-        ");
+            $stmt = $pdo->prepare("
+                INSERT INTO users (username, password, role)
+                VALUES (?, ?, 'user')
+            ");
 
-        $stmt->execute([$username, $hashedPassword]);
-
-        $signupSuccess = "Account created successfully.";
+            $stmt->execute([$username, $hashedPassword]);
+            $signupSuccess = "Account created successfully. Please login.";
+        }
     }
 }
 

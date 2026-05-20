@@ -1,11 +1,10 @@
 <?php
 require '../Database/config.php';
-
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-  header("Location: ../Drafts/login_signup.php");
-  exit;
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../Inventory_frontend/login_signup.php");
+    exit;
 }
 ?>
 
