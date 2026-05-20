@@ -165,23 +165,23 @@ usort($allNotifications, function($a, $b) {
 
     /* Dynamic Grid Icon Background Colors */
     .icon-products {
-      background: #e05c5c;
+      background: #5c7fe0;
     }
 
     .icon-units {
-      background: #e8a020;
+      background: #00ab36;
     }
 
     .icon-cats {
-      background: #27ae60;
+      background: #9729ff;
     }
 
     .icon-low {
-      background: #9b59b6;
+      background: #ff8800;
     }
 
     .icon-out {
-      background: #1abc9c;
+      background: #bc1a1a;
     }
 
     /* Split Dashboard Layout adjusted to 320px sidebar to prevent horizontal scroll */
