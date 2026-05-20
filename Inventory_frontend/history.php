@@ -9,20 +9,35 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-// SAMPLE DATA (Connect your SQL queries here later)
-$totalRevenue = 69.00;
-$transactions = 1;
-$itemsSold = 1;
+try {
+    // 1. Fetch Dynamic Dashboard Metric Summaries
+    $totalRevenue = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
+    $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
+    $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-$orders = [
-    [
-        "order_no" => "0001",
-        "item" => "Earphones 1x",
-        "payment" => "Cash",
-        "discount" => "-",
-        "total" => 69.00
-    ]
-];
+    // 2. Query the Orders Ledger with Aggregated Item Summaries
+    $query = 'SELECT o.order_no, 
+                     o.payment_method AS payment, 
+                     o.discount_amount AS discount, 
+                     o.total_amount AS total,
+                     GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
+              FROM orders o
+              LEFT JOIN order_items oi ON o.id = oi.order_id
+              LEFT JOIN products p ON oi.product_id = p.id
+              GROUP BY o.id
+              ORDER BY o.id DESC';
+              
+    $stmt = $pdo->query($query);
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (Exception $e) {
+    // Graceful error fallbacks if database tables haven't been migrated yet
+    $totalRevenue = 0.00;
+    $transactions = 0;
+    $itemsSold = 0;
+    $orders = [];
+    $errorMsg = $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -209,10 +224,17 @@ $orders = [
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
-      <a href="history.php" class="active">History</a> </nav>
+      <a href="history.php" class="active">History</a> 
+    </nav>
 
     <div class="main">
       
+      <?php if (isset($errorMsg)): ?>
+        <div style="background: #fff0f0; border: 1px solid #ffbcbc; color: #ff4b4b; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
+          <strong>Database Notice:</strong> <?= htmlspecialchars($errorMsg) ?>
+        </div>
+      <?php endif; ?>
+
       <div class="history-stats-grid">
         <div class="history-stat-card">
           <h3>Total Revenue</h3>
@@ -255,18 +277,26 @@ $orders = [
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($orders as $order): ?>
+            <?php if (empty($orders)): ?>
               <tr>
-                <td style="font-weight: 700;">#<?= htmlspecialchars($order['order_no']) ?></td>
-                <td><?= htmlspecialchars($order['item']) ?></td>
-                <td><span class="badge-payment"><?= htmlspecialchars($order['payment']) ?></span></td>
-                <td><?= htmlspecialchars($order['discount']) ?></td>
-                <td class="price-mono">₱<?= number_format($order['total'], 2) ?></td>
-                <td style="text-align: center;">
-                  <button class="view-receipt-btn">View</button>
+                <td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">
+                  No transactions successfully logged yet.
                 </td>
               </tr>
-            <?php endforeach; ?>
+            <?php else: ?>
+              <?php foreach ($orders as $order): ?>
+                <tr>
+                  <td style="font-weight: 700;">#<?= htmlspecialchars($order['order_no']) ?></td>
+                  <td><?= htmlspecialchars($order['item'] ?? 'No items tracked') ?></td>
+                  <td><span class="badge-payment"><?= htmlspecialchars($order['payment']) ?></span></td>
+                  <td><?= floatval($order['discount']) > 0 ? '₱' . number_format($order['discount'], 2) : '-' ?></td>
+                  <td class="price-mono">₱<?= number_format($order['total'], 2) ?></td>
+                  <td style="text-align: center;">
+                    <button class="view-receipt-btn">View</button>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>

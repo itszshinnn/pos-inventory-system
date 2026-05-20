@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../Inventory_frontend/login_signup.php");
-    exit;
+  header("Location: ../Inventory_frontend/login_signup.php");
+  exit;
 }
 ?>
 
@@ -490,7 +490,7 @@ if (!isset($_SESSION['user_id'])) {
       width: 440px;
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
 
     .modal-card h2 {
@@ -651,12 +651,12 @@ if (!isset($_SESSION['user_id'])) {
         <div class="topbar-admin" onclick="toggleUserDropdown(event)">
           <img src="../Images/profile.png" alt="Profile" class="profile-img">
           <?= htmlspecialchars($_SESSION['username'] ?? 'User') ?> ▼
-          
+
           <div id="userDropdownMenu" class="dropdown-menu">
             <a href="../Inventory_frontend/logout.php">Logout</a>
           </div>
         </div>
-        
+
         <div class="title">K's Inventory System</div>
       </div>
 
@@ -719,16 +719,16 @@ if (!isset($_SESSION['user_id'])) {
   <div class="modal-backdrop" id="checkoutModal">
     <div class="modal-card">
       <h2>Checkout</h2>
-      
+
       <div class="modal-items-list" id="modalItemsList"></div>
-      
+
       <hr class="modal-divider">
-      
+
       <div class="modal-total-row">
         <span>Total</span>
         <span id="modalTotalAmount">₱0.00</span>
       </div>
-      
+
       <div class="modal-label">Payment method</div>
       <div class="payment-grid">
         <button class="pay-method-btn selected" onclick="selectPaymentMethod(this, 'Cash')">Cash</button>
@@ -736,13 +736,13 @@ if (!isset($_SESSION['user_id'])) {
         <button class="pay-method-btn" onclick="selectPaymentMethod(this, 'GCash')">GCash</button>
         <button class="pay-method-btn" onclick="selectPaymentMethod(this, 'Maya')">Maya</button>
       </div>
-      
+
       <div class="cash-input-wrap" id="cashInputContainer">
         <div class="modal-label">Cash received:</div>
         <input type="number" class="cash-received-field" id="cashReceivedInput" placeholder="0.00" min="0" step="any">
         <div class="change-display" id="changeDisplay"></div>
       </div>
-      
+
       <div class="modal-actions">
         <button class="modal-cancel-btn" onclick="closeCheckoutModal()">Cancel</button>
         <button class="modal-confirm-btn" onclick="confirmSale()">Confirm Sale</button>
@@ -754,10 +754,10 @@ if (!isset($_SESSION['user_id'])) {
     let allProducts = []; // fetched from API
     let activeCategory = 'All';
     let searchQuery = '';
-    
+
     // Cart tracking state dictionary
-    let cart = {}; 
-    
+    let cart = {};
+
     let cartTotal = 0;
     let finalCalculatedTotal = 0;
     let cartCount = 0;
@@ -856,9 +856,9 @@ if (!isset($_SESSION['user_id'])) {
 
         let imgUrl = DEFAULT_IMG;
         if (productImages[p.name]) {
-            imgUrl = productImages[p.name];
+          imgUrl = productImages[p.name];
         } else if (p.image && p.image !== 'default_product.png') {
-            imgUrl = `../Images/${p.image}`;
+          imgUrl = `../Images/${p.image}`;
         }
 
         return `
@@ -883,7 +883,12 @@ if (!isset($_SESSION['user_id'])) {
       if (cart[id]) {
         cart[id].qty++;
       } else {
-        cart[id] = { id: id, name: name, price: price, qty: 1 };
+        cart[id] = {
+          id: id,
+          name: name,
+          price: price,
+          qty: 1
+        };
       }
       renderCart();
     }
@@ -901,7 +906,7 @@ if (!isset($_SESSION['user_id'])) {
     function renderCart() {
       const orderItems = document.getElementById('orderItems');
       const keys = Object.keys(cart);
-      
+
       cartCount = 0;
       cartTotal = 0;
 
@@ -980,10 +985,10 @@ if (!isset($_SESSION['user_id'])) {
         alert("Your order is empty!");
         return;
       }
-      
+
       const modalList = document.getElementById('modalItemsList');
       modalList.innerHTML = '';
-      
+
       Object.keys(cart).forEach(key => {
         const item = cart[key];
         const row = document.createElement('div');
@@ -994,15 +999,15 @@ if (!isset($_SESSION['user_id'])) {
         `;
         modalList.appendChild(row);
       });
-      
+
       document.getElementById('modalTotalAmount').textContent = '₱' + finalCalculatedTotal.toFixed(2);
       document.getElementById('cashReceivedInput').value = '';
       document.getElementById('changeDisplay').textContent = '';
-      
+
       // Default set back to Cash choice
       const cashBtn = document.querySelector('.pay-method-btn');
       selectPaymentMethod(cashBtn, 'Cash');
-      
+
       document.getElementById('checkoutModal').style.display = 'flex';
     }
 
@@ -1014,7 +1019,7 @@ if (!isset($_SESSION['user_id'])) {
       selectedPayment = method;
       document.querySelectorAll('.pay-method-btn').forEach(btn => btn.classList.remove('selected'));
       buttonElement.classList.add('selected');
-      
+
       const cashInputContainer = document.getElementById('cashInputContainer');
       if (method === 'Cash') {
         cashInputContainer.style.display = 'block';
@@ -1027,8 +1032,8 @@ if (!isset($_SESSION['user_id'])) {
     document.getElementById('cashReceivedInput').addEventListener('input', e => {
       const cashAmt = parseFloat(e.target.value) || 0;
       const changeEl = document.getElementById('changeDisplay');
-      
-      if(cashAmt >= finalCalculatedTotal) {
+
+      if (cashAmt >= finalCalculatedTotal) {
         const calculatedChange = cashAmt - finalCalculatedTotal;
         changeEl.textContent = `Change: ₱${calculatedChange.toFixed(2)}`;
         changeEl.style.color = '#2db84d';
@@ -1042,63 +1047,56 @@ if (!isset($_SESSION['user_id'])) {
     });
 
     async function confirmSale() {
-
-  if (selectedPayment === 'Cash') {
-
-    const cashAmt = parseFloat(
-      document.getElementById('cashReceivedInput').value
-    ) || 0;
-
-    if (cashAmt < finalCalculatedTotal) {
-      alert("Insufficient cash amount received!");
-      return;
-    }
-  }
-
-  try {
-
-    const cartArray = Object.values(cart);
-
-    const response = await fetch(
-      '../Inventory_backend/api_checkout.php',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          cart: cartArray
-        })
+      if (selectedPayment === 'Cash') {
+        const cashAmt = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
+        if (cashAmt < finalCalculatedTotal) {
+          alert("Insufficient cash amount received!");
+          return;
+        }
       }
-    );
 
-    const result = await response.json();
+      try {
+        const cartArray = Object.values(cart);
 
-    if (result.success) {
+        // Calculate discount deduction values dynamically before packaging payload
+        const rawDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
+        const type = document.getElementById('discountType').value;
+        let computedDeduction = 0;
+        if (rawDiscount > 0 && cartTotal > 0) {
+          computedDeduction = (type === '%') ? Math.min(cartTotal, cartTotal * (rawDiscount / 100)) : Math.min(cartTotal, rawDiscount);
+        }
 
-      alert(
-        `Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`
-      );
+        const response = await fetch(
+          '../Inventory_backend/api_checkout.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              cart: cartArray,
+              payment_method: selectedPayment,
+              discount_amount: computedDeduction,
+              total_amount: finalCalculatedTotal // <--- Added missing keys here
+            })
+          }
+        );
 
-      closeCheckoutModal();
-      clearOrder();
+        const result = await response.json();
 
-      // Reload updated stocks
-      loadData();
-
-    } else {
-
-      alert(result.message || 'Checkout failed');
-
-    }
+        if (result.success) {
+          alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
+          closeCheckoutModal();
+          clearOrder();
+          loadData(); // Reload interface stock tracking counts
+        } else {
+          alert(result.message || 'Checkout failed');
+        }
 
       } catch (err) {
-
         console.error(err);
         alert('Server error during checkout');
-
-        }
-      } 
+      }
+    }
 
     /* DROPDOWN TOGGLE ENGINE */
     function toggleUserDropdown(event) {
