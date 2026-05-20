@@ -1122,7 +1122,6 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
-    /* DROPDOWN TOGGLE ENGINE */
     function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
@@ -1136,7 +1135,6 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
-    // ── Boot ──────────────────────────────────────────────────────────────
     loadData();
   </script>
 </body>

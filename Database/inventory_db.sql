@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2026 at 06:16 AM
+-- Generation Time: May 20, 2026 at 01:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,6 +47,45 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inventory_logs`
+--
+
+CREATE TABLE `inventory_logs` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `action_type` varchar(50) NOT NULL,
+  `old_stock` int(11) DEFAULT NULL,
+  `new_stock` int(11) DEFAULT NULL,
+  `changed_by` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventory_logs`
+--
+
+INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
+(1, 1, 'Wireless Mouse', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:18'),
+(2, 2, 'Wireless Keyboard', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:35'),
+(3, 3, 'Earphones', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:50'),
+(4, 4, 'Earbuds', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:11'),
+(5, 5, 'Speaker', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:29'),
+(6, 6, 'USB Flash Drive 256gb', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:49'),
+(7, 7, 'Micro SD Card 512gb', 'Added', NULL, 10, 'Admin', '2026-05-20 11:25:03'),
+(8, 8, 'Monitor', 'Added', NULL, 10, 'Admin', '2026-05-20 11:25:18'),
+(9, 1, 'Wireless Mouse', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:12'),
+(10, 2, 'Wireless Keyboard', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:16'),
+(11, 3, 'Earphones', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:19'),
+(12, 4, 'Earbuds', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:21'),
+(13, 5, 'Speaker', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:23'),
+(14, 6, 'USB Flash Drive 256gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:25'),
+(15, 7, 'Micro SD Card 512gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:27'),
+(16, 8, 'Monitor', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:30');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -56,15 +95,19 @@ CREATE TABLE `orders` (
   `total_amount` decimal(10,2) NOT NULL,
   `discount_amount` decimal(10,2) DEFAULT 0.00,
   `payment_method` enum('Cash','Card','GCash','Maya') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cash_received` decimal(10,2) DEFAULT 0.00,
+  `change_amount` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`) VALUES
-(1, '0001', 299.00, 0.00, 'Cash', '2026-05-20 03:25:53');
+INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`) VALUES
+(1, '0001', 5095.80, 566.20, 'Cash', '2026-05-20 11:25:53', 6000.00, 904.20),
+(2, '0002', 16986.00, 0.00, 'Cash', '2026-05-20 11:28:21', 17000.00, 14.00),
+(3, '0003', 28310.00, 0.00, 'Cash', '2026-05-20 11:31:33', 30000.00, 1690.00);
 
 -- --------------------------------------------------------
 
@@ -85,7 +128,30 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_sale`) VALUES
-(1, 1, 5, 1, 299.00);
+(1, 1, 1, 1, 249.00),
+(2, 1, 2, 1, 449.00),
+(3, 1, 3, 1, 69.00),
+(4, 1, 4, 1, 149.00),
+(5, 1, 5, 1, 249.00),
+(6, 1, 6, 1, 699.00),
+(7, 1, 7, 1, 799.00),
+(8, 1, 8, 1, 2999.00),
+(9, 2, 1, 3, 249.00),
+(10, 2, 2, 3, 449.00),
+(11, 2, 3, 3, 69.00),
+(12, 2, 4, 3, 149.00),
+(13, 2, 5, 3, 249.00),
+(14, 2, 6, 3, 699.00),
+(15, 2, 7, 3, 799.00),
+(16, 2, 8, 3, 2999.00),
+(17, 3, 1, 5, 249.00),
+(18, 3, 2, 5, 449.00),
+(19, 3, 3, 5, 69.00),
+(20, 3, 4, 5, 149.00),
+(21, 3, 5, 5, 249.00),
+(22, 3, 6, 5, 699.00),
+(23, 3, 7, 5, 799.00),
+(24, 3, 8, 5, 2999.00);
 
 -- --------------------------------------------------------
 
@@ -108,41 +174,51 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_at`, `image`) VALUES
-(1, 'Wireless Mouse', 1, 249.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
-(2, 'Wireless Keyboard', 1, 499.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
-(3, 'Earphones', 2, 69.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
-(4, 'Wireless Earbuds', 2, 199.00, 12, '2026-05-18 05:44:33', 'default_product.png'),
-(5, 'Speaker', 2, 299.00, 9, '2026-05-18 05:44:33', 'default_product.png'),
-(7, 'USB Flash Drive', 3, 699.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
-(8, 'Micro SD Card', 3, 799.00, 10, '2026-05-18 05:47:26', 'default_product.png'),
-(12, 'Monitor', 4, 3499.00, 10, '2026-05-19 17:56:19', '1779213379_6a0ca4431aa54.png'),
-(14, 'Test-icle2', 5, 33.00, 2, '2026-05-20 03:47:36', 'default_product.png');
+(1, 'Wireless Mouse', 1, 249.00, 5, '2026-05-20 11:23:18', '1779276198_6a0d99a6adc07.png'),
+(2, 'Wireless Keyboard', 1, 449.00, 5, '2026-05-20 11:23:35', '1779276215_6a0d99b79bb46.png'),
+(3, 'Earphones', 2, 69.00, 5, '2026-05-20 11:23:50', '1779276230_6a0d99c6d1c94.png'),
+(4, 'Earbuds', 2, 149.00, 5, '2026-05-20 11:24:11', '1779276251_6a0d99db8e841.png'),
+(5, 'Speaker', 2, 249.00, 5, '2026-05-20 11:24:29', '1779276269_6a0d99edd1b29.png'),
+(6, 'USB Flash Drive 256gb', 3, 699.00, 5, '2026-05-20 11:24:49', '1779276289_6a0d9a015ed59.png'),
+(7, 'Micro SD Card 512gb', 3, 799.00, 5, '2026-05-20 11:25:03', '1779276303_6a0d9a0fb7c17.png'),
+(8, 'Monitor', 4, 2999.00, 5, '2026-05-20 11:25:18', '1779276318_6a0d9a1e94b54.png');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_logs`
+-- Table structure for table `product_batches`
 --
 
-CREATE TABLE `product_logs` (
+CREATE TABLE `product_batches` (
   `id` int(11) NOT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `action_type` varchar(50) NOT NULL,
-  `old_stock` int(11) DEFAULT NULL,
-  `new_stock` int(11) DEFAULT NULL,
-  `changed_by` varchar(100) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity_received` int(11) NOT NULL,
+  `quantity_remaining` int(11) NOT NULL,
+  `unit_cost` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `product_logs`
+-- Dumping data for table `product_batches`
 --
 
-INSERT INTO `product_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
-(1, 14, 'Test-icle2', 'Added', NULL, 2, 'Admin', '2026-05-20 03:47:36'),
-(2, 4, 'Wireless Earbuds', 'Edited', 10, 12, 'Admin', '2026-05-20 03:56:12'),
-(3, 13, 'Test-icle', 'Deleted', 1, NULL, 'Admin', '2026-05-20 03:56:23');
+INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantity_remaining`, `unit_cost`, `created_at`) VALUES
+(1, 1, 10, 1, 249.00, '2026-05-20 11:23:18'),
+(2, 2, 10, 1, 449.00, '2026-05-20 11:23:35'),
+(3, 3, 10, 1, 69.00, '2026-05-20 11:23:50'),
+(4, 4, 10, 1, 149.00, '2026-05-20 11:24:11'),
+(5, 5, 10, 1, 249.00, '2026-05-20 11:24:29'),
+(6, 6, 10, 1, 699.00, '2026-05-20 11:24:49'),
+(7, 7, 10, 1, 799.00, '2026-05-20 11:25:03'),
+(8, 8, 10, 1, 2999.00, '2026-05-20 11:25:18'),
+(9, 1, 4, 4, 249.00, '2026-05-20 11:29:12'),
+(10, 2, 4, 4, 449.00, '2026-05-20 11:29:16'),
+(11, 3, 4, 4, 69.00, '2026-05-20 11:29:19'),
+(12, 4, 4, 4, 149.00, '2026-05-20 11:29:21'),
+(13, 5, 4, 4, 249.00, '2026-05-20 11:29:23'),
+(14, 6, 4, 4, 699.00, '2026-05-20 11:29:25'),
+(15, 7, 4, 4, 799.00, '2026-05-20 11:29:27'),
+(16, 8, 4, 4, 2999.00, '2026-05-20 11:29:30');
 
 -- --------------------------------------------------------
 
@@ -165,7 +241,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
 (1, 'nigga', '$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e', '2026-05-19 16:03:36', 'user'),
 (2, 'Triggerwords', '$2y$10$ayUikVMiaU490.4FDuYlpeAvhmgVJvILlmJ7A1eJwr08o2Z0T8qju', '2026-05-20 02:02:47', 'user'),
-(3, 'admin', '$2y$10$examplehashedpassword', '2026-05-20 04:08:33', 'admin');
+(3, 'admin', '$2y$10$examplehashedpassword', '2026-05-20 04:08:33', 'admin'),
+(4, 'kulot', '$2y$10$Q1FOZPGAu3UpLeCx5eF8ou1Hv.Q2ur9PZhFSkwm6IMTYXYJMCyFIa', '2026-05-20 04:30:48', 'user');
 
 --
 -- Indexes for dumped tables
@@ -177,6 +254,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `inventory_logs`
+--
+ALTER TABLE `inventory_logs`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -201,10 +284,11 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`);
 
 --
--- Indexes for table `product_logs`
+-- Indexes for table `product_batches`
 --
-ALTER TABLE `product_logs`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `product_batches`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `users`
@@ -224,34 +308,40 @@ ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `inventory_logs`
+--
+ALTER TABLE `inventory_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `product_logs`
+-- AUTO_INCREMENT for table `product_batches`
 --
-ALTER TABLE `product_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `product_batches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -269,6 +359,12 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_batches`
+--
+ALTER TABLE `product_batches`
+  ADD CONSTRAINT `product_batches_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
