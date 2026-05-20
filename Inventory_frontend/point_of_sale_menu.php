@@ -836,7 +836,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     // ── Render product cards dynamically ───────────────────────────────────
-// ── Render product cards dynamically ───────────────────────────────────
+    // ── Render product cards dynamically ───────────────────────────────────
     function renderProducts() {
       const container = document.getElementById('products');
 
@@ -854,10 +854,10 @@ if (!isset($_SESSION['user_id'])) {
       container.innerHTML = filtered.map(p => {
         const dbStock = Number(p.stock);
         const price = Number(p.price);
-        
+
         // Calculate how many items of this product are currently added to your checkout bucket
         const qtyInCart = cart[p.id] ? cart[p.id].qty : 0;
-        
+
         // COMPUTE LIVE RUNTIME STOCK COUNT LEFT FOR THIS USER SESSION
         const displayStock = Math.max(0, dbStock - qtyInCart);
 
@@ -923,7 +923,7 @@ if (!isset($_SESSION['user_id'])) {
       renderProducts(); // Re-render product grids to instantly reflect updated stock label visuals!
     }
 
-function removeFromCart(id) {
+    function removeFromCart(id) {
       if (cart[id]) {
         cart[id].qty--;
         if (cart[id].qty <= 0) {
@@ -1078,12 +1078,17 @@ function removeFromCart(id) {
     });
 
     async function confirmSale() {
+      let cashAmt = 0;
+      let changeAmt = 0;
+
       if (selectedPayment === 'Cash') {
-        const cashAmt = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
+        cashAmt = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
         if (cashAmt < finalCalculatedTotal) {
           alert("Insufficient cash amount received!");
           return;
         }
+        // 🌟 Compute the change amount directly from the variables
+        changeAmt = cashAmt - finalCalculatedTotal;
       }
 
       try {
@@ -1107,7 +1112,9 @@ function removeFromCart(id) {
               cart: cartArray,
               payment_method: selectedPayment,
               discount_amount: computedDeduction,
-              total_amount: finalCalculatedTotal // <--- Added missing keys here
+              total_amount: finalCalculatedTotal,
+              cash_received: cashAmt, // 🌟 ADDED: Send cash to backend
+              change_amount: changeAmt // 🌟 ADDED: Send change to backend
             })
           }
         );
