@@ -56,9 +56,9 @@ try {
     foreach ($data['cart'] as $item) {
         $id    = intval($item['id']);
         $qty   = intval($item['qty']);
-        $price = floatval($item['price']); // Capture item base unit price metric context
+        $price = floatval($item['price']);
 
-        // Check current stock levels dynamically
+        // Check current total stock levels dynamically
         $stmt = $pdo->prepare("SELECT stock, name FROM products WHERE id = ?");
         $stmt->execute([$id]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -71,9 +71,50 @@ try {
             throw new Exception("Insufficient stock parameters tracking for item: " . $product['name']);
         }
 
-        // A. Deduct stock from the 'products' table
-        $update = $pdo->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
-        $update->execute([$qty, $id]);
+        // --- NEW FIFO LOGIC: Deduct from oldest available batches first ---
+        $batchStmt = $pdo->prepare("
+            SELECT id, quantity_remaining 
+            FROM product_batches 
+            WHERE product_id = ? AND quantity_remaining > 0
+            ORDER BY created_at ASC
+        ");
+        $batchStmt->execute([$id]);
+        $batches = $batchStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $remainingToDeduct = $qty;
+
+        foreach ($batches as $batch) {
+            if ($remainingToDeduct <= 0) break;
+
+            $batchId = $batch['id'];
+            $currentBatchStock = $batch['quantity_remaining'];
+
+            if ($currentBatchStock >= $remainingToDeduct) {
+                // This batch can fully satisfy the remaining order amount
+                $newBatchStock = $currentBatchStock - $remainingToDeduct;
+                $updateBatch = $pdo->prepare("UPDATE product_batches SET quantity_remaining = ? WHERE id = ?");
+                $updateBatch->execute([$newBatchStock, $batchId]);
+                $remainingToDeduct = 0;
+            } else {
+                // Wipe out this batch to 0, deduct what we can, and move to the next batch
+                $remainingToDeduct -= $currentBatchStock;
+                $updateBatch = $pdo->prepare("UPDATE product_batches SET quantity_remaining = 0 WHERE id = ?");
+                $updateBatch->execute([$batchId]);
+            }
+        }
+
+        // Fallback check if batches didn't correctly sync with the total stock field
+        if ($remainingToDeduct > 0) {
+            throw new Exception("FIFO Error: Batches for '" . $product['name'] . "' are desynced with total stock.");
+        }
+
+        // A. Synchronize total structural stock cache in the 'products' table
+        $updateProductsTable = $pdo->prepare("
+            UPDATE products 
+            SET stock = (SELECT COALESCE(SUM(quantity_remaining), 0) FROM product_batches WHERE product_id = ?) 
+            WHERE id = ?
+        ");
+        $updateProductsTable->execute([$id, $id]);
 
         // B. Log specific product sales line trace link within 'order_items'
         $itemStmt->execute([$orderId, $id, $qty, $price]);

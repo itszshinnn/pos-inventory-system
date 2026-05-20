@@ -34,45 +34,19 @@ switch ($method) {
         $imageName = 'default_product.png';
 
         if (!$name || !$category_id || $price < 0 || $stock < 0) {
-
             http_response_code(400);
-
-            echo json_encode([
-                'error' => 'All fields are required and must be valid'
-            ]);
-
+            echo json_encode(['error' => 'All fields are required and must be valid']);
             break;
         }
 
-        if (
-            isset($_FILES['image']) &&
-            $_FILES['image']['error'] === UPLOAD_ERR_OK
-        ) {
-
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['image']['tmp_name'];
             $fileName    = $_FILES['image']['name'];
-
-            $fileExtension = strtolower(
-                pathinfo($fileName, PATHINFO_EXTENSION)
-            );
-
-            $allowedExtensions = [
-                'jpg',
-                'jpeg',
-                'png',
-                'webp',
-                'gif'
-            ];
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
             if (in_array($fileExtension, $allowedExtensions)) {
-
-                $imageName =
-                    time() .
-                    '_' .
-                    uniqid() .
-                    '.' .
-                    $fileExtension;
-
+                $imageName = time() . '_' . uniqid() . '.' . $fileExtension;
                 $uploadFileDir = '../Images/';
                 $dest_path = $uploadFileDir . $imageName;
 
@@ -80,68 +54,54 @@ switch ($method) {
                     $imageName = 'default_product.png';
                 }
             } else {
-
                 http_response_code(400);
-
-                echo json_encode([
-                    'error' => 'Invalid image format'
-                ]);
-
+                echo json_encode(['error' => 'Invalid image format']);
                 break;
             }
         }
 
-        // INSERT PRODUCT
-        $stmt = $pdo->prepare("
-            INSERT INTO products
-            (
-                name,
-                category_id,
-                price,
-                stock,
-                image
-            )
-            VALUES (?, ?, ?, ?, ?)
-        ");
+        try {
+            $pdo->beginTransaction();
 
-        $stmt->execute([
-            $name,
-            $category_id,
-            $price,
-            $stock,
-            $imageName
-        ]);
+            // INSERT PRODUCT
+            $stmt = $pdo->prepare("
+                INSERT INTO products (name, category_id, price, stock, image)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([$name, $category_id, $price, $stock, $imageName]);
+            $productId = $pdo->lastInsertId();
 
-        $productId = $pdo->lastInsertId();
+            // --- FIFO IMPLEMENTATION: Create initial stock tracking batch ---
+            if ($stock > 0) {
+                $initialBatch = $pdo->prepare("
+                    INSERT INTO product_batches (product_id, quantity_received, quantity_remaining, unit_cost)
+                    VALUES (?, ?, ?, ?)
+                ");
+                // Using price as unit_cost fallback
+                $initialBatch->execute([$productId, $stock, $stock, $price]);
+            }
 
-        // INSERT LOG
-        $log = $pdo->prepare("
-            INSERT INTO product_logs
-            (
-                product_id,
-                product_name,
-                action_type,
-                old_stock,
-                new_stock,
-                changed_by
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
+            // INSERT LOG
+            $log = $pdo->prepare("
+                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            $log->execute([
+                $productId,
+                $name,
+                'Added',
+                null,
+                $stock,
+                $_SESSION['username'] ?? 'Unknown User'
+            ]);
 
-        $log->execute([
-            $productId,
-            $name,
-            'Added',
-            null,
-            $stock,
-            $_SESSION['username'] ?? 'Unknown User'
-        ]);
-
-        echo json_encode([
-            'success' => true,
-            'id' => $productId
-        ]);
-
+            $pdo->commit();
+            echo json_encode(['success' => true, 'id' => $productId]);
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to create product batch structure: ' . $e->getMessage()]);
+        }
         break;
 
     // PUT — edit product
@@ -149,10 +109,7 @@ switch ($method) {
 
         session_start();
 
-        $input = json_decode(
-            file_get_contents('php://input'),
-            true
-        );
+        $input = json_decode(file_get_contents('php://input'), true);
 
         $id          = intval($input['id'] ?? 0);
         $name        = trim($input['name'] ?? '');
@@ -160,80 +117,94 @@ switch ($method) {
         $price       = floatval($input['price'] ?? 0);
         $stock       = intval($input['stock'] ?? 0);
 
-        if (
-            !$id ||
-            !$name ||
-            !$category_id ||
-            $price < 0 ||
-            $stock < 0
-        ) {
-
+        if (!$id || !$name || !$category_id || $price < 0 || $stock < 0) {
             http_response_code(400);
-
-            echo json_encode([
-                'error' => 'All fields are required'
-            ]);
-
+            echo json_encode(['error' => 'All fields are required']);
             break;
         }
 
-        // GET OLD DATA
-        $getOld = $pdo->prepare("
-            SELECT stock, name
-            FROM products
-            WHERE id = ?
-        ");
+        try {
+            $pdo->beginTransaction();
 
-        $getOld->execute([$id]);
+            // GET OLD DATA
+            $getOld = $pdo->prepare("SELECT stock, name FROM products WHERE id = ?");
+            $getOld->execute([$id]);
+            $oldProduct = $getOld->fetch(PDO::FETCH_ASSOC);
 
-        $oldProduct = $getOld->fetch(PDO::FETCH_ASSOC);
+            if (!$oldProduct) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Product not found']);
+                $pdo->rollBack();
+                break;
+            }
 
-        // UPDATE PRODUCT
-        $stmt = $pdo->prepare("
-            UPDATE products
-            SET
-                name = ?,
-                category_id = ?,
-                price = ?,
-                stock = ?
-            WHERE id = ?
-        ");
+            // --- FIFO IMPLEMENTATION: Handle manual updates to stock counts ---
+            if ($stock !== intval($oldProduct['stock'])) {
+                if ($stock > $oldProduct['stock']) {
+                    // Stock increased: create a new auxiliary restock batch entry
+                    $addedQty = $stock - $oldProduct['stock'];
+                    $addBatch = $pdo->prepare("
+                        INSERT INTO product_batches (product_id, quantity_received, quantity_remaining, unit_cost)
+                        VALUES (?, ?, ?, ?)
+                    ");
+                    $addBatch->execute([$id, $addedQty, $addedQty, $price]);
+                } else {
+                    // Stock decreased manually: drain oldest remaining batches chronologically
+                    $deductQty = $oldProduct['stock'] - $stock;
 
-        $stmt->execute([
-            $name,
-            $category_id,
-            $price,
-            $stock,
-            $id
-        ]);
+                    $batchStmt = $pdo->prepare("
+                        SELECT id, quantity_remaining FROM product_batches 
+                        WHERE product_id = ? AND quantity_remaining > 0 
+                        ORDER BY created_at ASC
+                    ");
+                    $batchStmt->execute([$id]);
+                    $batches = $batchStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // INSERT LOG
-        $log = $pdo->prepare("
-            INSERT INTO product_logs
-            (
-                product_id,
-                product_name,
-                action_type,
-                old_stock,
-                new_stock,
-                changed_by
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
+                    foreach ($batches as $batch) {
+                        if ($deductQty <= 0) break;
 
-        $log->execute([
-            $id,
-            $name,
-            'Edited',
-            $oldProduct['stock'],
-            $stock,
-            $_SESSION['username'] ?? 'Unknown User'
-        ]);
+                        if ($batch['quantity_remaining'] >= $deductQty) {
+                            $updateB = $pdo->prepare("UPDATE product_batches SET quantity_remaining = quantity_remaining - ? WHERE id = ?");
+                            $updateB->execute([$deductQty, $batch['id']]);
+                            $deductQty = 0;
+                        } else {
+                            $deductQty -= $batch['quantity_remaining'];
+                            $updateB = $pdo->prepare("UPDATE product_batches SET quantity_remaining = 0 WHERE id = ?");
+                            $updateB->execute([$batch['id']]);
+                        }
+                    }
+                }
+            }
 
-        echo json_encode([
-            'success' => true
-        ]);
+            // UPDATE PRODUCT
+            $stmt = $pdo->prepare("
+                UPDATE products
+                SET name = ?, category_id = ?, price = ?, stock = ?
+                WHERE id = ?
+            ");
+            $stmt->execute([$name, $category_id, $price, $stock, $id]);
 
+            // INSERT LOG
+            $log = $pdo->prepare("
+                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            $log->execute([
+                $id,
+                $name,
+                'Edited',
+                $oldProduct['stock'],
+                $stock,
+                $_SESSION['username'] ?? 'Unknown User'
+            ]);
+
+            $pdo->commit();
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            http_response_code(500);
+            echo json_encode(['error' => 'Database error on edit execution: ' . $e->getMessage()]);
+        }
         break;
 
     // DELETE — remove product
@@ -241,18 +212,12 @@ switch ($method) {
 
         session_start();
 
-        $input = json_decode(
-            file_get_contents('php://input'),
-            true
-        );
-
+        $input = json_decode(file_get_contents('php://input'), true);
         $id = intval($input['id'] ?? 0);
 
         if (!$id) {
             http_response_code(400);
-            echo json_encode([
-                'error' => 'ID required'
-            ]);
+            echo json_encode(['error' => 'ID required']);
             break;
         }
 
@@ -261,16 +226,13 @@ switch ($method) {
         $getProduct->execute([$id]);
         $product = $getProduct->fetch(PDO::FETCH_ASSOC);
 
-        // 🌟 CHECK EXISTANCE IMMEDIATELY FIRST Before cleaning files or logs
         if (!$product) {
             http_response_code(404);
-            echo json_encode([
-                'error' => 'Product not found'
-            ]);
+            echo json_encode(['error' => 'Product not found']);
             break;
         }
 
-        // 2. PHYSICAL FILE CLEANUP (Safe to check now that $product exists)
+        // 2. PHYSICAL FILE CLEANUP
         if (!empty($product['image']) && $product['image'] !== 'default_product.png') {
             $filePath = '../Images/' . $product['image'];
             if (file_exists($filePath)) {
@@ -278,39 +240,41 @@ switch ($method) {
             }
         }
 
-        // 3. INSERT LOG
-        $log = $pdo->prepare("
-            INSERT INTO product_logs
-            (
-                product_id,
-                product_name,
-                action_type,
-                old_stock,
-                new_stock,
-                changed_by
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
+        try {
+            $pdo->beginTransaction();
 
-        $log->execute([
-            null, // Fixed null constraint
-            $product['name'],
-            'Deleted',
-            $product['stock'],
-            null,
-            $_SESSION['username'] ?? 'Unknown User'
-        ]);
+            // 1. Log the deletion event before references vanish
+            $log = $pdo->prepare("
+                INSERT INTO product_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            $log->execute([
+                null,
+                $product['name'],
+                'Deleted',
+                $product['stock'],
+                null,
+                $_SESSION['username'] ?? 'Unknown User'
+            ]);
 
-        // 4. DELETE PRODUCT FROM DATABASE
-        $stmt = $pdo->prepare("
-            DELETE FROM products
-            WHERE id = ?
-        ");
-        $stmt->execute([$id]);
+            // 🔥 FIX A: Clear out any item purchase traces linked to sales histories
+            $deleteOrderItems = $pdo->prepare("DELETE FROM order_items WHERE product_id = ?");
+            $deleteOrderItems->execute([$id]);
 
-        echo json_encode([
-            'success' => true
-        ]);
+            // 🔥 FIX B: Clean up your custom FIFO tracking batches
+            $deleteBatches = $pdo->prepare("DELETE FROM product_batches WHERE product_id = ?");
+            $deleteBatches->execute([$id]);
 
+            // 4. Finally delete product row from active catalog securely
+            $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+            $stmt->execute([$id]);
+
+            $pdo->commit();
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to delete record securely.']);
+        }
         break;
 }

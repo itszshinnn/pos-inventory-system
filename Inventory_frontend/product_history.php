@@ -13,25 +13,25 @@ try {
     // DASHBOARD STATS
     $totalLogs = $pdo->query("
         SELECT COUNT(*) 
-        FROM product_logs
+        FROM inventory_logs
     ")->fetchColumn();
 
     $totalAdded = $pdo->query("
         SELECT COUNT(*) 
-        FROM product_logs
+        FROM inventory_logs
         WHERE action_type = 'Added'
     ")->fetchColumn();
 
     $totalDeleted = $pdo->query("
         SELECT COUNT(*) 
-        FROM product_logs
+        FROM inventory_logs
         WHERE action_type = 'Deleted'
     ")->fetchColumn();
 
     // FETCH LOGS
     $query = "
         SELECT *
-        FROM product_logs
+        FROM inventory_logs
         ORDER BY id DESC
     ";
 
