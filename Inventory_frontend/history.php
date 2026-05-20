@@ -403,7 +403,7 @@ try {
   <div class="receipt-modal-backdrop" id="receiptModal">
     <div class="receipt-card">
       <h2>TRANSACTION RECEIPT</h2>
-      <div class="receipt-subtitle">K's Inventory System Ledger</div>
+      <div class="receipt-subtitle">K's Inventory System</div>
       
       <div class="receipt-meta-row">
         <span>Order Number:</span>
