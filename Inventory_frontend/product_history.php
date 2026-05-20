@@ -387,14 +387,7 @@ try {
 
         </div>
       <div class="history-toolbar">
-        <input type="text" id="historySearchInput" placeholder="Search order records..." oninput="filterHistoryTable()">
-        <select id="paymentFilter" onchange="filterHistoryTable()">
-          <option value="">All Payments</option>
-          <option value="Cash">Cash</option>
-          <option value="GCash">GCash</option>
-          <option value="Maya">Maya</option>
-          <option value="Card">Card</option>
-        </select>
+        <input type="text" id="historySearchInput" placeholder="Search inventory logs..." oninput="filterHistoryTable()">
         <select id="sortFilter" onchange="filterHistoryTable()">
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
@@ -462,44 +455,59 @@ try {
 
     const allLogs = <?= json_encode($logs) ?>;
 
-    function filterHistoryTable() {
+        function filterHistoryTable() {
 
-        const searchVal = document
-            .getElementById('historySearchInput')
-            .value
-            .toLowerCase()
-            .trim();
+            const searchVal = document
+                .getElementById('historySearchInput')
+                .value
+                .toLowerCase()
+                .trim();
 
-        const tbody = document.getElementById('historyTableBody');
+            const sortVal = document
+                .getElementById('sortFilter')
+                .value;
 
-        let filtered = allLogs.filter(log => {
+            const tbody = document.getElementById('historyTableBody');
 
-            const product = (log.product_name || '').toLowerCase();
-            const action = (log.action_type || '').toLowerCase();
+            let filtered = allLogs.filter(log => {
 
-            return product.includes(searchVal)
-                || action.includes(searchVal);
-        });
+                const product = (log.product_name || '').toLowerCase();
+                const action  = (log.action_type || '').toLowerCase();
+                const admin    = (log.admin_name || '').toLowerCase();
 
-        if (filtered.length === 0) {
+                return product.includes(searchVal)
+                    || action.includes(searchVal)
+                    || admin.includes(searchVal);
+            });
 
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7"
-                        style="text-align:center;
-                            padding:24px;
-                            color:#999;">
-                        No inventory logs found.
-                    </td>
-                </tr>
-            `;
+            filtered.sort((a, b) => {
 
-            return;
-        }
+                const timeA = new Date(a.created_at).getTime();
+                const timeB = new Date(b.created_at).getTime();
 
-        tbody.innerHTML = filtered.map(log => {
+                if (sortVal === 'oldest') {
+                    return timeA - timeB;
+                } else {
+                    return timeB - timeA;
+                }
+            });
 
-            return `
+            if (filtered.length === 0) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7"
+                            style="text-align:center;
+                                padding:24px;
+                                color:#999;">
+                            No inventory logs found.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(log => `
                 <tr>
                     <td>#${log.id}</td>
                     <td>${log.product_name}</td>
@@ -509,10 +517,8 @@ try {
                     <td>${log.admin_name ?? 'Admin'}</td>
                     <td>${log.created_at}</td>
                 </tr>
-            `;
-
-        }).join('');
-    }
+            `).join('');
+        }
 
     function toggleUserDropdown(event) {
 
