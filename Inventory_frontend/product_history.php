@@ -19,13 +19,13 @@ try {
     $totalAdded = $pdo->query("
         SELECT COUNT(*) 
         FROM product_logs
-        WHERE action_type = 'Added Product'
+        WHERE action_type = 'Added'
     ")->fetchColumn();
 
     $totalDeleted = $pdo->query("
         SELECT COUNT(*) 
         FROM product_logs
-        WHERE action_type = 'Deleted Product'
+        WHERE action_type = 'Deleted'
     ")->fetchColumn();
 
     // FETCH LOGS
