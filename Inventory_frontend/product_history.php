@@ -3,39 +3,50 @@ require '../Database/config.php';
 
 session_start();
 
-// Block users who aren't logged in, OR who are logged in but aren't an Admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../Inventory_frontend/login_signup.php");
     exit;
 }
 
 try {
-    // 1. Fetch Dynamic Dashboard Metric Summaries
-    $totalRevenue = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
-    $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
-    $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-    // 2. Query the Orders Ledger with Aggregated Item Summaries and Date
-    $query = 'SELECT o.order_no, 
-                     o.payment_method AS payment, 
-                     o.discount_amount AS discount, 
-                     o.total_amount AS total,
-                     o.created_at AS date,
-                     GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
-              FROM orders o
-              LEFT JOIN order_items oi ON o.id = oi.order_id
-              LEFT JOIN products p ON oi.product_id = p.id
-              GROUP BY o.id
-              ORDER BY o.id DESC';
-              
+    // DASHBOARD STATS
+    $totalLogs = $pdo->query("
+        SELECT COUNT(*) 
+        FROM product_logs
+    ")->fetchColumn();
+
+    $totalAdded = $pdo->query("
+        SELECT COUNT(*) 
+        FROM product_logs
+        WHERE action_type = 'Added'
+    ")->fetchColumn();
+
+    $totalDeleted = $pdo->query("
+        SELECT COUNT(*) 
+        FROM product_logs
+        WHERE action_type = 'Deleted'
+    ")->fetchColumn();
+
+    // FETCH LOGS
+    $query = "
+        SELECT *
+        FROM product_logs
+        ORDER BY id DESC
+    ";
+
     $stmt = $pdo->query($query);
-    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (Exception $e) {
-    $totalRevenue = 0.00;
-    $transactions = 0;
-    $itemsSold = 0;
-    $orders = [];
+
+    $totalLogs = 0;
+    $totalAdded = 0;
+    $totalDeleted = 0;
+
+    $logs = [];
+
     $errorMsg = $e->getMessage();
 }
 ?>
@@ -338,8 +349,8 @@ try {
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
       <a href="history.php" class="active">History</a>
-      <a href="history.php" class="sub-tab active">Sales History</a>
-      <a href="product_history.php" class="sub-tab">Inventory Logs</a>
+      <a href="history.php" class="sub-tab">Sales History</a>
+      <a href="product_history.php" class="sub-tab active">Inventory Logs</a>
       <a href="user_account_history.php" class="sub-tab">User Account History</a>
     </nav>
 
@@ -352,29 +363,31 @@ try {
       <?php endif; ?>
 
       <div class="history-stats-grid">
-        <div class="history-stat-card">
-          <h3>Total Revenue</h3>
-          <p class="green-txt">₱<?= number_format($totalRevenue, 2) ?></p>
-        </div>
-        <div class="history-stat-card">
-          <h3>Transactions</h3>
-          <p class="blue-txt"><?= $transactions ?></p>
-        </div>
-        <div class="history-stat-card">
-          <h3>Items Sold</h3>
-          <p><?= $itemsSold ?></p>
-        </div>
-      </div>
 
+    <div class="history-stat-card">
+        <h3>Total Logs</h3>
+        <p class="blue-txt">
+            <?= $totalLogs ?>
+        </p>
+    </div>
+
+    <div class="history-stat-card">
+        <h3>Products Added</h3>
+        <p class="green-txt">
+            <?= $totalAdded ?>
+        </p>
+    </div>
+
+    <div class="history-stat-card">
+        <h3>Products Deleted</h3>
+        <p>
+            <?= $totalDeleted ?>
+        </p>
+    </div>
+
+        </div>
       <div class="history-toolbar">
-        <input type="text" id="historySearchInput" placeholder="Search order records..." oninput="filterHistoryTable()">
-        <select id="paymentFilter" onchange="filterHistoryTable()">
-          <option value="">All Payments</option>
-          <option value="Cash">Cash</option>
-          <option value="GCash">GCash</option>
-          <option value="Maya">Maya</option>
-          <option value="Card">Card</option>
-        </select>
+        <input type="text" id="historySearchInput" placeholder="Search inventory logs..." oninput="filterHistoryTable()">
         <select id="sortFilter" onchange="filterHistoryTable()">
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
@@ -385,12 +398,13 @@ try {
         <table>
           <thead>
             <tr>
-              <th style="width: 100px;">Order no.</th>
-              <th>Items Summary</th>
-              <th style="width: 150px;">Payment Method</th>
-              <th style="width: 110px;">Discount</th>
-              <th style="width: 130px;">Total Amount</th>
-              <th style="width: 110px; text-align: center;">Actions</th>
+                <th>Log ID</th>
+                <th>Product</th>
+                <th>Action</th>
+                <th>Old Stock</th>
+                <th>New Stock</th>
+                <th>Admin</th>
+                <th>Date</th>
             </tr>
           </thead>
           <tbody id="historyTableBody"></tbody>
@@ -403,7 +417,7 @@ try {
   <div class="receipt-modal-backdrop" id="receiptModal">
     <div class="receipt-card">
       <h2>TRANSACTION RECEIPT</h2>
-      <div class="receipt-subtitle">K's Inventory System</div>
+      <div class="receipt-subtitle">K's Inventory System Ledger</div>
       
       <div class="receipt-meta-row">
         <span>Order Number:</span>
@@ -438,110 +452,101 @@ try {
   </div>
 
   <script>
-    const allOrders = <?= json_encode($orders) ?>;
 
-    function getPaymentBadgeClass(method) {
-      if (!method) return 'badge-payment';
-      const m = method.toLowerCase();
-      if (m === 'gcash') return 'badge-payment gcash';
-      if (m === 'maya') return 'badge-payment maya';
-      if (m === 'card') return 'badge-payment card';
-      return 'badge-payment';
-    }
+    const allLogs = <?= json_encode($logs) ?>;
 
-    function filterHistoryTable() {
-      const searchVal  = document.getElementById('historySearchInput').value.toLowerCase().trim();
-      const paymentVal = document.getElementById('paymentFilter').value;
-      const sortVal    = document.getElementById('sortFilter').value;
-      const tbody      = document.getElementById('historyTableBody');
+        function filterHistoryTable() {
 
-      let filtered = allOrders.filter(order => {
-        const orderNo = (order.order_no || '').toLowerCase();
-        const items   = (order.item || '').toLowerCase();
-        const payment = order.payment || '';
-        return (orderNo.includes(searchVal) || items.includes(searchVal)) && (paymentVal === "" || payment === paymentVal);
-      });
+            const searchVal = document
+                .getElementById('historySearchInput')
+                .value
+                .toLowerCase()
+                .trim();
 
-      if (sortVal === 'oldest') {
-        filtered.sort((a, b) => parseInt(a.order_no) - parseInt(b.order_no));
-      } else {
-        filtered.sort((a, b) => parseInt(b.order_no) - parseInt(a.order_no));
-      }
+            const sortVal = document
+                .getElementById('sortFilter')
+                .value;
 
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
-        return;
-      }
+            const tbody = document.getElementById('historyTableBody');
 
-      tbody.innerHTML = filtered.map(order => {
-        const discountNum = parseFloat(order.discount) || 0;
-        const totalNum    = parseFloat(order.total) || 0;
-        
-        return `
-          <tr>
-            <td style="font-weight: 700;">#${order.order_no}</td>
-            <td>${order.item ? order.item : 'No items tracked'}</td>
-            <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
-            <td>${discountNum > 0 ? `₱${discountNum.toFixed(2)}` : '-'}</td>
-            <td class="price-mono">₱${totalNum.toFixed(2)}</td>
-            <td style="text-align: center;">
-              <button class="view-receipt-btn" onclick="openReceiptModal('${order.order_no}')">View</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
+            let filtered = allLogs.filter(log => {
 
-    // ── INTERACTIVE RECEIPT POPULATION ENGINE ──
-    function openReceiptModal(orderNo) {
-      const order = allOrders.find(o => o.order_no === orderNo);
-      if (!order) return;
+                const product = (log.product_name || '').toLowerCase();
+                const action  = (log.action_type || '').toLowerCase();
+                const admin    = (log.admin_name || '').toLowerCase();
 
-      document.getElementById('rcptOrderNo').textContent = `#${order.order_no}`;
-      document.getElementById('rcptDate').textContent = order.date;
-      document.getElementById('rcptPayment').textContent = order.payment;
-      
-      const discountNum = parseFloat(order.discount) || 0;
-      document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
-      document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
+                return product.includes(searchVal)
+                    || action.includes(searchVal)
+                    || admin.includes(searchVal);
+            });
 
-      // Split strings formatted via GROUP_CONCAT into neat structured visual elements
-      const itemsBox = document.getElementById('rcptItemsBox');
-      itemsBox.innerHTML = '';
-      
-      if(order.item) {
-        const itemLines = order.item.split(', ');
-        itemLines.forEach(line => {
-          const row = document.createElement('div');
-          row.classList.add('receipt-item-line');
-          
-          // Re-adjust item text split layout mappings
-          row.innerHTML = `<span>${line}</span>`;
-          itemsBox.appendChild(row);
-        });
-      }
+            filtered.sort((a, b) => {
 
-      document.getElementById('receiptModal').style.display = 'flex';
-    }
+                const timeA = new Date(a.created_at).getTime();
+                const timeB = new Date(b.created_at).getTime();
 
-    function closeReceiptModal() {
-      document.getElementById('receiptModal').style.display = 'none';
-    }
+                if (sortVal === 'oldest') {
+                    return timeA - timeB;
+                } else {
+                    return timeB - timeA;
+                }
+            });
+
+            if (filtered.length === 0) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7"
+                            style="text-align:center;
+                                padding:24px;
+                                color:#999;">
+                            No inventory logs found.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(log => `
+                <tr>
+                    <td>#${log.id}</td>
+                    <td>${log.product_name}</td>
+                    <td>${log.action_type}</td>
+                    <td>${log.old_stock ?? '-'}</td>
+                    <td>${log.new_stock ?? '-'}</td>
+                    <td>${log.admin_name ?? 'Admin'}</td>
+                    <td>${log.created_at}</td>
+                </tr>
+            `).join('');
+        }
 
     function toggleUserDropdown(event) {
-      event.stopPropagation();
-      const dropdown = document.getElementById("userDropdownMenu");
-      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+
+        event.stopPropagation();
+
+        const dropdown =
+            document.getElementById("userDropdownMenu");
+
+        dropdown.style.display =
+            (dropdown.style.display === "block")
+            ? "none"
+            : "block";
     }
 
     window.onclick = function() {
-      const dropdown = document.getElementById("userDropdownMenu");
-      if (dropdown && dropdown.style.display === "block") {
-        dropdown.style.display = "none";
-      }
+
+        const dropdown =
+            document.getElementById("userDropdownMenu");
+
+        if (dropdown &&
+            dropdown.style.display === "block") {
+
+            dropdown.style.display = "none";
+        }
     }
 
     filterHistoryTable();
-  </script>
+
+    </script>
 </body>
 </html>

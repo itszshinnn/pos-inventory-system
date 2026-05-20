@@ -114,7 +114,7 @@ if (!isset($_SESSION['user_id'])) {
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php" class="active">Products</a>
-      <a href="add-product.php" class="sub">- Add Products</a>
+      <a href="add-product.php" class="active">- Add Products</a>
       <a href="history.php">History</a>
     </nav>
 
