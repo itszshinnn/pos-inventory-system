@@ -15,11 +15,12 @@ try {
     $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
     $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-    // 2. Query the Orders Ledger with Aggregated Item Summaries
+    // 2. Query the Orders Ledger with Aggregated Item Summaries and Date
     $query = 'SELECT o.order_no, 
                      o.payment_method AS payment, 
                      o.discount_amount AS discount, 
                      o.total_amount AS total,
+                     o.created_at AS date,
                      GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
               FROM orders o
               LEFT JOIN order_items oi ON o.id = oi.order_id
@@ -31,7 +32,6 @@ try {
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (Exception $e) {
-    // Graceful error fallbacks if database tables haven't been migrated yet
     $totalRevenue = 0.00;
     $transactions = 0;
     $itemsSold = 0;
@@ -53,7 +53,6 @@ try {
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
 
-    /* Unify application font mappings explicitly */
     * {
       font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
@@ -71,7 +70,6 @@ try {
       object-fit: cover;
     }
 
-    /* Floating Menu Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -98,6 +96,23 @@ try {
 
     .dropdown-menu a:hover {
       background-color: #fff0f0;
+    }
+
+    /* NESTED SUB-TAB SIDEBAR STYLING */
+    .sidebar a.sub-tab {
+      padding-left: 28px;
+      font-size: 0.88rem;
+      color: #bcbcbc;
+    }
+
+    .sidebar a.sub-tab::before {
+      content: "• ";
+      color: #666;
+      margin-right: 4px;
+    }
+
+    .sidebar a.sub-tab.active::before {
+      color: #4d66ff;
     }
 
     .history-stats-grid {
@@ -142,7 +157,6 @@ try {
       color: #4d66ff;
     }
 
-    /* CONTROL TOOLBAR FILTER PANEL */
     .history-toolbar {
       display: grid;
       grid-template-columns: 1fr 180px 150px;
@@ -168,7 +182,6 @@ try {
       border-color: #4d66ff;
     }
 
-    /* TABLE LAYOUT ADJUSTMENTS */
     .price-mono {
       font-family: 'DM Mono', monospace;
       font-weight: 500;
@@ -185,7 +198,6 @@ try {
       font-weight: 600;
     }
 
-    /* Dynamic styling colors for distinct payment types */
     .badge-payment.gcash { background: #1a73e8; }
     .badge-payment.maya { background: #00c483; }
     .badge-payment.card { background: #ff9f00; }
@@ -206,6 +218,103 @@ try {
       background: #4d66ff;
       color: white;
     }
+
+    /* ── RECEIPT MODAL CSS WRAPPER ── */
+    .receipt-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .receipt-card {
+      background: white;
+      width: 380px;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .receipt-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .receipt-subtitle {
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .receipt-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 6px;
+    }
+
+    .receipt-divider {
+      border: none;
+      border-top: 1px dashed #bbb;
+      margin: 14px 0;
+    }
+
+    .receipt-items-box {
+      margin: 10px 0;
+    }
+
+    .receipt-item-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .receipt-item-line span:last-child {
+      font-family: 'DM Mono', monospace;
+    }
+
+    .receipt-total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 700;
+      color: #000;
+      margin-top: 10px;
+    }
+
+    .receipt-total-line span:last-child {
+      font-family: 'DM Mono', monospace;
+    }
+
+    .receipt-close-btn {
+      width: 100%;
+      height: 42px;
+      background: #333538;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.2s;
+    }
+
+    .receipt-close-btn:hover {
+      background: #1a1a1a;
+    }
   </style>
 </head>
 
@@ -220,7 +329,6 @@ try {
         <a href="../Inventory_frontend/logout.php">Logout</a>
       </div>
     </div>
-
     <span class="topbar-title">K's Inventory System</span>
   </div>
 
@@ -229,7 +337,10 @@ try {
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
-      <a href="history.php" class="active">History</a> 
+      <a href="history.php" class="active">History</a>
+      <a href="#" class="sub-tab active">Sales History</a>
+      <a href="#" class="sub-tab">Transaction Logs</a>
+      <a href="#" class="sub-tab">User Account History</a>
     </nav>
 
     <div class="main">
@@ -282,23 +393,57 @@ try {
               <th style="width: 110px; text-align: center;">Actions</th>
             </tr>
           </thead>
-          <tbody id="historyTableBody">
-            </tbody>
+          <tbody id="historyTableBody"></tbody>
         </table>
       </div>
 
     </div>
   </div>
 
+  <div class="receipt-modal-backdrop" id="receiptModal">
+    <div class="receipt-card">
+      <h2>TRANSACTION RECEIPT</h2>
+      <div class="receipt-subtitle">K's Inventory System Ledger</div>
+      
+      <div class="receipt-meta-row">
+        <span>Order Number:</span>
+        <strong id="rcptOrderNo">#0000</strong>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Date/Time:</span>
+        <span id="rcptDate">-</span>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Payment Method:</span>
+        <span id="rcptPayment">-</span>
+      </div>
+
+      <hr class="receipt-divider">
+      
+      <div class="receipt-items-box" id="rcptItemsBox"></div>
+
+      <hr class="receipt-divider">
+
+      <div class="receipt-meta-row">
+        <span>Discount applied:</span>
+        <span id="rcptDiscount">-</span>
+      </div>
+      <div class="receipt-total-line">
+        <span>TOTAL PAID:</span>
+        <span id="rcptTotal">₱0.00</span>
+      </div>
+
+      <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
+    </div>
+  </div>
+
   <script>
-    // Inject the database PHP data directly into a JavaScript array safely
     const allOrders = <?= json_encode($orders) ?>;
 
-    // Helper utility to style payment badges based on method string
     function getPaymentBadgeClass(method) {
       if (!method) return 'badge-payment';
       const m = method.toLowerCase();
-      if (m === 'gcash') return 'badge-payment ghtml gcash';
+      if (m === 'gcash') return 'badge-payment gcash';
       if (m === 'maya') return 'badge-payment maya';
       if (m === 'card') return 'badge-payment card';
       return 'badge-payment';
@@ -310,35 +455,21 @@ try {
       const sortVal    = document.getElementById('sortFilter').value;
       const tbody      = document.getElementById('historyTableBody');
 
-      // 1. Core Evaluation Loop Filtering Logic
       let filtered = allOrders.filter(order => {
         const orderNo = (order.order_no || '').toLowerCase();
         const items   = (order.item || '').toLowerCase();
         const payment = order.payment || '';
-
-        const matchesSearch  = orderNo.includes(searchVal) || items.includes(searchVal);
-        const matchesPayment = paymentVal === "" || payment === paymentVal;
-
-        return matchesSearch && matchesPayment;
+        return (orderNo.includes(searchVal) || items.includes(searchVal)) && (paymentVal === "" || payment === paymentVal);
       });
 
-      // 2. Sorting Arrangement Operations
       if (sortVal === 'oldest') {
-        // Arranges array incrementally from #0001 upwards
         filtered.sort((a, b) => parseInt(a.order_no) - parseInt(b.order_no));
       } else {
-        // Default: Newest first (descending order layout tracking)
         filtered.sort((a, b) => parseInt(b.order_no) - parseInt(a.order_no));
       }
 
-      // 3. Render HTML Rows to Table Document Body Container Partition
       if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">
-              No matching transaction histories found.
-            </td>
-          </tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
         return;
       }
 
@@ -346,23 +477,55 @@ try {
         const discountNum = parseFloat(order.discount) || 0;
         const totalNum    = parseFloat(order.total) || 0;
         
-        const discountDisplay = discountNum > 0 ? `₱${discountNum.toFixed(2)}` : '-';
-        const totalDisplay    = `₱${totalNum.toFixed(2)}`;
-        const itemDisplay     = order.item ? order.item : 'No items tracked';
-
         return `
           <tr>
             <td style="font-weight: 700;">#${order.order_no}</td>
-            <td>${itemDisplay}</td>
+            <td>${order.item ? order.item : 'No items tracked'}</td>
             <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
-            <td>${discountDisplay}</td>
-            <td class="price-mono">${totalDisplay}</td>
+            <td>${discountNum > 0 ? `₱${discountNum.toFixed(2)}` : '-'}</td>
+            <td class="price-mono">₱${totalNum.toFixed(2)}</td>
             <td style="text-align: center;">
-              <button class="view-receipt-btn">View</button>
+              <button class="view-receipt-btn" onclick="openReceiptModal('${order.order_no}')">View</button>
             </td>
           </tr>
         `;
       }).join('');
+    }
+
+    // ── INTERACTIVE RECEIPT POPULATION ENGINE ──
+    function openReceiptModal(orderNo) {
+      const order = allOrders.find(o => o.order_no === orderNo);
+      if (!order) return;
+
+      document.getElementById('rcptOrderNo').textContent = `#${order.order_no}`;
+      document.getElementById('rcptDate').textContent = order.date;
+      document.getElementById('rcptPayment').textContent = order.payment;
+      
+      const discountNum = parseFloat(order.discount) || 0;
+      document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
+      document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
+
+      // Split strings formatted via GROUP_CONCAT into neat structured visual elements
+      const itemsBox = document.getElementById('rcptItemsBox');
+      itemsBox.innerHTML = '';
+      
+      if(order.item) {
+        const itemLines = order.item.split(', ');
+        itemLines.forEach(line => {
+          const row = document.createElement('div');
+          row.classList.add('receipt-item-line');
+          
+          // Re-adjust item text split layout mappings
+          row.innerHTML = `<span>${line}</span>`;
+          itemsBox.appendChild(row);
+        });
+      }
+
+      document.getElementById('receiptModal').style.display = 'flex';
+    }
+
+    function closeReceiptModal() {
+      document.getElementById('receiptModal').style.display = 'none';
     }
 
     function toggleUserDropdown(event) {
@@ -378,9 +541,7 @@ try {
       }
     }
 
-    // Initialize/Render table contents on page boot load context
     filterHistoryTable();
   </script>
 </body>
-
 </html>
