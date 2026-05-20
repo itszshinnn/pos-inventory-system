@@ -3,6 +3,7 @@ require '../Database/config.php';
 
 session_start();
 
+// 1. Fetch individual logs from the database
 $productLogs = $pdo->query("
     SELECT
         product_name,
@@ -29,7 +30,7 @@ $lowStocks = $pdo->query("
         name,
         stock
     FROM products
-    WHERE stock <= 5
+    WHERE stock <= 3
     ORDER BY stock ASC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,36 +44,69 @@ $newUsers = $pdo->query("
     LIMIT 5
 ")->fetchAll(PDO::FETCH_ASSOC);
 
-// Block users who aren't logged in, OR who are logged in but aren't an Admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   header("Location: ../Inventory_frontend/login_signup.php");
   exit;
 }
 
 try {
-  // 1. Fetch Stats for Top Grid
+  // Fetch Stats for Top Grid
   $totalProducts   = $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
   $totalUnits      = $pdo->query('SELECT COALESCE(SUM(stock), 0) FROM products')->fetchColumn();
   $totalCategories = $pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn();
   $lowStock        = $pdo->query('SELECT COUNT(*) FROM products WHERE stock > 0 AND stock <= 3')->fetchColumn();
   $outOfStock      = $pdo->query('SELECT COUNT(*) FROM products WHERE stock = 0')->fetchColumn();
 
-  // 2. Fetch History Metrics (Image 3)
+  // Fetch History Metrics
   $totalRevenue    = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
   $transactions    = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
   $itemsSold       = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-  // 3. Fetch Log Metrics (Image 2)
+  // Fetch Log Metrics
   $totalLogs       = $pdo->query('SELECT COUNT(*) FROM product_logs')->fetchColumn();
   $totalAdded      = $pdo->query('SELECT COUNT(*) FROM product_logs WHERE action_type = "Added"')->fetchColumn();
   $totalDeleted    = $pdo->query('SELECT COUNT(*) FROM product_logs WHERE action_type = "Deleted"')->fetchColumn();
 } catch (Exception $e) {
   $errorMsg = $e->getMessage();
-  // Fallback values if tables don't exist yet
   $totalProducts = $totalUnits = $totalCategories = $lowStock = $outOfStock = 0;
   $totalRevenue = 0.00;
   $transactions = $itemsSold = $totalLogs = $totalAdded = $totalDeleted = 0;
 }
+
+// 2. COMBINE AND SORT NOTIFICATIONS BY TIMESTAMPS (NEWEST TO OLDEST)
+$allNotifications = [];
+
+// Format and push Product Logs
+foreach ($productLogs as $log) {
+    $allNotifications[] = [
+        'type' => 'product_log',
+        'time' => $log['created_at'],
+        'data' => $log
+    ];
+}
+
+// Format and push Sales Logs
+foreach ($salesLogs as $sale) {
+    $allNotifications[] = [
+        'type' => 'sales_log',
+        'time' => $sale['created_at'],
+        'data' => $sale
+    ];
+}
+
+// Format and push New Users
+foreach ($newUsers as $user) {
+    $allNotifications[] = [
+        'type' => 'new_user',
+        'time' => $user['created_at'],
+        'data' => $user
+    ];
+}
+
+// Sort the entire unified array by 'time' descending
+usort($allNotifications, function($a, $b) {
+    return strtotime($b['time']) <=> strtotime($a['time']);
+});
 ?>
 
 <!DOCTYPE html>
@@ -150,11 +184,11 @@ try {
       background: #1abc9c;
     }
 
-    /* Split Dashboard Layout: Left Content & Right Sidebar */
+    /* Split Dashboard Layout adjusted to 320px sidebar to prevent horizontal scroll */
     .dashboard-container {
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 24px;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
       align-items: start;
     }
 
@@ -164,32 +198,30 @@ try {
       gap: 24px;
     }
 
-    /* ── SCALING DOWN THE ORIGINAL STAT CARDS ── */
     .dashboard-left-content .stat-card {
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
 
+    /* Scaled down stats card contents slightly to accommodate tighter container sizing */
     .dashboard-left-content .stat-icon {
-      width: 65px;
-      /* Shrunk down from 90px */
+      width: 52px;
     }
 
     .dashboard-left-content .stat-icon svg {
-      width: 28px;
-      /* Shrunk down from 38px */
-      height: 28px;
+      width: 24px;
+      height: 24px;
     }
 
     .dashboard-left-content .stat-body {
-      padding: 12px 16px;
+      padding: 10px 14px;
     }
 
     .dashboard-left-content .stat-body .num {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
 
     .dashboard-left-content .stat-body .label {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       margin-top: 2px;
       color: #474747;
       font-weight: 300;
@@ -259,11 +291,11 @@ try {
       padding: 20px;
       border: 1px solid #eef0f2;
       min-height: 100%;
-      max-height: 400px;
+      max-height: 520px; /* Enhanced height allowance for a cleaner layout stretch */
       overflow-y: auto;
     }
 
-    .notif-item{
+    .notif-item {
       background: #f7f7f7;
       border-radius: 10px;
       padding: 12px 14px;
@@ -274,16 +306,32 @@ try {
       border: 1px solid #ececec;
     }
 
-    .notif-warning{
+    .notif-warning {
       background: #fff4db;
       border-color: #ffd978;
       color: #8a6500;
     }
 
-    .notif-success{
+    .notif-success {
       background: #e8f9ee;
       border-color: #8ce0a6;
       color: #157347;
+    }
+
+    .notif-danger {
+      background: #fff0f0;
+      border-color: #ffbcbc;
+      color: #ff4b4b;
+    }
+
+    .layout {
+      display: flex;
+    }
+
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow-x: hidden; /* Global hard safety stop against overflow bleed */
     }
   </style>
 </head>
@@ -377,7 +425,7 @@ try {
               </div>
               <div class="stat-body">
                 <div class="num"><?= $lowStock ?></div>
-                <div class="label">Low stock</div>
+                <div class="label">Low on stock</div>
               </div>
             </div>
 
@@ -432,46 +480,43 @@ try {
           </div>
 
         </div>
-      <div class="notifications-sidebar">
-
-        <div class="section-title">Notifications</div>
-
-        <?php foreach($lowStocks as $stock): ?>
-          <div class="notif-item notif-warning">
-            ⚠️
-            <strong><?= htmlspecialchars($stock['name']) ?></strong>
-            is low on stock
-            (<?= $stock['stock'] ?> left)
-          </div>
-        <?php endforeach; ?>
-
-        <?php foreach($productLogs as $log): ?>
-          <div class="notif-item">
-            📦
-            <strong><?= htmlspecialchars($log['changed_by']) ?></strong>
-            <?= strtolower($log['action_type']) ?>
-            <?= htmlspecialchars($log['product_name']) ?>
-          </div>
-        <?php endforeach; ?>
-
-        <?php foreach($salesLogs as $sale): ?>
-          <div class="notif-item notif-success">
-            🛒
-            Order #<?= $sale['order_no'] ?>
-            completed —
-            ₱<?= number_format($sale['total_amount'], 2) ?>
-          </div>
-        <?php endforeach; ?>
-
-        <?php foreach($newUsers as $user): ?>
-          <div class="notif-item">
-            👤
-            New <?= htmlspecialchars($user['role']) ?>:
-            <strong><?= htmlspecialchars($user['username']) ?></strong>
-          </div>
-        <?php endforeach; ?>
         
-      </div>
+        <div class="notifications-sidebar">
+          <div class="section-title">Notifications</div>
+
+          <?php foreach ($lowStocks as $stock): ?>
+            <?php if ($stock['stock'] == 0): ?>
+              <div class="notif-item notif-danger">
+                🚨 <strong><?= htmlspecialchars($stock['name']) ?></strong> is out of stock!
+              </div>
+            <?php else: ?>
+              <div class="notif-item notif-warning">
+                ⚠️ <strong><?= htmlspecialchars($stock['name']) ?></strong> is low on stock (<?= $stock['stock'] ?> left)
+              </div>
+            <?php endif; ?>
+          <?php endforeach; ?>
+
+          <?php foreach ($allNotifications as $notif): ?>
+            <?php $data = $notif['data']; ?>
+
+            <?php if ($notif['type'] === 'product_log'): ?>
+              <div class="notif-item">
+                📦 <strong><?= htmlspecialchars($data['changed_by']) ?></strong> <?= strtolower($data['action_type']) ?> <?= htmlspecialchars($data['product_name']) ?>
+              </div>
+
+            <?php elseif ($notif['type'] === 'sales_log'): ?>
+              <div class="notif-item notif-success">
+                🛒 Order #<?= $data['order_no'] ?> completed — ₱<?= number_format($data['total_amount'], 2) ?>
+              </div>
+
+            <?php elseif ($notif['type'] === 'new_user'): ?>
+              <div class="notif-item">
+                👤 New <?= htmlspecialchars($data['role']) ?>: <strong><?= htmlspecialchars($data['username']) ?></strong>
+              </div>
+            <?php endif; ?>
+
+          <?php endforeach; ?>
+        </div>
 
       </div>
     </div>
