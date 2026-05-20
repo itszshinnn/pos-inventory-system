@@ -3,6 +3,46 @@ require '../Database/config.php';
 
 session_start();
 
+$productLogs = $pdo->query("
+    SELECT
+        product_name,
+        action_type,
+        changed_by,
+        created_at
+    FROM product_logs
+    ORDER BY id DESC
+    LIMIT 5
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$salesLogs = $pdo->query("
+    SELECT
+        order_no,
+        total_amount,
+        created_at
+    FROM orders
+    ORDER BY id DESC
+    LIMIT 5
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$lowStocks = $pdo->query("
+    SELECT
+        name,
+        stock
+    FROM products
+    WHERE stock <= 5
+    ORDER BY stock ASC
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$newUsers = $pdo->query("
+    SELECT
+        username,
+        role,
+        created_at
+    FROM users
+    ORDER BY id DESC
+    LIMIT 5
+")->fetchAll(PDO::FETCH_ASSOC);
+
 // Block users who aren't logged in, OR who are logged in but aren't an Admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   header("Location: ../Inventory_frontend/login_signup.php");
@@ -213,13 +253,37 @@ try {
       color: #4d66ff;
     }
 
-    /* Notifications Sidebar Box styling */
     .notifications-sidebar {
       background: #ffffff;
       border-radius: 16px;
       padding: 20px;
       border: 1px solid #eef0f2;
-      min-height: 400px;
+      min-height: 100%;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .notif-item{
+      background: #f7f7f7;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+      border: 1px solid #ececec;
+    }
+
+    .notif-warning{
+      background: #fff4db;
+      border-color: #ffd978;
+      color: #8a6500;
+    }
+
+    .notif-success{
+      background: #e8f9ee;
+      border-color: #8ce0a6;
+      color: #157347;
     }
   </style>
 </head>
@@ -368,11 +432,46 @@ try {
           </div>
 
         </div>
+      <div class="notifications-sidebar">
 
-        <div class="notifications-sidebar">
-          <div class="section-title">Notifications</div>
-          <p style="color: #686868; font-size: 14px;">No new update alerts.</p>
-        </div>
+        <div class="section-title">Notifications</div>
+
+        <?php foreach($lowStocks as $stock): ?>
+          <div class="notif-item notif-warning">
+            ⚠️
+            <strong><?= htmlspecialchars($stock['name']) ?></strong>
+            is low on stock
+            (<?= $stock['stock'] ?> left)
+          </div>
+        <?php endforeach; ?>
+
+        <?php foreach($productLogs as $log): ?>
+          <div class="notif-item">
+            📦
+            <strong><?= htmlspecialchars($log['changed_by']) ?></strong>
+            <?= strtolower($log['action_type']) ?>
+            <?= htmlspecialchars($log['product_name']) ?>
+          </div>
+        <?php endforeach; ?>
+
+        <?php foreach($salesLogs as $sale): ?>
+          <div class="notif-item notif-success">
+            🛒
+            Order #<?= $sale['order_no'] ?>
+            completed —
+            ₱<?= number_format($sale['total_amount'], 2) ?>
+          </div>
+        <?php endforeach; ?>
+
+        <?php foreach($newUsers as $user): ?>
+          <div class="notif-item">
+            👤
+            New <?= htmlspecialchars($user['role']) ?>:
+            <strong><?= htmlspecialchars($user['username']) ?></strong>
+          </div>
+        <?php endforeach; ?>
+        
+      </div>
 
       </div>
     </div>
