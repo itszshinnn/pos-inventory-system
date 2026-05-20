@@ -15,11 +15,13 @@ try {
     $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
     $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-    // 2. Query the Orders Ledger with Aggregated Item Summaries and Date
+    // 2. Query the Orders Ledger with Aggregated Item Summaries, Date, Cash received, and Change amount
     $query = 'SELECT o.order_no, 
                      o.payment_method AS payment, 
                      o.discount_amount AS discount, 
                      o.total_amount AS total,
+                     o.cash_received,
+                     o.change_amount,
                      o.created_at AS date,
                      GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
               FROM orders o
@@ -433,6 +435,15 @@ try {
         <span id="rcptTotal">₱0.00</span>
       </div>
 
+      <div class="receipt-meta-row" style="margin-top: 14px;">
+        <span>Cash Received:</span>
+        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Change Given:</span>
+        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+      </div>
+
       <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
     </div>
   </div>
@@ -504,6 +515,12 @@ try {
       const discountNum = parseFloat(order.discount) || 0;
       document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
       document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
+
+      // 🌟 NEW: Dynamic Population mapping for Cash Received and Change
+      const cashReceivedNum = parseFloat(order.cash_received) || 0;
+      const changeAmountNum = parseFloat(order.change_amount) || 0;
+      document.getElementById('rcptCashReceived').textContent = `₱${cashReceivedNum.toFixed(2)}`;
+      document.getElementById('rcptChange').textContent = `₱${changeAmountNum.toFixed(2)}`;
 
       // Split strings formatted via GROUP_CONCAT into neat structured visual elements
       const itemsBox = document.getElementById('rcptItemsBox');
