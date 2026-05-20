@@ -1052,19 +1052,64 @@ if (!isset($_SESSION['user_id'])) {
       }
     });
 
-    function confirmSale() {
-      if (selectedPayment === 'Cash') {
-        const cashAmt = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
-        if(cashAmt < finalCalculatedTotal) {
-          alert("Insufficient cash amount received!");
-          return;
-        }
+    async function confirmSale() {
+
+  if (selectedPayment === 'Cash') {
+
+    const cashAmt = parseFloat(
+      document.getElementById('cashReceivedInput').value
+    ) || 0;
+
+    if (cashAmt < finalCalculatedTotal) {
+      alert("Insufficient cash amount received!");
+      return;
+    }
+  }
+
+  try {
+
+    const cartArray = Object.values(cart);
+
+    const response = await fetch(
+      '../Inventory_backend/api_checkout.php',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cart: cartArray
+        })
       }
-      
-      alert(`Sale Confirmed successfully!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+
+      alert(
+        `Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`
+      );
+
       closeCheckoutModal();
       clearOrder();
+
+      // Reload updated stocks
+      loadData();
+
+    } else {
+
+      alert(result.message || 'Checkout failed');
+
     }
+
+      } catch (err) {
+
+        console.error(err);
+        alert('Server error during checkout');
+
+        }
+      } 
 
     /* DROPDOWN TOGGLE ENGINE */
     function toggleUserDropdown(event) {
