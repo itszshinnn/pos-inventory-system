@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2026 at 05:01 PM
+-- Generation Time: May 20, 2026 at 03:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,8 +42,7 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 (2, 'Audio Devices', '2026-05-18 05:44:33'),
 (3, 'Storage Devices', '2026-05-18 05:44:33'),
 (4, 'Output Devices', '2026-05-18 05:44:33'),
-(5, 'Other Devices', '2026-05-18 05:50:19'),
-(6, 'Testing 1', '2026-05-18 05:51:05');
+(5, 'Other Devices', '2026-05-18 05:50:19');
 
 -- --------------------------------------------------------
 
@@ -57,24 +56,23 @@ CREATE TABLE `products` (
   `category_id` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `image` varchar(255) DEFAULT 'default_product.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_at`) VALUES
-(1, 'Wireless Mouse', 1, 249.00, 10, '2026-05-18 05:44:33'),
-(2, 'Wireless Keyboard', 1, 499.00, 10, '2026-05-18 05:44:33'),
-(3, 'Earphones', 2, 69.00, 10, '2026-05-18 05:44:33'),
-(4, 'Wireless Earbuds', 2, 199.00, 10, '2026-05-18 05:44:33'),
-(5, 'Speaker', 2, 299.00, 10, '2026-05-18 05:44:33'),
-(6, 'Memory Card', 3, 599.00, 10, '2026-05-18 05:44:33'),
-(7, 'USB Flash Drive', 3, 699.00, 10, '2026-05-18 05:44:33'),
-(8, 'Micro SD Card', 3, 799.00, 10, '2026-05-18 05:47:26'),
-(9, 'Kulot', 6, 9.00, 2, '2026-05-18 05:51:17'),
-(10, 'Test', 6, 111.00, 0, '2026-05-18 12:11:31');
+INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_at`, `image`) VALUES
+(1, 'Wireless Mouse', 1, 249.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(2, 'Wireless Keyboard', 1, 499.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(3, 'Earphones', 2, 69.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(4, 'Wireless Earbuds', 2, 199.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(5, 'Speaker', 2, 299.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(7, 'USB Flash Drive', 3, 699.00, 10, '2026-05-18 05:44:33', 'default_product.png'),
+(8, 'Micro SD Card', 3, 799.00, 10, '2026-05-18 05:47:26', 'default_product.png'),
+(12, 'Monitor', 4, 3499.00, 10, '2026-05-19 17:56:19', '1779213379_6a0ca4431aa54.png');
 
 -- --------------------------------------------------------
 
@@ -86,16 +84,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `role` varchar(20) DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, 'Triggerwords', '$2y$10$IM8P09BG7pdY8MUwV/73tOIvy6XemL5/CQfgVsNGGCEza04Fzwvqm', '2026-05-19 14:39:08'),
-(2, 'SeanPaulPogi', '$2y$10$fQNkNxCgCbup99ZbkOrw3ORQI3cglMLEdKdsIoDpG1wKEkm.pj0HS', '2026-05-19 14:43:05');
+INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
+(1, 'nigga', '$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e', '2026-05-19 16:03:36', 'user');
 
 --
 -- Indexes for dumped tables
@@ -136,13 +134,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
