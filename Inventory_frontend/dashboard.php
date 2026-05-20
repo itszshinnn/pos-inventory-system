@@ -142,22 +142,19 @@ try {
 
     .dashboard-left-content .stat-body {
       padding: 12px 16px;
-      /* Reduced from 20px 18px */
     }
 
     .dashboard-left-content .stat-body .num {
       font-size: 1.6rem;
-      /* Reduced from 2.0rem */
     }
 
     .dashboard-left-content .stat-body .label {
       font-size: 0.82rem;
       margin-top: 2px;
       color: #474747;
-      font-weight: 500;
+      font-weight: 300;
     }
 
-    /* Sections styling for Recent Transactions & History Stuff */
     .dashboard-section {
       background: #ffffff;
       border-radius: 16px;
@@ -174,7 +171,6 @@ try {
       margin-bottom: 16px;
     }
 
-    /* Row Metrics Grid Layout (3 Column Blocks) */
     .metrics-row-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
