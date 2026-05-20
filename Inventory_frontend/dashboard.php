@@ -10,7 +10,7 @@ $productLogs = $pdo->query("
         action_type,
         changed_by,
         created_at
-    FROM product_logs
+    FROM inventory_logs
     ORDER BY id DESC
     LIMIT 5
 ")->fetchAll(PDO::FETCH_ASSOC);
@@ -63,9 +63,9 @@ try {
   $itemsSold       = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
   // Fetch Log Metrics
-  $totalLogs       = $pdo->query('SELECT COUNT(*) FROM product_logs')->fetchColumn();
-  $totalAdded      = $pdo->query('SELECT COUNT(*) FROM product_logs WHERE action_type = "Added"')->fetchColumn();
-  $totalDeleted    = $pdo->query('SELECT COUNT(*) FROM product_logs WHERE action_type = "Deleted"')->fetchColumn();
+  $totalLogs       = $pdo->query('SELECT COUNT(*) FROM inventory_logs')->fetchColumn();
+  $totalAdded      = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Added"')->fetchColumn();
+  $totalDeleted    = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Deleted"')->fetchColumn();
 } catch (Exception $e) {
   $errorMsg = $e->getMessage();
   $totalProducts = $totalUnits = $totalCategories = $lowStock = $outOfStock = 0;
