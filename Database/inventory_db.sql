@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2026 at 11:58 AM
+-- Generation Time: May 23, 2026 at 05:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -114,7 +114,8 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`) VALUES
 (1, '0001', 5095.80, 566.20, 'Cash', '2026-05-20 11:25:53', 6000.00, 904.20),
 (2, '0002', 16986.00, 0.00, 'Cash', '2026-05-20 11:28:21', 17000.00, 14.00),
-(3, '0003', 28310.00, 0.00, 'Cash', '2026-05-20 11:31:33', 30000.00, 1690.00);
+(3, '0003', 28310.00, 0.00, 'Cash', '2026-05-20 11:31:33', 30000.00, 1690.00),
+(4, '0004', 5395.50, 599.50, 'Cash', '2026-05-23 10:10:11', 5500.00, 104.50);
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at
 (21, 3, 5, 5, 249.00),
 (22, 3, 6, 5, 699.00),
 (23, 3, 7, 5, 799.00),
-(24, 3, 8, 5, 2999.00);
+(24, 3, 8, 5, 2999.00),
+(25, 4, 9, 5, 1199.00);
 
 -- --------------------------------------------------------
 
@@ -189,7 +191,7 @@ INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_
 (6, 'USB Flash Drive 256gb', 3, 699.00, 5, '2026-05-20 11:24:49', '1779276289_6a0d9a015ed59.png'),
 (7, 'Micro SD Card 512gb', 3, 799.00, 5, '2026-05-20 11:25:03', '1779276303_6a0d9a0fb7c17.png'),
 (8, 'Monitor', 4, 2999.00, 5, '2026-05-20 11:25:18', '1779276318_6a0d9a1e94b54.png'),
-(9, 'SSD 512gb', 3, 1199.00, 10, '2026-05-23 08:09:06', '1779523746_392c55ef80499d2f.png'),
+(9, 'SSD 512gb', 3, 1199.00, 5, '2026-05-23 08:09:06', '1779523746_392c55ef80499d2f.png'),
 (10, 'Cooling Pad', 5, 349.00, 10, '2026-05-23 08:09:19', '1779523759_2c8ab3f73360125d.png'),
 (11, 'USB Ports', 6, 149.00, 10, '2026-05-23 08:09:35', '1779523775_1c962aed8e2352c7.png'),
 (12, 'HDMI Cable', 6, 249.00, 10, '2026-05-23 08:09:52', '1779523792_8c7616ff2fa7383a.png'),
@@ -232,7 +234,7 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (14, 6, 4, 4, 699.00, '2026-05-20 11:29:25'),
 (15, 7, 4, 4, 799.00, '2026-05-20 11:29:27'),
 (16, 8, 4, 4, 2999.00, '2026-05-20 11:29:30'),
-(17, 9, 10, 10, 1199.00, '2026-05-23 08:09:06'),
+(17, 9, 10, 5, 1199.00, '2026-05-23 08:09:06'),
 (18, 10, 10, 10, 349.00, '2026-05-23 08:09:19'),
 (19, 11, 10, 10, 149.00, '2026-05-23 08:09:35'),
 (20, 12, 10, 10, 249.00, '2026-05-23 08:09:52'),
@@ -336,13 +338,13 @@ ALTER TABLE `inventory_logs`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `products`
