@@ -3,8 +3,8 @@ require '../Database/config.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login_signup.php");
-    exit;
+  header("Location: ../Inventory_frontend/login_signup.php");
+  exit;
 }
 ?>
 
@@ -57,59 +57,77 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     .dropdown-menu a:hover {
       background-color: #fff0f0;
     }
+
     .form-container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    max-width: 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      max-width: 700px;
     }
 
     .form-header h2 {
-    margin-bottom: 5px;
-    font-size: 1.8rem;
+      margin-bottom: 5px;
+      font-size: 1.8rem;
     }
 
     .form-header p {
-    color: #777;
-    margin-bottom: 30px;
+      color: #777;
+      margin-bottom: 30px;
     }
 
     .form-section {
-    padding: 20px;
-    border: 1px solid #e3e3e3;
-    border-radius: 10px;
-    background: #fafafa;
+      padding: 20px;
+      border: 1px solid #e3e3e3;
+      border-radius: 10px;
+      background: #fafafa;
     }
 
     .form-section h3 {
-    margin-bottom: 10px;
+      margin-bottom: 10px;
     }
 
     .section-desc {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
     }
 
     .submit-btn {
-    background: #111;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: 0.2s;
+      background: #111;
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: 0.2s;
     }
 
     .submit-btn:hover {
-    background: #333;
+      background: #333;
+    }
+
+    .import-btn {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .import-btn:hover {
+      background: #333;
     }
 
   </style>
 </head>
+
 <body>
 
   <div class="topbar">
@@ -137,117 +155,116 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </nav>
 
     <div class="main">
-    
-    <div class="form-container">
-    
+
+      <div class="form-container">
+
         <div class="form-header">
-        <h2>XML File Management</h2>
-        <p>Import and export your database XML files.</p>
+          <h2>XML File Management</h2>
+          <p>Import and export your database XML files.</p>
         </div>
 
         <div class="form-section">
-    
-        <h3>Export Database Into one XML File</h3>
-    
-        <p class="section-desc">
+
+          <h3>Export Database Into one XML File</h3>
+
+          <p class="section-desc">
             Export all database tables into a single XML backup file.
-        </p>
-    
-        <form action="../XML_files/export_all.php" method="POST">
-    
+          </p>
+
+          <form action="../XML_files/export_all.php" method="POST">
+
             <button type="submit" class="submit-btn">
-            Export Database XML
+              Export Database XML
             </button>
-    
-        </form>
-    
-        </div>
-        
-        <div class="form-section" style="margin-top: 30px;">
-    
-        <h3>Export XML Files</h3>
-    
-        <p class="section-desc">
-            Export all database tables into XML backup files. Located in XML_files folder.
-        </p>
-    
-        <form action="../XML_files/export_individual.php" method="POST">
-    
-            <button type="submit" class="submit-btn">
-            Export XML Files
-            </button>
-    
-        </form>
-    
+
+          </form>
+
         </div>
 
         <div class="form-section" style="margin-top: 30px;">
-    
-        <h3>Import XML Files</h3>
-    
-        <p class="section-desc">
+
+          <h3>Export XML Files</h3>
+
+          <p class="section-desc">
+            Export all database tables into XML backup files. Located in XML_files folder.
+          </p>
+
+          <form action="../XML_files/export_individual.php" method="POST">
+
+            <button type="submit" class="submit-btn">
+              Export XML Files
+            </button>
+
+          </form>
+
+        </div>
+
+        <div class="form-section" style="margin-top: 30px;">
+
+          <h3>Import XML Files</h3>
+
+          <p class="section-desc">
             Restore database tables from existing XML files. Both Individual table XML files and full database export file are supported.
-        </p>
-        <p class="section-desc" style="color: #d9534f;">
+          </p>
+          <p class="section-desc" style="color: #d9534f;">
             NOTE: database_export.xml will not work unless all of the tables are empty.
-        </p>
-        <form action="../XML_files/import.php" method="POST" enctype="multipart/form-data">
+          </p>
+          <form action="../XML_files/import.php" method="POST" enctype="multipart/form-data">
 
             <input type="file" name="xml_file" accept=".xml" required>
-            <button type="submit">Import XML</button>
+            <button type="submit" class="import-btn">Import XML</button>
 
-        </form>
-    
+          </form>
+
         </div>
-    
-    </div>
-    
+
+      </div>
+
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
-<script>
-    
+  <script>
     function showToast(message, isError = false) {
-    
-        const toast = document.getElementById("toast");
-    
-        toast.textContent = message;
-    
-        if(isError){
-            toast.style.background = "#d9534f";
-        } else {
-            toast.style.background = "#111";
-        }
-    
-        toast.classList.add("show");
-    
-        setTimeout(() => {
-            toast.classList.remove("show");
-        }, 4000);
-    }
-    
-    window.onload = function() {
-    
-        <?php if(isset($_GET['success'])): ?>
-        
-            <?php if($_GET['success'] == 'imported'): ?>
-            
-                showToast("XML files imported successfully!");
-            
-            <?php endif; ?>
-            
-        <?php endif; ?>
-            
-        <?php if(isset($_GET['error'])): ?>
-        
-            showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
-        
-        <?php endif; ?>
-        
+
+      const toast = document.getElementById("toast");
+
+      toast.textContent = message;
+
+      if (isError) {
+        toast.style.background = "#d9534f";
+      } else {
+        toast.style.background = "#111";
+      }
+
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 4000);
     }
 
-      function toggleUserDropdown(event) {
+    window.onload = function() {
+
+      <?php if (isset($_GET['success'])): ?>
+
+        <?php if ($_GET['success'] == 'imported'): ?>
+
+          showToast("XML files imported successfully!");
+
+        <?php endif; ?>
+
+      <?php endif; ?>
+
+      <?php if (isset($_GET['error'])): ?>
+
+        showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
+
+      <?php endif; ?>
+
+    }
+
+    function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
@@ -259,7 +276,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         dropdown.style.display = "none";
       }
     }
-</script>
+  </script>
 </body>
 
 </html>
