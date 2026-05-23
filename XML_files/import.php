@@ -3,60 +3,114 @@ require '../Database/config.php';
 
 $tables = ['categories', 'users', 'products', 'product_batches', 'inventory_logs', 'orders', 'order_items'];
 
-$hasError = false;
-$errorMessages = [];
-
 try {
 
-    foreach ($tables as $table) {
-        $filename = $table . "_export.xml";
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
 
-        if (!file_exists($filename)) {
-            continue;
-        }
+    if (!isset($_FILES['xml_file'])) {
+        throw new Exception("No file uploaded");
+    }
 
-        $dom = new DOMDocument();
-        $dom->load($filename);
-        $items = $dom->getElementsByTagName($table);
-        $pdo->beginTransaction();
+    $file = $_FILES['xml_file']['tmp_name'];
+    $dom = new DOMDocument();
+    $dom->load($file);
+    $rootName = $dom->documentElement->nodeName;
+    $pdo->beginTransaction();
 
-        try {
+    if ($rootName === "DatabaseExport") {
+
+        foreach ($dom->documentElement->childNodes as $tableNode) {
+
+            if ($tableNode->nodeType !== XML_ELEMENT_NODE) continue;
+            $table = $tableNode->nodeName;
+
+            if (!in_array($table, $tables)) continue;
+
+            $colStmt = $pdo->query("DESCRIBE $table");
+            $dbColumns = $colStmt->fetchAll(PDO::FETCH_COLUMN);
+            /** @var DOMElement $tableNode */
+            $items = $tableNode->getElementsByTagName("row");
 
             foreach ($items as $item) {
+
                 $data = [];
 
                 foreach ($item->childNodes as $node) {
-
                     if ($node->nodeType == 1) {
+
+                        if ($node->nodeName === "id") continue;
+
                         $data[$node->nodeName] = $node->nodeValue;
                     }
                 }
 
-                $columns = implode(", ", array_keys($data));
-                $placeholders = implode(", ", array_fill(0, count($data), "?"));
-                $stmt = $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)");
-                $stmt->execute(array_values($data));
-            }
-            $pdo->commit();
-        } catch (Exception $e) {
+                $validData = array_intersect_key($data, array_flip($dbColumns));
 
-            $pdo->rollBack();
-            $hasError = true;
-            $errorMessages[] = "$table: " . $e->getMessage();
+                if (empty($validData)) continue;
+
+                $columns = implode(", ", array_keys($validData));
+                $placeholders = implode(", ", array_fill(0, count($validData), "?"));
+
+                $stmt = $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)");
+                $stmt->execute(array_values($validData));
+            }
+        }
+
+    }
+
+
+    else {
+
+        $table = $rootName;
+
+        if (!in_array($table, $tables)) {
+            throw new Exception("Invalid table XML");
+        }
+
+        $colStmt = $pdo->query("DESCRIBE $table");
+        $dbColumns = $colStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $items = $dom->getElementsByTagName("row");
+
+        foreach ($items as $item) {
+
+            $data = [];
+
+            foreach ($item->childNodes as $node) {
+                if ($node->nodeType == 1) {
+
+                    if ($node->nodeName === "id") continue;
+
+                    $data[$node->nodeName] = $node->nodeValue;
+                }
+            }
+
+            $validData = array_intersect_key($data, array_flip($dbColumns));
+
+            if (empty($validData)) continue;
+
+            $columns = implode(", ", array_keys($validData));
+            $placeholders = implode(", ", array_fill(0, count($validData), "?"));
+            $stmt = $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)");
+            $stmt->execute(array_values($validData));
         }
     }
 
-    if ($hasError) {
-        $error = urlencode($errorMessages[0]);
-        header("Location: ../Inventory_frontend/xml.php?error=$error");
-        exit;
-    }
+    $pdo->commit();
+
     header("Location: ../Inventory_frontend/xml.php?success=imported");
     exit;
 
 } catch (Exception $e) {
 
-    $error = urlencode($e->getMessage());
-    header("Location: ../Inventory_frontend/xml.php?error=$error");
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+
+    header("Location: ../Inventory_frontend/xml.php?error=" . urlencode($e->getMessage()));
     exit;
+
+} finally {
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
 }
+?>

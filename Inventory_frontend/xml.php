@@ -147,13 +147,31 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
         <div class="form-section">
     
+        <h3>Export Database Into one XML File</h3>
+    
+        <p class="section-desc">
+            Export all database tables into a single XML backup file.
+        </p>
+    
+        <form action="../XML_files/export_all.php" method="POST">
+    
+            <button type="submit" class="submit-btn">
+            Export Database XML
+            </button>
+    
+        </form>
+    
+        </div>
+        
+        <div class="form-section" style="margin-top: 30px;">
+    
         <h3>Export XML Files</h3>
     
         <p class="section-desc">
-            Export all database tables into XML backup files.
+            Export all database tables into XML backup files. Located in XML_files folder.
         </p>
     
-        <form action="../XML_files/export.php" method="POST">
+        <form action="../XML_files/export_individual.php" method="POST">
     
             <button type="submit" class="submit-btn">
             Export XML Files
@@ -168,15 +186,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <h3>Import XML Files</h3>
     
         <p class="section-desc">
-            Restore database tables from existing XML files.
+            Restore database tables from existing XML files. Both Individual table XML files and full database export file are supported.
         </p>
-    
-        <form action="../XML_files/import.php" method="POST">
-    
-            <button type="submit" class="submit-btn">
-            Import XML Files
-            </button>
-    
+        <p class="section-desc" style="color: #d9534f;">
+            NOTE: database_export.xml will not work unless all of the tables are empty.
+        </p>
+        <form action="../XML_files/import.php" method="POST" enctype="multipart/form-data">
+
+            <input type="file" name="xml_file" accept=".xml" required>
+            <button type="submit">Import XML</button>
+
         </form>
     
         </div>
@@ -212,11 +231,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     
         <?php if(isset($_GET['success'])): ?>
         
-            <?php if($_GET['success'] == 'exported'): ?>
-            
-                showToast("XML files exported successfully!");
-            
-            <?php elseif($_GET['success'] == 'imported'): ?>
+            <?php if($_GET['success'] == 'imported'): ?>
             
                 showToast("XML files imported successfully!");
             
