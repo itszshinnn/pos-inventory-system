@@ -110,7 +110,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
   </style>
 </head>
-
 <body>
 
   <div class="topbar">
@@ -189,7 +188,51 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
   <div class="toast" id="toast"></div>
 <script>
-        function toggleUserDropdown(event) {
+    
+    function showToast(message, isError = false) {
+    
+        const toast = document.getElementById("toast");
+    
+        toast.textContent = message;
+    
+        if(isError){
+            toast.style.background = "#d9534f";
+        } else {
+            toast.style.background = "#111";
+        }
+    
+        toast.classList.add("show");
+    
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 4000);
+    }
+    
+    window.onload = function() {
+    
+        <?php if(isset($_GET['success'])): ?>
+        
+            <?php if($_GET['success'] == 'exported'): ?>
+            
+                showToast("XML files exported successfully!");
+            
+            <?php elseif($_GET['success'] == 'imported'): ?>
+            
+                showToast("XML files imported successfully!");
+            
+            <?php endif; ?>
+            
+        <?php endif; ?>
+            
+        <?php if(isset($_GET['error'])): ?>
+        
+            showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
+        
+        <?php endif; ?>
+        
+    }
+
+      function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
