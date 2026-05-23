@@ -246,21 +246,25 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     window.onload = function() {
 
-      <?php if (isset($_GET['success'])): ?>
-
-        <?php if ($_GET['success'] == 'imported'): ?>
-
-          showToast("XML files imported successfully!");
-
+      <?php if(isset($_GET['success'])): ?>
+        
+            <?php if($_GET['success'] == 'exported'): ?>
+            
+                showToast("XML files exported successfully!");
+            
+            <?php elseif($_GET['success'] == 'imported'): ?>
+            
+                showToast("XML files imported successfully!");
+            
+            <?php endif; ?>
+            
         <?php endif; ?>
-
-      <?php endif; ?>
-
-      <?php if (isset($_GET['error'])): ?>
-
-        showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
-
-      <?php endif; ?>
+            
+        <?php if(isset($_GET['error'])): ?>
+        
+            showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
+        
+        <?php endif; ?>
 
     }
 
