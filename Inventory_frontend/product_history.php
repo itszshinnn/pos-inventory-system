@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 try {
 
-    // DASHBOARD STATS
     $totalLogs = $pdo->query("
         SELECT COUNT(*) 
         FROM inventory_logs
@@ -28,7 +27,6 @@ try {
         WHERE action_type = 'Deleted'
     ")->fetchColumn();
 
-    // FETCH LOGS
     $query = "
         SELECT *
         FROM inventory_logs
@@ -68,7 +66,6 @@ try {
       font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
 
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -109,7 +106,6 @@ try {
       background-color: #fff0f0;
     }
 
-    /* NESTED SUB-TAB SIDEBAR STYLING */
     .sidebar a.sub-tab {
       padding-left: 28px;
       font-size: 0.88rem;
@@ -230,7 +226,6 @@ try {
       color: white;
     }
 
-    /* ── RECEIPT MODAL CSS WRAPPER ── */
     .receipt-modal-backdrop {
       position: fixed;
       top: 0;

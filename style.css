@@ -37,7 +37,6 @@ body {
   overflow: hidden;
 }
 
-/* TOP BAR */
 .topbar {
   background: var(--topbar-bg);
   color: var(--white);
@@ -78,7 +77,6 @@ body {
   overflow: hidden;
 }
 
-/* SIDEBAR */
 .sidebar {
   width: 220px;
   background: var(--sidebar-bg);
@@ -117,7 +115,6 @@ body {
   font-size: 0.92rem;
 }
 
-/* MAIN */
 .main {
   flex: 1;
   overflow-y: auto;
@@ -137,7 +134,6 @@ body {
   }
 }
 
-/* STAT CARDS */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -195,7 +191,6 @@ body {
   margin-top: 4px;
 }
 
-/* FORM CARD */
 .form-card {
   background: var(--card-bg);
   border-radius: 10px;
@@ -277,7 +272,6 @@ body {
   margin-top: 8px;
 }
 
-/* TABLE */
 .table-wrap {
   background: var(--card-bg);
   border-radius: 10px;
@@ -369,7 +363,6 @@ tbody tr:hover {
   color: var(--accent);
 }
 
-/* CATEGORIES LAYOUT */
 .cat-layout {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -377,7 +370,6 @@ tbody tr:hover {
   align-items: start;
 }
 
-/* MODAL */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -454,7 +446,6 @@ tbody tr:hover {
   background: #ddd;
 }
 
-/* TOAST */
 .toast {
   position: fixed;
   bottom: 28px;
@@ -481,7 +472,6 @@ tbody tr:hover {
   background: var(--accent);
 }
 
-/* SPINNER */
 .spinner {
   display: inline-block;
   width: 18px;

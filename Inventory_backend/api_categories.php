@@ -1,13 +1,12 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: null'); // Restrict open cross-origin access
+header('Access-Control-Allow-Origin: null');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
 require '../Database/config.php';
 
-// 1. GATEKEEPER: Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Authentication required. Please login.']);
@@ -17,7 +16,6 @@ if (!isset($_SESSION['user_id'])) {
 $method = $_SERVER['REQUEST_METHOD'];
 $input  = json_decode(file_get_contents('php://input'), true);
 
-// 2. AUTHORIZATION: Restrict database modifications strictly to Admins
 if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admin')) {
     http_response_code(403);
     echo json_encode(['error' => 'Access denied. Administrative privileges required.']);

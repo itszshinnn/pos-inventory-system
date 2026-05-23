@@ -7,7 +7,6 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require '../Database/config.php';
 
-// 1. GATEKEEPER: Prevent unauthenticated ledger submissions
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Authentication required.']);

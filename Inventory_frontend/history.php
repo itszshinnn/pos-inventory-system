@@ -3,19 +3,16 @@ require '../Database/config.php';
 
 session_start();
 
-// Block users who aren't logged in, OR who are logged in but aren't an Admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../Inventory_frontend/login_signup.php");
     exit;
 }
 
 try {
-    // 1. Fetch Dynamic Dashboard Metric Summaries
     $totalRevenue = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
     $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
     $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-    // 2. Query the Orders Ledger with Aggregated Item Summaries, Date, Cash received, and Change amount
     $query = 'SELECT o.order_no, 
                      o.payment_method AS payment, 
                      o.discount_amount AS discount, 
@@ -59,7 +56,6 @@ try {
       font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
 
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -100,7 +96,6 @@ try {
       background-color: #fff0f0;
     }
 
-    /* NESTED SUB-TAB SIDEBAR STYLING */
     .sidebar a.sub-tab {
       padding-left: 28px;
       font-size: 0.88rem;
@@ -221,7 +216,6 @@ try {
       color: white;
     }
 
-    /* ── RECEIPT MODAL CSS WRAPPER ── */
     .receipt-modal-backdrop {
       position: fixed;
       top: 0;
@@ -503,7 +497,6 @@ try {
       }).join('');
     }
 
-    // ── INTERACTIVE RECEIPT POPULATION ENGINE ──
     function openReceiptModal(orderNo) {
       const order = allOrders.find(o => o.order_no === orderNo);
       if (!order) return;
@@ -516,13 +509,11 @@ try {
       document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
       document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
 
-      // 🌟 NEW: Dynamic Population mapping for Cash Received and Change
       const cashReceivedNum = parseFloat(order.cash_received) || 0;
       const changeAmountNum = parseFloat(order.change_amount) || 0;
       document.getElementById('rcptCashReceived').textContent = `₱${cashReceivedNum.toFixed(2)}`;
       document.getElementById('rcptChange').textContent = `₱${changeAmountNum.toFixed(2)}`;
 
-      // Split strings formatted via GROUP_CONCAT into neat structured visual elements
       const itemsBox = document.getElementById('rcptItemsBox');
       itemsBox.innerHTML = '';
       
@@ -532,7 +523,6 @@ try {
           const row = document.createElement('div');
           row.classList.add('receipt-item-line');
           
-          // Re-adjust item text split layout mappings
           row.innerHTML = `<span>${line}</span>`;
           itemsBox.appendChild(row);
         });

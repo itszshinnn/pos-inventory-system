@@ -18,7 +18,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   <link rel="stylesheet" href="../style.css">
 
   <style>
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -31,7 +30,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       object-fit: cover;
     }
 
-    /* Floating Menu Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;

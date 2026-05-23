@@ -18,7 +18,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   <link rel="stylesheet" href="../style.css">
 
   <style>
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -31,7 +30,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       object-fit: cover;
     }
 
-    /* Floating Menu Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -60,7 +58,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       background-color: #fff0f0;
     }
 
-    /* Custom File Input Styling */
     .file-input-wrapper {
       position: relative;
       display: inline-block;
@@ -198,7 +195,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (!price || price < 0) return showToast('Please enter a valid price.', true);
       if (!stock || stock < 0) return showToast('Please enter a valid stock quantity.', true);
 
-      // Using FormData object to support multi-part file uploads safely
       const formData = new FormData();
       formData.append('name', name);
       formData.append('category_id', category_id);
@@ -210,13 +206,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
       const res = await fetch('../Inventory_backend/api_products.php', {
         method: 'POST',
-        body: formData // Form data handles headers dynamically
+        body: formData
       });
 
       const data = await res.json();
       if (data.error) return showToast(data.error, true);
 
-      // Reset Form Fields elegantly
       document.getElementById('productForm').reset();
       document.getElementById('fileLabel').textContent = "📁 Choose Image File...";
       document.getElementById('fileLabel').style.borderColor = "#bcbcbc";

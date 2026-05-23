@@ -49,19 +49,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 try {
-  // Fetch Stats for Top Grid
   $totalProducts   = $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
   $totalUnits      = $pdo->query('SELECT COALESCE(SUM(stock), 0) FROM products')->fetchColumn();
   $totalCategories = $pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn();
   $lowStock        = $pdo->query('SELECT COUNT(*) FROM products WHERE stock > 0 AND stock <= 3')->fetchColumn();
   $outOfStock      = $pdo->query('SELECT COUNT(*) FROM products WHERE stock = 0')->fetchColumn();
 
-  // Fetch History Metrics
   $totalRevenue    = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
   $transactions    = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
   $itemsSold       = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
 
-  // Fetch Log Metrics
   $totalLogs       = $pdo->query('SELECT COUNT(*) FROM inventory_logs')->fetchColumn();
   $totalAdded      = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Added"')->fetchColumn();
   $totalDeleted    = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Deleted"')->fetchColumn();
@@ -72,10 +69,8 @@ try {
   $transactions = $itemsSold = $totalLogs = $totalAdded = $totalDeleted = 0;
 }
 
-// 2. COMBINE AND SORT NOTIFICATIONS BY TIMESTAMPS (NEWEST TO OLDEST)
 $allNotifications = [];
 
-// Format and push Product Logs
 foreach ($productLogs as $log) {
     $allNotifications[] = [
         'type' => 'product_log',
@@ -84,7 +79,6 @@ foreach ($productLogs as $log) {
     ];
 }
 
-// Format and push Sales Logs
 foreach ($salesLogs as $sale) {
     $allNotifications[] = [
         'type' => 'sales_log',
@@ -93,7 +87,6 @@ foreach ($salesLogs as $sale) {
     ];
 }
 
-// Format and push New Users
 foreach ($newUsers as $user) {
     $allNotifications[] = [
         'type' => 'new_user',
@@ -102,7 +95,6 @@ foreach ($newUsers as $user) {
     ];
 }
 
-// Sort the entire unified array by 'time' descending
 usort($allNotifications, function($a, $b) {
     return strtotime($b['time']) <=> strtotime($a['time']);
 });
@@ -120,7 +112,6 @@ usort($allNotifications, function($a, $b) {
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
 
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -133,7 +124,6 @@ usort($allNotifications, function($a, $b) {
       object-fit: cover;
     }
 
-    /* Floating Menu Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -162,7 +152,6 @@ usort($allNotifications, function($a, $b) {
       background-color: #fff0f0;
     }
 
-    /* Dynamic Grid Icon Background Colors */
     .icon-products {
       background: #5c7fe0;
     }
@@ -183,7 +172,6 @@ usort($allNotifications, function($a, $b) {
       background: #bc1a1a;
     }
 
-    /* Split Dashboard Layout adjusted to 320px sidebar to prevent horizontal scroll */
     .dashboard-container {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -201,7 +189,6 @@ usort($allNotifications, function($a, $b) {
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
 
-    /* Scaled down stats card contents slightly to accommodate tighter container sizing */
     .dashboard-left-content .stat-icon {
       width: 52px;
     }
@@ -290,7 +277,7 @@ usort($allNotifications, function($a, $b) {
       padding: 20px;
       border: 1px solid #eef0f2;
       min-height: 100%;
-      max-height: 520px; /* Enhanced height allowance for a cleaner layout stretch */
+      max-height: 520px;
       overflow-y: auto;
     }
 
@@ -330,7 +317,7 @@ usort($allNotifications, function($a, $b) {
     .main {
       flex: 1;
       padding: 24px;
-      overflow-x: hidden; /* Global hard safety stop against overflow bleed */
+      overflow-x: hidden;
     }
   </style>
 </head>

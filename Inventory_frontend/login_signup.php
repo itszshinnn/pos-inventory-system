@@ -92,13 +92,9 @@ if (isset($_POST['signup'])) {
     <style>
         :root {
             --dark-1: #333538;
-            /* primary dark */
             --dark-2: #333538;
-            /* secondary */
             --bg: #F5F6F8;
-            /* page background */
             --white: #FFFFFF;
-            /* surface */
             --muted: #6b6f73;
         }
 
@@ -114,7 +110,6 @@ if (isset($_POST['signup'])) {
             background: var(--bg);
             color: var(--dark-1);
             padding-top: 64px;
-            /* space for top bar */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -201,7 +196,6 @@ if (isset($_POST['signup'])) {
         .input-box {
             margin-bottom: 18px;
             position: relative;
-            /* 🌟 Required to anchor the absolute eye toggle button placement */
         }
 
         .input-box input {
@@ -215,7 +209,6 @@ if (isset($_POST['signup'])) {
             transition: 0.2s;
         }
 
-        /* 🌟 Give right space inside the password inputs so texts do not clip underneath the button */
         .input-box input[type="password"],
         .input-box input[type="text"].pass-field {
             padding-right: 46px;
@@ -226,7 +219,6 @@ if (isset($_POST['signup'])) {
             background: var(--white);
         }
 
-        /* 🌟 EYE TOGGLE ICON BUTTON STYLING */
         .toggle-password {
             position: absolute;
             right: 14px;

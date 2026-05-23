@@ -39,7 +39,6 @@ if (!isset($_SESSION['user_id'])) {
       height: 100vh;
     }
 
-    /* LEFT PANEL */
     .left-panel {
       width: 67%;
       background: #f5f5f5;
@@ -49,7 +48,6 @@ if (!isset($_SESSION['user_id'])) {
       overflow: hidden;
     }
 
-    /* TOPBAR */
     .topbar {
       height: 55px;
       background: #333538;
@@ -61,7 +59,6 @@ if (!isset($_SESSION['user_id'])) {
       flex-shrink: 0;
     }
 
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -87,7 +84,6 @@ if (!isset($_SESSION['user_id'])) {
       object-fit: cover;
     }
 
-    /* Floating Dropdown Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -122,7 +118,6 @@ if (!isset($_SESSION['user_id'])) {
       flex: 1;
     }
 
-    /* SEARCH */
     .search-container {
       padding: 12px 14px 8px;
     }
@@ -142,7 +137,6 @@ if (!isset($_SESSION['user_id'])) {
       border-color: #4d66ff;
     }
 
-    /* CATEGORY */
     .categories {
       display: flex;
       gap: 8px;
@@ -171,7 +165,6 @@ if (!isset($_SESSION['user_id'])) {
       border-color: #4d66ff;
     }
 
-    /* PRODUCTS */
     .products-wrapper {
       flex: 1;
       overflow-y: auto;
@@ -256,7 +249,6 @@ if (!isset($_SESSION['user_id'])) {
       padding: 30px 0;
     }
 
-    /* Loading spinner */
     .spinner-wrap {
       width: 100%;
       text-align: center;
@@ -266,7 +258,6 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 600;
     }
 
-    /* RIGHT PANEL */
     .right-panel {
       width: 33%;
       background: #efefef;
@@ -320,7 +311,6 @@ if (!isset($_SESSION['user_id'])) {
       padding: 12px 10px;
     }
 
-    /* CART ITEM */
     .cart-item {
       width: 100%;
       background: white;
@@ -370,7 +360,6 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 700;
     }
 
-    /* SUMMARY */
     .summary {
       padding: 13px 14px;
       flex-shrink: 0;
@@ -471,7 +460,6 @@ if (!isset($_SESSION['user_id'])) {
       color: white;
     }
 
-    /* ── CHECKOUT MODAL SYSTEM ── */
     .modal-backdrop {
       position: fixed;
       top: 0;
@@ -751,11 +739,10 @@ if (!isset($_SESSION['user_id'])) {
   </div>
 
   <script>
-    let allProducts = []; // fetched from API
+    let allProducts = [];
     let activeCategory = 'All';
     let searchQuery = '';
 
-    // Cart tracking state dictionary
     let cart = {};
 
     let cartTotal = 0;
@@ -763,10 +750,8 @@ if (!isset($_SESSION['user_id'])) {
     let cartCount = 0;
     let selectedPayment = 'Cash';
 
-    // Fallback placeholder image URL if database lookup fails
     const DEFAULT_IMG = 'https://cdn-icons-png.flaticon.com/512/2721/2721297.png';
 
-    // ── Fetch products & categories from API ──────────────────────────────
     async function loadData() {
       try {
         const [pRes, cRes] = await Promise.all([
@@ -785,11 +770,9 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
-    // ── Render category buttons dynamically ───────────────────────────────
     function renderCategories(categories) {
       const container = document.getElementById('categories');
 
-      // Wipe out old button elements so they don't pile up on data reloads!
       container.innerHTML = '<button class="category-btn active" data-cat="All">All</button>';
 
       categories.forEach(cat => {
@@ -814,7 +797,6 @@ if (!isset($_SESSION['user_id'])) {
       });
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────
     function stockLabel(s) {
       const n = Number(s);
       return n === 0 ? 'No stocks left' : n + ' stocks left';
@@ -825,7 +807,6 @@ if (!isset($_SESSION['user_id'])) {
       return n === 0 ? 'red' : n <= 3 ? 'orange' : 'green';
     }
 
-    // ── Render product cards dynamically ───────────────────────────────────
     function renderProducts() {
       const container = document.getElementById('products');
 
@@ -844,19 +825,15 @@ if (!isset($_SESSION['user_id'])) {
         const dbStock = Number(p.stock);
         const price = Number(p.price);
 
-        // Calculate how many items of this product are currently added to your checkout bucket
         const qtyInCart = cart[p.id] ? cart[p.id].qty : 0;
 
-        // COMPUTE LIVE RUNTIME STOCK COUNT LEFT FOR THIS USER SESSION
         const displayStock = Math.max(0, dbStock - qtyInCart);
 
-        // Turn card gray and strip onclick if no display stock is left
         const outClass = displayStock === 0 ? ' out-of-stock' : '';
         const onclick = displayStock > 0 ?
           `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` :
           '';
 
-        // --- UPDATED IMAGE RESOLVER: Load dynamically from directory hashes ---
         let imgUrl = DEFAULT_IMG;
         if (p.image && p.image !== 'default_product.png') {
           imgUrl = `../Images/${p.image}`;
@@ -873,13 +850,11 @@ if (!isset($_SESSION['user_id'])) {
       }).join('');
     }
 
-    // ── Search ────────────────────────────────────────────────────────────
     document.getElementById('searchInput').addEventListener('input', e => {
       searchQuery = e.target.value;
       renderProducts();
     });
 
-    // ── Cart Core logic with Multipliers (x) ──────────────────────────────
     function addToCart(id, name, price) {
       const product = allProducts.find(p => p.id === id);
       if (!product) return;
@@ -887,13 +862,11 @@ if (!isset($_SESSION['user_id'])) {
       const currentStock = Number(product.stock);
       const qtyInCart = cart[id] ? cart[id].qty : 0;
 
-      // BLOCK ADDITIONS IF REALTIME VALUE IS EXHAUSTED
       if (qtyInCart >= currentStock) {
         alert(`Cannot add more! Only ${currentStock} units of ${name} are available in inventory.`);
         return;
       }
 
-      // INCREMENT CART STATE SAFELY
       if (cart[id]) {
         cart[id].qty++;
       } else {
@@ -905,9 +878,8 @@ if (!isset($_SESSION['user_id'])) {
         };
       }
 
-      // RENDER UI LAYOUT UPDATES LIVE
       renderCart();
-      renderProducts(); // Re-render product grids to instantly reflect updated stock label visuals!
+      renderProducts();
     }
 
     function removeFromCart(id) {
@@ -918,7 +890,7 @@ if (!isset($_SESSION['user_id'])) {
         }
       }
       renderCart();
-      renderProducts(); // Restores displaying stock units instantly on card counts!
+      renderProducts();
     }
 
     function renderCart() {
@@ -997,7 +969,6 @@ if (!isset($_SESSION['user_id'])) {
       document.getElementById('discountInput').value = '';
     }
 
-    // ── CHECKOUT MODAL INTERACTIVE SYSTEM ──────────────────────────────────
     function openCheckoutModal() {
       if (Object.keys(cart).length === 0) {
         alert("Your order is empty!");
@@ -1022,7 +993,6 @@ if (!isset($_SESSION['user_id'])) {
       document.getElementById('cashReceivedInput').value = '';
       document.getElementById('changeDisplay').textContent = '';
 
-      // Default set back to Cash choice
       const cashBtn = document.querySelector('.pay-method-btn');
       selectPaymentMethod(cashBtn, 'Cash');
 
@@ -1046,7 +1016,6 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
-    // Dynamic balance change calculation engine
     document.getElementById('cashReceivedInput').addEventListener('input', e => {
       const cashAmt = parseFloat(e.target.value) || 0;
       const changeEl = document.getElementById('changeDisplay');
@@ -1080,7 +1049,6 @@ if (!isset($_SESSION['user_id'])) {
       try {
         const cartArray = Object.values(cart);
 
-        // Calculate discount deduction values dynamically before packaging payload
         const rawDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
         const type = document.getElementById('discountType').value;
         let computedDeduction = 0;
@@ -1111,7 +1079,7 @@ if (!isset($_SESSION['user_id'])) {
           alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
           closeCheckoutModal();
           clearOrder();
-          loadData(); // Reload interface stock tracking counts
+          loadData(); 
         } else {
           alert(result.message || 'Checkout failed');
         }

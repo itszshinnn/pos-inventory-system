@@ -11,7 +11,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 try {
 
-    // DASHBOARD STATS
     $totalUsers = $pdo->query("
         SELECT COUNT(*)
         FROM users
@@ -29,7 +28,6 @@ try {
         WHERE role = 'user'
     ")->fetchColumn();
 
-    // FETCH USERS
     $query = "
         SELECT
             id,
@@ -74,7 +72,6 @@ try {
       font-family: 'DM Sans', 'Segoe UI', sans-serif;
     }
 
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -115,7 +112,6 @@ try {
       background-color: #fff0f0;
     }
 
-    /* NESTED SUB-TAB SIDEBAR STYLING */
     .sidebar a.sub-tab {
       padding-left: 28px;
       font-size: 0.88rem;
@@ -236,7 +232,6 @@ try {
       color: white;
     }
 
-    /* ── RECEIPT MODAL CSS WRAPPER ── */
     .receipt-modal-backdrop {
       position: fixed;
       top: 0;
@@ -388,7 +383,6 @@ try {
 
     </div>
 
-    <!-- TOOLBAR -->
     <div class="history-toolbar">
         <input type="text" id="historySearchInput"
             placeholder="Search user accounts..."
@@ -400,7 +394,6 @@ try {
         </select>
     </div>
 
-    <!-- TABLE -->
     <div class="table-wrap">
         <table>
         <thead>

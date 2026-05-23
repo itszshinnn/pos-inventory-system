@@ -7,7 +7,6 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 require '../Database/config.php';
 
-// 1. GLOBAL GATEKEEPER
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Authentication required.']);
@@ -16,7 +15,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// 2. AUTHORIZATION CHECK FOR WRITING RIGHTS
 if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admin')) {
     http_response_code(403);
     echo json_encode(['error' => 'Access denied. Administrative privileges required.']);
@@ -47,11 +45,9 @@ switch ($method) {
             break;
         }
 
-        // SECURE IMAGE UPLOAD ARCHITECTURE
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['image']['tmp_name'];
 
-            // Evaluate file properties via binary headers, not string file names
             $finfo = new finfo(FILEINFO_MIME_TYPE);
             $mimeType = $finfo->file($fileTmpPath);
 
@@ -64,7 +60,6 @@ switch ($method) {
 
             if (array_key_exists($mimeType, $allowedMimeTypes)) {
                 $fileExtension = $allowedMimeTypes[$mimeType];
-                // Completely rename the file to clean out special character traversal tricks
                 $imageName = time() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
                 $dest_path = '../Images/' . $imageName;
 

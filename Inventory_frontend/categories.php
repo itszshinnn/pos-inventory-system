@@ -19,7 +19,6 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="../style.css">
 
   <style>
-    /* User Dropdown Profile Container */
     .topbar-admin {
       position: relative;
       cursor: pointer;
@@ -32,7 +31,6 @@ if (!isset($_SESSION['user_id'])) {
       object-fit: cover;
     }
 
-    /* Floating Menu Drawer */
     .dropdown-menu {
       display: none;
       position: absolute;
