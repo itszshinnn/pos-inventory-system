@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2026 at 10:10 AM
+-- Generation Time: May 23, 2026 at 11:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,14 +67,14 @@ CREATE TABLE `inventory_logs` (
 --
 
 INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
-(1, 1, 'Wireless Mouse', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:18'),
-(2, 2, 'Wireless Keyboard', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:35'),
-(3, 3, 'Earphones', 'Added', NULL, 10, 'Admin', '2026-05-20 11:23:50'),
-(4, 4, 'Earbuds', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:11'),
-(5, 5, 'Speaker', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:29'),
-(6, 6, 'USB Flash Drive 256gb', 'Added', NULL, 10, 'Admin', '2026-05-20 11:24:49'),
-(7, 7, 'Micro SD Card 512gb', 'Added', NULL, 10, 'Admin', '2026-05-20 11:25:03'),
-(8, 8, 'Monitor', 'Added', NULL, 10, 'Admin', '2026-05-20 11:25:18'),
+(1, 1, 'Wireless Mouse', 'Added', 0, 10, 'Admin', '2026-05-20 11:23:18'),
+(2, 2, 'Wireless Keyboard', 'Added', 0, 10, 'Admin', '2026-05-20 11:23:35'),
+(3, 3, 'Earphones', 'Added', 0, 10, 'Admin', '2026-05-20 11:23:50'),
+(4, 4, 'Earbuds', 'Added', 0, 10, 'Admin', '2026-05-20 11:24:11'),
+(5, 5, 'Speaker', 'Added', 0, 10, 'Admin', '2026-05-20 11:24:29'),
+(6, 6, 'USB Flash Drive 256gb', 'Added', 0, 10, 'Admin', '2026-05-20 11:24:49'),
+(7, 7, 'Micro SD Card 512gb', 'Added', 0, 10, 'Admin', '2026-05-20 11:25:03'),
+(8, 8, 'Monitor', 'Added', 0, 10, 'Admin', '2026-05-20 11:25:18'),
 (9, 1, 'Wireless Mouse', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:12'),
 (10, 2, 'Wireless Keyboard', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:16'),
 (11, 3, 'Earphones', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:19'),
@@ -83,12 +83,12 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (14, 6, 'USB Flash Drive 256gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:25'),
 (15, 7, 'Micro SD Card 512gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:27'),
 (16, 8, 'Monitor', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:30'),
-(17, 9, 'SSD 512gb', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:06'),
-(18, 10, 'Cooling Pad', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:19'),
-(19, 11, 'USB Ports', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:35'),
-(20, 12, 'HDMI Cable', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:52'),
-(21, 13, 'Webcam', 'Added', NULL, 10, 'Admin', '2026-05-23 08:10:05'),
-(22, 14, 'Headphones', 'Added', NULL, 10, 'Admin', '2026-05-23 08:10:19');
+(17, 9, 'SSD 512gb', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:06'),
+(18, 10, 'Cooling Pad', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:19'),
+(19, 11, 'USB Ports', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:35'),
+(20, 12, 'HDMI Cable', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:52'),
+(21, 13, 'Webcam', 'Added', 0, 10, 'Admin', '2026-05-23 08:10:05'),
+(22, 14, 'Headphones', 'Added', 0, 10, 'Admin', '2026-05-23 08:10:19');
 
 -- --------------------------------------------------------
 
@@ -258,10 +258,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
-(1, 'nigga', '$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e', '2026-05-19 16:03:36', 'user'),
+(1, 'sean', '$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e', '2026-05-19 16:03:36', 'user'),
 (2, 'Triggerwords', '$2y$10$ayUikVMiaU490.4FDuYlpeAvhmgVJvILlmJ7A1eJwr08o2Z0T8qju', '2026-05-20 02:02:47', 'user'),
 (3, 'admin', '$2y$10$examplehashedpassword', '2026-05-20 04:08:33', 'admin'),
-(4, 'kulot', '$2y$10$Q1FOZPGAu3UpLeCx5eF8ou1Hv.Q2ur9PZhFSkwm6IMTYXYJMCyFIa', '2026-05-20 04:30:48', 'user');
+(4, 'kkkkk', '$2y$10$Q1FOZPGAu3UpLeCx5eF8ou1Hv.Q2ur9PZhFSkwm6IMTYXYJMCyFIa', '2026-05-20 04:30:48', 'user');
 
 --
 -- Indexes for dumped tables
@@ -324,7 +324,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `inventory_logs`

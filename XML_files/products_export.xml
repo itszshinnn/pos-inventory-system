@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductsData>
+  <products>
+    <id>1</id>
+    <name>Wireless Mouse</name>
+    <category_id>1</category_id>
+    <price>249.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:23:18</created_at>
+    <image>1779276198_6a0d99a6adc07.png</image>
+  </products>
+  <products>
+    <id>2</id>
+    <name>Wireless Keyboard</name>
+    <category_id>1</category_id>
+    <price>449.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:23:35</created_at>
+    <image>1779276215_6a0d99b79bb46.png</image>
+  </products>
+  <products>
+    <id>3</id>
+    <name>Earphones</name>
+    <category_id>2</category_id>
+    <price>69.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:23:50</created_at>
+    <image>1779276230_6a0d99c6d1c94.png</image>
+  </products>
+  <products>
+    <id>4</id>
+    <name>Earbuds</name>
+    <category_id>2</category_id>
+    <price>149.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:24:11</created_at>
+    <image>1779276251_6a0d99db8e841.png</image>
+  </products>
+  <products>
+    <id>5</id>
+    <name>Speaker</name>
+    <category_id>2</category_id>
+    <price>249.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:24:29</created_at>
+    <image>1779276269_6a0d99edd1b29.png</image>
+  </products>
+  <products>
+    <id>6</id>
+    <name>USB Flash Drive 256gb</name>
+    <category_id>3</category_id>
+    <price>699.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:24:49</created_at>
+    <image>1779276289_6a0d9a015ed59.png</image>
+  </products>
+  <products>
+    <id>7</id>
+    <name>Micro SD Card 512gb</name>
+    <category_id>3</category_id>
+    <price>799.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:25:03</created_at>
+    <image>1779276303_6a0d9a0fb7c17.png</image>
+  </products>
+  <products>
+    <id>8</id>
+    <name>Monitor</name>
+    <category_id>4</category_id>
+    <price>2999.00</price>
+    <stock>5</stock>
+    <created_at>2026-05-20 19:25:18</created_at>
+    <image>1779276318_6a0d9a1e94b54.png</image>
+  </products>
+  <products>
+    <id>9</id>
+    <name>SSD 512gb</name>
+    <category_id>3</category_id>
+    <price>1199.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:09:06</created_at>
+    <image>1779523746_392c55ef80499d2f.png</image>
+  </products>
+  <products>
+    <id>10</id>
+    <name>Cooling Pad</name>
+    <category_id>5</category_id>
+    <price>349.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:09:19</created_at>
+    <image>1779523759_2c8ab3f73360125d.png</image>
+  </products>
+  <products>
+    <id>11</id>
+    <name>USB Ports</name>
+    <category_id>6</category_id>
+    <price>149.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:09:35</created_at>
+    <image>1779523775_1c962aed8e2352c7.png</image>
+  </products>
+  <products>
+    <id>12</id>
+    <name>HDMI Cable</name>
+    <category_id>6</category_id>
+    <price>249.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:09:52</created_at>
+    <image>1779523792_8c7616ff2fa7383a.png</image>
+  </products>
+  <products>
+    <id>13</id>
+    <name>Webcam</name>
+    <category_id>4</category_id>
+    <price>349.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:10:05</created_at>
+    <image>1779523805_cd357c934fd843b5.png</image>
+  </products>
+  <products>
+    <id>14</id>
+    <name>Headphones</name>
+    <category_id>2</category_id>
+    <price>299.00</price>
+    <stock>10</stock>
+    <created_at>2026-05-23 16:10:19</created_at>
+    <image>1779523819_63b617c48fe219ee.png</image>
+  </products>
+</ProductsData>

@@ -12,8 +12,8 @@ foreach ($tables as $table) {
 
     $stmt = $pdo->query("SELECT * FROM $table");
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $item = $dom->createElement(rtrim(ucfirst($table), 's')); 
-        
+        $item = $dom->createElement($table);
+
         foreach ($row as $column => $value) {
             $node = $dom->createElement($column, htmlspecialchars($value ?? ''));
             $item->appendChild($node);
@@ -24,4 +24,3 @@ foreach ($tables as $table) {
     $dom->save($table . "_export.xml");
     echo "Generated: " . $table . "_export.xml<br>";
 }
-?>

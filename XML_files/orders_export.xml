@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OrdersData>
+  <orders>
+    <id>1</id>
+    <order_no>0001</order_no>
+    <total_amount>5095.80</total_amount>
+    <discount_amount>566.20</discount_amount>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-05-20 19:25:53</created_at>
+    <cash_received>6000.00</cash_received>
+    <change_amount>904.20</change_amount>
+  </orders>
+  <orders>
+    <id>2</id>
+    <order_no>0002</order_no>
+    <total_amount>16986.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-05-20 19:28:21</created_at>
+    <cash_received>17000.00</cash_received>
+    <change_amount>14.00</change_amount>
+  </orders>
+  <orders>
+    <id>3</id>
+    <order_no>0003</order_no>
+    <total_amount>28310.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-05-20 19:31:33</created_at>
+    <cash_received>30000.00</cash_received>
+    <change_amount>1690.00</change_amount>
+  </orders>
+</OrdersData>

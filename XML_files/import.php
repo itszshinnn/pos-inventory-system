@@ -1,40 +1,29 @@
 <?php
-require '../Database/config_test.php';
+require '../Database/config.php';
 
-$importMap = [
-    'categories_export.xml'    => ['table' => 'categories',     'tag' => 'Categorie'],
-    'users_export.xml'         => ['table' => 'users',          'tag' => 'User'],
-    'products_export.xml'      => ['table' => 'products',       'tag' => 'Product'],
-    'product_batches_export.xml' => ['table' => 'product_batches', 'tag' => 'Product_batch'],
-    'inventory_logs_export.xml'=> ['table' => 'inventory_logs', 'tag' => 'Inventory_log'],
-    'orders_export.xml'        => ['table' => 'orders',         'tag' => 'Order'],
-    'order_items_export.xml'   => ['table' => 'order_items',    'tag' => 'Order_item']
-];
+$tables = ['categories', 'users', 'products', 'product_batches', 'inventory_logs', 'orders', 'order_items'];
 
-foreach ($importMap as $filename => $config) {
-    if (!file_exists($filename)) {
-        echo "Skipping: $filename (File not found)<br>";
-        continue;
-    }
+foreach ($tables as $table) {
+    $filename = $table . "_export.xml";
+    if (!file_exists($filename)) continue;
 
     $dom = new DOMDocument();
     $dom->load($filename);
-    $items = $dom->getElementsByTagName($config['tag']);
-    $table = $config['table'];
+    $items = $dom->getElementsByTagName($table);
 
     $pdo->beginTransaction();
     try {
         foreach ($items as $item) {
             $data = [];
             foreach ($item->childNodes as $node) {
-                if ($node->nodeType == 1) { // 1 = Element node
+                if ($node->nodeType == 1) {
                     $data[$node->nodeName] = $node->nodeValue;
                 }
             }
 
             $columns = implode(", ", array_keys($data));
             $placeholders = implode(", ", array_fill(0, count($data), "?"));
-            
+
             $stmt = $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)");
             $stmt->execute(array_values($data));
         }
@@ -45,4 +34,3 @@ foreach ($importMap as $filename => $config) {
         echo "Error importing $table: " . $e->getMessage() . "<br>";
     }
 }
-?>
