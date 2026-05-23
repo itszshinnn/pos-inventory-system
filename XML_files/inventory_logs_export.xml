@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Inventory_logsData>
+  <Inventory_log>
+    <id>1</id>
+    <product_id>1</product_id>
+    <product_name>Wireless Mouse</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:23:18</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>2</id>
+    <product_id>2</product_id>
+    <product_name>Wireless Keyboard</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:23:35</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>3</id>
+    <product_id>3</product_id>
+    <product_name>Earphones</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:23:50</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>4</id>
+    <product_id>4</product_id>
+    <product_name>Earbuds</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:24:11</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>5</id>
+    <product_id>5</product_id>
+    <product_name>Speaker</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:24:29</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>6</id>
+    <product_id>6</product_id>
+    <product_name>USB Flash Drive 256gb</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:24:49</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>7</id>
+    <product_id>7</product_id>
+    <product_name>Micro SD Card 512gb</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:25:03</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>8</id>
+    <product_id>8</product_id>
+    <product_name>Monitor</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:25:18</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>9</id>
+    <product_id>1</product_id>
+    <product_name>Wireless Mouse</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:12</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>10</id>
+    <product_id>2</product_id>
+    <product_name>Wireless Keyboard</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:16</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>11</id>
+    <product_id>3</product_id>
+    <product_name>Earphones</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:19</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>12</id>
+    <product_id>4</product_id>
+    <product_name>Earbuds</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:21</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>13</id>
+    <product_id>5</product_id>
+    <product_name>Speaker</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:23</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>14</id>
+    <product_id>6</product_id>
+    <product_name>USB Flash Drive 256gb</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:25</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>15</id>
+    <product_id>7</product_id>
+    <product_name>Micro SD Card 512gb</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:27</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>16</id>
+    <product_id>8</product_id>
+    <product_name>Monitor</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>6</old_stock>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-20 19:29:30</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>17</id>
+    <product_id>9</product_id>
+    <product_name>SSD 512gb</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:09:06</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>18</id>
+    <product_id>10</product_id>
+    <product_name>Cooling Pad</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:09:19</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>19</id>
+    <product_id>11</product_id>
+    <product_name>USB Ports</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:09:35</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>20</id>
+    <product_id>12</product_id>
+    <product_name>HDMI Cable</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:09:52</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>21</id>
+    <product_id>13</product_id>
+    <product_name>Webcam</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:10:05</created_at>
+  </Inventory_log>
+  <Inventory_log>
+    <id>22</id>
+    <product_id>14</product_id>
+    <product_name>Headphones</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-05-23 16:10:19</created_at>
+  </Inventory_log>
+</Inventory_logsData>

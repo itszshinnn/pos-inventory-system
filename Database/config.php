@@ -2,7 +2,7 @@
 $host    = 'localhost';
 $db      = 'inventory_db';
 $user    = 'root';
-$pass    = '';        // leave blank for default XAMPP
+$pass    = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

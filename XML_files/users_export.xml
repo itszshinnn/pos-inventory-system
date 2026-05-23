@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UsersData>
+  <User>
+    <id>1</id>
+    <username>sean</username>
+    <password>$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e</password>
+    <created_at>2026-05-20 00:03:36</created_at>
+    <role>user</role>
+  </User>
+  <User>
+    <id>2</id>
+    <username>Triggerwords</username>
+    <password>$2y$10$ayUikVMiaU490.4FDuYlpeAvhmgVJvILlmJ7A1eJwr08o2Z0T8qju</password>
+    <created_at>2026-05-20 10:02:47</created_at>
+    <role>user</role>
+  </User>
+  <User>
+    <id>3</id>
+    <username>admin</username>
+    <password>$2y$10$examplehashedpassword</password>
+    <created_at>2026-05-20 12:08:33</created_at>
+    <role>admin</role>
+  </User>
+  <User>
+    <id>4</id>
+    <username>kkkkk</username>
+    <password>$2y$10$Q1FOZPGAu3UpLeCx5eF8ou1Hv.Q2ur9PZhFSkwm6IMTYXYJMCyFIa</password>
+    <created_at>2026-05-20 12:30:48</created_at>
+    <role>user</role>
+  </User>
+</UsersData>
