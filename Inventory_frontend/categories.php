@@ -83,6 +83,7 @@ if (!isset($_SESSION['user_id'])) {
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php" class="active">Categories</a>
       <a href="products.php">Products</a>
+      <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
     </nav>
 

@@ -83,6 +83,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="categories.php">Categories</a>
       <a href="products.php" class="active">Products</a>
       <a href="add-product.php" class="sub">- Add Products</a>
+      <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
     </nav>
 
