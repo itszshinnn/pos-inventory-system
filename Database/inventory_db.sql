@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2026 at 01:32 PM
+-- Generation Time: May 23, 2026 at 10:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,8 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 (2, 'Audio Devices', '2026-05-18 05:44:33'),
 (3, 'Storage Devices', '2026-05-18 05:44:33'),
 (4, 'Output Devices', '2026-05-18 05:44:33'),
-(5, 'Other Devices', '2026-05-18 05:50:19');
+(5, 'Other Devices', '2026-05-18 05:50:19'),
+(7, 'Connection Devices', '2026-05-23 08:08:21');
 
 -- --------------------------------------------------------
 
@@ -81,7 +82,13 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (13, 5, 'Speaker', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:23'),
 (14, 6, 'USB Flash Drive 256gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:25'),
 (15, 7, 'Micro SD Card 512gb', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:27'),
-(16, 8, 'Monitor', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:30');
+(16, 8, 'Monitor', 'Edited', 6, 10, 'Admin', '2026-05-20 11:29:30'),
+(17, 9, 'SSD 512gb', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:06'),
+(18, 10, 'Cooling Pad', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:19'),
+(19, 11, 'USB Ports', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:35'),
+(20, 12, 'HDMI Cable', 'Added', NULL, 10, 'Admin', '2026-05-23 08:09:52'),
+(21, 13, 'Webcam', 'Added', NULL, 10, 'Admin', '2026-05-23 08:10:05'),
+(22, 14, 'Headphones', 'Added', NULL, 10, 'Admin', '2026-05-23 08:10:19');
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,13 @@ INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_
 (5, 'Speaker', 2, 249.00, 5, '2026-05-20 11:24:29', '1779276269_6a0d99edd1b29.png'),
 (6, 'USB Flash Drive 256gb', 3, 699.00, 5, '2026-05-20 11:24:49', '1779276289_6a0d9a015ed59.png'),
 (7, 'Micro SD Card 512gb', 3, 799.00, 5, '2026-05-20 11:25:03', '1779276303_6a0d9a0fb7c17.png'),
-(8, 'Monitor', 4, 2999.00, 5, '2026-05-20 11:25:18', '1779276318_6a0d9a1e94b54.png');
+(8, 'Monitor', 4, 2999.00, 5, '2026-05-20 11:25:18', '1779276318_6a0d9a1e94b54.png'),
+(9, 'SSD 512gb', 3, 1199.00, 10, '2026-05-23 08:09:06', '1779523746_392c55ef80499d2f.png'),
+(10, 'Cooling Pad', 5, 349.00, 10, '2026-05-23 08:09:19', '1779523759_2c8ab3f73360125d.png'),
+(11, 'USB Ports', 7, 149.00, 10, '2026-05-23 08:09:35', '1779523775_1c962aed8e2352c7.png'),
+(12, 'HDMI Cable', 7, 249.00, 10, '2026-05-23 08:09:52', '1779523792_8c7616ff2fa7383a.png'),
+(13, 'Webcam', 4, 349.00, 10, '2026-05-23 08:10:05', '1779523805_cd357c934fd843b5.png'),
+(14, 'Headphones', 2, 299.00, 10, '2026-05-23 08:10:19', '1779523819_63b617c48fe219ee.png');
 
 -- --------------------------------------------------------
 
@@ -218,7 +231,13 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (13, 5, 4, 4, 249.00, '2026-05-20 11:29:23'),
 (14, 6, 4, 4, 699.00, '2026-05-20 11:29:25'),
 (15, 7, 4, 4, 799.00, '2026-05-20 11:29:27'),
-(16, 8, 4, 4, 2999.00, '2026-05-20 11:29:30');
+(16, 8, 4, 4, 2999.00, '2026-05-20 11:29:30'),
+(17, 9, 10, 10, 1199.00, '2026-05-23 08:09:06'),
+(18, 10, 10, 10, 349.00, '2026-05-23 08:09:19'),
+(19, 11, 10, 10, 149.00, '2026-05-23 08:09:35'),
+(20, 12, 10, 10, 249.00, '2026-05-23 08:09:52'),
+(21, 13, 10, 10, 349.00, '2026-05-23 08:10:05'),
+(22, 14, 10, 10, 299.00, '2026-05-23 08:10:19');
 
 -- --------------------------------------------------------
 
@@ -305,13 +324,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -329,13 +348,13 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
