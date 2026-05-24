@@ -72,7 +72,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     }
 
     .form-header p {
-      color: #777;
+      color: #191919;
       margin-bottom: 30px;
     }
 
@@ -88,7 +88,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     }
 
     .section-desc {
-      color: #666;
+      color: #191919;
       font-size: 0.95rem;
       margin-bottom: 20px;
     }
@@ -124,7 +124,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     .import-btn:hover {
       background: #333;
     }
-
   </style>
 </head>
 
@@ -206,7 +205,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           <p class="section-desc">
             Restore database tables from existing XML files. Both Individual table XML files and full database export file are supported.
           </p>
-          <p class="section-desc" style="color: #d9534f;">
+          <p class="section-desc" style="color: #e83832;">
             NOTE: XML files will overwrite the corresponding table data.
           </p>
           <form action="../Inventory_backend/import.php" method="POST" enctype="multipart/form-data">
@@ -246,25 +245,25 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     window.onload = function() {
 
-      <?php if(isset($_GET['success'])): ?>
-        
-            <?php if($_GET['success'] == 'exported'): ?>
-            
-                showToast("XML files exported successfully!");
-            
-            <?php elseif($_GET['success'] == 'imported'): ?>
-            
-                showToast("XML files imported successfully!");
-            
-            <?php endif; ?>
-            
+      <?php if (isset($_GET['success'])): ?>
+
+        <?php if ($_GET['success'] == 'exported'): ?>
+
+          showToast("XML files exported successfully!");
+
+        <?php elseif ($_GET['success'] == 'imported'): ?>
+
+          showToast("XML files imported successfully!");
+
         <?php endif; ?>
-            
-        <?php if(isset($_GET['error'])): ?>
-        
-            showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
-        
-        <?php endif; ?>
+
+      <?php endif; ?>
+
+      <?php if (isset($_GET['error'])): ?>
+
+        showToast("Error: <?= htmlspecialchars($_GET['error']) ?>", true);
+
+      <?php endif; ?>
 
     }
 
