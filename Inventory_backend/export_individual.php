@@ -3,7 +3,7 @@ require '../Database/config.php';
 
 $tables = ['categories','users','products','product_batches','inventory_logs','orders','order_items'];
 
-$exportDir = __DIR__ . "/";
+$exportDir = "../XML_files/";
 
 if (!is_dir($exportDir)) {
     mkdir($exportDir, 0777, true);
