@@ -285,16 +285,6 @@
       <cash_received>30000.00</cash_received>
       <change_amount>1690.00</change_amount>
     </row>
-    <row>
-      <id>4</id>
-      <order_no>0004</order_no>
-      <total_amount>5395.50</total_amount>
-      <discount_amount>599.50</discount_amount>
-      <payment_method>Cash</payment_method>
-      <created_at>2026-05-23 18:10:11</created_at>
-      <cash_received>5500.00</cash_received>
-      <change_amount>104.50</change_amount>
-    </row>
   </orders>
   <order_items>
     <row>
@@ -465,13 +455,6 @@
       <quantity>5</quantity>
       <price_at_sale>2999.00</price_at_sale>
     </row>
-    <row>
-      <id>25</id>
-      <order_id>4</order_id>
-      <product_id>9</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>1199.00</price_at_sale>
-    </row>
   </order_items>
   <products>
     <row>
@@ -551,7 +534,7 @@
       <name>SSD 512gb</name>
       <category_id>3</category_id>
       <price>1199.00</price>
-      <stock>5</stock>
+      <stock>10</stock>
       <created_at>2026-05-23 16:09:06</created_at>
       <image>1779523746_392c55ef80499d2f.png</image>
     </row>
@@ -734,7 +717,7 @@
       <id>17</id>
       <product_id>9</product_id>
       <quantity_received>10</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
+      <quantity_remaining>10</quantity_remaining>
       <unit_cost>1199.00</unit_cost>
       <created_at>2026-05-23 16:09:06</created_at>
     </row>

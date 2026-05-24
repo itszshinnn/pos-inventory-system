@@ -15,9 +15,12 @@ try {
     $dom = new DOMDocument();
     $dom->load($file);
     $rootName = $dom->documentElement->nodeName;
-    $pdo->beginTransaction();
 
     if ($rootName === "DatabaseExport") {
+
+        foreach (array_reverse($tables) as $table) {
+            $pdo->exec("TRUNCATE TABLE $table");
+        }
 
         foreach ($dom->documentElement->childNodes as $tableNode) {
 
@@ -67,9 +70,9 @@ try {
             throw new Exception("Invalid table XML");
         }
 
+        $pdo->exec("TRUNCATE TABLE $table");
         $colStmt = $pdo->query("DESCRIBE $table");
         $dbColumns = $colStmt->fetchAll(PDO::FETCH_COLUMN);
-
         $items = $dom->getElementsByTagName("row");
 
         foreach ($items as $item) {
@@ -96,16 +99,11 @@ try {
         }
     }
 
-    $pdo->commit();
 
     header("Location: ../Inventory_frontend/xml.php?success=imported");
     exit;
 
 } catch (Exception $e) {
-
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
 
     header("Location: ../Inventory_frontend/xml.php?error=" . urlencode($e->getMessage()));
     exit;

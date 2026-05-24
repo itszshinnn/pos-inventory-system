@@ -171,7 +171,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             Export all database tables into a single XML backup file.
           </p>
 
-          <form action="../XML_files/export_all.php" method="POST">
+          <form action="../Inventory_backend/export_all.php" method="POST">
 
             <button type="submit" class="submit-btn">
               Export Database XML
@@ -189,7 +189,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             Export all database tables into XML backup files. Located in XML_files folder.
           </p>
 
-          <form action="../XML_files/export_individual.php" method="POST">
+          <form action="../Inventory_backend/export_individual.php" method="POST">
 
             <button type="submit" class="submit-btn">
               Export XML Files
@@ -207,9 +207,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             Restore database tables from existing XML files. Both Individual table XML files and full database export file are supported.
           </p>
           <p class="section-desc" style="color: #d9534f;">
-            NOTE: database_export.xml will not work unless all of the tables are empty.
+            NOTE: XML files will overwrite the corresponding table data.
           </p>
-          <form action="../XML_files/import.php" method="POST" enctype="multipart/form-data">
+          <form action="../Inventory_backend/import.php" method="POST" enctype="multipart/form-data">
 
             <input type="file" name="xml_file" accept=".xml" required>
             <button type="submit" class="import-btn">Import XML</button>
