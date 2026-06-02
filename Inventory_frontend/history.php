@@ -338,6 +338,7 @@ try {
       <a href="history.php" class="sub-tab active">Sales History</a>
       <a href="product_history.php" class="sub-tab">Inventory Logs</a>
       <a href="user_account_history.php" class="sub-tab">User Account History</a>
+      <a href="users.php">Users</a>
     </nav>
 
     <div class="main">

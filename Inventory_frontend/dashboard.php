@@ -346,6 +346,7 @@ usort($allNotifications, function($a, $b) {
       <a href="products.php">Products</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
+      <a href="users.php">Users</a>
     </nav>
 
     <div class="main">

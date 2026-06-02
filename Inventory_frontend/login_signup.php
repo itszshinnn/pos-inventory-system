@@ -48,35 +48,6 @@ if (isset($_POST['login'])) {
     }
 }
 
-/* SIGNUP */
-
-if (isset($_POST['signup'])) {
-
-    $username = trim($_POST['signup_username']);
-    $password = trim($_POST['signup_password']);
-
-    if (empty($username) || empty($password)) {
-        $signupError = "Fields cannot be blank.";
-    } else {
-        $check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-        $check->execute([$username]);
-
-        if ($check->fetch()) {
-            $signupError = "Username already exists.";
-        } else {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt = $pdo->prepare("
-                INSERT INTO users (username, password, role)
-                VALUES (?, ?, 'user')
-            ");
-
-            $stmt->execute([$username, $hashedPassword]);
-            $signupSuccess = "Account created successfully. Please login.";
-        }
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -157,32 +128,6 @@ if (isset($_POST['signup'])) {
             font-weight: 600;
             color: var(--dark-1);
             margin-bottom: 30px;
-        }
-
-        .tabs {
-            display: flex;
-            background: var(--bg);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            border: 2px solid rgba(0, 0, 0, 0.13);
-        }
-
-        .tabs button {
-            flex: 1;
-            padding: 13px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 15px;
-            color: var(--muted);
-            transition: 0.2s;
-        }
-
-        .tabs button.active {
-            background: var(--dark-2);
-            color: var(--white);
-            font-weight: 600;
         }
 
         .form {
@@ -292,16 +237,6 @@ if (isset($_POST['signup'])) {
 
         <div class="title">K's Inventory System</div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showForm('login')">
-                Login
-            </button>
-
-            <button class="tab-btn" onclick="showForm('signup')">
-                Sign Up
-            </button>
-        </div>
-
         <form id="loginForm" class="form active" method="POST">
 
             <?php if ($loginError): ?>
@@ -327,47 +262,6 @@ if (isset($_POST['signup'])) {
             <button type="submit" name="login" class="btn">
                 Login
             </button>
-
-        </form>
-
-        <form id="signupForm" class="form" method="POST">
-
-            <?php if ($signupError): ?>
-                <div class="footer" style="color:red; margin-bottom:15px;">
-                    <?= $signupError ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($signupSuccess): ?>
-                <div class="footer" style="color:green; margin-bottom:15px;">
-                    <?= $signupSuccess ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="input-box">
-                <input
-                    type="text"
-                    name="signup_username"
-                    placeholder="Username"
-                    required>
-            </div>
-
-            <div class="input-box">
-                <input type="password" id="signupPassword" class="pass-field" name="signup_password" placeholder="Password" required>
-                <button type="button" class="toggle-password" onclick="toggleVisibility('signupPassword', this)">
-                    <i class="fa-regular fa-eye-slash"></i> </button>
-            </div>
-
-            <button type="submit" name="signup" class="btn">
-                Create Account
-            </button>
-
-            <div class="footer">
-                Already have an account?
-                <a href="javascript:void(0)" onclick="showForm('login')">
-                    Login
-                </a>
-            </div>
 
         </form>
 

@@ -151,6 +151,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="products.php">Products</a>
       <a href="xml.php" class="active">XML Files</a>
       <a href="history.php">History</a>
+      <a href="users.php">Users</a>
     </nav>
 
     <div class="main">
