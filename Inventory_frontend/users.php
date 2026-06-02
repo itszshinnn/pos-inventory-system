@@ -161,11 +161,6 @@ try {
     $errorMsg = $e->getMessage();
 }
 
-$users = $pdo->query("
-    SELECT *
-    FROM users
-    ORDER BY id DESC
-")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -380,14 +375,14 @@ $users = $pdo->query("
     .create-user-card {
     margin-bottom: 20px;
     }
-    
+
     .create-user-form {
         display: grid;
         grid-template-columns: 1fr 1fr 180px 160px;
         gap: 12px;
         align-items: center;
     }
-    
+
     .create-user-form input,
     .create-user-form select {
         height: 44px;
@@ -398,14 +393,14 @@ $users = $pdo->query("
         background: white;
         transition: .2s;
     }
-    
+
     .create-user-form input:focus,
     .create-user-form select:focus {
         outline: none;
         border-color: #4d66ff;
         box-shadow: 0 0 0 3px rgba(77,102,255,.12);
     }
-    
+
     .btn-create-user {
         height: 44px;
         border: none;
@@ -417,7 +412,7 @@ $users = $pdo->query("
         cursor: pointer;
         transition: .2s;
     }
-    
+
     .btn-create-user:hover {
         background: #3f57eb;
         transform: translateY(-1px);
@@ -477,6 +472,7 @@ $users = $pdo->query("
         </div>
 
     </div>
+    
 <?php if ($message): ?>
 <div style="
     background:#e8f9ee;
@@ -530,7 +526,22 @@ $users = $pdo->query("
 </div>
 
 <br>
+<div class="history-toolbar">
+    <input
+        type="text"
+        id="userSearchInput"
+        placeholder="Search users..."
+        oninput="filterUserTable()"
+    >
 
+    <select
+        id="sortFilter"
+        onchange="filterUserTable()"
+    >
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+    </select>
+</div>
 <div class="dashboard-section">
 
     <div class="section-title">
@@ -549,51 +560,7 @@ $users = $pdo->query("
             </tr>
         </thead>
 
-        <tbody>
-
-        <?php foreach($users as $index => $user): ?>
-
-        <tr>
-
-            <td><?= $user['id'] ?></td>
-
-            <td><?= htmlspecialchars($user['username']) ?></td>
-
-            <td><?= htmlspecialchars($user['role']) ?></td>
-
-            <td><?= $user['created_at'] ?></td>
-
-            <td>
-
-                <button
-                    class="action-btn"
-                    onclick="openEdit(
-                        <?= $user['id'] ?>,
-                        '<?= htmlspecialchars($user['username'], ENT_QUOTES) ?>',
-                        '<?= $user['role'] ?>'
-                    )"
-                >
-                    Edit
-                </button>
-
-                <?php if($user['id'] != $_SESSION['user_id']): ?>
-
-                <a
-                    class="action-btn del"
-                    href="users.php?delete=<?= $user['id'] ?>"
-                    onclick="return confirm('Delete this user?')"
-                >
-                    Delete
-                </a>
-
-                <?php endif; ?>
-
-            </td>
-
-        </tr>
-
-        <?php endforeach; ?>
-
+        <tbody id="userTableBody">
         </tbody>
 
     </table>
@@ -661,6 +628,9 @@ $users = $pdo->query("
 
 </div>
   <script>
+    const allUsers = <?= json_encode($users) ?>;
+    const currentUserId = <?= $_SESSION['user_id'] ?>;
+
     function openEdit(id, username, role) {
 
     document.getElementById('editId').value = id;
@@ -678,6 +648,93 @@ function closeModal() {
         .getElementById('editModal')
         .classList.remove('show');
 }
+function filterUserTable() {
+
+    const searchVal = document
+        .getElementById('userSearchInput')
+        .value
+        .toLowerCase()
+        .trim();
+
+    const sortVal = document
+        .getElementById('sortFilter')
+        .value;
+
+    let filtered = allUsers.filter(user => {
+
+        return (
+            user.username.toLowerCase().includes(searchVal) ||
+            user.role.toLowerCase().includes(searchVal)
+        );
+
+    });
+
+    if (sortVal === 'oldest') {
+
+        filtered.sort((a, b) => a.id - b.id);
+
+    } else {
+
+        filtered.sort((a, b) => b.id - a.id);
+
+    }
+
+    const tbody = document.getElementById('userTableBody');
+
+    if (filtered.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;padding:20px;color:#888;">
+                    No users found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(user => `
+
+        <tr>
+
+            <td>${user.id}</td>
+
+            <td>${user.username}</td>
+
+            <td>${user.role}</td>
+
+            <td>${user.created_at}</td>
+
+            <td>
+
+                <button
+                    class="action-btn"
+                    onclick="openEdit(
+                        ${user.id},
+                        '${user.username.replace(/'/g, "\\'")}',
+                        '${user.role}'
+                    )"
+                >
+                    Edit
+                </button>
+
+                ${user.id != currentUserId ? `
+                    <a
+                        class="action-btn del"
+                        href="users.php?delete=${user.id}"
+                        onclick="return confirm('Delete this user?')"
+                    >
+                        Delete
+                    </a>
+                ` : ''}
+
+            </td>
+
+        </tr>
+
+    `).join('');
+}
     function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
@@ -690,6 +747,7 @@ function closeModal() {
         dropdown.style.display = "none";
       }
     }
+    filterUserTable();
   </script>
 </body>
 
