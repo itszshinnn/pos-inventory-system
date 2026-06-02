@@ -175,6 +175,13 @@ try {
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
 
+        input,
+        select,
+        button,
+        textarea {
+            font-family: 'DM Sans', 'Segoe UI', sans-serif;
+        }
+
         .topbar-admin {
             position: relative;
             cursor: pointer;
@@ -255,13 +262,13 @@ try {
         }
 
         .btn-save {
-            background: #5c7fe0;
+            background: #234bb8;
             color: white;
             border: none;
             padding: 8px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .btn-save:hover {
@@ -407,17 +414,17 @@ try {
             height: 44px;
             border: none;
             border-radius: 10px;
-            background: #4d66ff;
-            color: white;
+            color: black;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: .2s;
+            border: 2px solid #4d66ff;
         }
 
         .btn-create-user:hover {
+            color: white;
             background: #3f57eb;
-            transform: translateY(-1px);
         }
     </style>
 </head>
