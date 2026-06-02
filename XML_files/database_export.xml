@@ -71,20 +71,6 @@
     <category_name>Other Devices</category_name>
   </product>
   <product>
-    <id>11</id>
-    <name>USB Ports</name>
-    <price>149.00</price>
-    <stock>10</stock>
-    <category_name>Connection Devices</category_name>
-  </product>
-  <product>
-    <id>12</id>
-    <name>HDMI Cable</name>
-    <price>249.00</price>
-    <stock>10</stock>
-    <category_name>Connection Devices</category_name>
-  </product>
-  <product>
     <id>13</id>
     <name>Webcam</name>
     <price>349.00</price>
@@ -97,5 +83,12 @@
     <price>299.00</price>
     <stock>5</stock>
     <category_name>Audio Devices</category_name>
+  </product>
+  <product>
+    <id>16</id>
+    <name>Printer</name>
+    <price>2499.00</price>
+    <stock>10</stock>
+    <category_name>Output Devices</category_name>
   </product>
 </inventory>

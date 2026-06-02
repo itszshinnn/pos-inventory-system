@@ -91,24 +91,6 @@
     <image>1779523759_2c8ab3f73360125d.png</image>
   </row>
   <row>
-    <id>11</id>
-    <name>USB Ports</name>
-    <category_id>6</category_id>
-    <price>149.00</price>
-    <stock>10</stock>
-    <created_at>2026-05-23 16:09:35</created_at>
-    <image>1779523775_1c962aed8e2352c7.png</image>
-  </row>
-  <row>
-    <id>12</id>
-    <name>HDMI Cable</name>
-    <category_id>6</category_id>
-    <price>249.00</price>
-    <stock>10</stock>
-    <created_at>2026-05-23 16:09:52</created_at>
-    <image>1779523792_8c7616ff2fa7383a.png</image>
-  </row>
-  <row>
     <id>13</id>
     <name>Webcam</name>
     <category_id>4</category_id>
@@ -125,5 +107,14 @@
     <stock>5</stock>
     <created_at>2026-05-23 16:10:19</created_at>
     <image>1779523819_63b617c48fe219ee.png</image>
+  </row>
+  <row>
+    <id>16</id>
+    <name>Printer</name>
+    <category_id>4</category_id>
+    <price>2499.00</price>
+    <stock>10</stock>
+    <created_at>2026-06-03 01:09:30</created_at>
+    <image>1780420170_7139b23f47b5c2bd.png</image>
   </row>
 </products>

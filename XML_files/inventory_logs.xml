@@ -260,4 +260,24 @@
     <changed_by>Admin</changed_by>
     <created_at>2026-06-03 00:03:28</created_at>
   </row>
+  <row>
+    <id>27</id>
+    <product_id>5</product_id>
+    <product_name>Speaker</product_name>
+    <action_type>Edited</action_type>
+    <old_stock>2</old_stock>
+    <new_stock>5</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-06-03 01:03:05</created_at>
+  </row>
+  <row>
+    <id>28</id>
+    <product_id>16</product_id>
+    <product_name>Printer</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>10</new_stock>
+    <changed_by>Admin</changed_by>
+    <created_at>2026-06-03 01:09:30</created_at>
+  </row>
 </inventory_logs>
