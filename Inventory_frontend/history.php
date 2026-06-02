@@ -1,42 +1,22 @@
 <?php
-require '../Database/config.php';
-
 session_start();
 
+require_once '../Database/Database.php';
+require_once '../Inventory_backend/ReportManager.php'; 
+
+$database = new Database();
+$pdo = $database->getConnection();
+$reportManager = new ReportManager($pdo);
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login.php");
+    header("Location: ../Inventory_frontend/login_signup.php");
     exit;
 }
 
-try {
-    $totalRevenue = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
-    $transactions = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
-    $itemsSold    = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
+$metrics = $reportManager->getDashboardMetrics();
+extract($metrics);
 
-    $query = 'SELECT o.order_no, 
-                     o.payment_method AS payment, 
-                     o.discount_amount AS discount, 
-                     o.total_amount AS total,
-                     o.cash_received,
-                     o.change_amount,
-                     o.created_at AS date,
-                     GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
-              FROM orders o
-              LEFT JOIN order_items oi ON o.id = oi.order_id
-              LEFT JOIN products p ON oi.product_id = p.id
-              GROUP BY o.id
-              ORDER BY o.id DESC';
-              
-    $stmt = $pdo->query($query);
-    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-} catch (Exception $e) {
-    $totalRevenue = 0.00;
-    $transactions = 0;
-    $itemsSold = 0;
-    $orders = [];
-    $errorMsg = $e->getMessage();
-}
+$orders = $reportManager->getSalesHistory();
 ?>
 
 <!DOCTYPE html>

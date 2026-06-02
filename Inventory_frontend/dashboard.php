@@ -1,102 +1,50 @@
 <?php
-require '../Database/config.php';
-
 session_start();
 
-$productLogs = $pdo->query("
-    SELECT
-        product_name,
-        action_type,
-        changed_by,
-        created_at
-    FROM inventory_logs
-    ORDER BY id DESC
-    LIMIT 5
-")->fetchAll(PDO::FETCH_ASSOC);
+require_once '../Database/Database.php';
+require_once '../Inventory_backend/ReportManager.php';
 
-$salesLogs = $pdo->query("
-    SELECT
-        order_no,
-        total_amount,
-        created_at
-    FROM orders
-    ORDER BY id DESC
-    LIMIT 5
-")->fetchAll(PDO::FETCH_ASSOC);
-
-$lowStocks = $pdo->query("
-    SELECT
-        name,
-        stock
-    FROM products
-    WHERE stock <= 3
-    ORDER BY stock ASC
-")->fetchAll(PDO::FETCH_ASSOC);
-
-$newUsers = $pdo->query("
-    SELECT
-        username,
-        role,
-        created_at
-    FROM users
-    ORDER BY id DESC
-    LIMIT 5
-")->fetchAll(PDO::FETCH_ASSOC);
+$database = new Database();
+$pdo = $database->getConnection();
+$reportManager = new ReportManager($pdo);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-  header("Location: ../Inventory_frontend/login.php");
+  header("Location: ../Inventory_frontend/login_signup.php");
   exit;
 }
 
-try {
-  $totalProducts   = $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
-  $totalUnits      = $pdo->query('SELECT COALESCE(SUM(stock), 0) FROM products')->fetchColumn();
-  $totalCategories = $pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn();
-  $lowStock        = $pdo->query('SELECT COUNT(*) FROM products WHERE stock > 0 AND stock <= 3')->fetchColumn();
-  $outOfStock      = $pdo->query('SELECT COUNT(*) FROM products WHERE stock = 0')->fetchColumn();
+$metrics = $reportManager->getDashboardMetrics();
 
-  $totalRevenue    = $pdo->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
-  $transactions    = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
-  $itemsSold       = $pdo->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
-
-  $totalLogs       = $pdo->query('SELECT COUNT(*) FROM inventory_logs')->fetchColumn();
-  $totalAdded      = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Added"')->fetchColumn();
-  $totalDeleted    = $pdo->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Deleted"')->fetchColumn();
-} catch (Exception $e) {
-  $errorMsg = $e->getMessage();
-  $totalProducts = $totalUnits = $totalCategories = $lowStock = $outOfStock = 0;
-  $totalRevenue = 0.00;
-  $transactions = $itemsSold = $totalLogs = $totalAdded = $totalDeleted = 0;
-}
+extract($metrics);
 
 $allNotifications = [];
 
 foreach ($productLogs as $log) {
-    $allNotifications[] = [
-        'type' => 'product_log',
-        'time' => $log['created_at'],
-        'data' => $log
-    ];
+  $allNotifications[] = [
+    'type' => 'product_log',
+    'time' => $log['created_at'],
+    'data' => $log
+  ];
 }
 
 foreach ($salesLogs as $sale) {
-    $allNotifications[] = [
-        'type' => 'sales_log',
-        'time' => $sale['created_at'],
-        'data' => $sale
-    ];
+  $allNotifications[] = [
+    'type' => 'sales_log',
+    'time' => $sale['created_at'],
+    'data' => $sale
+  ];
 }
 
 foreach ($newUsers as $user) {
-    $allNotifications[] = [
-        'type' => 'new_user',
-        'time' => $user['created_at'],
-        'data' => $user
-    ];
+  $allNotifications[] = [
+    'type' => 'new_user',
+    'time' => $user['created_at'],
+    'data' => $user
+  ];
 }
 
-usort($allNotifications, function($a, $b) {
-    return strtotime($b['time']) <=> strtotime($a['time']);
+usort($allNotifications, function ($a, $b) {
+  return strtotime($b['time']) <=> strtotime($a['time']);
 });
 ?>
 
@@ -468,7 +416,7 @@ usort($allNotifications, function($a, $b) {
           </div>
 
         </div>
-        
+
         <div class="notifications-sidebar">
           <div class="section-title">Notifications</div>
 

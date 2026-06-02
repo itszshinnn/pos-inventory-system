@@ -1,52 +1,22 @@
 <?php
-require '../Database/config.php';
-
 session_start();
 
+require_once '../Database/Database.php';
+require_once '../Inventory_backend/ReportManager.php'; 
+
+$database = new Database();
+$pdo = $database->getConnection();
+$reportManager = new ReportManager($pdo);
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login.php");
+    header("Location: ../Inventory_frontend/login_signup.php");
     exit;
 }
 
-try {
+$metrics = $reportManager->getDashboardMetrics();
+extract($metrics);
 
-    $totalLogs = $pdo->query("
-        SELECT COUNT(*) 
-        FROM inventory_logs
-    ")->fetchColumn();
-
-    $totalAdded = $pdo->query("
-        SELECT COUNT(*) 
-        FROM inventory_logs
-        WHERE action_type = 'Added'
-    ")->fetchColumn();
-
-    $totalDeleted = $pdo->query("
-        SELECT COUNT(*) 
-        FROM inventory_logs
-        WHERE action_type = 'Deleted'
-    ")->fetchColumn();
-
-    $query = "
-        SELECT *
-        FROM inventory_logs
-        ORDER BY id DESC
-    ";
-
-    $stmt = $pdo->query($query);
-
-    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-} catch (Exception $e) {
-
-    $totalLogs = 0;
-    $totalAdded = 0;
-    $totalDeleted = 0;
-
-    $logs = [];
-
-    $errorMsg = $e->getMessage();
-}
+$logs = $reportManager->getFullInventoryLogs();
 ?>
 
 <!DOCTYPE html>
