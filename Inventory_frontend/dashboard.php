@@ -449,7 +449,7 @@ usort($allNotifications, function($a, $b) {
           </div>
 
           <div class="dashboard-section">
-            <div class="section-title">Total Revenue and Stuff na nasa History</div>
+            <div class="section-title">Total Revenue and Stuff</div>
             <div class="metrics-row-grid">
               <div class="metric-sub-card">
                 <h3>Total Logs</h3>
