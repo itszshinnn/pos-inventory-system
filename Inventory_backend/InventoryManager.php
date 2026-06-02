@@ -157,4 +157,43 @@ class InventoryManager
             return ['error' => 'Database update interruption error.', 'code' => 500];
         }
     }
+
+    public function getAllCategories()
+    {
+        $stmt = $this->db->query('SELECT * FROM categories ORDER BY id ASC');
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addCategory($name)
+    {
+        try {
+            $stmt = $this->db->prepare('INSERT INTO categories (name) VALUES (?)');
+            $stmt->execute([$name]);
+            return ['success' => true, 'id' => $this->db->lastInsertId(), 'name' => $name];
+        } catch (PDOException $e) {
+            return ['error' => 'Category already exists', 'code' => 409];
+        }
+    }
+
+    public function updateCategory($id, $name)
+    {
+        try {
+            $stmt = $this->db->prepare('UPDATE categories SET name = ? WHERE id = ?');
+            $stmt->execute([$name, $id]);
+            return ['success' => true];
+        } catch (PDOException $e) {
+            return ['error' => 'Name already exists', 'code' => 409];
+        }
+    }
+
+    public function deleteCategory($id)
+    {
+        try {
+            $stmt = $this->db->prepare('DELETE FROM categories WHERE id = ?');
+            $stmt->execute([$id]);
+            return ['success' => true];
+        } catch (Exception $e) {
+            return ['error' => 'Failed to delete category.', 'code' => 500];
+        }
+    }
 }

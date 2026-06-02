@@ -22,45 +22,40 @@ if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admi
     exit;
 }
 
+require_once 'InventoryManager.php';
+$manager = new InventoryManager($pdo);
+
 switch ($method) {
     case 'GET':
-        $stmt = $pdo->query('SELECT * FROM categories ORDER BY id ASC');
-        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        echo json_encode($manager->getAllCategories());
         break;
 
     case 'POST':
         $name = trim($input['name'] ?? '');
         if (!$name) { http_response_code(400); echo json_encode(['error' => 'Name is required']); break; }
-        try {
-            $stmt = $pdo->prepare('INSERT INTO categories (name) VALUES (?)');
-            $stmt->execute([$name]);
-            echo json_encode(['success' => true, 'id' => $pdo->lastInsertId(), 'name' => $name]);
-        } catch (PDOException $e) {
-            http_response_code(409);
-            echo json_encode(['error' => 'Category already exists']);
-        }
+        
+        $result = $manager->addCategory($name);
+        if (isset($result['error'])) http_response_code($result['code']);
+        echo json_encode($result);
         break;
 
     case 'PUT':
         $id   = intval($input['id'] ?? 0);
         $name = trim($input['name'] ?? '');
-        if (!$id || !$name) { http_response_code(400); echo json_encode(['error' => 'ID and name required']); break; }
-        try {
-            $stmt = $pdo->prepare('UPDATE categories SET name = ? WHERE id = ?');
-            $stmt->execute([$name, $id]);
-            echo json_encode(['success' => true]);
-        } catch (PDOException $e) {
-            http_response_code(409);
-            echo json_encode(['error' => 'Name already exists']);
-        }
+        if (!$id || (!$name)) { http_response_code(400); echo json_encode(['error' => 'ID and name required']); break; }
+        
+        $result = $manager->updateCategory($id, $name);
+        if (isset($result['error'])) http_response_code($result['code']);
+        echo json_encode($result);
         break;
 
     case 'DELETE':
         $id = intval($input['id'] ?? 0);
         if (!$id) { http_response_code(400); echo json_encode(['error' => 'ID required']); break; }
-        $stmt = $pdo->prepare('DELETE FROM categories WHERE id = ?');
-        $stmt->execute([$id]);
-        echo json_encode(['success' => true]);
+        
+        $result = $manager->deleteCategory($id);
+        if (isset($result['error'])) http_response_code($result['code']);
+        echo json_encode($result);
         break;
 
     default:
