@@ -513,7 +513,7 @@ try {
                         type="submit"
                         name="create_user"
                         class="btn-create-user">
-                        Create User
+                        Create
                     </button>
 
                 </form>

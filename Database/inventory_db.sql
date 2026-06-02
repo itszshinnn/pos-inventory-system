@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2026 at 05:40 PM
+-- Generation Time: Jun 02, 2026 at 05:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -88,7 +88,8 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (19, 11, 'USB Ports', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:35'),
 (20, 12, 'HDMI Cable', 'Added', 0, 10, 'Admin', '2026-05-23 08:09:52'),
 (21, 13, 'Webcam', 'Added', 0, 10, 'Admin', '2026-05-23 08:10:05'),
-(22, 14, 'Headphones', 'Added', 0, 10, 'Admin', '2026-05-23 08:10:19');
+(22, 14, 'Headphones', 'Added', 0, 10, 'Admin', '2026-05-23 08:10:19'),
+(23, 15, 'Printer', 'Added', NULL, 10, 'Admin', '2026-06-01 11:22:48');
 
 -- --------------------------------------------------------
 
@@ -239,7 +240,8 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (19, 11, 10, 10, 149.00, '2026-05-23 08:09:35'),
 (20, 12, 10, 10, 249.00, '2026-05-23 08:09:52'),
 (21, 13, 10, 10, 349.00, '2026-05-23 08:10:05'),
-(22, 14, 10, 10, 299.00, '2026-05-23 08:10:19');
+(22, 14, 10, 10, 299.00, '2026-05-23 08:10:19'),
+(23, 15, 10, 10, 2499.00, '2026-06-01 11:22:48');
 
 -- --------------------------------------------------------
 
@@ -260,10 +262,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
-(1, 'sean', '$2y$10$dDxWCUvbpgNQGB7sx5aU0e8TJs3jkm18.my7RDzdFwqFyUZigtf5e', '2026-05-19 16:03:36', 'user'),
-(2, 'Triggerwords', '$2y$10$ayUikVMiaU490.4FDuYlpeAvhmgVJvILlmJ7A1eJwr08o2Z0T8qju', '2026-05-20 02:02:47', 'user'),
-(3, 'admin', '$2y$10$examplehashedpassword', '2026-05-20 04:08:33', 'admin'),
-(4, 'kkkkk', '$2y$10$Q1FOZPGAu3UpLeCx5eF8ou1Hv.Q2ur9PZhFSkwm6IMTYXYJMCyFIa', '2026-05-20 04:30:48', 'user');
+(1, 'Triggerwords', '$2y$10$GOUoglsoJi6hJ7jxBg5OJuCC.lo.txE87TJOI3MkOMg5fd4uLOHgm', '2026-06-02 15:03:07', 'user'),
+(2, 'sean', '$2y$10$wniVyrbtsPkIoWI591WFcuHK0wDmnuGWBKSyGogkgurbh4QxBcYQq', '2026-06-02 15:03:18', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -332,7 +332,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -356,13 +356,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
