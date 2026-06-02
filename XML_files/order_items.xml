@@ -175,4 +175,11 @@
     <quantity>5</quantity>
     <price_at_sale>1199.00</price_at_sale>
   </row>
+  <row>
+    <id>26</id>
+    <order_id>5</order_id>
+    <product_id>13</product_id>
+    <quantity>5</quantity>
+    <price_at_sale>349.00</price_at_sale>
+  </row>
 </order_items>

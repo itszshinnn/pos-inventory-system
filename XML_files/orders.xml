@@ -40,4 +40,14 @@
     <cash_received>5500.00</cash_received>
     <change_amount>104.50</change_amount>
   </row>
+  <row>
+    <id>5</id>
+    <order_no>0005</order_no>
+    <total_amount>1745.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-06-03 00:13:56</created_at>
+    <cash_received>2000.00</cash_received>
+    <change_amount>255.00</change_amount>
+  </row>
 </orders>

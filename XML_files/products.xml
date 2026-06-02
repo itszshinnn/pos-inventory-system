@@ -113,7 +113,7 @@
     <name>Webcam</name>
     <category_id>4</category_id>
     <price>349.00</price>
-    <stock>10</stock>
+    <stock>5</stock>
     <created_at>2026-05-23 16:10:05</created_at>
     <image>1779523805_cd357c934fd843b5.png</image>
   </row>
@@ -122,7 +122,7 @@
     <name>Headphones</name>
     <category_id>2</category_id>
     <price>299.00</price>
-    <stock>10</stock>
+    <stock>5</stock>
     <created_at>2026-05-23 16:10:19</created_at>
     <image>1779523819_63b617c48fe219ee.png</image>
   </row>
