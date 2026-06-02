@@ -117,6 +117,49 @@ if (isset($_POST['update_user'])) {
     header("Location: users.php");
     exit;
 }
+try {
+
+    $totalUsers = $pdo->query("
+        SELECT COUNT(*)
+        FROM users
+    ")->fetchColumn();
+
+    $adminUsers = $pdo->query("
+        SELECT COUNT(*)
+        FROM users
+        WHERE role = 'admin'
+    ")->fetchColumn();
+
+    $staffUsers = $pdo->query("
+        SELECT COUNT(*)
+        FROM users
+        WHERE role = 'user'
+    ")->fetchColumn();
+
+    $query = "
+        SELECT
+            id,
+            username,
+            role,
+            created_at
+        FROM users
+        ORDER BY id DESC
+    ";
+
+    $stmt = $pdo->query($query);
+
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (Exception $e) {
+
+    $totalUsers = 0;
+    $adminUsers = 0;
+    $staffUsers = 0;
+
+    $users = [];
+
+    $errorMsg = $e->getMessage();
+}
 
 $users = $pdo->query("
     SELECT *
@@ -267,6 +310,119 @@ $users = $pdo->query("
     .users-table tr:hover {
         background: #fafafa;
     }
+        .history-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .history-stat-card {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border, #cfcfcf);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .history-stat-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .history-stat-card p {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .history-stat-card p.green-txt {
+      color: #2db84d;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+    }
+
+    .history-stat-card p.blue-txt {
+      color: #4d66ff;
+    }
+
+    .history-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 180px 150px;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .history-toolbar input,
+    .history-toolbar select {
+      height: 40px;
+      border: 1.5px solid var(--border, #bcbcbc);
+      outline: none;
+      background: white;
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 14px;
+      color: #333;
+      transition: 0.2s;
+    }
+
+    .history-toolbar input:focus,
+    .history-toolbar select:focus {
+      border-color: #4d66ff;
+    }
+
+    .create-user-card {
+    margin-bottom: 20px;
+    }
+    
+    .create-user-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr 180px 160px;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    .create-user-form input,
+    .create-user-form select {
+        height: 44px;
+        border: 1.5px solid #d8d8d8;
+        border-radius: 10px;
+        padding: 0 14px;
+        font-size: 14px;
+        background: white;
+        transition: .2s;
+    }
+    
+    .create-user-form input:focus,
+    .create-user-form select:focus {
+        outline: none;
+        border-color: #4d66ff;
+        box-shadow: 0 0 0 3px rgba(77,102,255,.12);
+    }
+    
+    .btn-create-user {
+        height: 44px;
+        border: none;
+        border-radius: 10px;
+        background: #4d66ff;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .2s;
+    }
+    
+    .btn-create-user:hover {
+        background: #3f57eb;
+        transform: translateY(-1px);
+    }
+
   </style>
 </head>
 
@@ -303,10 +459,24 @@ $users = $pdo->query("
           <strong>Database Notice:</strong> <?= htmlspecialchars($errorMsg) ?>
         </div>
       <?php endif; ?>
-      <h1 style="margin-bottom:20px;">
-    User Management
-</h1>
+    <div class="history-stats-grid">
 
+        <div class="history-stat-card">
+        <h3>Total Accounts</h3>
+        <p class="blue-txt"><?= $totalUsers ?></p>
+        </div>
+
+        <div class="history-stat-card">
+        <h3>Admin Accounts</h3>
+        <p class="green-txt"><?= $adminUsers ?></p>
+        </div>
+
+        <div class="history-stat-card">
+        <h3>User Accounts</h3>
+        <p><?= $staffUsers ?></p>
+        </div>
+
+    </div>
 <?php if ($message): ?>
 <div style="
     background:#e8f9ee;
@@ -320,47 +490,40 @@ $users = $pdo->query("
 </div>
 <?php endif; ?>
 
-<div class="dashboard-section">
+<div class="dashboard-section create-user-card">
 
     <div class="section-title">
         Create User
     </div>
 
-    <form method="POST">
+    <form method="POST" class="create-user-form">
 
-        <div style="
-            display:grid;
-            grid-template-columns:1fr 1fr 1fr auto;
-            gap:10px;
-        ">
+        <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+        >
 
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-            >
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+        >
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-            >
+        <select name="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
 
-            <select name="role">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <button
-                type="submit"
-                name="create_user"
-            >
-                Create
-            </button>
-
-        </div>
+        <button
+            type="submit"
+            name="create_user"
+            class="btn-create-user"
+        >
+            Create User
+        </button>
 
     </form>
 
