@@ -93,4 +93,59 @@ class XMLManager
             throw new Exception($e->getMessage());
         }
     }
+
+    public function importXML($fileTmpPath)
+    {
+        $dom = new DOMDocument();
+
+        if (!$dom->load($fileTmpPath)) {
+            throw new Exception("Failed to load or parse the XML file.");
+        }
+
+        $rootElement = $dom->documentElement;
+        $tableName = $rootElement->nodeName;
+
+        $allowedTables = ['categories', 'users', 'products', 'product_batches', 'inventory_logs', 'orders', 'order_items'];
+        if (!in_array($tableName, $allowedTables)) {
+            throw new Exception("Invalid XML format or unauthorized table: " . $tableName);
+        }
+
+        $rows = $dom->getElementsByTagName('row');
+        if ($rows->length == 0) {
+            throw new Exception("No data found in the XML file.");
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            foreach ($rows as $row) {
+                $columns = [];
+                $values = [];
+                $placeholders = [];
+
+                foreach ($row->childNodes as $node) {
+                    if ($node->nodeType == XML_ELEMENT_NODE) {
+                        $columns[] = $node->nodeName;
+                        $values[] = $node->nodeValue;
+                        $placeholders[] = '?';
+                    }
+                }
+
+                if (!empty($columns)) {
+                    $colString = implode(', ', $columns);
+                    $placeholderString = implode(', ', $placeholders);
+
+                    $sql = "INSERT IGNORE INTO $tableName ($colString) VALUES ($placeholderString)";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute($values);
+                }
+            }
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw new Exception("Database error during import: " . $e->getMessage());
+        }
+    }
 }
