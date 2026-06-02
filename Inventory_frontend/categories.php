@@ -4,7 +4,7 @@ require '../Database/config.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-  header("Location: ../Drafts/login_signup.php");
+  header("Location: ../Drafts/login.php");
   exit;
 }
 ?>

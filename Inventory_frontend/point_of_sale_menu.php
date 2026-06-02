@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-  header("Location: ../Inventory_frontend/login_signup.php");
+  header("Location: ../Inventory_frontend/login.php");
   exit;
 }
 ?>

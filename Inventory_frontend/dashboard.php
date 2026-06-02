@@ -44,7 +44,7 @@ $newUsers = $pdo->query("
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-  header("Location: ../Inventory_frontend/login_signup.php");
+  header("Location: ../Inventory_frontend/login.php");
   exit;
 }
 
