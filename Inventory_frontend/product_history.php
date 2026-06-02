@@ -439,7 +439,7 @@ $logs = $reportManager->getFullInventoryLogs();
 
                 const product = (log.product_name || '').toLowerCase();
                 const action  = (log.action_type || '').toLowerCase();
-                const admin    = (log.admin_name || '').toLowerCase();
+                const admin    = (log.changed_by || '').toLowerCase();
 
                 return product.includes(searchVal)
                     || action.includes(searchVal)
@@ -480,7 +480,7 @@ $logs = $reportManager->getFullInventoryLogs();
                     <td>${log.action_type}</td>
                     <td>${log.old_stock ?? '-'}</td>
                     <td>${log.new_stock ?? '-'}</td>
-                    <td>${log.admin_name ?? 'Admin'}</td>
+                    <td>${log.changed_by ?? 'Admin'}</td>
                     <td>${log.created_at}</td>
                 </tr>
             `).join('');

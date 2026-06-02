@@ -16,6 +16,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$username = $_SESSION['username'] ?? 'Admin';
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admin')) {
@@ -77,7 +79,9 @@ switch ($method) {
         require_once 'Product.php';
         $manager = new InventoryManager($pdo);
         $newProduct = new Product($name, $category_id, $price, $stock);
-        $result = $manager->addProduct($newProduct, $imageName, $_SESSION['username']);
+        
+        $result = $manager->addProduct($newProduct, $imageName, $username);
+        
         if (isset($result['error'])) {
             http_response_code(500);
         }
@@ -105,8 +109,7 @@ switch ($method) {
 
         $updatedProduct = new Product($name, $category_id, $price, $stock);
 
-        // 3. Hand the ID and the Object over to the manager
-        $result = $manager->updateProduct($id, $updatedProduct, $_SESSION['username']);
+        $result = $manager->updateProduct($id, $updatedProduct, $username);
 
         if (isset($result['error'])) {
             http_response_code($result['code']);
@@ -127,7 +130,7 @@ switch ($method) {
         require_once 'InventoryManager.php';
         $manager = new InventoryManager($pdo);
 
-        $result = $manager->deleteProduct($id, $_SESSION['username']);
+        $result = $manager->deleteProduct($id, $username);
 
         if (isset($result['error'])) {
             http_response_code($result['code']);
