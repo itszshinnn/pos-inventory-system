@@ -1,5 +1,8 @@
 <?php
-require '../Database/config.php';
+require '../Database/Database.php';
+
+$database = new Database();
+$pdo = $database->getConnection();
 
 session_start();
 

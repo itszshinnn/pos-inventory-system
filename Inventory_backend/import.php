@@ -1,5 +1,8 @@
 <?php
-require_once '../Database/Database.php';
+require '../Database/Database.php';
+
+$database = new Database();
+$pdo = $database->getConnection();
 require_once 'XMLManager.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['xml_file'])) {
