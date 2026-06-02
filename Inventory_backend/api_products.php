@@ -23,13 +23,10 @@ if (in_array($method, ['POST', 'PUT', 'DELETE']) && ($_SESSION['role'] !== 'admi
 
 switch ($method) {
     case 'GET':
-        $sql = 'SELECT p.id, p.name, p.price, p.stock, p.category_id, p.image,
-                       c.name AS category
-                FROM products p
-                JOIN categories c ON p.category_id = c.id
-                ORDER BY p.id ASC';
-        $stmt = $pdo->query($sql);
-        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        require_once 'InventoryManager.php';
+        $manager = new InventoryManager($pdo);
+        $products = $manager->getAllProducts();
+        echo json_encode($products);
         break;
 
     case 'POST':
@@ -73,28 +70,15 @@ switch ($method) {
             }
         }
 
-        try {
-            $pdo->beginTransaction();
-
-            $stmt = $pdo->prepare("INSERT INTO products (name, category_id, price, stock, image) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$name, $category_id, $price, $stock, $imageName]);
-            $productId = $pdo->lastInsertId();
-
-            if ($stock > 0) {
-                $initialBatch = $pdo->prepare("INSERT INTO product_batches (product_id, quantity_received, quantity_remaining, unit_cost) VALUES (?, ?, ?, ?)");
-                $initialBatch->execute([$productId, $stock, $stock, $price]);
-            }
-
-            $log = $pdo->prepare("INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by) VALUES (?, ?, ?, ?, ?, ?)");
-            $log->execute([$productId, $name, 'Added', null, $stock, $_SESSION['username']]);
-
-            $pdo->commit();
-            echo json_encode(['success' => true, 'id' => $productId]);
-        } catch (Exception $e) {
-            $pdo->rollBack();
+        require_once 'InventoryManager.php';
+        require_once 'Product.php';
+        $manager = new InventoryManager($pdo);
+        $newProduct = new Product($name, $category_id, $price, $stock);
+        $result = $manager->addProduct($newProduct, $imageName, $_SESSION['username']);
+        if (isset($result['error'])) {
             http_response_code(500);
-            echo json_encode(['error' => 'Server error saving product setup structure.']);
         }
+        echo json_encode($result);
         break;
 
     case 'PUT':
@@ -111,59 +95,20 @@ switch ($method) {
             break;
         }
 
-        try {
-            $pdo->beginTransaction();
+        require_once 'InventoryManager.php';
+        require_once 'Product.php';
 
-            $getOld = $pdo->prepare("SELECT stock, name FROM products WHERE id = ?");
-            $getOld->execute([$id]);
-            $oldProduct = $getOld->fetch(PDO::FETCH_ASSOC);
+        $manager = new InventoryManager($pdo);
 
-            if (!$oldProduct) {
-                http_response_code(404);
-                echo json_encode(['error' => 'Product not found']);
-                $pdo->rollBack();
-                break;
-            }
+        $updatedProduct = new Product($name, $category_id, $price, $stock);
 
-            if ($stock !== intval($oldProduct['stock'])) {
-                if ($stock > $oldProduct['stock']) {
-                    $addedQty = $stock - $oldProduct['stock'];
-                    $addBatch = $pdo->prepare("INSERT INTO product_batches (product_id, quantity_received, quantity_remaining, unit_cost) VALUES (?, ?, ?, ?)");
-                    $addBatch->execute([$id, $addedQty, $addedQty, $price]);
-                } else {
-                    $deductQty = $oldProduct['stock'] - $stock;
-                    $batchStmt = $pdo->prepare("SELECT id, quantity_remaining FROM product_batches WHERE product_id = ? AND quantity_remaining > 0 ORDER BY created_at ASC");
-                    $batchStmt->execute([$id]);
-                    $batches = $batchStmt->fetchAll(PDO::FETCH_ASSOC);
+        // 3. Hand the ID and the Object over to the manager
+        $result = $manager->updateProduct($id, $updatedProduct, $_SESSION['username']);
 
-                    foreach ($batches as $batch) {
-                        if ($deductQty <= 0) break;
-                        if ($batch['quantity_remaining'] >= $deductQty) {
-                            $updateB = $pdo->prepare("UPDATE product_batches SET quantity_remaining = quantity_remaining - ? WHERE id = ?");
-                            $updateB->execute([$deductQty, $batch['id']]);
-                            $deductQty = 0;
-                        } else {
-                            $deductQty -= $batch['quantity_remaining'];
-                            $updateB = $pdo->prepare("UPDATE product_batches SET quantity_remaining = 0 WHERE id = ?");
-                            $updateB->execute([$batch['id']]);
-                        }
-                    }
-                }
-            }
-
-            $stmt = $pdo->prepare("UPDATE products SET name = ?, category_id = ?, price = ?, stock = ? WHERE id = ?");
-            $stmt->execute([$name, $category_id, $price, $stock, $id]);
-
-            $log = $pdo->prepare("INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by) VALUES (?, ?, ?, ?, ?, ?)");
-            $log->execute([$id, $name, 'Edited', $oldProduct['stock'], $stock, $_SESSION['username']]);
-
-            $pdo->commit();
-            echo json_encode(['success' => true]);
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            http_response_code(500);
-            echo json_encode(['error' => 'Database update interruption error.']);
+        if (isset($result['error'])) {
+            http_response_code($result['code']);
         }
+        echo json_encode($result);
         break;
 
     case 'DELETE':
@@ -176,44 +121,14 @@ switch ($method) {
             break;
         }
 
-        $getProduct = $pdo->prepare("SELECT name, stock, image FROM products WHERE id = ?");
-        $getProduct->execute([$id]);
-        $product = $getProduct->fetch(PDO::FETCH_ASSOC);
+        require_once 'InventoryManager.php';
+        $manager = new InventoryManager($pdo);
 
-        if (!$product) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Product not found']);
-            break;
+        $result = $manager->deleteProduct($id, $_SESSION['username']);
+
+        if (isset($result['error'])) {
+            http_response_code($result['code']);
         }
-
-        if (!empty($product['image']) && $product['image'] !== 'default_product.png') {
-            $filePath = '../Images/' . $product['image'];
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
-
-        try {
-            $pdo->beginTransaction();
-
-            $log = $pdo->prepare("INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by) VALUES (?, ?, ?, ?, ?, ?)");
-            $log->execute([null, $product['name'], 'Deleted', $product['stock'], null, $_SESSION['username']]);
-
-            $deleteOrderItems = $pdo->prepare("DELETE FROM order_items WHERE product_id = ?");
-            $deleteOrderItems->execute([$id]);
-
-            $deleteBatches = $pdo->prepare("DELETE FROM product_batches WHERE product_id = ?");
-            $deleteBatches->execute([$id]);
-
-            $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-            $stmt->execute([$id]);
-
-            $pdo->commit();
-            echo json_encode(['success' => true]);
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            http_response_code(500);
-            echo json_encode(['error' => 'Secure deletion process failed.']);
-        }
+        echo json_encode($result);
         break;
 }
