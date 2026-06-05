@@ -12,29 +12,37 @@ class XMLManager
 
     public function exportAll()
     {
-        $stmt = $this->db->query("SELECT p.id, p.name, p.price, p.stock, c.name AS category_name 
-                                  FROM products p 
-                                  LEFT JOIN categories c ON p.category_id = c.id 
-                                  ORDER BY p.id ASC");
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $tables = ['categories', 'users', 'products', 'product_batches', 'inventory_logs', 'orders', 'order_items'];
 
-        return $this->generateXML($products);
-    }
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->formatOutput = true;
 
-    public function exportIndividual($id)
-    {
-        $stmt = $this->db->prepare("SELECT p.id, p.name, p.price, p.stock, c.name AS category_name 
-                                    FROM products p 
-                                    LEFT JOIN categories c ON p.category_id = c.id 
-                                    WHERE p.id = ?");
-        $stmt->execute([$id]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+        $rootNode = $xml->createElement('database');
+        $xml->appendChild($rootNode);
 
-        if (!$product) {
-            return false;
+        foreach ($tables as $table) {
+            $tableNode = $xml->createElement($table);
+            $rootNode->appendChild($tableNode);
+
+            try {
+                $stmt = $this->db->query("SELECT * FROM $table");
+
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $rowNode = $xml->createElement('row');
+
+                    foreach ($row as $column => $value) {
+                        $colNode = $xml->createElement($column, htmlspecialchars($value ?? ''));
+                        $rowNode->appendChild($colNode);
+                    }
+
+                    $tableNode->appendChild($rowNode);
+                }
+            } catch (Exception $e) {
+                continue;
+            }
         }
 
-        return $this->generateXML([$product]);
+        return $xml->saveXML();
     }
 
     private function generateXML($dataArray)
@@ -93,7 +101,6 @@ class XMLManager
             throw new Exception($e->getMessage());
         }
     }
-
     public function importXML($fileTmpPath)
     {
         $dom = new DOMDocument();
@@ -103,41 +110,41 @@ class XMLManager
         }
 
         $rootElement = $dom->documentElement;
-        $tableName = $rootElement->nodeName;
-
+        $rootName = $rootElement->nodeName;
         $allowedTables = ['categories', 'users', 'products', 'product_batches', 'inventory_logs', 'orders', 'order_items'];
-        if (!in_array($tableName, $allowedTables)) {
-            throw new Exception("Invalid XML format or unauthorized table: " . $tableName);
-        }
-
-        $rows = $dom->getElementsByTagName('row');
-        if ($rows->length == 0) {
-            throw new Exception("No data found in the XML file.");
-        }
 
         try {
             $this->db->beginTransaction();
 
-            foreach ($rows as $row) {
-                $columns = [];
-                $values = [];
-                $placeholders = [];
+            if ($rootName === 'database') {
 
-                foreach ($row->childNodes as $node) {
-                    if ($node->nodeType == XML_ELEMENT_NODE) {
-                        $columns[] = $node->nodeName;
-                        $values[] = $node->nodeValue;
-                        $placeholders[] = '?';
+                foreach ($rootElement->childNodes as $tableNode) {
+                    if ($tableNode->nodeType == XML_ELEMENT_NODE) {
+                        $tableName = $tableNode->nodeName;
+
+                        if (in_array($tableName, $allowedTables)) {
+                            foreach ($tableNode->childNodes as $row) {
+                                if ($row->nodeType == XML_ELEMENT_NODE && $row->nodeName === 'row') {
+                                    $this->insertXMLRow($row, $tableName);
+                                }
+                            }
+                        }
                     }
                 }
+            }
+            // SCENARIO 2: It is a SINGLE table export (Root node is the table name)
+            else {
+                if (!in_array($rootName, $allowedTables)) {
+                    throw new Exception("Invalid XML format or unauthorized table: " . $rootName);
+                }
 
-                if (!empty($columns)) {
-                    $colString = implode(', ', $columns);
-                    $placeholderString = implode(', ', $placeholders);
+                $rows = $dom->getElementsByTagName('row');
+                if ($rows->length == 0) {
+                    throw new Exception("No data found in the XML file.");
+                }
 
-                    $sql = "INSERT IGNORE INTO $tableName ($colString) VALUES ($placeholderString)";
-                    $stmt = $this->db->prepare($sql);
-                    $stmt->execute($values);
+                foreach ($rows as $row) {
+                    $this->insertXMLRow($row, $rootName);
                 }
             }
 
@@ -146,6 +153,31 @@ class XMLManager
         } catch (Exception $e) {
             $this->db->rollBack();
             throw new Exception("Database error during import: " . $e->getMessage());
+        }
+    }
+
+    // Helper Function: Safely inserts a single XML row into the specified table
+    private function insertXMLRow($rowNode, $tableName)
+    {
+        $columns = [];
+        $values = [];
+        $placeholders = [];
+
+        foreach ($rowNode->childNodes as $node) {
+            if ($node->nodeType == XML_ELEMENT_NODE) {
+                $columns[] = $node->nodeName;
+                $values[] = $node->nodeValue;
+                $placeholders[] = '?';
+            }
+        }
+
+        if (!empty($columns)) {
+            $colString = implode(', ', $columns);
+            $placeholderString = implode(', ', $placeholders);
+
+            $sql = "INSERT IGNORE INTO $tableName ($colString) VALUES ($placeholderString)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($values);
         }
     }
 }

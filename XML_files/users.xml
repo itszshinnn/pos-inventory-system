@@ -14,4 +14,18 @@
     <created_at>2026-06-02 23:03:18</created_at>
     <role>admin</role>
   </row>
+  <row>
+    <id>3</id>
+    <username>pogi</username>
+    <password>$2y$10$ixFOkjMMCru1eMUIQ3MQIOAMuOfEv8C4jh6FvnAkRhzw0LMtfIFTK</password>
+    <created_at>2026-06-03 01:38:39</created_at>
+    <role>admin</role>
+  </row>
+  <row>
+    <id>4</id>
+    <username>cerbo</username>
+    <password>$2y$10$3YI1T0E0MwACVk8.M01xyOiNdHpVGT3i9VdgVuzAvsgCl9tT20G9G</password>
+    <created_at>2026-06-03 11:44:48</created_at>
+    <role>admin</role>
+  </row>
 </users>

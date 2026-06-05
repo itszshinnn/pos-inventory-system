@@ -77,7 +77,7 @@
     <name>SSD 512gb</name>
     <category_id>3</category_id>
     <price>1199.00</price>
-    <stock>5</stock>
+    <stock>4</stock>
     <created_at>2026-05-23 16:09:06</created_at>
     <image>1779523746_392c55ef80499d2f.png</image>
   </row>
@@ -86,7 +86,7 @@
     <name>Cooling Pad</name>
     <category_id>5</category_id>
     <price>349.00</price>
-    <stock>10</stock>
+    <stock>4</stock>
     <created_at>2026-05-23 16:09:19</created_at>
     <image>1779523759_2c8ab3f73360125d.png</image>
   </row>
@@ -113,8 +113,17 @@
     <name>Printer</name>
     <category_id>4</category_id>
     <price>2499.00</price>
-    <stock>10</stock>
+    <stock>8</stock>
     <created_at>2026-06-03 01:09:30</created_at>
     <image>1780420170_7139b23f47b5c2bd.png</image>
+  </row>
+  <row>
+    <id>18</id>
+    <name>Projector</name>
+    <category_id>4</category_id>
+    <price>2499.00</price>
+    <stock>8</stock>
+    <created_at>2026-06-03 12:32:34</created_at>
+    <image>1780461154_a7ac2d9ecb5723fc.png</image>
   </row>
 </products>

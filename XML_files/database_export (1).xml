@@ -68,7 +68,7 @@
       <name>Wireless Mouse</name>
       <category_id>1</category_id>
       <price>249.00</price>
-      <stock>10</stock>
+      <stock>5</stock>
       <created_at>2026-05-20 19:23:18</created_at>
       <image>1779276198_6a0d99a6adc07.png</image>
     </row>
@@ -140,7 +140,7 @@
       <name>SSD 512gb</name>
       <category_id>3</category_id>
       <price>1199.00</price>
-      <stock>5</stock>
+      <stock>4</stock>
       <created_at>2026-05-23 16:09:06</created_at>
       <image>1779523746_392c55ef80499d2f.png</image>
     </row>
@@ -149,7 +149,7 @@
       <name>Cooling Pad</name>
       <category_id>5</category_id>
       <price>349.00</price>
-      <stock>10</stock>
+      <stock>4</stock>
       <created_at>2026-05-23 16:09:19</created_at>
       <image>1779523759_2c8ab3f73360125d.png</image>
     </row>
@@ -176,9 +176,18 @@
       <name>Printer</name>
       <category_id>4</category_id>
       <price>2499.00</price>
-      <stock>10</stock>
+      <stock>8</stock>
       <created_at>2026-06-03 01:09:30</created_at>
       <image>1780420170_7139b23f47b5c2bd.png</image>
+    </row>
+    <row>
+      <id>18</id>
+      <name>Projector</name>
+      <category_id>4</category_id>
+      <price>2499.00</price>
+      <stock>8</stock>
+      <created_at>2026-06-03 12:32:34</created_at>
+      <image>1780461154_a7ac2d9ecb5723fc.png</image>
     </row>
   </products>
   <product_batches>
@@ -314,7 +323,7 @@
       <id>17</id>
       <product_id>9</product_id>
       <quantity_received>10</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
+      <quantity_remaining>4</quantity_remaining>
       <unit_cost>1199.00</unit_cost>
       <created_at>2026-05-23 16:09:06</created_at>
     </row>
@@ -322,7 +331,7 @@
       <id>18</id>
       <product_id>10</product_id>
       <quantity_received>10</quantity_received>
-      <quantity_remaining>10</quantity_remaining>
+      <quantity_remaining>4</quantity_remaining>
       <unit_cost>349.00</unit_cost>
       <created_at>2026-05-23 16:09:19</created_at>
     </row>
@@ -354,7 +363,7 @@
       <id>26</id>
       <product_id>16</product_id>
       <quantity_received>10</quantity_received>
-      <quantity_remaining>10</quantity_remaining>
+      <quantity_remaining>8</quantity_remaining>
       <unit_cost>2499.00</unit_cost>
       <created_at>2026-06-03 01:09:30</created_at>
     </row>
@@ -370,7 +379,7 @@
       <id>28</id>
       <product_id>1</product_id>
       <quantity_received>9</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
+      <quantity_remaining>0</quantity_remaining>
       <unit_cost>249.00</unit_cost>
       <created_at>2026-06-03 01:38:56</created_at>
     </row>
@@ -381,6 +390,14 @@
       <quantity_remaining>5</quantity_remaining>
       <unit_cost>249.00</unit_cost>
       <created_at>2026-06-03 11:46:10</created_at>
+    </row>
+    <row>
+      <id>31</id>
+      <product_id>18</product_id>
+      <quantity_received>10</quantity_received>
+      <quantity_remaining>8</quantity_remaining>
+      <unit_cost>2499.00</unit_cost>
+      <created_at>2026-06-03 12:32:34</created_at>
     </row>
   </product_batches>
   <inventory_logs>
@@ -609,7 +626,7 @@
       <product_id>15</product_id>
       <product_name>Printer</product_name>
       <action_type>Added</action_type>
-      <old_stock/>
+      <old_stock>0</old_stock>
       <new_stock>10</new_stock>
       <changed_by>Admin</changed_by>
       <created_at>2026-06-01 19:22:48</created_at>
@@ -619,18 +636,18 @@
       <product_id>15</product_id>
       <product_name>Projector</product_name>
       <action_type>Added</action_type>
-      <old_stock/>
+      <old_stock>0</old_stock>
       <new_stock>10</new_stock>
       <changed_by>Admin</changed_by>
       <created_at>2026-06-02 23:56:14</created_at>
     </row>
     <row>
       <id>25</id>
-      <product_id/>
+      <product_id>0</product_id>
       <product_name>Projector</product_name>
       <action_type>Deleted</action_type>
       <old_stock>10</old_stock>
-      <new_stock/>
+      <new_stock>0</new_stock>
       <changed_by>Admin</changed_by>
       <created_at>2026-06-03 00:00:39</created_at>
     </row>
@@ -659,7 +676,7 @@
       <product_id>16</product_id>
       <product_name>Printer</product_name>
       <action_type>Added</action_type>
-      <old_stock/>
+      <old_stock>0</old_stock>
       <new_stock>10</new_stock>
       <changed_by>Admin</changed_by>
       <created_at>2026-06-03 01:09:30</created_at>
@@ -724,6 +741,46 @@
       <changed_by>cerbo</changed_by>
       <created_at>2026-06-03 11:46:10</created_at>
     </row>
+    <row>
+      <id>35</id>
+      <product_id>1</product_id>
+      <product_name>Wireless Mouse</product_name>
+      <action_type>Edited</action_type>
+      <old_stock>10</old_stock>
+      <new_stock>5</new_stock>
+      <changed_by>Admin</changed_by>
+      <created_at>2026-06-03 12:24:17</created_at>
+    </row>
+    <row>
+      <id>36</id>
+      <product_id>17</product_id>
+      <product_name>Projector</product_name>
+      <action_type>Added</action_type>
+      <old_stock/>
+      <new_stock>10</new_stock>
+      <changed_by>Admin</changed_by>
+      <created_at>2026-06-03 12:26:04</created_at>
+    </row>
+    <row>
+      <id>37</id>
+      <product_id/>
+      <product_name>Projector</product_name>
+      <action_type>Deleted</action_type>
+      <old_stock>10</old_stock>
+      <new_stock/>
+      <changed_by>Admin</changed_by>
+      <created_at>2026-06-03 12:32:02</created_at>
+    </row>
+    <row>
+      <id>38</id>
+      <product_id>18</product_id>
+      <product_name>Projector</product_name>
+      <action_type>Added</action_type>
+      <old_stock/>
+      <new_stock>10</new_stock>
+      <changed_by>Admin</changed_by>
+      <created_at>2026-06-03 12:32:34</created_at>
+    </row>
   </inventory_logs>
   <orders>
     <row>
@@ -785,6 +842,46 @@
       <created_at>2026-06-03 01:02:51</created_at>
       <cash_received>1000.00</cash_received>
       <change_amount>253.00</change_amount>
+    </row>
+    <row>
+      <id>7</id>
+      <order_no>0007</order_no>
+      <total_amount>2094.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>Cash</payment_method>
+      <created_at>2026-06-03 12:26:31</created_at>
+      <cash_received>2100.00</cash_received>
+      <change_amount>6.00</change_amount>
+    </row>
+    <row>
+      <id>8</id>
+      <order_no>0008</order_no>
+      <total_amount>4998.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>Cash</payment_method>
+      <created_at>2026-06-03 12:33:05</created_at>
+      <cash_received>5000.00</cash_received>
+      <change_amount>2.00</change_amount>
+    </row>
+    <row>
+      <id>9</id>
+      <order_no>0009</order_no>
+      <total_amount>1199.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>GCash</payment_method>
+      <created_at>2026-06-03 12:33:45</created_at>
+      <cash_received>0.00</cash_received>
+      <change_amount>0.00</change_amount>
+    </row>
+    <row>
+      <id>10</id>
+      <order_no>0010</order_no>
+      <total_amount>4498.20</total_amount>
+      <discount_amount>499.80</discount_amount>
+      <payment_method>Cash</payment_method>
+      <created_at>2026-06-03 12:35:39</created_at>
+      <cash_received>4500.00</cash_received>
+      <change_amount>1.80</change_amount>
     </row>
   </orders>
   <order_items>
@@ -976,6 +1073,34 @@
       <product_id>5</product_id>
       <quantity>3</quantity>
       <price_at_sale>249.00</price_at_sale>
+    </row>
+    <row>
+      <id>28</id>
+      <order_id>7</order_id>
+      <product_id>10</product_id>
+      <quantity>6</quantity>
+      <price_at_sale>349.00</price_at_sale>
+    </row>
+    <row>
+      <id>29</id>
+      <order_id>8</order_id>
+      <product_id>18</product_id>
+      <quantity>2</quantity>
+      <price_at_sale>2499.00</price_at_sale>
+    </row>
+    <row>
+      <id>30</id>
+      <order_id>9</order_id>
+      <product_id>9</product_id>
+      <quantity>1</quantity>
+      <price_at_sale>1199.00</price_at_sale>
+    </row>
+    <row>
+      <id>31</id>
+      <order_id>10</order_id>
+      <product_id>16</product_id>
+      <quantity>2</quantity>
+      <price_at_sale>2499.00</price_at_sale>
     </row>
   </order_items>
 </database>

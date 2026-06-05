@@ -9,7 +9,7 @@ class ReportManager {
     }
 
     public function getDashboardMetrics() {
-        $metrics = [];
+        $metrics = [ ];
 
         try {
             $metrics['productLogs'] = $this->db->query("SELECT product_name, action_type, changed_by, created_at FROM inventory_logs ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
