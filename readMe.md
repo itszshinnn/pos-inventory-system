@@ -76,7 +76,7 @@
 ## History
 ### Sales History
 - Records all the processed orders
-- Order No. / Items Sold / Payment method / Discount / Total Amount / Actions (View Receipt)
+- Items Summary
 
 ![hist](ReadMe/history.png)
 
@@ -129,29 +129,6 @@
 # Database
 ## Database Name
 - POS_Inventory_System
-
-# UI Design
-## Side Navbar
-	Dashboard
-	- Total Products
-	- Total Units
-	- Categories
-	- Low stock
-	- Out of stock
-
-	Categories
-	- Add New Category
-	- View All Categories
-	- Edit/Delete Category
-
-	Products
-	- Item Number
-	- Product Name
-	- Category 
-	- Price 
-	- Stocks 
-	- Status
-	- Edit/Delete 
 
 # Notes
 ## How to clone the repo
