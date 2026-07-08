@@ -14,6 +14,8 @@
 - Can login using an Admin account
 - Can login using an User/Staff account
 
+![login](ReadMe/login.png)
+
 # Admin Side:
 
 ## Dashboard
@@ -30,11 +32,15 @@
 - Total Products Deleted
 - Notifications tab: (Added product, Deleted product, Edited product, Stock alert, New user, Processed Orders)
 
+![dash](ReadMe/dashboard.png)
+
 ## Category Management
 - Add Category
 - View Categories
 - Edit Category
 - Delete Category
+
+![cate](ReadMe/categories.png)
 
 ## Product Management
 - View All Products
@@ -43,7 +49,12 @@
 - Edit Product
 - Delete Product
 
+![prod](ReadMe/products.png)
+
 - Product No. / Name / Catergory / Price / Stocks / Status (Fine,Low,Out of stock) / Actions (Edit or Delete)
+
+![edit](ReadMe/editproduct.png)
+
 
 ## Add Product
 - Enter Product Name
@@ -52,16 +63,24 @@
 - Input stock
 - (optional, has default image) upload product image 
 
+![add](ReadMe/addproduct.png)
+
 ## XML Files
 - Export each table in the database to individual files
 - Export all database tables into one singular file
 - Import XML 
 - Import both works on individual files and database file
 
+![xml](ReadMe/XML.png)
+
 ## History
 ### Sales History
 - Records all the processed orders
 - Order No. / Items Sold / Payment method / Discount / Total Amount / Actions (View Receipt)
+
+![hist](ReadMe/history.png)
+
+![reci](ReadMe/receipt.png)
 
 ### Inventory Logs
 - Records changes made to the items
@@ -69,6 +88,8 @@
 - Shows when an item or stock gets deleted
 - Shows when an item or stock gets added
 - Shows date on each changes
+
+![inv](ReadMe/invhistory.png)
 
 ## Users 
 - Shows total accounts
@@ -78,6 +99,8 @@
 - Shows all of the existing users (including admin)
 - Admin can edit or delete users
 
+![userss](ReadMe/users.png)
+
 # User Side :
 ## POS System
 - Shows all of the items in the database
@@ -86,7 +109,8 @@
 - User can filter items using categories
 - User can search for an item
 - Clicking on an item adds them to cart
-![POST Screenshot](ReadMe/POS.png)
+
+![POS Screenshot](ReadMe/POS.png)
 
 ## Cart
 - Shows all of the items inside the cart
@@ -99,6 +123,8 @@
 - User can choose a payment method (Cash, Card, GCash, Maya)
 - User inputs how much is paid
 - System automatically calculates the change
+
+![chec](ReadMe/checkout.png)
 
 # Database
 ## Database Name
