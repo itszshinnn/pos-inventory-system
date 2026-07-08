@@ -6,15 +6,35 @@
 - Cerbo
 - Bettina
 - Calinaya
-- Leah
+- Morimitsu
  
 # Features
+
+## Login
+- Can login using an Admin account
+- Can login using an User/Staff account
+
+# Admin Side:
+
 ## Dashboard
 - Total Products
 - Total Units
 - Total Categories
 - Low Stock
 - Out of Stock
+- Total Revenue
+- Total Transactions
+- Total Items Sold
+- Total Logs
+- Total Products Added
+- Total Products Deleted
+- Notifications tab: (Added product, Deleted product, Edited product, Stock alert, New user, Processed Orders)
+
+## Category Management
+- Add Category
+- View Categories
+- Edit Category
+- Delete Category
 
 ## Product Management
 - View All Products
@@ -23,44 +43,46 @@
 - Edit Product
 - Delete Product
 
-## Category Management
-- Add Category
-- View Categories
-- Edit Category
-- Delete Category
+- Product No. / Name / Catergory / Price / Stocks / Status (Fine,Low,Out of stock) / Actions (Edit or Delete)
 
-# Product Categories
-## Input Devices
-- Keyboard (Wired/Wireless)
-- Mouse (Wired/Wireless)
+## Add Product
+- Enter Product Name
+- Select Category
+- Input price
+- Input stock
+- (optional, has default image) upload product image 
 
-## Audio Devices
-- Earphones
-- Wireless Earbuds
-- Speaker
+## XML Files
+- Export each table in the database to individual files
+- Export all database tables into one singular file
+- Import XML 
+- Import both works on individual files and database file
 
-## Storage Devices
-- Memory Card (SD/MicroSD)
-- USB Flash Drive
-- External Hard Drive
+## History
+### Sales History
+- Records all the processed orders
+- Order No. / Items Sold / Payment method / Discount / Total Amount / Actions (View Receipt)
 
-## Output Devices
-- Monitor
-- Webcam
+### Inventory Logs
+- Records changes made to the items
+- Shows old and new stock when changed
+- Shows when an item or stock gets deleted
+- Shows when an item or stock gets added
+- Shows date on each changes
+
+## Users 
+- Shows total accounts
+- Shows total Admin accounts
+- Shows total User accounts
+- Admin can create a user or an admin account
+- Shows all of the existing users (including admin)
+- Admin can edit or delete users
+
+# User Side :
 
 # Database
 ## Database Name
 - POS_Inventory_System
-## Table Name 
-- Accounts, Products
-
-## Products Table
-- Item Number | Displays the id of the item in the table
-- Name | The name of the item in the table
-- Category | Input Devices, Audio, Storage, Output Devices
-- Price | Price of each item
-- Stocks | Current number of item in stock
-- Status | Fine if there are enough stock, Low stock, Out of stock
 
 # UI Design
 ## Side Navbar
@@ -93,12 +115,6 @@
 - Always pull before pushing changes.
 - Use proper commit changes.
 - PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
-
-## Directory to place in the browser
-- http://localhost/inventory/inventory_frontend/dashboard.php
-- http://localhost/inventory/inventory_frontend/categories.php
-- http://localhost/inventory/inventory_frontend/products.php
-- http://localhost/inventory/inventory_frontend/add-product.php
 
 ## Git Commands
 - git pull origin (branch name) | download all the latest code in this branch
