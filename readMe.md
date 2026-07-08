@@ -79,6 +79,26 @@
 - Admin can edit or delete users
 
 # User Side :
+## POS System
+- Shows all of the items in the database
+- Shows records of stock of each item
+- Greys out items that are sold out
+- User can filter items using categories
+- User can search for an item
+- Clicking on an item adds them to cart
+![POST Screenshot](ReadMe/POS.png)
+
+## Cart
+- Shows all of the items inside the cart
+- User can remove the item from the cart
+- User can input a discount, either percentage (%) or in pesos
+
+## Checkout
+- Shows a breakdown of the items price
+- Shows the total of the order
+- User can choose a payment method (Cash, Card, GCash, Maya)
+- User inputs how much is paid
+- System automatically calculates the change
 
 # Database
 ## Database Name
