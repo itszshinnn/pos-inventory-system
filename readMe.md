@@ -55,7 +55,6 @@
 
 ![edit](ReadMe/editproduct.png)
 
-
 ## Add Product
 - Enter Product Name
 - Select Category
@@ -76,7 +75,7 @@
 ## History
 ### Sales History
 - Records all the processed orders
-- Items Summary
+- Order No. / Items Summary / Payment method / Discount / Total Amount / Actions (View Receipt)
 
 ![hist](ReadMe/history.png)
 
@@ -91,13 +90,13 @@
 
 ![inv](ReadMe/invhistory.png)
 
-## Users 
+## Accounts 
 - Shows total accounts
 - Shows total Admin accounts
-- Shows total User accounts
-- Admin can create a user or an admin account
-- Shows all of the existing users (including admin)
-- Admin can edit or delete users
+- Shows total Staff accounts
+- Admin can create a staff or an admin account
+- Shows all of the existing staff (including admin)
+- Admin can edit or delete staff accounts
 
 ![userss](ReadMe/users.png)
 
