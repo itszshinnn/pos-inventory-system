@@ -267,10 +267,151 @@ usort($allNotifications, function ($a, $b) {
       padding: 24px;
       overflow-x: hidden;
     }
+
+    .stock-alert-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+
+      background: rgba(0, 0, 0, 0.25);
+
+      z-index: 9999;
+    }
+
+    .stock-alert {
+
+      height: 350px;
+
+      width: 550px;
+
+      max-width: 90%;
+
+      background: #fff;
+
+      border-left: 5px solid #ff9800;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      animation: popupFade .25s ease;
+    }
+
+    .stock-alert h4 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .stock-alert p {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+
+    .stock-alert ul {
+      font-size: 15px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .stock-alert-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .stock-alert-buttons button {
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .stock-alert-buttons button:first-child {
+      background: #ddd;
+    }
+
+    .stock-alert-buttons button:last-child {
+      background: #2E8B57;
+      color: white;
+    }
+
+    .stock-out {
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    .stock-low {
+      color: #d4a017;
+      font-weight: 600;
+    }
+
+    @keyframes popupFade {
+
+      from {
+        opacity: 0;
+        transform: scale(.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
   </style>
 </head>
 
 <body>
+
+  <div id="stockAlertOverlay" class="stock-alert-overlay">
+    <div id="stockAlert" class="stock-alert">
+
+      <h4>Inventory Alert</h4>
+
+      <p>The following products need restocking:</p>
+
+      <ul>
+
+        <?php foreach ($lowStocks as $item): ?>
+
+          <li>
+
+            <strong><?= htmlspecialchars($item['name']) ?></strong>
+
+            <?php if ($item['stock'] == 0): ?>
+
+              <span class="stock-out">(Out of Stock)</span>
+
+            <?php else: ?>
+
+              <span class="stock-low">(Low Stock - <?= $item['stock'] ?> remaining)</span>
+
+            <?php endif; ?>
+
+          </li>
+
+        <?php endforeach; ?>
+
+      </ul>
+
+      <p>Would you like to put an order for restocking?</p>
+
+      <div class="stock-alert-buttons">
+
+        <button id="restockLater">Later</button>
+
+        <button id="restockYes">Restock</button>
+
+      </div>
+    </div>
+  </div>
 
   <div class="topbar">
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
@@ -471,6 +612,65 @@ usort($allNotifications, function ($a, $b) {
         dropdown.style.display = "none";
       }
     }
+
+    const lowStockCount = <?= count($lowStocks) ?>;
+
+    console.log("Low Stock Count:", lowStockCount);
+
+
+    const popup = document.getElementById("stockAlert");
+    const overlay = document.getElementById("stockAlertOverlay");
+    const KEY = "stockAlertLastDismiss";
+
+    function showAlert() {
+
+      if (lowStockCount <= 0) return;
+
+      overlay.style.display = "flex";
+    }
+
+    function shouldShow() {
+
+      const last = localStorage.getItem(KEY);
+
+      if (last === null) {
+
+        setTimeout(showAlert, 1500);
+
+        return;
+      }
+
+      const elapsed = Date.now() - parseInt(last);
+
+      if (elapsed >= 10 * 60 * 1000) {
+
+        showAlert();
+      }
+    }
+
+    document.getElementById("restockLater").onclick = function() {
+
+      localStorage.setItem(KEY, Date.now());
+
+      overlay.style.display = "none";
+    }
+
+    document.getElementById("restockYes").onclick = function() {
+
+      window.location.href = "restock.php";
+
+    }
+
+    shouldShow();
+
+    setInterval(function() {
+
+      if (overlay.style.display === "flex")
+        return;
+
+      shouldShow();
+
+    }, 60000);
   </script>
 </body>
 
