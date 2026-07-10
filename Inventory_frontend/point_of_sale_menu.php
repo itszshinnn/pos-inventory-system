@@ -1109,6 +1109,11 @@ if (!isset($_SESSION['user_id'])) {
 
         const result = await response.json();
 
+        if (result.success && result.is_redirect) {
+          window.location.href = result.checkout_url;
+          return;
+        }
+
         if (result.success) {
           alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
           closeCheckoutModal();
@@ -1138,7 +1143,6 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     function open3DViewer(productId) {
-      // Find the product data from our array
       const p = allProducts.find(x => x.id === productId);
       if (!p) return;
 
@@ -1147,7 +1151,6 @@ if (!isset($_SESSION['user_id'])) {
         return;
       }
 
-      // Build the formatted details HTML
       let detailsHTML = `
             <div style="font-size: 14px; color: #444; line-height: 1.6;">
                 <strong>Price:</strong> ₱${Number(p.price).toFixed(2)}<br>
@@ -1156,23 +1159,20 @@ if (!isset($_SESSION['user_id'])) {
                 <strong>Type:</strong> ${p.type || 'N/A'}<br>
         `;
 
-      // Conditionally add dynamic fields only if they exist
       if (p.capacity_size) detailsHTML += `<strong>Size/Capacity:</strong> ${p.capacity_size}<br>`;
       if (p.resolution) detailsHTML += `<strong>Resolution:</strong> ${p.resolution}<br>`;
 
-      // Add the main description if it exists
       if (p.description) {
         detailsHTML += `<br><strong>Description:</strong><br>${p.description}`;
       }
 
       detailsHTML += `</div>`;
 
-      // Inject the viewer and details
       document.getElementById('viewer-container').innerHTML = `
             <model-viewer src="${p.model_path}" auto-rotate camera-controls style="width: 100%; height: 100%;"></model-viewer>
         `;
       document.getElementById('modal-title').innerText = p.name;
-      document.getElementById('modal-desc').innerHTML = detailsHTML; // Note: using innerHTML now to render the bold tags
+      document.getElementById('modal-desc').innerHTML = detailsHTML; 
 
       document.getElementById('model-modal').style.display = 'flex';
     }
@@ -1184,6 +1184,14 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     loadData();
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success') {
+        alert("E-Wallet Payment Successful! Sale Confirmed.");
+
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    };
   </script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </body>

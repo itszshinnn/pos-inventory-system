@@ -128,7 +128,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <input type="hidden" id="editId" />
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 4px;">
-        <!-- LEFT COLUMN -->
         <div>
           <label style="font-size: 0.85rem; font-weight: 600;">Product Name</label>
           <input type="text" id="editName" placeholder="Product name" />
@@ -146,7 +145,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           <input type="text" id="editBrand" placeholder="Brand" />
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div>
           <label style="font-size: 0.85rem; font-weight: 600;">Color</label>
           <input type="text" id="editColor" placeholder="Color" />
@@ -225,6 +223,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         </td>
       </tr>
     `).join('');
+    }
+
+    function toggleUserDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById("userDropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
     function filterTable() {
