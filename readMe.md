@@ -1,20 +1,50 @@
 # POS Inventory System
 
+## Overview
+
+- The POS Inventory System is a web-based application developed to help businesses efficiently manage their inventory and sales operations in one centralized platform. It caters to small and medium-sized businesses, such as retail stores, mini marts, and shops, by providing an organized way to monitor products, process customer transactions, and manage stock levels. The system is designed for both administrators and staff, where administrators can manage products, categories, accounts, and reports, while staff can efficiently process sales through the point-of-sale interface. With features such as inventory tracking, sales history, XML import/export, and real-time stock monitoring, the system improves operational efficiency, reduces manual errors, and streamlines daily business activities.
+
 ## Members
 - Sean
 - Limo
 - Cerbo
 - Bettina
 - Calinaya
-- Leah
+- Morimitsu
  
 # Features
+
+## Login
+- Can login using an Admin account
+- Can login using an User/Staff account
+
+![login](ReadMe/login.png)
+
+# Admin Side:
+
 ## Dashboard
 - Total Products
 - Total Units
 - Total Categories
 - Low Stock
 - Out of Stock
+- Total Revenue
+- Total Transactions
+- Total Items Sold
+- Total Logs
+- Total Products Added
+- Total Products Deleted
+- Notifications tab: (Added product, Deleted product, Edited product, Stock alert, New user, Processed Orders)
+
+![dash](ReadMe/dashboard.png)
+
+## Category Management
+- Add Category
+- View Categories
+- Edit Category
+- Delete Category
+
+![cate](ReadMe/categories.png)
 
 ## Product Management
 - View All Products
@@ -23,67 +53,85 @@
 - Edit Product
 - Delete Product
 
-## Category Management
-- Add Category
-- View Categories
-- Edit Category
-- Delete Category
+![prod](ReadMe/products.png)
 
-# Product Categories
-## Input Devices
-- Keyboard (Wired/Wireless)
-- Mouse (Wired/Wireless)
+- Product No. / Name / Catergory / Price / Stocks / Status (Fine,Low,Out of stock) / Actions (Edit or Delete)
 
-## Audio Devices
-- Earphones
-- Wireless Earbuds
-- Speaker
+![edit](ReadMe/editproduct.png)
 
-## Storage Devices
-- Memory Card (SD/MicroSD)
-- USB Flash Drive
-- External Hard Drive
+## Add Product
+- Enter Product Name
+- Select Category
+- Input price
+- Input stock
+- (optional, has default image) upload product image 
 
-## Output Devices
-- Monitor
-- Webcam
+![add](ReadMe/addproduct.png)
+
+## XML Files
+- Export each table in the database to individual files
+- Export all database tables into one singular file
+- Import XML 
+- Import both works on individual files and database file
+
+![xml](ReadMe/XML.png)
+
+## History
+### Sales History
+- Records all the processed orders
+- Order No. / Items Summary / Payment method / Discount / Total Amount / Actions (View Receipt)
+
+![hist](ReadMe/history.png)
+
+![reci](ReadMe/receipt.png)
+
+### Inventory Logs
+- Records changes made to the items
+- Shows old and new stock when changed
+- Shows when an item or stock gets deleted
+- Shows when an item or stock gets added
+- Shows date on each changes
+
+![inv](ReadMe/invhistory.png)
+
+## Accounts 
+- Shows total accounts
+- Shows total Admin accounts
+- Shows total Staff accounts
+- Admin can create a staff or an admin account
+- Shows all of the existing staff (including admin)
+- Admin can edit or delete staff accounts
+
+![userss](ReadMe/users.png)
+
+# User Side :
+## POS System
+- Shows all of the items in the database
+- Shows records of stock of each item
+- Greys out items that are sold out
+- User can filter items using categories
+- User can search for an item
+- Clicking on an item adds them to cart
+
+![POS Screenshot](ReadMe/POS.png)
+
+## Cart
+- Shows all of the items inside the cart
+- User can remove the item from the cart
+- User can input a discount, either percentage (%) or in pesos
+
+## Checkout
+- Shows a breakdown of the items price
+- Shows the total of the order
+- User can choose a payment method (Cash, Card, GCash, Maya)
+- User inputs how much is paid
+- System automatically calculates the change
+
+![chec](ReadMe/checkout.png)
 
 # Database
 ## Database Name
 - POS_Inventory_System
-## Table Name 
-- Accounts, Products
-
-## Products Table
-- Item Number | Displays the id of the item in the table
-- Name | The name of the item in the table
-- Category | Input Devices, Audio, Storage, Output Devices
-- Price | Price of each item
-- Stocks | Current number of item in stock
-- Status | Fine if there are enough stock, Low stock, Out of stock
-
-# UI Design
-## Side Navbar
-	Dashboard
-	- Total Products
-	- Total Units
-	- Categories
-	- Low stock
-	- Out of stock
-
-	Categories
-	- Add New Category
-	- View All Categories
-	- Edit/Delete Category
-
-	Products
-	- Item Number
-	- Product Name
-	- Category 
-	- Price 
-	- Stocks 
-	- Status
-	- Edit/Delete 
 
 # Notes
 ## How to clone the repo
@@ -93,12 +141,6 @@
 - Always pull before pushing changes.
 - Use proper commit changes.
 - PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
-
-## Directory to place in the browser
-- http://localhost/inventory/inventory_frontend/dashboard.php
-- http://localhost/inventory/inventory_frontend/categories.php
-- http://localhost/inventory/inventory_frontend/products.php
-- http://localhost/inventory/inventory_frontend/add-product.php
 
 ## Git Commands
 - git pull origin (branch name) | download all the latest code in this branch
