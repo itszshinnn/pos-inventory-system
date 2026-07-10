@@ -122,7 +122,7 @@ if (isset($_POST['login'])) {
             border-radius: 14px;
             padding: 40px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            margin-top: 18px;
+            margin-top: 100px;
         }
 
         .title {
@@ -131,6 +131,7 @@ if (isset($_POST['login'])) {
             font-weight: 600;
             color: var(--dark-1);
             margin-bottom: 30px;
+            letter-spacing: -1px;
         }
 
         .form {

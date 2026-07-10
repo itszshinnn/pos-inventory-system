@@ -738,6 +738,23 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
+  <div id="model-modal" class="modal-backdrop" style="z-index: 1000;">
+    <div class="modal-card" style="width: 700px; max-width: 90%; display: flex; gap: 20px; padding: 20px;">
+
+      <div id="viewer-container" style="flex: 1; height: 300px; background: #f0f0f0; border-radius: 12px; overflow: hidden;">
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h2 id="modal-title" style="margin-bottom: 10px; font-size: 20px;">Product Title</h2>
+          <p id="modal-desc" style="font-size: 14px; color: #555; line-height: 1.5;">Product description goes here...</p>
+        </div>
+        <button onclick="close3DViewer()" style="margin-top: 20px; padding: 12px; background: #ff4b4b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Close Viewer</button>
+      </div>
+
+    </div>
+  </div>
+
   <script>
     let allProducts = [];
     let activeCategory = 'All';
@@ -839,12 +856,29 @@ if (!isset($_SESSION['user_id'])) {
           imgUrl = `../Images/${p.image}`;
         }
 
+        const modelPath = p.model_path || '';
+        const desc = p.description || 'No description available for this item.';
+
         return `
-          <div class="product-card${outClass}" onclick="${onclick}">
-            <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
-            <div class="product-name">${p.name}</div>
-            <div class="price">₱${price.toFixed(2)}</div>
-            <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
+          <div class="product-card${outClass}" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+              <div class="product-name">${p.name}</div>
+              <div class="price">₱${price.toFixed(2)}</div>
+              <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
+            </div>
+            
+            <!-- New Action Buttons -->
+            <div style="display: flex; gap: 6px; margin-top: 12px;">
+              <button onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
+                      style="flex: 2; background: #5470ff; color: white; border: none; padding: 6px; border-radius: 6px; cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; font-weight: 600;">
+                + Add
+              </button>
+              
+              <button onclick="open3DViewer(${p.id})" style="flex: 1; background: #e0e0e0; color: #333; border: none; padding: 6px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+              View
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -1067,8 +1101,8 @@ if (!isset($_SESSION['user_id'])) {
               payment_method: selectedPayment,
               discount_amount: computedDeduction,
               total_amount: finalCalculatedTotal,
-              cash_received: cashAmt, 
-              change_amount: changeAmt 
+              cash_received: cashAmt,
+              change_amount: changeAmt
             })
           }
         );
@@ -1079,7 +1113,7 @@ if (!isset($_SESSION['user_id'])) {
           alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
           closeCheckoutModal();
           clearOrder();
-          loadData(); 
+          loadData();
         } else {
           alert(result.message || 'Checkout failed');
         }
@@ -1103,8 +1137,55 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
+    function open3DViewer(productId) {
+      // Find the product data from our array
+      const p = allProducts.find(x => x.id === productId);
+      if (!p) return;
+
+      if (!p.model_path || p.model_path === 'null' || p.model_path === '') {
+        alert("A 3D model for " + p.name + " has not been uploaded yet.");
+        return;
+      }
+
+      // Build the formatted details HTML
+      let detailsHTML = `
+            <div style="font-size: 14px; color: #444; line-height: 1.6;">
+                <strong>Price:</strong> ₱${Number(p.price).toFixed(2)}<br>
+                <strong>Brand:</strong> ${p.brand || 'N/A'}<br>
+                <strong>Color:</strong> ${p.color || 'N/A'}<br>
+                <strong>Type:</strong> ${p.type || 'N/A'}<br>
+        `;
+
+      // Conditionally add dynamic fields only if they exist
+      if (p.capacity_size) detailsHTML += `<strong>Size/Capacity:</strong> ${p.capacity_size}<br>`;
+      if (p.resolution) detailsHTML += `<strong>Resolution:</strong> ${p.resolution}<br>`;
+
+      // Add the main description if it exists
+      if (p.description) {
+        detailsHTML += `<br><strong>Description:</strong><br>${p.description}`;
+      }
+
+      detailsHTML += `</div>`;
+
+      // Inject the viewer and details
+      document.getElementById('viewer-container').innerHTML = `
+            <model-viewer src="${p.model_path}" auto-rotate camera-controls style="width: 100%; height: 100%;"></model-viewer>
+        `;
+      document.getElementById('modal-title').innerText = p.name;
+      document.getElementById('modal-desc').innerHTML = detailsHTML; // Note: using innerHTML now to render the bold tags
+
+      document.getElementById('model-modal').style.display = 'flex';
+    }
+
+    function close3DViewer() {
+      document.getElementById('model-modal').style.display = 'none';
+
+      document.getElementById('viewer-container').innerHTML = '';
+    }
+
     loadData();
   </script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </body>
 
 </html>

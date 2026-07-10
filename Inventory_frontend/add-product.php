@@ -3,8 +3,8 @@ require '../Database/Database.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login.php");
-    exit;
+  header("Location: ../Inventory_frontend/login.php");
+  exit;
 }
 ?>
 
@@ -118,39 +118,84 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     <div class="main">
       <form id="productForm" onsubmit="event.preventDefault(); addProduct();" enctype="multipart/form-data">
-        <div class="form-card">
+
+        <div class="form-card" style="max-width: 1200px;">
           <h2>Add new product</h2>
 
-          <div class="form-row">
-            <label>Product Name</label>
-            <input type="text" id="prodName" placeholder="Product name" required />
-          </div>
-          <div class="form-row">
-            <label>Category</label>
-            <select id="prodCategory" required>
-              <option value="" disabled selected>Select category</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label>Price (₱)</label>
-            <input type="number" id="prodPrice" placeholder="Product price" min="0" step="0.01" required />
-          </div>
-          <div class="form-row">
-            <label>Stock</label>
-            <input type="number" id="prodStock" placeholder="Product quantity" min="0" required />
-          </div>
-          <div class="form-row">
-            <label>Product Image</label>
-            <div class="file-input-wrapper">
-              <label for="prodImage" id="fileLabel" class="file-input-label">📁 Choose Image File...</label>
-              <input type="file" id="prodImage" accept=".jpg,.jpeg,.png,.webp,.gif" onchange="updateFileLabel()" />
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;">
+
+            <div>
+              <div class="form-row">
+                <label>Product Name</label>
+                <input type="text" id="prodName" placeholder="Product name" required />
+              </div>
+              <div class="form-row">
+                <label>Category</label>
+                <select id="prodCategory" required>
+                  <option value="" disabled selected>Select category</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>Price (₱)</label>
+                <input type="number" id="prodPrice" placeholder="Product price" min="0" step="0.01" required />
+              </div>
+              <div class="form-row">
+                <label>Stock</label>
+                <input type="number" id="prodStock" placeholder="Product quantity" min="0" required />
+              </div>
+              <div class="form-row">
+                <label>Brand</label>
+                <input type="text" id="prodBrand" placeholder="e.g., Logitech, Samsung" />
+              </div>
+              <div class="form-row">
+                <label>Color</label>
+                <input type="text" id="prodColor" placeholder="e.g., Matte Black" />
+              </div>
             </div>
+
+            <div>
+              <div class="form-row">
+                <label>Type</label>
+                <input type="text" id="prodType" placeholder="e.g., Peripheral, Storage" />
+              </div>
+              <div class="form-row">
+                <label>Capacity / Size</label>
+                <input type="text" id="prodSize" placeholder="e.g., 512GB, 16GB (Optional)" />
+              </div>
+              <div class="form-row">
+                <label>Resolution</label>
+                <input type="text" id="prodRes" placeholder="e.g., 1920x1080 (Optional)" />
+              </div>
+
+              <div class="form-row">
+                <label>Product Image</label>
+                <div class="file-input-wrapper">
+                  <label for="prodImage" id="fileLabel" class="file-input-label">📁 Choose Image File...</label>
+                  <input type="file" id="prodImage" accept=".jpg,.jpeg,.png,.webp,.gif" onchange="updateFileLabel()" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label>3D Model (.glb)</label>
+                <div class="file-input-wrapper">
+                  <label for="prodModel" id="modelLabel" class="file-input-label">📦 Choose .GLB File (Optional)...</label>
+                  <input type="file" id="prodModel" accept=".glb,.gltf" onchange="updateModelLabel()" style="display: none;" />
+                </div>
+              </div>
+            </div>
+
+          </div> 
+
+          <div class="form-row" style="margin-top: 10px; align-items: flex-start;">
+            <label style="margin-top: 10px;">Description</label>
+            <textarea id="prodDesc" placeholder="Enter product description (Optional)" rows="3" style="flex: 1; border: 1.5px solid #bcbcbc; border-radius: 6px; padding: 9px 12px; font-family: inherit; font-size: 0.93rem; outline: none; resize: vertical;"></textarea>
           </div>
 
-          <div class="btn-row">
+          <div class="btn-row" style="margin-top: 24px;">
             <button type="submit" class="btn">Add Product</button>
           </div>
         </div>
+
       </form>
     </div>
   </div>
@@ -190,7 +235,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       const category_id = document.getElementById('prodCategory').value;
       const price = document.getElementById('prodPrice').value;
       const stock = document.getElementById('prodStock').value;
+      const desc = document.getElementById('prodDesc').value.trim();
       const imageFile = document.getElementById('prodImage').files[0];
+      const modelFile = document.getElementById('prodModel').files[0];
+      const brand = document.getElementById('prodBrand').value.trim();
+      const color = document.getElementById('prodColor').value.trim();
+      const type = document.getElementById('prodType').value.trim();
+      const size = document.getElementById('prodSize').value.trim();
+      const resolution = document.getElementById('prodRes').value.trim();
 
       if (!name) return showToast('Please enter a product name.', true);
       if (!category_id) return showToast('Please select a category.', true);
@@ -202,9 +254,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       formData.append('category_id', category_id);
       formData.append('price', price);
       formData.append('stock', stock);
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
+      formData.append('description', desc);
+      formData.append('brand', brand);
+      formData.append('color', color);
+      formData.append('type', type);
+      formData.append('capacity_size', size);
+      formData.append('resolution', resolution);
+
+      if (imageFile) formData.append('image', imageFile);
+      if (modelFile) formData.append('model_file', modelFile);
 
       const res = await fetch('../Inventory_backend/api_products.php', {
         method: 'POST',
@@ -215,8 +273,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (data.error) return showToast(data.error, true);
 
       document.getElementById('productForm').reset();
+
       document.getElementById('fileLabel').textContent = "📁 Choose Image File...";
       document.getElementById('fileLabel').style.borderColor = "#bcbcbc";
+      document.getElementById('modelLabel').textContent = "📦 Choose .GLB File (Optional)...";
+      document.getElementById('modelLabel').style.borderColor = "#bcbcbc";
 
       showToast('Product added successfully!');
     }
@@ -231,6 +292,18 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       const dropdown = document.getElementById("userDropdownMenu");
       if (dropdown && dropdown.style.display === "block") {
         dropdown.style.display = "none";
+      }
+    }
+
+    function updateModelLabel() {
+      const input = document.getElementById('prodModel');
+      const label = document.getElementById('modelLabel');
+      if (input.files && input.files[0]) {
+        label.textContent = `✅ ${input.files[0].name}`;
+        label.style.borderColor = "#4d66ff";
+      } else {
+        label.textContent = "📦 Choose .GLB File (Optional)...";
+        label.style.borderColor = "#bcbcbc";
       }
     }
 
