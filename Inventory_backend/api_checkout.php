@@ -1,55 +1,54 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: null');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once 'PaymentManager.php';
 
-require '../Database/Database.php';
+$data = json_decode(file_get_contents('php://input'), true);
 
-$database = new Database();
-$pdo = $database->getConnection();
+$cart = $data['cart'];
+$paymentMethod = $data['payment_method'];
+$totalAmount = $data['total_amount'];
+$discountAmount = $data['discount_amount'] ?? 0;
+$cashReceived = $data['cash_received'] ?? 0;
+$changeAmount = $data['change_amount'] ?? 0;
 
-if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Authentication required.']);
+if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod === 'Card') {
+    $paymentManager = new PaymentManager();
+    $result = $paymentManager->createGcashCheckout($cart, $totalAmount, $paymentMethod);
+
+    if ($result['success']) {
+        $_SESSION['pending_cart'] = $cart;
+        $_SESSION['pending_total'] = $totalAmount;
+        $_SESSION['pending_payment_method'] = $paymentMethod;
+        $_SESSION['pending_discount'] = $discountAmount;
+
+        echo json_encode([
+            'success' => true,
+            'is_redirect' => true,
+            'checkout_url' => $result['checkout_url']
+        ]);
+        exit;
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'PayMongo Error: ' . $result['message']
+        ]);
+        exit;
+    }
+} else {
+    require_once '../Database/Database.php';
+    require_once 'TransactionManager.php';
+
+    $dbInstance = new Database();
+    $dbConnection = $dbInstance->getConnection();
+
+    $tm = new TransactionManager($dbConnection);
+    $processResult = $tm->processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount);
+
+    if ($processResult['success']) {
+        echo json_encode(['success' => true, 'message' => 'Sale Confirmed']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Database Error: ' . $processResult['message']]);
+    }
     exit;
 }
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Method Not Allowed']);
-    exit;
-}
-
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!isset($data['cart']) || empty($data['cart'])) {
-    echo json_encode(['success' => false, 'message' => 'Cart data is missing or empty']);
-    exit;
-}
-
-$paymentMethod  = $data['payment_method'] ?? 'Cash';
-$discountAmount = floatval($data['discount_amount'] ?? 0);
-$totalAmount    = floatval($data['total_amount'] ?? 0);
-$cashReceived   = floatval($data['cash_received'] ?? 0);
-$changeAmount   = floatval($data['change_amount'] ?? 0);
-
-require_once 'TransactionManager.php';
-
-$transactionManager = new TransactionManager($pdo);
-
-$result = $transactionManager->processCheckout(
-    $data['cart'],
-    $paymentMethod,
-    $discountAmount,
-    $totalAmount,
-    $cashReceived,
-    $changeAmount
-);
-
-if (!$result['success']) {
-    http_response_code(500);
-}
-echo json_encode($result);
-?>

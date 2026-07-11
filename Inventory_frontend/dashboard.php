@@ -267,11 +267,108 @@ usort($allNotifications, function ($a, $b) {
       padding: 24px;
       overflow-x: hidden;
     }
+
+    .stock-alert-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+
+      background: rgba(0, 0, 0, 0.25);
+
+      z-index: 9999;
+    }
+
+    .stock-alert {
+
+      height: 350px;
+
+      width: 550px;
+
+      max-width: 90%;
+
+      background: #fff;
+
+      border-left: 5px solid #ff9800;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      animation: popupFade .25s ease;
+    }
+
+    .stock-alert h4 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .stock-alert p {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+
+    .stock-alert ul {
+      font-size: 15px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .stock-alert-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .stock-alert-buttons button {
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .stock-alert-buttons button:first-child {
+      background: #ddd;
+    }
+
+    .stock-alert-buttons button:last-child {
+      background: #2E8B57;
+      color: white;
+    }
+
+    .stock-out {
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    .stock-low {
+      color: #d4a017;
+      font-weight: 600;
+    }
+
+    @keyframes popupFade {
+
+      from {
+        opacity: 0;
+        transform: scale(.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
   </style>
 </head>
 
 <body>
-
   <div class="topbar">
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
       <img src="../Images/profile.png" alt="Profile" class="profile-img">
@@ -289,9 +386,10 @@ usort($allNotifications, function ($a, $b) {
 
   <div class="layout">
     <nav class="sidebar">
-      <a href="dashboard.php" class="active">Dashboard</a>
+      <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
@@ -457,7 +555,6 @@ usort($allNotifications, function ($a, $b) {
       </div>
     </div>
   </div>
-
   <script>
     function toggleUserDropdown(event) {
       event.stopPropagation();
@@ -472,6 +569,7 @@ usort($allNotifications, function ($a, $b) {
       }
     }
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>

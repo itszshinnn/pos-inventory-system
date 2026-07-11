@@ -738,6 +738,23 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
+  <div id="model-modal" class="modal-backdrop" style="z-index: 1000;">
+    <div class="modal-card" style="width: 700px; max-width: 90%; display: flex; gap: 20px; padding: 20px;">
+
+      <div id="viewer-container" style="flex: 1; height: 300px; background: #f0f0f0; border-radius: 12px; overflow: hidden;">
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h2 id="modal-title" style="margin-bottom: 10px; font-size: 20px;">Product Title</h2>
+          <p id="modal-desc" style="font-size: 14px; color: #555; line-height: 1.5;">Product description goes here...</p>
+        </div>
+        <button onclick="close3DViewer()" style="margin-top: 20px; padding: 12px; background: #ff4b4b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Close Viewer</button>
+      </div>
+
+    </div>
+  </div>
+
   <script>
     let allProducts = [];
     let activeCategory = 'All';
@@ -839,12 +856,28 @@ if (!isset($_SESSION['user_id'])) {
           imgUrl = `../Images/${p.image}`;
         }
 
+        const modelPath = p.model_path || '';
+        const desc = p.description || 'No description available for this item.';
+
         return `
-          <div class="product-card${outClass}" onclick="${onclick}">
-            <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
-            <div class="product-name">${p.name}</div>
-            <div class="price">₱${price.toFixed(2)}</div>
-            <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
+          <div class="product-card${outClass}" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+              <div class="product-name">${p.name}</div>
+              <div class="price">₱${price.toFixed(2)}</div>
+              <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
+            </div>
+            
+            <div style="display: flex; gap: 6px; margin-top: 12px;">
+              <button onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
+                      style="flex: 2; background: #5470ff; color: white; border: none; padding: 6px; border-radius: 6px; cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; font-weight: 600;">
+                + Add
+              </button>
+              
+              <button onclick="open3DViewer(${p.id})" style="flex: 1; background: #e0e0e0; color: #333; border: none; padding: 6px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+              View
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -918,18 +951,51 @@ if (!isset($_SESSION['user_id'])) {
         const itemEl = document.createElement('div');
         itemEl.classList.add('cart-item');
         itemEl.innerHTML = `
-          <div class="cart-item-info">
-            <div class="name">${item.name} <span class="qty-badge">x${item.qty}</span></div>
-            <div class="item-price">₱${(item.price * item.qty).toFixed(2)}</div>
-          </div>
-          <div class="cart-item-controls">
-            <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+          <div class="cart-item-info" style="width: 100%;">
+            <div class="name" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span>${item.name}</span>
+              <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="item-price">₱${(item.price * item.qty).toFixed(2)}</div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
+                <input type="number" 
+                       value="${item.qty}" 
+                       min="1" 
+                       style="width: 55px; padding: 4px; border: 1.5px solid #bcbcbc; border-radius: 6px; outline: none; font-family: 'DM Mono', monospace; text-align: center;"
+                       onchange="updateCartQty(${item.id}, this.value)">
+              </div>
+            </div>
           </div>
         `;
         orderItems.appendChild(itemEl);
       });
 
       updateSummary();
+    }
+
+    function updateCartQty(id, newQty) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      const currentStock = Number(product.stock);
+      const parsedQty = parseInt(newQty);
+
+      if (parsedQty <= 0 || isNaN(parsedQty)) {
+        removeFromCart(id);
+        return;
+      }
+
+      if (parsedQty > currentStock) {
+        alert(`Cannot add more! Only ${currentStock} units of ${product.name} are available in inventory.`);
+        cart[id].qty = currentStock;
+      } else {
+        cart[id].qty = parsedQty;
+      }
+
+      renderCart();
+      renderProducts();
     }
 
     function updateSummary() {
@@ -1067,19 +1133,24 @@ if (!isset($_SESSION['user_id'])) {
               payment_method: selectedPayment,
               discount_amount: computedDeduction,
               total_amount: finalCalculatedTotal,
-              cash_received: cashAmt, 
-              change_amount: changeAmt 
+              cash_received: cashAmt,
+              change_amount: changeAmt
             })
           }
         );
 
         const result = await response.json();
 
+        if (result.success && result.is_redirect) {
+          window.location.href = result.checkout_url;
+          return;
+        }
+
         if (result.success) {
           alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
           closeCheckoutModal();
           clearOrder();
-          loadData(); 
+          loadData();
         } else {
           alert(result.message || 'Checkout failed');
         }
@@ -1103,8 +1174,58 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
+    function open3DViewer(productId) {
+      const p = allProducts.find(x => x.id === productId);
+      if (!p) return;
+
+      if (!p.model_path || p.model_path === 'null' || p.model_path === '') {
+        alert("A 3D model for " + p.name + " has not been uploaded yet.");
+        return;
+      }
+
+      let detailsHTML = `
+            <div style="font-size: 14px; color: #444; line-height: 1.6;">
+                <strong>Price:</strong> ₱${Number(p.price).toFixed(2)}<br>
+                <strong>Brand:</strong> ${p.brand || 'N/A'}<br>
+                <strong>Color:</strong> ${p.color || 'N/A'}<br>
+                <strong>Type:</strong> ${p.type || 'N/A'}<br>
+        `;
+
+      if (p.capacity_size) detailsHTML += `<strong>Size/Capacity:</strong> ${p.capacity_size}<br>`;
+      if (p.resolution) detailsHTML += `<strong>Resolution:</strong> ${p.resolution}<br>`;
+
+      if (p.description) {
+        detailsHTML += `<br><strong>Description:</strong><br>${p.description}`;
+      }
+
+      detailsHTML += `</div>`;
+
+      document.getElementById('viewer-container').innerHTML = `
+            <model-viewer src="${p.model_path}" auto-rotate camera-controls style="width: 100%; height: 100%;"></model-viewer>
+        `;
+      document.getElementById('modal-title').innerText = p.name;
+      document.getElementById('modal-desc').innerHTML = detailsHTML;
+
+      document.getElementById('model-modal').style.display = 'flex';
+    }
+
+    function close3DViewer() {
+      document.getElementById('model-modal').style.display = 'none';
+
+      document.getElementById('viewer-container').innerHTML = '';
+    }
+
     loadData();
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success') {
+        alert("E-Wallet Payment Successful! Sale Confirmed.");
+
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    };
   </script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </body>
 
 </html>

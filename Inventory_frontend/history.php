@@ -2,15 +2,15 @@
 session_start();
 
 require_once '../Database/Database.php';
-require_once '../Inventory_backend/ReportManager.php'; 
+require_once '../Inventory_backend/ReportManager.php';
 
 $database = new Database();
 $pdo = $database->getConnection();
 $reportManager = new ReportManager($pdo);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login_signup.php");
-    exit;
+  header("Location: ../Inventory_frontend/login_signup.php");
+  exit;
 }
 
 $metrics = $reportManager->getDashboardMetrics();
@@ -175,9 +175,17 @@ $orders = $reportManager->getSalesHistory();
       font-weight: 600;
     }
 
-    .badge-payment.gcash { background: #1a73e8; }
-    .badge-payment.maya { background: #00c483; }
-    .badge-payment.card { background: #ff9f00; }
+    .badge-payment.gcash {
+      background: #1a73e8;
+    }
+
+    .badge-payment.maya {
+      background: #00c483;
+    }
+
+    .badge-payment.card {
+      background: #ff9f00;
+    }
 
     .view-receipt-btn {
       border: 1.5px solid #4d66ff;
@@ -214,7 +222,7 @@ $orders = $reportManager->getSalesHistory();
       width: 380px;
       border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .receipt-card h2 {
@@ -313,6 +321,7 @@ $orders = $reportManager->getSalesHistory();
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php" class="active">History</a>
       <a href="history.php" class="sub-tab active">Sales History</a>
@@ -321,7 +330,7 @@ $orders = $reportManager->getSalesHistory();
     </nav>
 
     <div class="main">
-      
+
       <?php if (isset($errorMsg)): ?>
         <div style="background: #fff0f0; border: 1px solid #ffbcbc; color: #ff4b4b; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
           <strong>Database Notice:</strong> <?= htmlspecialchars($errorMsg) ?>
@@ -381,7 +390,7 @@ $orders = $reportManager->getSalesHistory();
     <div class="receipt-card">
       <h2>TRANSACTION RECEIPT</h2>
       <div class="receipt-subtitle">K's Inventory System</div>
-      
+
       <div class="receipt-meta-row">
         <span>Order Number:</span>
         <strong id="rcptOrderNo">#0000</strong>
@@ -396,7 +405,7 @@ $orders = $reportManager->getSalesHistory();
       </div>
 
       <hr class="receipt-divider">
-      
+
       <div class="receipt-items-box" id="rcptItemsBox"></div>
 
       <hr class="receipt-divider">
@@ -436,14 +445,14 @@ $orders = $reportManager->getSalesHistory();
     }
 
     function filterHistoryTable() {
-      const searchVal  = document.getElementById('historySearchInput').value.toLowerCase().trim();
+      const searchVal = document.getElementById('historySearchInput').value.toLowerCase().trim();
       const paymentVal = document.getElementById('paymentFilter').value;
-      const sortVal    = document.getElementById('sortFilter').value;
-      const tbody      = document.getElementById('historyTableBody');
+      const sortVal = document.getElementById('sortFilter').value;
+      const tbody = document.getElementById('historyTableBody');
 
       let filtered = allOrders.filter(order => {
         const orderNo = (order.order_no || '').toLowerCase();
-        const items   = (order.item || '').toLowerCase();
+        const items = (order.item || '').toLowerCase();
         const payment = order.payment || '';
         return (orderNo.includes(searchVal) || items.includes(searchVal)) && (paymentVal === "" || payment === paymentVal);
       });
@@ -461,8 +470,8 @@ $orders = $reportManager->getSalesHistory();
 
       tbody.innerHTML = filtered.map(order => {
         const discountNum = parseFloat(order.discount) || 0;
-        const totalNum    = parseFloat(order.total) || 0;
-        
+        const totalNum = parseFloat(order.total) || 0;
+
         return `
           <tr>
             <td style="font-weight: 700;">#${order.order_no}</td>
@@ -485,7 +494,7 @@ $orders = $reportManager->getSalesHistory();
       document.getElementById('rcptOrderNo').textContent = `#${order.order_no}`;
       document.getElementById('rcptDate').textContent = order.date;
       document.getElementById('rcptPayment').textContent = order.payment;
-      
+
       const discountNum = parseFloat(order.discount) || 0;
       document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
       document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
@@ -497,13 +506,13 @@ $orders = $reportManager->getSalesHistory();
 
       const itemsBox = document.getElementById('rcptItemsBox');
       itemsBox.innerHTML = '';
-      
-      if(order.item) {
+
+      if (order.item) {
         const itemLines = order.item.split(', ');
         itemLines.forEach(line => {
           const row = document.createElement('div');
           row.classList.add('receipt-item-line');
-          
+
           row.innerHTML = `<span>${line}</span>`;
           itemsBox.appendChild(row);
         });
@@ -531,5 +540,7 @@ $orders = $reportManager->getSalesHistory();
 
     filterHistoryTable();
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
+
 </html>

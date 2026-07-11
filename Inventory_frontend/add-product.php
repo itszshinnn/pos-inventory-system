@@ -3,8 +3,8 @@ require '../Database/Database.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login.php");
-    exit;
+  header("Location: ../Inventory_frontend/login.php");
+  exit;
 }
 ?>
 
@@ -58,32 +58,129 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       background-color: #fff0f0;
     }
 
+    .modern-form-container {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 30px;
+    }
+
+    .form-section {
+      background: #ffffff;
+      border: 1px solid #eef0f2;
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .section-header {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .grid-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #4a4a4a;
+    }
+
+    .modern-input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+      background: #fafafa;
+      box-sizing: border-box;
+    }
+
+    .modern-input:focus {
+      border-color: #4d66ff;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(77, 102, 255, 0.1);
+    }
+
+    textarea.modern-input {
+      resize: vertical;
+      min-height: 80px;
+    }
+
     .file-input-wrapper {
       position: relative;
-      display: inline-block;
+      display: block;
       width: 100%;
     }
 
     .file-input-label {
       display: block;
-      background: #f0f0f0;
+      background: #fafafa;
       border: 1.5px dashed #bcbcbc;
       padding: 10px;
       text-align: center;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
       transition: 0.2s;
     }
 
     .file-input-label:hover {
-      background: #e6e6e6;
-      border-color: #000000d6;
+      background: #f0f4ff;
+      border-color: #4d66ff;
+      color: #4d66ff;
     }
 
-    #prodImage {
+    #prodImage,
+    #prodModel {
       display: none;
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+
+    .btn-submit {
+      background: #4d66ff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(77, 102, 255, 0.2);
+    }
+
+    .btn-submit:hover {
+      background: #3b52d9;
     }
   </style>
 </head>
@@ -94,15 +191,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
       <img src="../Images/profile.png" alt="Profile" class="profile-img">
       <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
-
       <div id="userDropdownMenu" class="dropdown-menu">
         <a href="../Inventory_frontend/logout.php">Logout</a>
       </div>
     </div>
-
-    <span class="topbar-title">
-      K's Inventory System
-    </span>
+    <span class="topbar-title">K's Inventory System</span>
   </div>
 
   <div class="layout">
@@ -111,45 +204,110 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="categories.php">Categories</a>
       <a href="products.php" class="active">Products</a>
       <a href="add-product.php" class="active">- Add Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
     </nav>
 
     <div class="main">
-      <form id="productForm" onsubmit="event.preventDefault(); addProduct();" enctype="multipart/form-data">
-        <div class="form-card">
-          <h2>Add new product</h2>
 
-          <div class="form-row">
-            <label>Product Name</label>
-            <input type="text" id="prodName" placeholder="Product name" required />
-          </div>
-          <div class="form-row">
-            <label>Category</label>
-            <select id="prodCategory" required>
-              <option value="" disabled selected>Select category</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label>Price (₱)</label>
-            <input type="number" id="prodPrice" placeholder="Product price" min="0" step="0.01" required />
-          </div>
-          <div class="form-row">
-            <label>Stock</label>
-            <input type="number" id="prodStock" placeholder="Product quantity" min="0" required />
-          </div>
-          <div class="form-row">
-            <label>Product Image</label>
-            <div class="file-input-wrapper">
-              <label for="prodImage" id="fileLabel" class="file-input-label">📁 Choose Image File...</label>
-              <input type="file" id="prodImage" accept=".jpg,.jpeg,.png,.webp,.gif" onchange="updateFileLabel()" />
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.5rem; color: #1a1a1a; margin-bottom: 4px;">Add New Product</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 0;">Fill in the details below to add a new item to your inventory catalog.</p>
+      </div>
+
+      <form id="productForm" onsubmit="event.preventDefault(); addProduct();" enctype="multipart/form-data">
+        <div class="modern-form-container">
+
+          <div class="form-section">
+            <div class="section-header">Basic Information</div>
+            <div class="grid-row">
+              <div class="input-group">
+                <label>Product Name</label>
+                <input type="text" id="prodName" class="modern-input" placeholder="e.g., Wireless Mechanical Keyboard" required />
+              </div>
+              <div class="input-group">
+                <label>Category</label>
+                <select id="prodCategory" class="modern-input" required>
+                  <option value="" disabled selected>Select category</option>
+                </select>
+              </div>
+              <div class="input-group full-width">
+                <label>Description</label>
+                <textarea id="prodDesc" class="modern-input" placeholder="Enter detailed product description (Optional)"></textarea>
+              </div>
             </div>
           </div>
 
-          <div class="btn-row">
-            <button type="submit" class="btn">Add Product</button>
+          <div class="form-section">
+            <div class="section-header">Pricing & Inventory</div>
+            <div class="grid-row">
+              <div class="input-group">
+                <label>Price Bought / Cost (₱)</label>
+                <input type="number" id="prodPriceBought" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
+              </div>
+              <div class="input-group">
+                <label>Price Sold / Retail (₱)</label>
+                <input type="number" id="prodPrice" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
+              </div>
+              <div class="input-group">
+                <label>Initial Stock</label>
+                <input type="number" id="prodStock" class="modern-input" placeholder="0" min="0" required />
+              </div>
+            </div>
           </div>
+
+          <div class="form-section">
+            <div class="section-header">Product Specifications</div>
+            <div class="grid-row">
+              <div class="input-group">
+                <label>Brand</label>
+                <input type="text" id="prodBrand" class="modern-input" placeholder="e.g., Logitech, Samsung" />
+              </div>
+              <div class="input-group">
+                <label>Color</label>
+                <input type="text" id="prodColor" class="modern-input" placeholder="e.g., Matte Black" />
+              </div>
+              <div class="input-group">
+                <label>Type</label>
+                <input type="text" id="prodType" class="modern-input" placeholder="e.g., Peripheral, Storage" />
+              </div>
+              <div class="input-group">
+                <label>Capacity / Size</label>
+                <input type="text" id="prodSize" class="modern-input" placeholder="e.g., 512GB, 16GB (Optional)" />
+              </div>
+              <div class="input-group">
+                <label>Resolution</label>
+                <input type="text" id="prodRes" class="modern-input" placeholder="e.g., 1920x1080 (Optional)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-header">Media Files</div>
+            <div class="grid-row">
+              <div class="input-group">
+                <label>Product Image</label>
+                <div class="file-input-wrapper">
+                  <label for="prodImage" id="fileLabel" class="file-input-label">📁 Click to Browse Image...</label>
+                  <input type="file" id="prodImage" accept=".jpg,.jpeg,.png,.webp,.gif" onchange="updateFileLabel()" />
+                </div>
+              </div>
+              <div class="input-group">
+                <label>3D Model (.glb)</label>
+                <div class="file-input-wrapper">
+                  <label for="prodModel" id="modelLabel" class="file-input-label">📦 Click to Browse .GLB (Optional)...</label>
+                  <input type="file" id="prodModel" accept=".glb,.gltf" onchange="updateModelLabel()" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button type="submit" class="btn-submit">Save Product to Inventory</button>
+          </div>
+
         </div>
       </form>
     </div>
@@ -171,9 +329,29 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (input.files && input.files[0]) {
         label.textContent = `✅ ${input.files[0].name}`;
         label.style.borderColor = "#2db84d";
+        label.style.background = "#e8f9ee";
+        label.style.color = "#157347";
       } else {
-        label.textContent = "📁 Choose Image File...";
+        label.textContent = "📁 Click to Browse Image...";
         label.style.borderColor = "#bcbcbc";
+        label.style.background = "#fafafa";
+        label.style.color = "#555";
+      }
+    }
+
+    function updateModelLabel() {
+      const input = document.getElementById('prodModel');
+      const label = document.getElementById('modelLabel');
+      if (input.files && input.files[0]) {
+        label.textContent = `✅ ${input.files[0].name}`;
+        label.style.borderColor = "#4d66ff";
+        label.style.background = "#f0f4ff";
+        label.style.color = "#4d66ff";
+      } else {
+        label.textContent = "📦 Click to Browse .GLB (Optional)...";
+        label.style.borderColor = "#bcbcbc";
+        label.style.background = "#fafafa";
+        label.style.color = "#555";
       }
     }
 
@@ -188,23 +366,39 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     async function addProduct() {
       const name = document.getElementById('prodName').value.trim();
       const category_id = document.getElementById('prodCategory').value;
+      const price_bought = document.getElementById('prodPriceBought').value;
       const price = document.getElementById('prodPrice').value;
       const stock = document.getElementById('prodStock').value;
+      const desc = document.getElementById('prodDesc').value.trim();
       const imageFile = document.getElementById('prodImage').files[0];
+      const modelFile = document.getElementById('prodModel').files[0];
+      const brand = document.getElementById('prodBrand').value.trim();
+      const color = document.getElementById('prodColor').value.trim();
+      const type = document.getElementById('prodType').value.trim();
+      const size = document.getElementById('prodSize').value.trim();
+      const resolution = document.getElementById('prodRes').value.trim();
 
       if (!name) return showToast('Please enter a product name.', true);
       if (!category_id) return showToast('Please select a category.', true);
-      if (!price || price < 0) return showToast('Please enter a valid price.', true);
+      if (!price_bought || price_bought < 0) return showToast('Please enter a valid cost price.', true);
+      if (!price || price < 0) return showToast('Please enter a valid selling price.', true);
       if (!stock || stock < 0) return showToast('Please enter a valid stock quantity.', true);
 
       const formData = new FormData();
       formData.append('name', name);
       formData.append('category_id', category_id);
+      formData.append('price_bought', price_bought);
       formData.append('price', price);
       formData.append('stock', stock);
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
+      formData.append('description', desc);
+      formData.append('brand', brand);
+      formData.append('color', color);
+      formData.append('type', type);
+      formData.append('capacity_size', size);
+      formData.append('resolution', resolution);
+
+      if (imageFile) formData.append('image', imageFile);
+      if (modelFile) formData.append('model_file', modelFile);
 
       const res = await fetch('../Inventory_backend/api_products.php', {
         method: 'POST',
@@ -215,8 +409,18 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (data.error) return showToast(data.error, true);
 
       document.getElementById('productForm').reset();
-      document.getElementById('fileLabel').textContent = "📁 Choose Image File...";
-      document.getElementById('fileLabel').style.borderColor = "#bcbcbc";
+
+      const fLabel = document.getElementById('fileLabel');
+      fLabel.textContent = "📁 Click to Browse Image...";
+      fLabel.style.borderColor = "#bcbcbc";
+      fLabel.style.background = "#fafafa";
+      fLabel.style.color = "#555";
+
+      const mLabel = document.getElementById('modelLabel');
+      mLabel.textContent = "📦 Click to Browse .GLB (Optional)...";
+      mLabel.style.borderColor = "#bcbcbc";
+      mLabel.style.background = "#fafafa";
+      mLabel.style.color = "#555";
 
       showToast('Product added successfully!');
     }
@@ -236,6 +440,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     loadCategories();
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>

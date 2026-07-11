@@ -12,7 +12,8 @@ class InventoryManager
 
     public function getAllProducts()
     {
-        $sql = 'SELECT p.id, p.name, p.price, p.stock, p.category_id, p.image,
+        $sql = 'SELECT p.id, p.name, p.price_bought, p.price, p.stock, p.category_id, p.image, p.model_path, p.description, 
+                       p.brand, p.color, p.type, p.capacity_size, p.resolution,
                        c.name AS category
                 FROM products p
                 JOIN categories c ON p.category_id = c.id
@@ -22,25 +23,33 @@ class InventoryManager
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addProduct(Product $product, $imageName, $username)
+    public function addProduct(Product $product, $imageName, $modelPath, $description, $brand, $color, $type, $capacity_size, $resolution, $username)
     {
         try {
             $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare("INSERT INTO products (name, category_id, price, stock, image) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO products (name, category_id, price_bought, price, stock, image, model_path, description, brand, color, type, capacity_size, resolution) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $product->getName(),
                 $product->getCategoryId(),
+                $product->getPriceBought(),
                 $product->getPrice(),
                 $product->getStock(),
-                $imageName
+                $imageName,
+                $modelPath,
+                $description,
+                $brand,
+                $color,
+                $type,
+                $capacity_size,
+                $resolution
             ]);
 
             $productId = $this->db->lastInsertId();
 
             if ($product->getStock() > 0) {
                 $initialBatch = $this->db->prepare("INSERT INTO product_batches (product_id, quantity_received, quantity_remaining, unit_cost) VALUES (?, ?, ?, ?)");
-                $initialBatch->execute([$productId, $product->getStock(), $product->getStock(), $product->getPrice()]);
+                $initialBatch->execute([$productId, $product->getStock(), $product->getStock(), $product->getPriceBought()]);
             }
 
             $log = $this->db->prepare("INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by) VALUES (?, ?, ?, ?, ?, ?)");
@@ -50,7 +59,7 @@ class InventoryManager
             return ['success' => true, 'id' => $productId];
         } catch (Exception $e) {
             $this->db->rollBack();
-            return ['error' => 'Server error saving product.'];
+            return ['error' => 'Server error saving product: ' . $e->getMessage()];
         }
     }
 

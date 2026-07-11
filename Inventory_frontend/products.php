@@ -6,8 +6,8 @@ $pdo = $database->getConnection();
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login.php");
-    exit;
+  header("Location: ../Inventory_frontend/login.php");
+  exit;
 }
 ?>
 
@@ -86,6 +86,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="categories.php">Categories</a>
       <a href="products.php" class="active">Products</a>
       <a href="add-product.php" class="sub">- Add Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
@@ -103,7 +104,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
               <th style="width:55px;">No.</th>
               <th>Product Name</th>
               <th>Category</th>
-              <th>Price</th>
+              <th>Brand</th>
+              <th>Color</th>
+              <th>Price Bought</th>
+              <th>Price Sold</th>
               <th>Stocks</th>
               <th>Status</th>
               <th style="width:160px;">Actions</th>
@@ -111,7 +115,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           </thead>
           <tbody id="prodTableBody">
             <tr>
-              <td colspan="7"><span class="spinner"></span> Loading...</td>
+              <td colspan="12"><span class="spinner"></span> Loading...</td>
             </tr>
           </tbody>
         </table>
@@ -120,16 +124,54 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   </div>
 
   <div class="modal-overlay" id="editModal">
-    <div class="modal">
+    <div class="modal" style="width: 800px; max-width: 90%; max-height: 90vh; overflow-y: auto;">
       <h3>Edit Product</h3>
       <input type="hidden" id="editId" />
-      <input type="text" id="editName" placeholder="Product name" />
-      <select id="editCategory"></select>
-      <input type="number" id="editPrice" placeholder="Price (₱)" min="0" step="0.01" />
-      <input type="number" id="editStock" placeholder="Stock" min="0" />
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px;">
+        <div>
+          <label style="font-size: 0.85rem; font-weight: 600;">Product Name</label>
+          <input type="text" id="editName" placeholder="Product name" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Category</label>
+          <select id="editCategory"></select>
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Price Bought / Cost (₱)</label>
+          <input type="number" id="editPriceBought" placeholder="Cost (₱)" min="0" step="0.01" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Price Sold / Retail (₱)</label>
+          <input type="number" id="editPrice" placeholder="Retail Price (₱)" min="0" step="0.01" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Stock</label>
+          <input type="number" id="editStock" placeholder="Stock" min="0" />
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; font-weight: 600;">Brand</label>
+          <input type="text" id="editBrand" placeholder="Brand" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Color</label>
+          <input type="text" id="editColor" placeholder="Color" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Type</label>
+          <input type="text" id="editType" placeholder="Type" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Capacity / Size</label>
+          <input type="text" id="editSize" placeholder="Capacity / Size" />
+
+          <label style="font-size: 0.85rem; font-weight: 600;">Resolution</label>
+          <input type="text" id="editRes" placeholder="Resolution" />
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 6px;">Description</label>
+        <textarea id="editDesc" placeholder="Product description (Optional)" rows="3" style="width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 9px 12px; font-family: var(--font); font-size: 0.93rem; outline: none; resize: vertical; box-sizing: border-box;"></textarea>
+      </div>
+
       <div class="modal-btns">
         <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-        <button class="btn" onclick="saveEdit()">Save</button>
+        <button class="btn" onclick="saveEdit()">Save Changes</button>
       </div>
     </div>
   </div>
@@ -167,7 +209,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     function renderTable(products) {
       const tbody = document.getElementById('prodTableBody');
       if (!products.length) {
-        tbody.innerHTML = '<tr><td colspan="7" style="color:var(--text-muted);padding:20px;">No products found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="12" style="color:var(--text-muted);padding:20px;">No products found.</td></tr>';
         return;
       }
       tbody.innerHTML = products.map((p, i) => `
@@ -175,7 +217,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <td>${i + 1}</td>
         <td>${p.name}</td>
         <td>${p.category}</td>
-        <td>₱${Number(p.price).toFixed(2)}</td>
+        <td>${p.brand || '-'}</td>
+        <td>${p.color || '-'}</td>
+        <td style="font-family: 'DM Mono', monospace; color: #00ab36;">₱${Number(p.price_bought).toFixed(2)}</td>
+        <td style="font-family: 'DM Mono', monospace; color: #00ab36;">₱${Number(p.price).toFixed(2)}</td>
         <td>${p.stock}</td>
         <td>${stockStatus(p.stock)}</td>
         <td>
@@ -184,6 +229,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         </td>
       </tr>
     `).join('');
+    }
+
+    function toggleUserDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById("userDropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
     function filterTable() {
@@ -212,10 +263,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     function openEdit(id) {
       const p = allProducts.find(x => x.id === id);
+      if (!p) return;
+
       document.getElementById('editId').value = p.id;
       document.getElementById('editName').value = p.name;
+      document.getElementById('editPriceBought').value = p.price_bought;
       document.getElementById('editPrice').value = p.price;
       document.getElementById('editStock').value = p.stock;
+
+      document.getElementById('editBrand').value = p.brand || '';
+      document.getElementById('editColor').value = p.color || '';
+      document.getElementById('editType').value = p.type || '';
+      document.getElementById('editSize').value = p.capacity_size || '';
+      document.getElementById('editRes').value = p.resolution || '';
+      document.getElementById('editDesc').value = p.description || '';
 
       const sel = document.getElementById('editCategory');
       sel.innerHTML = allCategories.map(c =>
@@ -233,10 +294,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       const id = parseInt(document.getElementById('editId').value);
       const name = document.getElementById('editName').value.trim();
       const category_id = parseInt(document.getElementById('editCategory').value);
+      const price_bought = parseFloat(document.getElementById('editPriceBought').value);
       const price = parseFloat(document.getElementById('editPrice').value);
       const stock = parseInt(document.getElementById('editStock').value);
 
-      if (!name || !category_id || isNaN(price) || isNaN(stock)) return showToast('All fields are required.', true);
+      const brand = document.getElementById('editBrand').value.trim();
+      const color = document.getElementById('editColor').value.trim();
+      const type = document.getElementById('editType').value.trim();
+      const capacity_size = document.getElementById('editSize').value.trim();
+      const resolution = document.getElementById('editRes').value.trim();
+      const description = document.getElementById('editDesc').value.trim();
+
+      if (!name || !category_id || isNaN(price_bought) || isNaN(price) || isNaN(stock)) {
+        return showToast('All base product fields are required.', true);
+      }
 
       const res = await fetch('../Inventory_backend/api_products.php', {
         method: 'PUT',
@@ -247,21 +318,24 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           id,
           name,
           category_id,
+          price_bought,
           price,
-          stock
+          stock,
+          brand,
+          color,
+          type,
+          capacity_size,
+          resolution,
+          description
         })
       });
+
       const data = await res.json();
       if (data.error) return showToast(data.error, true);
-      closeModal();
-      showToast('Product updated!');
-      loadData();
-    }
 
-    function toggleUserDropdown(event) {
-      event.stopPropagation();
-      const dropdown = document.getElementById("userDropdownMenu");
-      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+      closeModal();
+      showToast('Product updated successfully!');
+      loadData();
     }
 
     window.onclick = function() {
@@ -273,6 +347,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     loadData();
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>
