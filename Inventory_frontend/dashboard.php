@@ -369,50 +369,6 @@ usort($allNotifications, function ($a, $b) {
 </head>
 
 <body>
-
-  <div id="stockAlertOverlay" class="stock-alert-overlay">
-    <div id="stockAlert" class="stock-alert">
-
-      <h4>Inventory Alert</h4>
-
-      <p>The following products need restocking:</p>
-
-      <ul>
-
-        <?php foreach ($lowStocks as $item): ?>
-
-          <li>
-
-            <strong><?= htmlspecialchars($item['name']) ?></strong>
-
-            <?php if ($item['stock'] == 0): ?>
-
-              <span class="stock-out">(Out of Stock)</span>
-
-            <?php else: ?>
-
-              <span class="stock-low">(Low Stock - <?= $item['stock'] ?> remaining)</span>
-
-            <?php endif; ?>
-
-          </li>
-
-        <?php endforeach; ?>
-
-      </ul>
-
-      <p>Would you like to put an order for restocking?</p>
-
-      <div class="stock-alert-buttons">
-
-        <button id="restockLater">Later</button>
-
-        <button id="restockYes">Restock</button>
-
-      </div>
-    </div>
-  </div>
-
   <div class="topbar">
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
       <img src="../Images/profile.png" alt="Profile" class="profile-img">
@@ -430,9 +386,10 @@ usort($allNotifications, function ($a, $b) {
 
   <div class="layout">
     <nav class="sidebar">
-      <a href="dashboard.php" class="active">Dashboard</a>
+      <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
@@ -598,7 +555,6 @@ usort($allNotifications, function ($a, $b) {
       </div>
     </div>
   </div>
-
   <script>
     function toggleUserDropdown(event) {
       event.stopPropagation();
@@ -612,66 +568,8 @@ usort($allNotifications, function ($a, $b) {
         dropdown.style.display = "none";
       }
     }
-
-    const lowStockCount = <?= count($lowStocks) ?>;
-
-    console.log("Low Stock Count:", lowStockCount);
-
-
-    const popup = document.getElementById("stockAlert");
-    const overlay = document.getElementById("stockAlertOverlay");
-    const KEY = "stockAlertLastDismiss";
-
-    function showAlert() {
-
-      if (lowStockCount <= 0) return;
-
-      overlay.style.display = "flex";
-    }
-
-    function shouldShow() {
-
-      const last = localStorage.getItem(KEY);
-
-      if (last === null) {
-
-        setTimeout(showAlert, 1500);
-
-        return;
-      }
-
-      const elapsed = Date.now() - parseInt(last);
-
-      if (elapsed >= 10 * 60 * 1000) {
-
-        showAlert();
-      }
-    }
-
-    document.getElementById("restockLater").onclick = function() {
-
-      localStorage.setItem(KEY, Date.now());
-
-      overlay.style.display = "none";
-    }
-
-    document.getElementById("restockYes").onclick = function() {
-
-      window.location.href = "restock.php";
-
-    }
-
-    shouldShow();
-
-    setInterval(function() {
-
-      if (overlay.style.display === "flex")
-        return;
-
-      shouldShow();
-
-    }, 60000);
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>

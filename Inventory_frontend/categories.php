@@ -80,8 +80,9 @@ session_start();
   <div class="layout">
     <nav class="sidebar">
       <a href="dashboard.php">Dashboard</a>
-      <a href="categories.php" class="active">Categories</a>
+      <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
@@ -246,6 +247,7 @@ session_start();
     });
     loadCategories();
   </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>

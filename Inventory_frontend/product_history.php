@@ -2,15 +2,15 @@
 session_start();
 
 require_once '../Database/Database.php';
-require_once '../Inventory_backend/ReportManager.php'; 
+require_once '../Inventory_backend/ReportManager.php';
 
 $database = new Database();
 $pdo = $database->getConnection();
 $reportManager = new ReportManager($pdo);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../Inventory_frontend/login_signup.php");
-    exit;
+  header("Location: ../Inventory_frontend/login_signup.php");
+  exit;
 }
 
 $metrics = $reportManager->getDashboardMetrics();
@@ -175,9 +175,17 @@ $logs = $reportManager->getFullInventoryLogs();
       font-weight: 600;
     }
 
-    .badge-payment.gcash { background: #1a73e8; }
-    .badge-payment.maya { background: #00c483; }
-    .badge-payment.card { background: #ff9f00; }
+    .badge-payment.gcash {
+      background: #1a73e8;
+    }
+
+    .badge-payment.maya {
+      background: #00c483;
+    }
+
+    .badge-payment.card {
+      background: #ff9f00;
+    }
 
     .view-receipt-btn {
       border: 1.5px solid #4d66ff;
@@ -214,7 +222,7 @@ $logs = $reportManager->getFullInventoryLogs();
       width: 380px;
       border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .receipt-card h2 {
@@ -313,6 +321,7 @@ $logs = $reportManager->getFullInventoryLogs();
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
+      <a href="purchase_orders.php">Purchase Orders</a>
       <a href="xml.php">XML Files</a>
       <a href="history.php" class="active">History</a>
       <a href="history.php" class="sub-tab">Sales History</a>
@@ -321,7 +330,7 @@ $logs = $reportManager->getFullInventoryLogs();
     </nav>
 
     <div class="main">
-      
+
       <?php if (isset($errorMsg)): ?>
         <div style="background: #fff0f0; border: 1px solid #ffbcbc; color: #ff4b4b; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
           <strong>Database Notice:</strong> <?= htmlspecialchars($errorMsg) ?>
@@ -330,28 +339,28 @@ $logs = $reportManager->getFullInventoryLogs();
 
       <div class="history-stats-grid">
 
-    <div class="history-stat-card">
-        <h3>Total Logs</h3>
-        <p class="blue-txt">
+        <div class="history-stat-card">
+          <h3>Total Logs</h3>
+          <p class="blue-txt">
             <?= $totalLogs ?>
-        </p>
-    </div>
-
-    <div class="history-stat-card">
-        <h3>Products Added</h3>
-        <p class="green-txt">
-            <?= $totalAdded ?>
-        </p>
-    </div>
-
-    <div class="history-stat-card">
-        <h3>Products Deleted</h3>
-        <p>
-            <?= $totalDeleted ?>
-        </p>
-    </div>
-
+          </p>
         </div>
+
+        <div class="history-stat-card">
+          <h3>Products Added</h3>
+          <p class="green-txt">
+            <?= $totalAdded ?>
+          </p>
+        </div>
+
+        <div class="history-stat-card">
+          <h3>Products Deleted</h3>
+          <p>
+            <?= $totalDeleted ?>
+          </p>
+        </div>
+
+      </div>
       <div class="history-toolbar">
         <input type="text" id="historySearchInput" placeholder="Search inventory logs..." oninput="filterHistoryTable()">
         <select id="sortFilter" onchange="filterHistoryTable()">
@@ -364,13 +373,13 @@ $logs = $reportManager->getFullInventoryLogs();
         <table>
           <thead>
             <tr>
-                <th>Log ID</th>
-                <th>Product</th>
-                <th>Action</th>
-                <th>Old Stock</th>
-                <th>New Stock</th>
-                <th>Admin</th>
-                <th>Date</th>
+              <th>Log ID</th>
+              <th>Product</th>
+              <th>Action</th>
+              <th>Old Stock</th>
+              <th>New Stock</th>
+              <th>Admin</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody id="historyTableBody"></tbody>
@@ -384,7 +393,7 @@ $logs = $reportManager->getFullInventoryLogs();
     <div class="receipt-card">
       <h2>TRANSACTION RECEIPT</h2>
       <div class="receipt-subtitle">K's Inventory System Ledger</div>
-      
+
       <div class="receipt-meta-row">
         <span>Order Number:</span>
         <strong id="rcptOrderNo">#0000</strong>
@@ -399,7 +408,7 @@ $logs = $reportManager->getFullInventoryLogs();
       </div>
 
       <hr class="receipt-divider">
-      
+
       <div class="receipt-items-box" id="rcptItemsBox"></div>
 
       <hr class="receipt-divider">
@@ -418,49 +427,48 @@ $logs = $reportManager->getFullInventoryLogs();
   </div>
 
   <script>
-
     const allLogs = <?= json_encode($logs) ?>;
 
-        function filterHistoryTable() {
+    function filterHistoryTable() {
 
-            const searchVal = document
-                .getElementById('historySearchInput')
-                .value
-                .toLowerCase()
-                .trim();
+      const searchVal = document
+        .getElementById('historySearchInput')
+        .value
+        .toLowerCase()
+        .trim();
 
-            const sortVal = document
-                .getElementById('sortFilter')
-                .value;
+      const sortVal = document
+        .getElementById('sortFilter')
+        .value;
 
-            const tbody = document.getElementById('historyTableBody');
+      const tbody = document.getElementById('historyTableBody');
 
-            let filtered = allLogs.filter(log => {
+      let filtered = allLogs.filter(log => {
 
-                const product = (log.product_name || '').toLowerCase();
-                const action  = (log.action_type || '').toLowerCase();
-                const admin    = (log.changed_by || '').toLowerCase();
+        const product = (log.product_name || '').toLowerCase();
+        const action = (log.action_type || '').toLowerCase();
+        const admin = (log.changed_by || '').toLowerCase();
 
-                return product.includes(searchVal)
-                    || action.includes(searchVal)
-                    || admin.includes(searchVal);
-            });
+        return product.includes(searchVal) ||
+          action.includes(searchVal) ||
+          admin.includes(searchVal);
+      });
 
-            filtered.sort((a, b) => {
+      filtered.sort((a, b) => {
 
-                const timeA = new Date(a.created_at).getTime();
-                const timeB = new Date(b.created_at).getTime();
+        const timeA = new Date(a.created_at).getTime();
+        const timeB = new Date(b.created_at).getTime();
 
-                if (sortVal === 'oldest') {
-                    return timeA - timeB;
-                } else {
-                    return timeB - timeA;
-                }
-            });
+        if (sortVal === 'oldest') {
+          return timeA - timeB;
+        } else {
+          return timeB - timeA;
+        }
+      });
 
-            if (filtered.length === 0) {
+      if (filtered.length === 0) {
 
-                tbody.innerHTML = `
+        tbody.innerHTML = `
                     <tr>
                         <td colspan="7"
                             style="text-align:center;
@@ -470,10 +478,10 @@ $logs = $reportManager->getFullInventoryLogs();
                         </td>
                     </tr>
                 `;
-                return;
-            }
+        return;
+      }
 
-            tbody.innerHTML = filtered.map(log => `
+      tbody.innerHTML = filtered.map(log => `
                 <tr>
                     <td>#${log.id}</td>
                     <td>${log.product_name}</td>
@@ -484,35 +492,36 @@ $logs = $reportManager->getFullInventoryLogs();
                     <td>${log.created_at}</td>
                 </tr>
             `).join('');
-        }
+    }
 
     function toggleUserDropdown(event) {
 
-        event.stopPropagation();
+      event.stopPropagation();
 
-        const dropdown =
-            document.getElementById("userDropdownMenu");
+      const dropdown =
+        document.getElementById("userDropdownMenu");
 
-        dropdown.style.display =
-            (dropdown.style.display === "block")
-            ? "none"
-            : "block";
+      dropdown.style.display =
+        (dropdown.style.display === "block") ?
+        "none" :
+        "block";
     }
 
     window.onclick = function() {
 
-        const dropdown =
-            document.getElementById("userDropdownMenu");
+      const dropdown =
+        document.getElementById("userDropdownMenu");
 
-        if (dropdown &&
-            dropdown.style.display === "block") {
+      if (dropdown &&
+        dropdown.style.display === "block") {
 
-            dropdown.style.display = "none";
-        }
+        dropdown.style.display = "none";
+      }
     }
 
     filterHistoryTable();
-
-    </script>
+  </script>
+  <?php require_once 'stock_alert.php'; ?>
 </body>
+
 </html>

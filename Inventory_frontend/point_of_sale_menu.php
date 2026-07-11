@@ -868,7 +868,6 @@ if (!isset($_SESSION['user_id'])) {
               <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
             </div>
             
-            <!-- New Action Buttons -->
             <div style="display: flex; gap: 6px; margin-top: 12px;">
               <button onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
                       style="flex: 2; background: #5470ff; color: white; border: none; padding: 6px; border-radius: 6px; cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; font-weight: 600;">
@@ -952,18 +951,51 @@ if (!isset($_SESSION['user_id'])) {
         const itemEl = document.createElement('div');
         itemEl.classList.add('cart-item');
         itemEl.innerHTML = `
-          <div class="cart-item-info">
-            <div class="name">${item.name} <span class="qty-badge">x${item.qty}</span></div>
-            <div class="item-price">₱${(item.price * item.qty).toFixed(2)}</div>
-          </div>
-          <div class="cart-item-controls">
-            <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+          <div class="cart-item-info" style="width: 100%;">
+            <div class="name" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span>${item.name}</span>
+              <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="item-price">₱${(item.price * item.qty).toFixed(2)}</div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
+                <input type="number" 
+                       value="${item.qty}" 
+                       min="1" 
+                       style="width: 55px; padding: 4px; border: 1.5px solid #bcbcbc; border-radius: 6px; outline: none; font-family: 'DM Mono', monospace; text-align: center;"
+                       onchange="updateCartQty(${item.id}, this.value)">
+              </div>
+            </div>
           </div>
         `;
         orderItems.appendChild(itemEl);
       });
 
       updateSummary();
+    }
+
+    function updateCartQty(id, newQty) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      const currentStock = Number(product.stock);
+      const parsedQty = parseInt(newQty);
+
+      if (parsedQty <= 0 || isNaN(parsedQty)) {
+        removeFromCart(id);
+        return;
+      }
+
+      if (parsedQty > currentStock) {
+        alert(`Cannot add more! Only ${currentStock} units of ${product.name} are available in inventory.`);
+        cart[id].qty = currentStock;
+      } else {
+        cart[id].qty = parsedQty;
+      }
+
+      renderCart();
+      renderProducts();
     }
 
     function updateSummary() {
@@ -1172,7 +1204,7 @@ if (!isset($_SESSION['user_id'])) {
             <model-viewer src="${p.model_path}" auto-rotate camera-controls style="width: 100%; height: 100%;"></model-viewer>
         `;
       document.getElementById('modal-title').innerText = p.name;
-      document.getElementById('modal-desc').innerHTML = detailsHTML; 
+      document.getElementById('modal-desc').innerHTML = detailsHTML;
 
       document.getElementById('model-modal').style.display = 'flex';
     }

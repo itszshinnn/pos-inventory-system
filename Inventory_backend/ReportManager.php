@@ -1,20 +1,23 @@
 <?php
 require_once '../Database/Database.php';
 
-class ReportManager {
+class ReportManager
+{
     private $db;
 
-    public function __construct($dbConnection) {
+    public function __construct($dbConnection)
+    {
         $this->db = $dbConnection;
     }
 
-    public function getDashboardMetrics() {
-        $metrics = [ ];
+    public function getDashboardMetrics()
+    {
+        $metrics = [];
 
         try {
             $metrics['productLogs'] = $this->db->query("SELECT product_name, action_type, changed_by, created_at FROM inventory_logs ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
             $metrics['salesLogs']   = $this->db->query("SELECT order_no, total_amount, created_at FROM orders ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
-            $metrics['lowStocks']   = $this->db->query("SELECT name, stock FROM products WHERE stock <= 3 ORDER BY stock ASC")->fetchAll(PDO::FETCH_ASSOC);
+            $metrics['lowStocks']   = $this->db->query("SELECT id, name, stock FROM products WHERE stock <= 3 ORDER BY stock ASC")->fetchAll(PDO::FETCH_ASSOC);
             $metrics['newUsers']    = $this->db->query("SELECT username, role, created_at FROM users ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
 
             $metrics['totalProducts']   = $this->db->query('SELECT COUNT(*) FROM products')->fetchColumn();
@@ -43,7 +46,8 @@ class ReportManager {
         return $metrics;
     }
 
-    public function getSalesHistory() {
+    public function getSalesHistory()
+    {
         try {
             $query = 'SELECT o.order_no, 
                              o.payment_method AS payment, 
@@ -58,14 +62,15 @@ class ReportManager {
                       LEFT JOIN products p ON oi.product_id = p.id
                       GROUP BY o.id
                       ORDER BY o.id DESC';
-                      
+
             return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             return [];
         }
     }
 
-    public function getFullInventoryLogs() {
+    public function getFullInventoryLogs()
+    {
         try {
             $query = "SELECT * FROM inventory_logs ORDER BY id DESC";
             return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -74,4 +79,3 @@ class ReportManager {
         }
     }
 }
-?>

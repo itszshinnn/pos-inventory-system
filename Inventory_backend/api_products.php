@@ -35,27 +35,27 @@ switch ($method) {
         break;
 
     case 'POST':
-        $name        = trim($_POST['name'] ?? '');
-        $category_id = intval($_POST['category_id'] ?? 0);
-        $price       = floatval($_POST['price'] ?? 0);
-        $stock       = intval($_POST['stock'] ?? 0);
-        $description = trim($_POST['description'] ?? '');
-        $brand       = trim($_POST['brand'] ?? '');
-        $color       = trim($_POST['color'] ?? '');
-        $type        = trim($_POST['type'] ?? '');
-        $size        = trim($_POST['capacity_size'] ?? '');
-        $resolution  = trim($_POST['resolution'] ?? '');
+        $name         = trim($_POST['name'] ?? '');
+        $category_id  = intval($_POST['category_id'] ?? 0);
+        $price_bought = floatval($_POST['price_bought'] ?? 0);
+        $price        = floatval($_POST['price'] ?? 0);
+        $stock        = intval($_POST['stock'] ?? 0);
+        $description  = trim($_POST['description'] ?? '');
+        $brand        = trim($_POST['brand'] ?? '');
+        $color        = trim($_POST['color'] ?? '');
+        $type         = trim($_POST['type'] ?? '');
+        $size         = trim($_POST['capacity_size'] ?? '');
+        $resolution   = trim($_POST['resolution'] ?? '');
 
         $imageName   = 'default_product.png';
         $modelPath   = null;
 
-        if (!$name || !$category_id || $price < 0 || $stock < 0) {
+        if (!$name || !$category_id || $price < 0 || $price_bought < 0 || $stock < 0) {
             http_response_code(400);
-            echo json_encode(['error' => 'All fields are required and must be valid']);
+            echo json_encode(['error' => 'All core fields are required and must be valid']);
             break;
         }
 
-        // Handle Image Upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['image']['tmp_name'];
             $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -76,14 +76,12 @@ switch ($method) {
             }
         }
 
-        // Handle 3D Model Upload (.glb)
         if (isset($_FILES['model_file']) && $_FILES['model_file']['error'] === UPLOAD_ERR_OK) {
             $modelTmpPath = $_FILES['model_file']['tmp_name'];
             $modelNameOrig = $_FILES['model_file']['name'];
             $modelExt = strtolower(pathinfo($modelNameOrig, PATHINFO_EXTENSION));
 
             if (in_array($modelExt, ['glb', 'gltf'])) {
-                // Ensure the Models directory exists
                 if (!is_dir('../Models')) mkdir('../Models', 0777, true);
 
                 $newModelName = time() . '_' . bin2hex(random_bytes(4)) . '.' . $modelExt;
@@ -101,7 +99,8 @@ switch ($method) {
         require_once 'InventoryManager.php';
         require_once 'Product.php';
         $manager = new InventoryManager($pdo);
-        $newProduct = new Product($name, $category_id, $price, $stock);
+
+        $newProduct = new Product($name, $category_id, $price_bought, $price, $stock);
 
         $result = $manager->addProduct($newProduct, $imageName, $modelPath, $description, $brand, $color, $type, $size, $resolution, $username);
 
@@ -114,10 +113,9 @@ switch ($method) {
         $id            = intval($input['id'] ?? 0);
         $name          = trim($input['name'] ?? '');
         $category_id   = intval($input['category_id'] ?? 0);
+        $price_bought         = floatval($input['price_bought'] ?? 0);
         $price         = floatval($input['price'] ?? 0);
         $stock         = intval($input['stock'] ?? 0);
-
-        // Catch the update payload details
         $description   = trim($input['description'] ?? '');
         $brand         = trim($input['brand'] ?? '');
         $color         = trim($input['color'] ?? '');
@@ -134,12 +132,10 @@ switch ($method) {
         try {
             $pdo->beginTransaction();
 
-            // Run stock checks for inventory logging
             $getOld = $pdo->prepare("SELECT stock FROM products WHERE id = ?");
             $getOld->execute([$id]);
             $oldStock = intval($getOld->fetchColumn());
 
-            // Handle standard FIFO product batch adjustments
             if ($stock !== $oldStock) {
                 if ($stock > $oldStock) {
                     $addedQty = $stock - $oldStock;
@@ -166,9 +162,8 @@ switch ($method) {
                 }
             }
 
-            // Perform full specification updates inside table structure
-            $stmt = $pdo->prepare("UPDATE products SET name = ?, category_id = ?, price = ?, stock = ?, description = ?, brand = ?, color = ?, type = ?, capacity_size = ?, resolution = ? WHERE id = ?");
-            $stmt->execute([$name, $category_id, $price, $stock, $description, $brand, $color, $type, $capacity_size, $resolution, $id]);
+            $stmt = $pdo->prepare("UPDATE products SET name = ?, category_id = ?, price_bought = ?, price = ?, stock = ?, description = ?, brand = ?, color = ?, type = ?, capacity_size = ?, resolution = ? WHERE id = ?");
+            $stmt->execute([$name, $category_id, $price_bought, $price, $stock, $description, $brand, $color, $type, $capacity_size, $resolution, $id]);
 
             $log = $pdo->prepare("INSERT INTO inventory_logs (product_id, product_name, action_type, old_stock, new_stock, changed_by) VALUES (?, ?, ?, ?, ?, ?)");
             $log->execute([$id, $name, 'Edited', $oldStock, $stock, $username]);
