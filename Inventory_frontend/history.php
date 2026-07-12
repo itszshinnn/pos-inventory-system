@@ -340,7 +340,7 @@ $orders = $reportManager->getSalesHistory();
       <div class="history-stats-grid">
         <div class="history-stat-card">
           <h3>Total Revenue</h3>
-          <p class="green-txt">₱<?= number_format($totalRevenue, 2) ?></p>
+          <p class="green-txt">Php<?= number_format($totalRevenue, 2) ?></p>
         </div>
         <div class="history-stat-card">
           <h3>Transactions</h3>
@@ -416,16 +416,16 @@ $orders = $reportManager->getSalesHistory();
       </div>
       <div class="receipt-total-line">
         <span>TOTAL PAID:</span>
-        <span id="rcptTotal">₱0.00</span>
+        <span id="rcptTotal">Php0.00</span>
       </div>
 
       <div class="receipt-meta-row" style="margin-top: 14px;">
         <span>Cash Received:</span>
-        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
       <div class="receipt-meta-row">
         <span>Change Given:</span>
-        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
 
       <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
@@ -477,8 +477,8 @@ $orders = $reportManager->getSalesHistory();
             <td style="font-weight: 700;">#${order.order_no}</td>
             <td>${order.item ? order.item : 'No items tracked'}</td>
             <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
-            <td>${discountNum > 0 ? `₱${discountNum.toFixed(2)}` : '-'}</td>
-            <td class="price-mono">₱${totalNum.toFixed(2)}</td>
+            <td>${discountNum > 0 ? `Php${discountNum.toFixed(2)}` : '-'}</td>
+            <td class="price-mono">Php${totalNum.toFixed(2)}</td>
             <td style="text-align: center;">
               <button class="view-receipt-btn" onclick="openReceiptModal('${order.order_no}')">View</button>
             </td>
@@ -496,13 +496,13 @@ $orders = $reportManager->getSalesHistory();
       document.getElementById('rcptPayment').textContent = order.payment;
 
       const discountNum = parseFloat(order.discount) || 0;
-      document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- ₱${discountNum.toFixed(2)}` : 'None';
-      document.getElementById('rcptTotal').textContent = `₱${parseFloat(order.total).toFixed(2)}`;
+      document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- Php${discountNum.toFixed(2)}` : 'None';
+      document.getElementById('rcptTotal').textContent = `Php${parseFloat(order.total).toFixed(2)}`;
 
       const cashReceivedNum = parseFloat(order.cash_received) || 0;
       const changeAmountNum = parseFloat(order.change_amount) || 0;
-      document.getElementById('rcptCashReceived').textContent = `₱${cashReceivedNum.toFixed(2)}`;
-      document.getElementById('rcptChange').textContent = `₱${changeAmountNum.toFixed(2)}`;
+      document.getElementById('rcptCashReceived').textContent = `Php${cashReceivedNum.toFixed(2)}`;
+      document.getElementById('rcptChange').textContent = `Php${changeAmountNum.toFixed(2)}`;
 
       const itemsBox = document.getElementById('rcptItemsBox');
       itemsBox.innerHTML = '';

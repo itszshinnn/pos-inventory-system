@@ -150,10 +150,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           <select id="editCategory"></select>
 
           <label style="font-size: 0.85rem; font-weight: 600;">Price Bought / Cost (₱)</label>
-          <input type="number" id="editPriceBought" placeholder="Cost (₱)" min="0" step="0.01" />
+          <input type="number" id="editPriceBought" placeholder="Cost (Php)" min="0" step="0.01" />
 
           <label style="font-size: 0.85rem; font-weight: 600;">Price Sold / Retail (₱)</label>
-          <input type="number" id="editPrice" placeholder="Retail Price (₱)" min="0" step="0.01" />
+          <input type="number" id="editPrice" placeholder="Retail Price (Php)" min="0" step="0.01" />
 
           <label style="font-size: 0.85rem; font-weight: 600;">Stock</label>
           <input type="number" id="editStock" placeholder="Stock" min="0" />
@@ -233,8 +233,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <td>${p.category}</td>
         <td>${p.brand || '-'}</td>
         <td>${p.color || '-'}</td>
-        <td style="font-family: 'DM Mono', monospace;">₱${Number(p.price_bought).toFixed(2)}</td>
-        <td style="font-family: 'DM Mono', monospace;">₱${Number(p.price).toFixed(2)}</td>
+        <td style="font-family: 'DM Mono', monospace;">Php${Number(p.price_bought).toFixed(2)}</td>
+        <td style="font-family: 'DM Mono', monospace;">Php${Number(p.price).toFixed(2)}</td>
         <td>${p.stock}</td>
         <td>${stockStatus(p.stock)}</td>
         <td>

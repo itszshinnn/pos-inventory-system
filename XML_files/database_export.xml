@@ -31,6 +31,11 @@
       <name>Connection Devices</name>
       <created_at>2026-05-23 16:08:21</created_at>
     </row>
+    <row>
+      <id>7</id>
+      <name>Projector Devices</name>
+      <created_at>2026-05-18 13:53:33</created_at>
+    </row>
   </categories>
   <users>
     <row>
@@ -45,7 +50,7 @@
       <username>sean</username>
       <password>$2y$10$wniVyrbtsPkIoWI591WFcuHK0wDmnuGWBKSyGogkgurbh4QxBcYQq</password>
       <created_at>2026-06-02 23:03:18</created_at>
-      <role>admin</role>
+      <role>user</role>
     </row>
     <row>
       <id>3</id>
@@ -59,732 +64,413 @@
       <username>cerbo</username>
       <password>$2y$10$3YI1T0E0MwACVk8.M01xyOiNdHpVGT3i9VdgVuzAvsgCl9tT20G9G</password>
       <created_at>2026-06-03 11:44:48</created_at>
-      <role>admin</role>
+      <role>user</role>
     </row>
   </users>
   <products>
     <row>
       <id>1</id>
-      <name>Wireless Mouse</name>
-      <category_id>1</category_id>
-      <price>249.00</price>
-      <stock>10</stock>
-      <created_at>2026-05-20 19:23:18</created_at>
-      <image>1779276198_6a0d99a6adc07.png</image>
+      <name>Projector</name>
+      <category_id>4</category_id>
+      <price_bought>2500.00</price_bought>
+      <price>3000.00</price>
+      <stock>20</stock>
+      <created_at>2026-07-12 16:01:09</created_at>
+      <image>1783843269_e9b13a5fad644396.png</image>
+      <model_path>../Models/1783843269_577cace3.glb</model_path>
+      <description>A device that displays images and videos onto a larger screen for presentations and entertainment.</description>
+      <brand>Epson</brand>
+      <color>White</color>
+      <type>Display Device</type>
+      <capacity_size/>
+      <resolution>1920x1080</resolution>
     </row>
     <row>
       <id>2</id>
-      <name>Wireless Keyboard</name>
-      <category_id>1</category_id>
-      <price>449.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:23:35</created_at>
-      <image>1779276215_6a0d99b79bb46.png</image>
+      <name>SD Card</name>
+      <category_id>3</category_id>
+      <price_bought>350.00</price_bought>
+      <price>500.00</price>
+      <stock>19</stock>
+      <created_at>2026-07-12 16:02:24</created_at>
+      <image>1783843344_5246dc872c12a8ef.png</image>
+      <model_path>../Models/1783843344_a5149ef9.glb</model_path>
+      <description>A portable storage device used for saving photos, videos, and digital files.</description>
+      <brand>SanDisk</brand>
+      <color>Black</color>
+      <type>Storage Device</type>
+      <capacity_size>128GB</capacity_size>
+      <resolution/>
     </row>
     <row>
       <id>3</id>
-      <name>Earphones</name>
+      <name>Headphone</name>
       <category_id>2</category_id>
-      <price>69.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:23:50</created_at>
-      <image>1779276230_6a0d99c6d1c94.png</image>
+      <price_bought>800.00</price_bought>
+      <price>1200.00</price>
+      <stock>19</stock>
+      <created_at>2026-07-12 16:04:02</created_at>
+      <image>1783843442_e12aa7fd7e6dfef6.png</image>
+      <model_path>../Models/1783843442_6db03d66.glb</model_path>
+      <description>An audio device that provides private listening for music, calls, and multimedia.</description>
+      <brand>Logitech</brand>
+      <color>Black</color>
+      <type>Audio Device</type>
+      <capacity_size/>
+      <resolution/>
     </row>
     <row>
       <id>4</id>
-      <name>Earbuds</name>
-      <category_id>2</category_id>
-      <price>149.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:24:11</created_at>
-      <image>1779276251_6a0d99db8e841.png</image>
+      <name>SSD</name>
+      <category_id>3</category_id>
+      <price_bought>2200.00</price_bought>
+      <price>3000.00</price>
+      <stock>19</stock>
+      <created_at>2026-07-12 16:05:07</created_at>
+      <image>1783843507_1131a8fce5bb5810.png</image>
+      <model_path>../Models/1783843507_ec9e7464.glb</model_path>
+      <description>A high-speed storage device used to improve computer performance and file access.</description>
+      <brand>Kingston</brand>
+      <color>Red</color>
+      <type>Storage Device</type>
+      <capacity_size>512GB</capacity_size>
+      <resolution/>
     </row>
     <row>
       <id>5</id>
       <name>Speaker</name>
       <category_id>2</category_id>
-      <price>249.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:24:29</created_at>
-      <image>1779276269_6a0d99edd1b29.png</image>
+      <price_bought>1500.00</price_bought>
+      <price>2000.00</price>
+      <stock>10</stock>
+      <created_at>2026-07-12 16:05:46</created_at>
+      <image>1783843546_2aefdb601eaee67b.png</image>
+      <model_path>../Models/1783843546_e9305ae2.glb</model_path>
+      <description>An audio output device used to play music, videos, and other sounds clearly.</description>
+      <brand>Logitech</brand>
+      <color>Black</color>
+      <type>Audio Device</type>
+      <capacity_size/>
+      <resolution/>
     </row>
     <row>
       <id>6</id>
-      <name>USB Flash Drive 256gb</name>
-      <category_id>3</category_id>
-      <price>699.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:24:49</created_at>
-      <image>1779276289_6a0d9a015ed59.png</image>
+      <name>USB Hub</name>
+      <category_id>6</category_id>
+      <price_bought>300.00</price_bought>
+      <price>500.00</price>
+      <stock>20</stock>
+      <created_at>2026-07-12 16:06:48</created_at>
+      <image>1783843608_7f332d1bf9258b08.png</image>
+      <model_path>../Models/1783843608_736a9825.glb</model_path>
+      <description>A device that expands a computer's USB ports for connecting multiple peripherals.</description>
+      <brand>UGREEN</brand>
+      <color>Gray</color>
+      <type>Connection Device</type>
+      <capacity_size/>
+      <resolution/>
     </row>
     <row>
       <id>7</id>
-      <name>Micro SD Card 512gb</name>
-      <category_id>3</category_id>
-      <price>799.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:25:03</created_at>
-      <image>1779276303_6a0d9a0fb7c17.png</image>
-    </row>
-    <row>
-      <id>8</id>
-      <name>Monitor</name>
+      <name>ASUS Gaming Monitor</name>
       <category_id>4</category_id>
-      <price>2999.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-20 19:25:18</created_at>
-      <image>1779276318_6a0d9a1e94b54.png</image>
-    </row>
-    <row>
-      <id>9</id>
-      <name>SSD 512gb</name>
-      <category_id>3</category_id>
-      <price>1199.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-23 16:09:06</created_at>
-      <image>1779523746_392c55ef80499d2f.png</image>
-    </row>
-    <row>
-      <id>10</id>
-      <name>Cooling Pad</name>
-      <category_id>5</category_id>
-      <price>349.00</price>
-      <stock>10</stock>
-      <created_at>2026-05-23 16:09:19</created_at>
-      <image>1779523759_2c8ab3f73360125d.png</image>
-    </row>
-    <row>
-      <id>13</id>
-      <name>Webcam</name>
-      <category_id>4</category_id>
-      <price>349.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-23 16:10:05</created_at>
-      <image>1779523805_cd357c934fd843b5.png</image>
-    </row>
-    <row>
-      <id>14</id>
-      <name>Headphones</name>
-      <category_id>2</category_id>
-      <price>299.00</price>
-      <stock>5</stock>
-      <created_at>2026-05-23 16:10:19</created_at>
-      <image>1779523819_63b617c48fe219ee.png</image>
-    </row>
-    <row>
-      <id>16</id>
-      <name>Printer</name>
-      <category_id>4</category_id>
-      <price>2499.00</price>
-      <stock>10</stock>
-      <created_at>2026-06-03 01:09:30</created_at>
-      <image>1780420170_7139b23f47b5c2bd.png</image>
+      <price_bought>12.00</price_bought>
+      <price>12.00</price>
+      <stock>12</stock>
+      <created_at>2026-07-12 21:23:41</created_at>
+      <image>1783862621_2c5f849f226107f8.png</image>
+      <model_path>../Models/1783862621_d94db461.glb</model_path>
+      <description>nigga</description>
+      <brand>ASUS</brand>
+      <color>Black</color>
+      <type>Gaming Monitor</type>
+      <capacity_size/>
+      <resolution>3840 x 2160</resolution>
     </row>
   </products>
   <product_batches>
     <row>
       <id>1</id>
       <product_id>1</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>0</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-05-20 19:23:18</created_at>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>10</quantity_remaining>
+      <unit_cost>2500.00</unit_cost>
+      <created_at>2026-07-12 16:50:42</created_at>
     </row>
     <row>
       <id>2</id>
-      <product_id>2</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>449.00</unit_cost>
-      <created_at>2026-05-20 19:23:35</created_at>
+      <product_id>5</product_id>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>0</quantity_remaining>
+      <unit_cost>1500.00</unit_cost>
+      <created_at>2026-07-12 16:59:14</created_at>
     </row>
     <row>
       <id>3</id>
-      <product_id>3</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>69.00</unit_cost>
-      <created_at>2026-05-20 19:23:50</created_at>
+      <product_id>4</product_id>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>19</quantity_remaining>
+      <unit_cost>2200.00</unit_cost>
+      <created_at>2026-07-12 16:59:16</created_at>
     </row>
     <row>
       <id>4</id>
-      <product_id>4</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>149.00</unit_cost>
-      <created_at>2026-05-20 19:24:11</created_at>
+      <product_id>3</product_id>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>19</quantity_remaining>
+      <unit_cost>800.00</unit_cost>
+      <created_at>2026-07-12 16:59:18</created_at>
     </row>
     <row>
       <id>5</id>
-      <product_id>5</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>0</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-05-20 19:24:29</created_at>
+      <product_id>2</product_id>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>19</quantity_remaining>
+      <unit_cost>350.00</unit_cost>
+      <created_at>2026-07-12 16:59:21</created_at>
     </row>
     <row>
       <id>6</id>
       <product_id>6</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>699.00</unit_cost>
-      <created_at>2026-05-20 19:24:49</created_at>
+      <quantity_received>20</quantity_received>
+      <quantity_remaining>20</quantity_remaining>
+      <unit_cost>300.00</unit_cost>
+      <created_at>2026-07-12 16:59:36</created_at>
     </row>
     <row>
       <id>7</id>
-      <product_id>7</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>799.00</unit_cost>
-      <created_at>2026-05-20 19:25:03</created_at>
+      <product_id>1</product_id>
+      <quantity_received>5</quantity_received>
+      <quantity_remaining>5</quantity_remaining>
+      <unit_cost>2500.00</unit_cost>
+      <created_at>2026-07-12 17:42:25</created_at>
     </row>
     <row>
       <id>8</id>
-      <product_id>8</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>1</quantity_remaining>
-      <unit_cost>2999.00</unit_cost>
-      <created_at>2026-05-20 19:25:18</created_at>
+      <product_id>1</product_id>
+      <quantity_received>5</quantity_received>
+      <quantity_remaining>5</quantity_remaining>
+      <unit_cost>2500.00</unit_cost>
+      <created_at>2026-07-12 18:04:34</created_at>
     </row>
     <row>
       <id>9</id>
-      <product_id>1</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>0</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-05-20 19:29:12</created_at>
+      <product_id>5</product_id>
+      <quantity_received>10</quantity_received>
+      <quantity_remaining>10</quantity_remaining>
+      <unit_cost>2000.00</unit_cost>
+      <created_at>2026-07-12 21:06:46</created_at>
     </row>
     <row>
       <id>10</id>
-      <product_id>2</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>449.00</unit_cost>
-      <created_at>2026-05-20 19:29:16</created_at>
-    </row>
-    <row>
-      <id>11</id>
-      <product_id>3</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>69.00</unit_cost>
-      <created_at>2026-05-20 19:29:19</created_at>
-    </row>
-    <row>
-      <id>12</id>
-      <product_id>4</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>149.00</unit_cost>
-      <created_at>2026-05-20 19:29:21</created_at>
-    </row>
-    <row>
-      <id>13</id>
-      <product_id>5</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>2</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-05-20 19:29:23</created_at>
-    </row>
-    <row>
-      <id>14</id>
-      <product_id>6</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>699.00</unit_cost>
-      <created_at>2026-05-20 19:29:25</created_at>
-    </row>
-    <row>
-      <id>15</id>
       <product_id>7</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>799.00</unit_cost>
-      <created_at>2026-05-20 19:29:27</created_at>
-    </row>
-    <row>
-      <id>16</id>
-      <product_id>8</product_id>
-      <quantity_received>4</quantity_received>
-      <quantity_remaining>4</quantity_remaining>
-      <unit_cost>2999.00</unit_cost>
-      <created_at>2026-05-20 19:29:30</created_at>
-    </row>
-    <row>
-      <id>17</id>
-      <product_id>9</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
-      <unit_cost>1199.00</unit_cost>
-      <created_at>2026-05-23 16:09:06</created_at>
-    </row>
-    <row>
-      <id>18</id>
-      <product_id>10</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>10</quantity_remaining>
-      <unit_cost>349.00</unit_cost>
-      <created_at>2026-05-23 16:09:19</created_at>
-    </row>
-    <row>
-      <id>21</id>
-      <product_id>13</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
-      <unit_cost>349.00</unit_cost>
-      <created_at>2026-05-23 16:10:05</created_at>
-    </row>
-    <row>
-      <id>22</id>
-      <product_id>14</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
-      <unit_cost>299.00</unit_cost>
-      <created_at>2026-05-23 16:10:19</created_at>
-    </row>
-    <row>
-      <id>25</id>
-      <product_id>5</product_id>
-      <quantity_received>3</quantity_received>
-      <quantity_remaining>3</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-06-03 01:03:05</created_at>
-    </row>
-    <row>
-      <id>26</id>
-      <product_id>16</product_id>
-      <quantity_received>10</quantity_received>
-      <quantity_remaining>10</quantity_remaining>
-      <unit_cost>2499.00</unit_cost>
-      <created_at>2026-06-03 01:09:30</created_at>
-    </row>
-    <row>
-      <id>27</id>
-      <product_id>1</product_id>
-      <quantity_received>5</quantity_received>
-      <quantity_remaining>0</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-06-03 01:24:50</created_at>
-    </row>
-    <row>
-      <id>28</id>
-      <product_id>1</product_id>
-      <quantity_received>9</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-06-03 01:38:56</created_at>
-    </row>
-    <row>
-      <id>29</id>
-      <product_id>1</product_id>
-      <quantity_received>5</quantity_received>
-      <quantity_remaining>5</quantity_remaining>
-      <unit_cost>249.00</unit_cost>
-      <created_at>2026-06-03 11:46:10</created_at>
+      <quantity_received>12</quantity_received>
+      <quantity_remaining>12</quantity_remaining>
+      <unit_cost>12.00</unit_cost>
+      <created_at>2026-07-12 21:23:41</created_at>
     </row>
   </product_batches>
   <inventory_logs>
     <row>
       <id>1</id>
       <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Added</action_type>
+      <product_name>Projector</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:23:18</created_at>
+      <created_at>2026-07-12 16:50:42</created_at>
     </row>
     <row>
       <id>2</id>
-      <product_id>2</product_id>
-      <product_name>Wireless Keyboard</product_name>
-      <action_type>Added</action_type>
+      <product_id>5</product_id>
+      <product_name>Speaker</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:23:35</created_at>
+      <created_at>2026-07-12 16:59:14</created_at>
     </row>
     <row>
       <id>3</id>
-      <product_id>3</product_id>
-      <product_name>Earphones</product_name>
-      <action_type>Added</action_type>
+      <product_id>4</product_id>
+      <product_name>SSD</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:23:50</created_at>
+      <created_at>2026-07-12 16:59:16</created_at>
     </row>
     <row>
       <id>4</id>
-      <product_id>4</product_id>
-      <product_name>Earbuds</product_name>
-      <action_type>Added</action_type>
+      <product_id>3</product_id>
+      <product_name>Headphone</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:24:11</created_at>
+      <created_at>2026-07-12 16:59:18</created_at>
     </row>
     <row>
       <id>5</id>
-      <product_id>5</product_id>
-      <product_name>Speaker</product_name>
-      <action_type>Added</action_type>
+      <product_id>2</product_id>
+      <product_name>SD Card</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:24:29</created_at>
+      <created_at>2026-07-12 16:59:21</created_at>
     </row>
     <row>
       <id>6</id>
       <product_id>6</product_id>
-      <product_name>USB Flash Drive 256gb</product_name>
-      <action_type>Added</action_type>
+      <product_name>USB Hub</product_name>
+      <action_type>Restocked</action_type>
       <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:24:49</created_at>
+      <created_at>2026-07-12 16:59:36</created_at>
     </row>
     <row>
       <id>7</id>
-      <product_id>7</product_id>
-      <product_name>Micro SD Card 512gb</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <product_id>1</product_id>
+      <product_name>Projector</product_name>
+      <action_type>Restocked</action_type>
+      <old_stock>10</old_stock>
+      <new_stock>15</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:25:03</created_at>
+      <created_at>2026-07-12 17:42:25</created_at>
     </row>
     <row>
       <id>8</id>
-      <product_id>8</product_id>
-      <product_name>Monitor</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
+      <product_id>1</product_id>
+      <product_name>Projector</product_name>
+      <action_type>Restocked</action_type>
+      <old_stock>15</old_stock>
+      <new_stock>20</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:25:18</created_at>
+      <created_at>2026-07-12 18:04:34</created_at>
     </row>
     <row>
       <id>9</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
+      <product_id>5</product_id>
+      <product_name>Speaker</product_name>
       <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
+      <old_stock>0</old_stock>
       <new_stock>10</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:12</created_at>
+      <created_at>2026-07-12 21:06:46</created_at>
     </row>
     <row>
       <id>10</id>
-      <product_id>2</product_id>
-      <product_name>Wireless Keyboard</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:16</created_at>
-    </row>
-    <row>
-      <id>11</id>
-      <product_id>3</product_id>
-      <product_name>Earphones</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:19</created_at>
-    </row>
-    <row>
-      <id>12</id>
-      <product_id>4</product_id>
-      <product_name>Earbuds</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:21</created_at>
-    </row>
-    <row>
-      <id>13</id>
-      <product_id>5</product_id>
-      <product_name>Speaker</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:23</created_at>
-    </row>
-    <row>
-      <id>14</id>
-      <product_id>6</product_id>
-      <product_name>USB Flash Drive 256gb</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:25</created_at>
-    </row>
-    <row>
-      <id>15</id>
       <product_id>7</product_id>
-      <product_name>Micro SD Card 512gb</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:27</created_at>
-    </row>
-    <row>
-      <id>16</id>
-      <product_id>8</product_id>
-      <product_name>Monitor</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>6</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-20 19:29:30</created_at>
-    </row>
-    <row>
-      <id>17</id>
-      <product_id>9</product_id>
-      <product_name>SSD 512gb</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:09:06</created_at>
-    </row>
-    <row>
-      <id>18</id>
-      <product_id>10</product_id>
-      <product_name>Cooling Pad</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:09:19</created_at>
-    </row>
-    <row>
-      <id>19</id>
-      <product_id>11</product_id>
-      <product_name>USB Ports</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:09:35</created_at>
-    </row>
-    <row>
-      <id>20</id>
-      <product_id>12</product_id>
-      <product_name>HDMI Cable</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:09:52</created_at>
-    </row>
-    <row>
-      <id>21</id>
-      <product_id>13</product_id>
-      <product_name>Webcam</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:10:05</created_at>
-    </row>
-    <row>
-      <id>22</id>
-      <product_id>14</product_id>
-      <product_name>Headphones</product_name>
-      <action_type>Added</action_type>
-      <old_stock>0</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-05-23 16:10:19</created_at>
-    </row>
-    <row>
-      <id>23</id>
-      <product_id>15</product_id>
-      <product_name>Printer</product_name>
+      <product_name>ASUS Gaming Monitor</product_name>
       <action_type>Added</action_type>
       <old_stock/>
-      <new_stock>10</new_stock>
+      <new_stock>12</new_stock>
       <changed_by>Admin</changed_by>
-      <created_at>2026-06-01 19:22:48</created_at>
-    </row>
-    <row>
-      <id>24</id>
-      <product_id>15</product_id>
-      <product_name>Projector</product_name>
-      <action_type>Added</action_type>
-      <old_stock/>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-02 23:56:14</created_at>
-    </row>
-    <row>
-      <id>25</id>
-      <product_id/>
-      <product_name>Projector</product_name>
-      <action_type>Deleted</action_type>
-      <old_stock>10</old_stock>
-      <new_stock/>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-03 00:00:39</created_at>
-    </row>
-    <row>
-      <id>26</id>
-      <product_id>14</product_id>
-      <product_name>Headphones</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>10</old_stock>
-      <new_stock>5</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-03 00:03:28</created_at>
-    </row>
-    <row>
-      <id>27</id>
-      <product_id>5</product_id>
-      <product_name>Speaker</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>2</old_stock>
-      <new_stock>5</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-03 01:03:05</created_at>
-    </row>
-    <row>
-      <id>28</id>
-      <product_id>16</product_id>
-      <product_name>Printer</product_name>
-      <action_type>Added</action_type>
-      <old_stock/>
-      <new_stock>10</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-03 01:09:30</created_at>
-    </row>
-    <row>
-      <id>29</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>5</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>sean</changed_by>
-      <created_at>2026-06-03 01:24:50</created_at>
-    </row>
-    <row>
-      <id>30</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>10</old_stock>
-      <new_stock>5</new_stock>
-      <changed_by>sean</changed_by>
-      <created_at>2026-06-03 01:33:09</created_at>
-    </row>
-    <row>
-      <id>31</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>5</old_stock>
-      <new_stock>1</new_stock>
-      <changed_by>Admin</changed_by>
-      <created_at>2026-06-03 01:38:27</created_at>
-    </row>
-    <row>
-      <id>32</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>1</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>pogi</changed_by>
-      <created_at>2026-06-03 01:38:56</created_at>
-    </row>
-    <row>
-      <id>33</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>10</old_stock>
-      <new_stock>5</new_stock>
-      <changed_by>pogi</changed_by>
-      <created_at>2026-06-03 01:41:21</created_at>
-    </row>
-    <row>
-      <id>34</id>
-      <product_id>1</product_id>
-      <product_name>Wireless Mouse</product_name>
-      <action_type>Edited</action_type>
-      <old_stock>5</old_stock>
-      <new_stock>10</new_stock>
-      <changed_by>cerbo</changed_by>
-      <created_at>2026-06-03 11:46:10</created_at>
+      <created_at>2026-07-12 21:23:41</created_at>
     </row>
   </inventory_logs>
   <orders>
     <row>
       <id>1</id>
       <order_no>0001</order_no>
-      <total_amount>5095.80</total_amount>
-      <discount_amount>566.20</discount_amount>
+      <total_amount>6000.00</total_amount>
+      <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-05-20 19:25:53</created_at>
+      <created_at>2026-07-06 16:50:55</created_at>
       <cash_received>6000.00</cash_received>
-      <change_amount>904.20</change_amount>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>5000.00</cost_of_goods_sold>
     </row>
     <row>
       <id>2</id>
       <order_no>0002</order_no>
-      <total_amount>16986.00</total_amount>
+      <total_amount>9000.00</total_amount>
       <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-05-20 19:28:21</created_at>
-      <cash_received>17000.00</cash_received>
-      <change_amount>14.00</change_amount>
+      <created_at>2026-07-08 16:51:01</created_at>
+      <cash_received>9000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>7500.00</cost_of_goods_sold>
     </row>
     <row>
       <id>3</id>
       <order_no>0003</order_no>
-      <total_amount>28310.00</total_amount>
+      <total_amount>3000.00</total_amount>
       <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-05-20 19:31:33</created_at>
-      <cash_received>30000.00</cash_received>
-      <change_amount>1690.00</change_amount>
+      <created_at>2026-07-11 16:51:07</created_at>
+      <cash_received>3000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>2500.00</cost_of_goods_sold>
     </row>
     <row>
       <id>4</id>
       <order_no>0004</order_no>
-      <total_amount>5395.50</total_amount>
-      <discount_amount>599.50</discount_amount>
+      <total_amount>12000.00</total_amount>
+      <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-05-23 18:10:11</created_at>
-      <cash_received>5500.00</cash_received>
-      <change_amount>104.50</change_amount>
+      <created_at>2026-07-12 16:51:14</created_at>
+      <cash_received>12000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>10000.00</cost_of_goods_sold>
     </row>
     <row>
       <id>5</id>
       <order_no>0005</order_no>
-      <total_amount>1745.00</total_amount>
+      <total_amount>500.00</total_amount>
       <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-06-03 00:13:56</created_at>
-      <cash_received>2000.00</cash_received>
-      <change_amount>255.00</change_amount>
+      <created_at>2026-07-12 18:26:26</created_at>
+      <cash_received>500.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>350.00</cost_of_goods_sold>
     </row>
     <row>
       <id>6</id>
       <order_no>0006</order_no>
-      <total_amount>747.00</total_amount>
+      <total_amount>3000.00</total_amount>
       <discount_amount>0.00</discount_amount>
       <payment_method>Cash</payment_method>
-      <created_at>2026-06-03 01:02:51</created_at>
-      <cash_received>1000.00</cash_received>
-      <change_amount>253.00</change_amount>
+      <created_at>2026-07-12 18:26:34</created_at>
+      <cash_received>3000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>2200.00</cost_of_goods_sold>
+    </row>
+    <row>
+      <id>7</id>
+      <order_no>0007</order_no>
+      <total_amount>1200.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>Cash</payment_method>
+      <created_at>2026-07-12 18:26:39</created_at>
+      <cash_received>1200.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>800.00</cost_of_goods_sold>
+    </row>
+    <row>
+      <id>8</id>
+      <order_no>0008</order_no>
+      <total_amount>4000.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>Cash</payment_method>
+      <created_at>2026-07-12 18:26:53</created_at>
+      <cash_received>4000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>3000.00</cost_of_goods_sold>
+    </row>
+    <row>
+      <id>9</id>
+      <order_no>0009</order_no>
+      <total_amount>36000.00</total_amount>
+      <discount_amount>0.00</discount_amount>
+      <payment_method>Card</payment_method>
+      <created_at>2026-07-12 20:29:25</created_at>
+      <cash_received>36000.00</cash_received>
+      <change_amount>0.00</change_amount>
+      <cost_of_goods_sold>27000.00</cost_of_goods_sold>
     </row>
   </orders>
   <order_items>
@@ -792,190 +478,73 @@
       <id>1</id>
       <order_id>1</order_id>
       <product_id>1</product_id>
-      <quantity>1</quantity>
-      <price_at_sale>249.00</price_at_sale>
+      <quantity>2</quantity>
+      <price_at_sale>6000.00</price_at_sale>
+      <cost_of_goods_sold>5000.00</cost_of_goods_sold>
     </row>
     <row>
       <id>2</id>
-      <order_id>1</order_id>
-      <product_id>2</product_id>
-      <quantity>1</quantity>
-      <price_at_sale>449.00</price_at_sale>
+      <order_id>2</order_id>
+      <product_id>1</product_id>
+      <quantity>3</quantity>
+      <price_at_sale>9000.00</price_at_sale>
+      <cost_of_goods_sold>7500.00</cost_of_goods_sold>
     </row>
     <row>
       <id>3</id>
-      <order_id>1</order_id>
-      <product_id>3</product_id>
+      <order_id>3</order_id>
+      <product_id>1</product_id>
       <quantity>1</quantity>
-      <price_at_sale>69.00</price_at_sale>
+      <price_at_sale>3000.00</price_at_sale>
+      <cost_of_goods_sold>2500.00</cost_of_goods_sold>
     </row>
     <row>
       <id>4</id>
-      <order_id>1</order_id>
-      <product_id>4</product_id>
-      <quantity>1</quantity>
-      <price_at_sale>149.00</price_at_sale>
+      <order_id>4</order_id>
+      <product_id>1</product_id>
+      <quantity>4</quantity>
+      <price_at_sale>12000.00</price_at_sale>
+      <cost_of_goods_sold>10000.00</cost_of_goods_sold>
     </row>
     <row>
       <id>5</id>
-      <order_id>1</order_id>
-      <product_id>5</product_id>
+      <order_id>5</order_id>
+      <product_id>2</product_id>
       <quantity>1</quantity>
-      <price_at_sale>249.00</price_at_sale>
+      <price_at_sale>500.00</price_at_sale>
+      <cost_of_goods_sold>350.00</cost_of_goods_sold>
     </row>
     <row>
       <id>6</id>
-      <order_id>1</order_id>
-      <product_id>6</product_id>
+      <order_id>6</order_id>
+      <product_id>4</product_id>
       <quantity>1</quantity>
-      <price_at_sale>699.00</price_at_sale>
+      <price_at_sale>3000.00</price_at_sale>
+      <cost_of_goods_sold>2200.00</cost_of_goods_sold>
     </row>
     <row>
       <id>7</id>
-      <order_id>1</order_id>
-      <product_id>7</product_id>
+      <order_id>7</order_id>
+      <product_id>3</product_id>
       <quantity>1</quantity>
-      <price_at_sale>799.00</price_at_sale>
+      <price_at_sale>1200.00</price_at_sale>
+      <cost_of_goods_sold>800.00</cost_of_goods_sold>
     </row>
     <row>
       <id>8</id>
-      <order_id>1</order_id>
-      <product_id>8</product_id>
-      <quantity>1</quantity>
-      <price_at_sale>2999.00</price_at_sale>
+      <order_id>8</order_id>
+      <product_id>5</product_id>
+      <quantity>2</quantity>
+      <price_at_sale>4000.00</price_at_sale>
+      <cost_of_goods_sold>3000.00</cost_of_goods_sold>
     </row>
     <row>
       <id>9</id>
-      <order_id>2</order_id>
-      <product_id>1</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>249.00</price_at_sale>
-    </row>
-    <row>
-      <id>10</id>
-      <order_id>2</order_id>
-      <product_id>2</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>449.00</price_at_sale>
-    </row>
-    <row>
-      <id>11</id>
-      <order_id>2</order_id>
-      <product_id>3</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>69.00</price_at_sale>
-    </row>
-    <row>
-      <id>12</id>
-      <order_id>2</order_id>
-      <product_id>4</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>149.00</price_at_sale>
-    </row>
-    <row>
-      <id>13</id>
-      <order_id>2</order_id>
+      <order_id>9</order_id>
       <product_id>5</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>249.00</price_at_sale>
-    </row>
-    <row>
-      <id>14</id>
-      <order_id>2</order_id>
-      <product_id>6</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>699.00</price_at_sale>
-    </row>
-    <row>
-      <id>15</id>
-      <order_id>2</order_id>
-      <product_id>7</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>799.00</price_at_sale>
-    </row>
-    <row>
-      <id>16</id>
-      <order_id>2</order_id>
-      <product_id>8</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>2999.00</price_at_sale>
-    </row>
-    <row>
-      <id>17</id>
-      <order_id>3</order_id>
-      <product_id>1</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>249.00</price_at_sale>
-    </row>
-    <row>
-      <id>18</id>
-      <order_id>3</order_id>
-      <product_id>2</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>449.00</price_at_sale>
-    </row>
-    <row>
-      <id>19</id>
-      <order_id>3</order_id>
-      <product_id>3</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>69.00</price_at_sale>
-    </row>
-    <row>
-      <id>20</id>
-      <order_id>3</order_id>
-      <product_id>4</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>149.00</price_at_sale>
-    </row>
-    <row>
-      <id>21</id>
-      <order_id>3</order_id>
-      <product_id>5</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>249.00</price_at_sale>
-    </row>
-    <row>
-      <id>22</id>
-      <order_id>3</order_id>
-      <product_id>6</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>699.00</price_at_sale>
-    </row>
-    <row>
-      <id>23</id>
-      <order_id>3</order_id>
-      <product_id>7</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>799.00</price_at_sale>
-    </row>
-    <row>
-      <id>24</id>
-      <order_id>3</order_id>
-      <product_id>8</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>2999.00</price_at_sale>
-    </row>
-    <row>
-      <id>25</id>
-      <order_id>4</order_id>
-      <product_id>9</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>1199.00</price_at_sale>
-    </row>
-    <row>
-      <id>26</id>
-      <order_id>5</order_id>
-      <product_id>13</product_id>
-      <quantity>5</quantity>
-      <price_at_sale>349.00</price_at_sale>
-    </row>
-    <row>
-      <id>27</id>
-      <order_id>6</order_id>
-      <product_id>5</product_id>
-      <quantity>3</quantity>
-      <price_at_sale>249.00</price_at_sale>
+      <quantity>18</quantity>
+      <price_at_sale>36000.00</price_at_sale>
+      <cost_of_goods_sold>27000.00</cost_of_goods_sold>
     </row>
   </order_items>
 </database>

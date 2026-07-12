@@ -190,7 +190,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
           <h3>Export XML Files</h3>
 
           <p class="section-desc">
-            Export all database tables into XML backup files. Located in XML_files folder.
+            Export all database tables into XML backup files. Located in the <strong>XML_files folder</strong>.
           </p>
 
           <form action="../Inventory_backend/export_tables.php" method="POST">

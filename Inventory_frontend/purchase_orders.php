@@ -398,11 +398,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #eee;"><strong>${item.name}</strong></td>
         <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold; color: ${item.stock <= 3 ? 'red' : '#333'}">${item.stock}</td>
-        <td style="padding: 12px; border-bottom: 1px solid #eee;">₱${costPrice.toFixed(2)}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee;">Php${costPrice.toFixed(2)}</td>
         <td style="padding: 12px; border-bottom: 1px solid #eee;">
           <input type="number" class="qty-input draft-qty" data-id="${item.id}" data-cost="${costPrice}" min="1" value="${defaultQty}" oninput="updateTotals()">
         </td>
-        <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold;" class="line-total" id="total-${item.id}">₱${lineTotal.toFixed(2)}</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold;" class="line-total" id="total-${item.id}">Php${lineTotal.toFixed(2)}</td>
         <td style="padding: 12px; border-bottom: 1px solid #eee;">
           <button class="btn-remove" onclick="removeItemFromDraft(${item.id})">Remove</button>
         </td>
@@ -413,7 +413,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             tbody.innerHTML += `
         <tr style="background: #f8f9fb;">
             <td colspan="4" style="text-align: right; padding: 12px;"><strong>Total Supplier Cost:</strong></td>
-            <td colspan="2" style="padding: 12px; font-weight: bold; color: #4d66ff; font-size: 16px;" id="grandTotalDisplay">₱${grandTotal.toFixed(2)}</td>
+            <td colspan="2" style="padding: 12px; font-weight: bold; color: #4d66ff; font-size: 16px;" id="grandTotalDisplay">Php${grandTotal.toFixed(2)}</td>
         </tr>
     `;
 
@@ -429,11 +429,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                 const costPrice = parseFloat(input.getAttribute('data-cost'));
                 const lineTotal = qty * costPrice;
 
-                document.getElementById(`total-${input.dataset.id}`).innerText = `₱${lineTotal.toFixed(2)}`;
+                document.getElementById(`total-${input.dataset.id}`).innerText = `Php${lineTotal.toFixed(2)}`;
                 grandTotal += lineTotal;
             });
 
-            document.getElementById('grandTotalDisplay').innerText = `₱${grandTotal.toFixed(2)}`;
+            document.getElementById('grandTotalDisplay').innerText = `Php${grandTotal.toFixed(2)}`;
         }
 
         async function submitPurchaseOrder() {

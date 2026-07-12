@@ -419,7 +419,7 @@ $logs = $reportManager->getFullInventoryLogs();
       </div>
       <div class="receipt-total-line">
         <span>TOTAL PAID:</span>
-        <span id="rcptTotal">₱0.00</span>
+        <span id="rcptTotal">Php0.00</span>
       </div>
 
       <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>

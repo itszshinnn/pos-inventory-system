@@ -776,21 +776,21 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="summary-row">
           <span>Subtotal</span>
-          <span id="subtotal">₱0.00</span>
+          <span id="subtotal">Php0.00</span>
         </div>
 
         <div class="discount-row">
           <input type="number" class="discount-input" id="discountInput" placeholder="Discount" min="0">
           <select class="discount-type-select" id="discountType">
             <option value="%">%</option>
-            <option value="₱">₱</option>
+            <option value="Php">Php</option>
           </select>
           <div class="discount-result" id="discountResult"></div>
         </div>
 
         <div class="summary-row">
           <span>Total</span>
-          <span id="total">₱0.00</span>
+          <span id="total">Php0.00</span>
         </div>
 
         <button class="checkout-btn" onclick="openCheckoutModal()">Proceed to checkout</button>
@@ -810,7 +810,7 @@ if (!isset($_SESSION['user_id'])) {
 
       <div class="modal-total-row">
         <span>Total</span>
-        <span id="modalTotalAmount">₱0.00</span>
+        <span id="modalTotalAmount">Php0.00</span>
       </div>
 
       <div class="modal-label">Payment method</div>
@@ -880,16 +880,16 @@ if (!isset($_SESSION['user_id'])) {
       </div>
       <div class="receipt-total-line">
         <span>TOTAL PAID:</span>
-        <span id="rcptTotal">₱0.00</span>
+        <span id="rcptTotal">Php0.00</span>
       </div>
 
       <div class="receipt-meta-row" style="margin-top: 14px;">
         <span>Cash Received:</span>
-        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
       <div class="receipt-meta-row">
         <span>Change Given:</span>
-        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
 
       <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
@@ -1004,7 +1004,7 @@ if (!isset($_SESSION['user_id'])) {
             <div>
               <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
               <div class="product-name">${p.name}</div>
-              <div class="price">₱${price.toFixed(2)}</div>
+              <div class="price">Php${price.toFixed(2)}</div>
               <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
             </div>
             
@@ -1097,7 +1097,7 @@ if (!isset($_SESSION['user_id'])) {
               <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div class="item-price">₱${(item.price * item.qty).toFixed(2)}</div>
+              <div class="item-price">Php${(item.price * item.qty).toFixed(2)}</div>
               <div style="display: flex; align-items: center; gap: 6px;">
                 <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
                 <input type="number" 
@@ -1139,7 +1139,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     function updateSummary() {
-      document.getElementById('subtotal').textContent = '₱' + cartTotal.toFixed(2);
+      document.getElementById('subtotal').textContent = 'Php' + cartTotal.toFixed(2);
       document.getElementById('count').textContent = cartCount;
       applyDiscount();
     }
@@ -1153,17 +1153,17 @@ if (!isset($_SESSION['user_id'])) {
       if (raw > 0 && cartTotal > 0) {
         if (type === '%') {
           deduction = Math.min(cartTotal, cartTotal * (raw / 100));
-          resultEl.textContent = `- ₱${deduction.toFixed(2)} (${raw}% off)`;
+          resultEl.textContent = `- Php${deduction.toFixed(2)} (${raw}% off)`;
         } else {
           deduction = Math.min(cartTotal, raw);
-          resultEl.textContent = `- ₱${deduction.toFixed(2)} discount`;
+          resultEl.textContent = `- Php${deduction.toFixed(2)} discount`;
         }
       } else {
         resultEl.textContent = '';
       }
 
       finalCalculatedTotal = Math.max(0, cartTotal - deduction);
-      document.getElementById('total').textContent = '₱' + finalCalculatedTotal.toFixed(2);
+      document.getElementById('total').textContent = 'Php' + finalCalculatedTotal.toFixed(2);
     }
 
     document.getElementById('discountInput').addEventListener('input', applyDiscount);
@@ -1190,12 +1190,12 @@ if (!isset($_SESSION['user_id'])) {
         row.classList.add('modal-item-row');
         row.innerHTML = `
           <span>${item.name} ×${item.qty}</span>
-          <span>₱${(item.price * item.qty).toFixed(2)}</span>
+          <span>Php${(item.price * item.qty).toFixed(2)}</span>
         `;
         modalList.appendChild(row);
       });
 
-      document.getElementById('modalTotalAmount').textContent = '₱' + finalCalculatedTotal.toFixed(2);
+      document.getElementById('modalTotalAmount').textContent = 'Php' + finalCalculatedTotal.toFixed(2);
       document.getElementById('cashReceivedInput').value = '';
       document.getElementById('changeDisplay').textContent = '';
 
@@ -1228,11 +1228,11 @@ if (!isset($_SESSION['user_id'])) {
 
       if (cashAmt >= finalCalculatedTotal) {
         const calculatedChange = cashAmt - finalCalculatedTotal;
-        changeEl.textContent = `Change: ₱${calculatedChange.toFixed(2)}`;
+        changeEl.textContent = `Change: Php${calculatedChange.toFixed(2)}`;
         changeEl.style.color = '#2db84d';
       } else if (cashAmt > 0) {
         const balanceDue = finalCalculatedTotal - cashAmt;
-        changeEl.textContent = `Short: ₱${balanceDue.toFixed(2)}`;
+        changeEl.textContent = `Short: Php${balanceDue.toFixed(2)}`;
         changeEl.style.color = '#ff5c5c';
       } else {
         changeEl.textContent = '';
@@ -1350,7 +1350,7 @@ if (!isset($_SESSION['user_id'])) {
 
       let detailsHTML = `
             <div style="font-size: 14px; color: #444; line-height: 1.6;">
-                <strong>Price:</strong> ₱${Number(p.price).toFixed(2)}<br>
+                <strong>Price:</strong> Php${Number(p.price).toFixed(2)}<br>
                 <strong>Brand:</strong> ${p.brand || 'N/A'}<br>
                 <strong>Color:</strong> ${p.color || 'N/A'}<br>
                 <strong>Type:</strong> ${p.type || 'N/A'}<br>
@@ -1399,16 +1399,16 @@ if (!isset($_SESSION['user_id'])) {
       const discount = parseFloat(receiptData.discount || 0);
 
       document.getElementById("rcptDiscount").textContent =
-        discount > 0 ? `- ₱${discount.toFixed(2)}` : "None";
+        discount > 0 ? `- Php${discount.toFixed(2)}` : "None";
 
       document.getElementById("rcptTotal").textContent =
-        `₱${parseFloat(receiptData.total).toFixed(2)}`;
+        `Php${parseFloat(receiptData.total).toFixed(2)}`;
 
       document.getElementById("rcptCashReceived").textContent =
-        `₱${parseFloat(receiptData.cash_received).toFixed(2)}`;
+        `Php${parseFloat(receiptData.cash_received).toFixed(2)}`;
 
       document.getElementById("rcptChange").textContent =
-        `₱${parseFloat(receiptData.change_amount).toFixed(2)}`;
+        `Php${parseFloat(receiptData.change_amount).toFixed(2)}`;
 
       const itemsBox = document.getElementById("rcptItemsBox");
       itemsBox.innerHTML = "";

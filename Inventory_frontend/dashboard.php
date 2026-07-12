@@ -499,7 +499,7 @@ usort($allNotifications, function ($a, $b) {
             <div class="metrics-row-grid">
               <div class="metric-sub-card">
                 <h3>Total Revenue</h3>
-                <p class="green-txt">₱<?= number_format($totalRevenue, 2) ?></p>
+                <p class="green-txt">Php<?= number_format($totalRevenue, 2) ?></p>
               </div>
               <div class="metric-sub-card">
                 <h3>Transactions</h3>
@@ -557,7 +557,7 @@ usort($allNotifications, function ($a, $b) {
 
             <?php elseif ($notif['type'] === 'sales_log'): ?>
               <div class="notif-item notif-success">
-                🛒 Order #<?= $data['order_no'] ?> completed — ₱<?= number_format($data['total_amount'], 2) ?>
+                🛒 Order #<?= $data['order_no'] ?> completed — Php<?= number_format($data['total_amount'], 2) ?>
               </div>
 
             <?php elseif ($notif['type'] === 'new_user'): ?>
@@ -685,7 +685,7 @@ usort($allNotifications, function ($a, $b) {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return context.dataset.label + ": ₱" +
+                  return context.dataset.label + ": Php" +
                     context.raw.toLocaleString();
                 }
               }
@@ -698,7 +698,7 @@ usort($allNotifications, function ($a, $b) {
 
               ticks: {
                 callback: function(value) {
-                  return "₱" + value.toLocaleString();
+                  return "Php" + value.toLocaleString();
                 }
               }
             }
@@ -754,7 +754,7 @@ usort($allNotifications, function ($a, $b) {
               callbacks: {
                 label: function(context) {
 
-                  return "COGS: ₱" +
+                  return "COGS: Php" +
                     context.raw.toLocaleString();
 
                 }
@@ -774,7 +774,7 @@ usort($allNotifications, function ($a, $b) {
 
                 callback: function(value) {
 
-                  return "₱" +
+                  return "Php" +
                     value.toLocaleString();
 
                 }
