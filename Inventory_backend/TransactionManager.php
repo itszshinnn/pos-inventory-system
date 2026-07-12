@@ -118,7 +118,7 @@ class TransactionManager {
                     $orderId,
                     $id,
                     $qty,
-                    $price,
+                    $price * $qty,
                     $totalCOGS
                 ]);
                 $totalOrderCOGS += $totalCOGS;
