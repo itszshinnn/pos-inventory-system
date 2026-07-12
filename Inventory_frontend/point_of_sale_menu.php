@@ -749,7 +749,7 @@ if (!isset($_SESSION['user_id'])) {
           <h2 id="modal-title" style="margin-bottom: 10px; font-size: 20px;">Product Title</h2>
           <p id="modal-desc" style="font-size: 14px; color: #555; line-height: 1.5;">Product description goes here...</p>
         </div>
-        <button onclick="close3DViewer()" style="margin-top: 20px; padding: 12px; background: #ff4b4b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Close Viewer</button>
+        <button onclick="close3DViewer()" style="margin-top: 20px; padding: 12px; background: #ff4b4b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Close</button>
       </div>
 
     </div>
@@ -1180,7 +1180,6 @@ if (!isset($_SESSION['user_id'])) {
 
       if (!p.model_path || p.model_path === 'null' || p.model_path === '') {
         alert("A 3D model for " + p.name + " has not been uploaded yet.");
-        return;
       }
 
       let detailsHTML = `
