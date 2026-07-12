@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2026 at 04:01 AM
+-- Generation Time: Jul 12, 2026 at 08:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,8 +68,8 @@ CREATE TABLE `inventory_logs` (
 --
 
 INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
-(1, 1, 'Wireless Keyboard', 'Added', NULL, 20, 'Admin', '2026-07-11 13:46:26'),
-(2, 1, 'Wireless Keyboard', 'Restocked', 3, 20, 'Admin', '2026-07-11 13:49:22');
+(1, 1, 'Wireless Keyboard', 'Restocked', 37, 57, 'Admin', '2026-07-12 06:04:42'),
+(2, 2, 'Test-icle', 'Restocked', 39, 59, 'Admin', '2026-07-12 06:05:28');
 
 -- --------------------------------------------------------
 
@@ -85,16 +85,16 @@ CREATE TABLE `orders` (
   `payment_method` enum('Cash','Card','GCash','Maya') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `cash_received` decimal(10,2) DEFAULT 0.00,
-  `change_amount` decimal(10,2) DEFAULT 0.00
+  `change_amount` decimal(10,2) DEFAULT 0.00,
+  `cost_of_goods_sold` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`) VALUES
-(1, '0001', 7633.00, 0.00, 'Maya', '2026-07-11 13:47:23', 7633.00, 0.00),
-(2, '0002', 7633.00, 0.00, 'GCash', '2026-07-11 14:02:33', 7633.00, 0.00);
+INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`, `cost_of_goods_sold`) VALUES
+(3, '0001', 3294.00, 0.00, 'Cash', '2026-07-12 06:05:42', 4000.00, 706.00, 1774.00);
 
 -- --------------------------------------------------------
 
@@ -107,16 +107,17 @@ CREATE TABLE `order_items` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `price_at_sale` decimal(10,2) NOT NULL
+  `price_at_sale` decimal(10,2) NOT NULL,
+  `cost_of_goods_sold` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_sale`) VALUES
-(1, 1, 1, 17, 449.00),
-(2, 2, 1, 17, 449.00);
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_sale`, `cost_of_goods_sold`) VALUES
+(3, 3, 1, 6, 449.00, 1374.00),
+(4, 3, 2, 4, 150.00, 400.00);
 
 -- --------------------------------------------------------
 
@@ -138,7 +139,12 @@ CREATE TABLE `po_items` (
 
 INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) VALUES
 (1, 1, 1, 17, 229.00),
-(2, 2, 1, 17, 229.00);
+(2, 2, 1, 17, 229.00),
+(3, 3, 2, 20, 100.00),
+(4, 4, 1, 20, 229.00),
+(5, 5, 2, 20, 100.00),
+(6, 6, 1, 20, 229.00),
+(7, 7, 2, 20, 100.00);
 
 -- --------------------------------------------------------
 
@@ -169,7 +175,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
-(1, 'Wireless Keyboard', 1, 229.00, 449.00, 3, '2026-07-11 13:46:26', '1783777586_af256394ef9cdf06.png', '../Models/1783777586_0bbd8f79.glb', 'A wireless gaming keyboard built for speed and freedom with low-latency connectivity, hot-swappable switches, and per-key RGB, all without the cable clutter. Long battery life keeps you gaming through marathon sessions.', 'Logitech', 'Black', 'Gaming Keyboard', '', '');
+(1, 'Wireless Keyboard', 1, 229.00, 449.00, 14, '2026-07-11 13:46:26', '1783777586_af256394ef9cdf06.png', '../Models/1783777586_0bbd8f79.glb', 'A wireless gaming keyboard built for speed and freedom with low-latency connectivity, hot-swappable switches, and per-key RGB, all without the cable clutter. Long battery life keeps you gaming through marathon sessions.', 'Logitech', 'Black', 'Gaming Keyboard', '', ''),
+(2, 'Test-icle', 5, 100.00, 150.00, 16, '2026-07-12 04:18:35', 'default_product.png', NULL, 'Testing Testing Testicle', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -191,8 +198,8 @@ CREATE TABLE `product_batches` (
 --
 
 INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantity_remaining`, `unit_cost`, `created_at`) VALUES
-(1, 1, 20, 0, 229.00, '2026-07-11 13:46:26'),
-(2, 1, 17, 3, 229.00, '2026-07-11 13:49:22');
+(1, 1, 20, 14, 229.00, '2026-07-12 06:04:42'),
+(2, 2, 20, 16, 100.00, '2026-07-12 06:05:28');
 
 -- --------------------------------------------------------
 
@@ -216,7 +223,12 @@ CREATE TABLE `purchase_orders` (
 
 INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`, `amount_paid`, `created_at`, `received_by`) VALUES
 (1, 'PO-20260711-0001', 'Received', NULL, 0.00, '2026-07-11 13:48:28', 'Admin'),
-(2, 'PO-20260711-0002', 'Pending', NULL, 0.00, '2026-07-11 14:03:57', NULL);
+(2, 'PO-20260711-0002', 'Received', NULL, 0.00, '2026-07-11 14:03:57', 'Admin'),
+(3, 'PO-20260712-0003', 'Received', NULL, 0.00, '2026-07-12 04:18:53', 'Admin'),
+(4, 'PO-20260712-0004', 'Received', NULL, 0.00, '2026-07-12 04:51:35', 'Admin'),
+(5, 'PO-20260712-0005', 'Received', NULL, 0.00, '2026-07-12 05:48:05', 'Admin'),
+(6, 'PO-20260712-0006', 'Received', NULL, 0.00, '2026-07-12 06:04:39', 'Admin'),
+(7, 'PO-20260712-0007', 'Received', NULL, 0.00, '2026-07-12 06:05:24', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -329,25 +341,25 @@ ALTER TABLE `inventory_logs`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_batches`
@@ -359,7 +371,7 @@ ALTER TABLE `product_batches`
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -352,6 +352,23 @@ usort($allNotifications, function ($a, $b) {
       font-weight: 600;
     }
 
+    .graph-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    }
+
+    .graph-card h3 {
+      margin-bottom: 15px;
+    }
+
+    #profitChart {
+      width: 100%;
+      height: 350px;
+    }
+
     @keyframes popupFade {
 
       from {
@@ -551,10 +568,15 @@ usort($allNotifications, function ($a, $b) {
 
           <?php endforeach; ?>
         </div>
+        <div class="graph-card">
+          <h3>Revenue, Cost & Profit</h3>
 
+          <canvas id="profitChart"></canvas>
+        </div>
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     function toggleUserDropdown(event) {
       event.stopPropagation();
@@ -568,6 +590,83 @@ usort($allNotifications, function ($a, $b) {
         dropdown.style.display = "none";
       }
     }
+    let profitChart;
+
+    async function loadDashboardGraph() {
+
+      const response = await fetch('../Inventory_backend/api_dashboard_graph.php');
+      const result = await response.json();
+
+      if (!result.success) return;
+
+      const labels = result.data.map(r => r.day);
+      const revenue = result.data.map(r => r.revenue);
+      const cost = result.data.map(r => r.cost);
+      const profit = result.data.map(r => r.profit);
+
+      const ctx = document.getElementById('profitChart');
+
+      profitChart = new Chart(ctx, {
+
+        type: 'line',
+
+        data: {
+
+          labels: labels,
+
+          datasets: [
+
+            {
+              label: 'Revenue',
+              data: revenue,
+              borderColor: '#3b82f6',
+              backgroundColor: 'transparent',
+              tension: .35
+            },
+
+            {
+              label: 'Cost',
+              data: cost,
+              borderColor: '#ef4444',
+              backgroundColor: 'transparent',
+              tension: .35
+            },
+
+            {
+              label: 'Profit',
+              data: profit,
+              borderColor: '#22c55e',
+              backgroundColor: 'transparent',
+              tension: .35
+            }
+
+          ]
+
+        },
+
+        options: {
+
+          responsive: true,
+
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          },
+
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+
+        }
+
+      });
+
+    }
+
+    loadDashboardGraph();
   </script>
   <?php require_once 'stock_alert.php'; ?>
 </body>
