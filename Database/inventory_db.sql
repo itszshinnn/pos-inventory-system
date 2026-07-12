@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2026 at 08:14 AM
+-- Generation Time: Jul 12, 2026 at 04:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,10 +68,8 @@ CREATE TABLE `inventory_logs` (
 --
 
 INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
-(1, 1, 'Wireless Keyboard', 'Added', NULL, 10, 'Admin', '2026-07-10 05:25:27'),
-(2, 1, 'Wireless Keyboard', 'Added', NULL, 10, 'Admin', '2026-07-10 05:28:55'),
-(3, 1, 'Wireless Keyboard', 'Added', NULL, 10, 'Admin', '2026-07-10 05:32:16'),
-(4, 1, 'Wireless Keyboard', 'Edited', 10, 9, 'Admin', '2026-07-10 06:10:45');
+(1, 1, 'Wireless Keyboard', 'Added', NULL, 20, 'Admin', '2026-07-11 13:46:26'),
+(2, 1, 'Wireless Keyboard', 'Restocked', 3, 20, 'Admin', '2026-07-11 13:49:22');
 
 -- --------------------------------------------------------
 
@@ -90,6 +88,14 @@ CREATE TABLE `orders` (
   `change_amount` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`) VALUES
+(1, '0001', 7633.00, 0.00, 'Maya', '2026-07-11 13:47:23', 7633.00, 0.00),
+(2, '0002', 7633.00, 0.00, 'GCash', '2026-07-11 14:02:33', 7633.00, 0.00);
+
 -- --------------------------------------------------------
 
 --
@@ -104,6 +110,36 @@ CREATE TABLE `order_items` (
   `price_at_sale` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_sale`) VALUES
+(1, 1, 1, 17, 449.00),
+(2, 2, 1, 17, 449.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `po_items`
+--
+
+CREATE TABLE `po_items` (
+  `id` int(11) NOT NULL,
+  `po_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `order_qty` int(11) NOT NULL,
+  `unit_cost` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `po_items`
+--
+
+INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) VALUES
+(1, 1, 1, 17, 229.00),
+(2, 2, 1, 17, 229.00);
+
 -- --------------------------------------------------------
 
 --
@@ -114,6 +150,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `category_id` int(11) NOT NULL,
+  `price_bought` decimal(10,2) NOT NULL DEFAULT 0.00,
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -131,8 +168,8 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `category_id`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
-(1, 'Wireless Keyboard', 1, 449.00, 9, '2026-07-10 05:32:16', '1783661536_1954fb15ee15c51a.png', '../Models/1783661536_c0069e4f.glb', 'A wireless gaming nigger keyboard built for speed and freedom with low-latency connectivity, hot-swappable switches, and per-key RGB, all without the cable clutter. Long battery life keeps you gaming through marathon sessions.', 'Logitech', 'Black', 'Gaming Keyboard', '', '');
+INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
+(1, 'Wireless Keyboard', 1, 229.00, 449.00, 3, '2026-07-11 13:46:26', '1783777586_af256394ef9cdf06.png', '../Models/1783777586_0bbd8f79.glb', 'A wireless gaming keyboard built for speed and freedom with low-latency connectivity, hot-swappable switches, and per-key RGB, all without the cable clutter. Long battery life keeps you gaming through marathon sessions.', 'Logitech', 'Black', 'Gaming Keyboard', '', '');
 
 -- --------------------------------------------------------
 
@@ -154,9 +191,32 @@ CREATE TABLE `product_batches` (
 --
 
 INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantity_remaining`, `unit_cost`, `created_at`) VALUES
-(1, 1, 10, 9, 449.00, '2026-07-10 05:25:27'),
-(2, 1, 10, 10, 449.00, '2026-07-10 05:28:55'),
-(3, 1, 10, 10, 449.00, '2026-07-10 05:32:16');
+(1, 1, 20, 0, 229.00, '2026-07-11 13:46:26'),
+(2, 1, 17, 3, 229.00, '2026-07-11 13:49:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_orders`
+--
+
+CREATE TABLE `purchase_orders` (
+  `id` int(11) NOT NULL,
+  `reference_no` varchar(20) NOT NULL,
+  `status` enum('Pending','Received') DEFAULT 'Pending',
+  `payment_method` varchar(50) DEFAULT NULL,
+  `amount_paid` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `received_by` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `purchase_orders`
+--
+
+INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`, `amount_paid`, `created_at`, `received_by`) VALUES
+(1, 'PO-20260711-0001', 'Received', NULL, 0.00, '2026-07-11 13:48:28', 'Admin'),
+(2, 'PO-20260711-0002', 'Pending', NULL, 0.00, '2026-07-11 14:03:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -215,6 +275,14 @@ ALTER TABLE `order_items`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `po_items`
+--
+ALTER TABLE `po_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `po_id` (`po_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -227,6 +295,12 @@ ALTER TABLE `products`
 ALTER TABLE `product_batches`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `purchase_orders`
+--
+ALTER TABLE `purchase_orders`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -249,19 +323,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `po_items`
+--
+ALTER TABLE `po_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -273,7 +353,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `purchase_orders`
+--
+ALTER TABLE `purchase_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -291,6 +377,13 @@ ALTER TABLE `users`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `po_items`
+--
+ALTER TABLE `po_items`
+  ADD CONSTRAINT `po_items_ibfk_1` FOREIGN KEY (`po_id`) REFERENCES `purchase_orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `po_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products`
