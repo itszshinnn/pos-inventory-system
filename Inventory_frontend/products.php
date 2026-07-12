@@ -94,9 +94,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     <div class="main">
       <div class="table-wrap">
-        <div class="table-toolbar">
-          <input class="search-box" type="text" id="searchInput" placeholder="Search..." oninput="filterTable()">
-          <a href="add-product.php" class="btn" style="text-decoration:none;">Add</a>
+        <div class="table-toolbar" style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center;">
+          <input class="search-box" type="text" id="searchInput" placeholder="Search name, category, brand, color..." oninput="applyFilters()" style="flex: 1; height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; font-family: inherit;">
+
+          <select id="filterBrand" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+            <option value="">All Brands</option>
+          </select>
+
+          <select id="filterColor" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+            <option value="">All Colors</option>
+          </select>
+
+          <select id="sortPrice" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+            <option value="">Sort by: Default</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
         </div>
         <table>
           <thead>
@@ -110,7 +123,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
               <th>Price Sold</th>
               <th>Stocks</th>
               <th>Status</th>
-              <th style="width:160px;">Actions</th>
+              <th style="width:230px;">Actions</th>
             </tr>
           </thead>
           <tbody id="prodTableBody">
@@ -203,6 +216,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       ]);
       allProducts = await pRes.json();
       allCategories = await cRes.json();
+      populateFilters();
       renderTable(allProducts);
     }
 
@@ -224,6 +238,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <td>${p.stock}</td>
         <td>${stockStatus(p.stock)}</td>
         <td>
+          <button class="action-btn" onclick="restockProduct(${p.id})">Restock</button>
           <button class="action-btn" onclick="openEdit(${p.id})">Edit</button>
           <button class="action-btn del" onclick="deleteProduct(${p.id})">Delete</button>
         </td>
@@ -237,11 +252,50 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
-    function filterTable() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      renderTable(allProducts.filter(p =>
-        p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
-      ));
+    function populateFilters() {
+      const uniqueBrands = [...new Set(allProducts.map(p => p.brand).filter(b => b))].sort();
+      const uniqueColors = [...new Set(allProducts.map(p => p.color).filter(c => c))].sort();
+
+      const brandSelect = document.getElementById('filterBrand');
+      const colorSelect = document.getElementById('filterColor');
+
+      uniqueBrands.forEach(brand => {
+        brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+      });
+
+      uniqueColors.forEach(color => {
+        colorSelect.innerHTML += `<option value="${color}">${color}</option>`;
+      });
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const selectedBrand = document.getElementById('filterBrand').value;
+      const selectedColor = document.getElementById('filterColor').value;
+      const sortOrder = document.getElementById('sortPrice').value;
+
+      let filtered = allProducts.filter(p => {
+        const matchesText =
+          p.name.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query) ||
+          (p.brand && p.brand.toLowerCase().includes(query)) ||
+          (p.color && p.color.toLowerCase().includes(query));
+
+        const matchesBrand = selectedBrand === "" || p.brand === selectedBrand;
+        const matchesColor = selectedColor === "" || p.color === selectedColor;
+
+        return matchesText && matchesBrand && matchesColor;
+      });
+
+      if (sortOrder === 'asc') {
+        filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      } else if (sortOrder === 'desc') {
+        filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      } else {
+        filtered.sort((a, b) => a.id - b.id);
+      }
+
+      renderTable(filtered);
     }
 
     async function deleteProduct(id) {
@@ -259,6 +313,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (data.error) return showToast(data.error, true);
       showToast('Product deleted.');
       loadData();
+    }
+
+    function restockProduct(id) {
+      const p = allProducts.find(x => x.id === id);
+      if (!p) return;
+
+      window.location.href = `purchase_orders.php?items=${id}`;
     }
 
     function openEdit(id) {

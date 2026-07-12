@@ -325,7 +325,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
             if (itemsParam) {
                 const itemIds = itemsParam.split(',');
-                draftItems = allProducts.filter(p => itemIds.includes(p.id.toString()));
+                const newItems = allProducts.filter(p => itemIds.includes(p.id.toString()));
+
+                newItems.forEach(newItem => {
+                    if (!draftItems.find(item => item.id === newItem.id)) {
+                        draftItems.push(newItem);
+                    }
+                });
+
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
             renderDraftTable();
         }
