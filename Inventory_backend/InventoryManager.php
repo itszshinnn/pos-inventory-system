@@ -169,7 +169,19 @@ class InventoryManager
 
     public function getAllCategories()
     {
-        $stmt = $this->db->query('SELECT * FROM categories ORDER BY id ASC');
+        $sql = "
+            SELECT 
+                c.id, 
+                c.name, 
+                c.created_at,
+                COUNT(p.id) AS item_count 
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.category_id 
+            GROUP BY c.id
+            ORDER BY c.id ASC
+        ";
+
+        $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

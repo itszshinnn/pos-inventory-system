@@ -105,6 +105,7 @@ session_start();
               <tr>
                 <th style="width:60px;">No.</th>
                 <th>Categories</th>
+                <th>Total Items</th>
                 <th style="width:160px;">Actions</th>
               </tr>
             </thead>
@@ -154,6 +155,7 @@ session_start();
       <tr>
         <td>${i + 1}</td>
         <td style="text-align:left;padding-left:16px;">${c.name}</td>
+        <td style="text-align:center; font-weight:600;">${c.item_count || 0}</td>
         <td>
           <button class="action-btn" onclick="openEdit(${c.id}, '${c.name.replace(/'/g,"\\'")}')">Edit</button>
           <button class="action-btn del" onclick="deleteCategory(${c.id})">Delete</button>

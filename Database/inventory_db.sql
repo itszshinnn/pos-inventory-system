@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2026 at 02:23 PM
+-- Generation Time: Jul 12, 2026 at 04:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -75,7 +75,9 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (5, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:21'),
 (6, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:36'),
 (7, 1, 'Projector', 'Restocked', 10, 15, 'Admin', '2026-07-12 09:42:25'),
-(8, 1, 'Projector', 'Restocked', 15, 20, 'Admin', '2026-07-12 10:04:34');
+(8, 1, 'Projector', 'Restocked', 15, 20, 'Admin', '2026-07-12 10:04:34'),
+(9, 5, 'Speaker', 'Edited', 0, 10, 'Admin', '2026-07-12 13:06:46'),
+(10, 7, 'ASUS Gaming Monitor', 'Added', NULL, 12, 'Admin', '2026-07-12 13:23:41');
 
 -- --------------------------------------------------------
 
@@ -107,7 +109,8 @@ INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `paym
 (5, '0005', 500.00, 0.00, 'Cash', '2026-07-12 10:26:26', 500.00, 0.00, 350.00),
 (6, '0006', 3000.00, 0.00, 'Cash', '2026-07-12 10:26:34', 3000.00, 0.00, 2200.00),
 (7, '0007', 1200.00, 0.00, 'Cash', '2026-07-12 10:26:39', 1200.00, 0.00, 800.00),
-(8, '0008', 4000.00, 0.00, 'Cash', '2026-07-12 10:26:53', 4000.00, 0.00, 3000.00);
+(8, '0008', 4000.00, 0.00, 'Cash', '2026-07-12 10:26:53', 4000.00, 0.00, 3000.00),
+(9, '0009', 36000.00, 0.00, 'Card', '2026-07-12 12:29:25', 36000.00, 0.00, 27000.00);
 
 -- --------------------------------------------------------
 
@@ -136,7 +139,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at
 (5, 5, 2, 1, 500.00, 350.00),
 (6, 6, 4, 1, 3000.00, 2200.00),
 (7, 7, 3, 1, 1200.00, 800.00),
-(8, 8, 5, 2, 4000.00, 3000.00);
+(8, 8, 5, 2, 4000.00, 3000.00),
+(9, 9, 5, 18, 36000.00, 27000.00);
 
 -- --------------------------------------------------------
 
@@ -199,8 +203,9 @@ INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `s
 (2, 'SD Card', 3, 350.00, 500.00, 19, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
 (3, 'Headphone', 2, 800.00, 1200.00, 19, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
 (4, 'SSD', 3, 2200.00, 3000.00, 19, '2026-07-12 08:05:07', '1783843507_1131a8fce5bb5810.png', '../Models/1783843507_ec9e7464.glb', 'A high-speed storage device used to improve computer performance and file access.', 'Kingston', 'Red', 'Storage Device', '512GB', ''),
-(5, 'Speaker', 2, 1500.00, 2000.00, 18, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(6, 'USB Hub', 6, 300.00, 500.00, 20, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', '');
+(5, 'Speaker', 2, 1500.00, 2000.00, 10, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(6, 'USB Hub', 6, 300.00, 500.00, 20, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
+(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 12, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160');
 
 -- --------------------------------------------------------
 
@@ -223,13 +228,15 @@ CREATE TABLE `product_batches` (
 
 INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantity_remaining`, `unit_cost`, `created_at`) VALUES
 (1, 1, 20, 10, 2500.00, '2026-07-12 08:50:42'),
-(2, 5, 20, 18, 1500.00, '2026-07-12 08:59:14'),
+(2, 5, 20, 0, 1500.00, '2026-07-12 08:59:14'),
 (3, 4, 20, 19, 2200.00, '2026-07-12 08:59:16'),
 (4, 3, 20, 19, 800.00, '2026-07-12 08:59:18'),
 (5, 2, 20, 19, 350.00, '2026-07-12 08:59:21'),
 (6, 6, 20, 20, 300.00, '2026-07-12 08:59:36'),
 (7, 1, 5, 5, 2500.00, '2026-07-12 09:42:25'),
-(8, 1, 5, 5, 2500.00, '2026-07-12 10:04:34');
+(8, 1, 5, 5, 2500.00, '2026-07-12 10:04:34'),
+(9, 5, 10, 10, 2000.00, '2026-07-12 13:06:46'),
+(10, 7, 12, 12, 12.00, '2026-07-12 13:23:41');
 
 -- --------------------------------------------------------
 
@@ -366,19 +373,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `po_items`
@@ -390,13 +397,13 @@ ALTER TABLE `po_items`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
