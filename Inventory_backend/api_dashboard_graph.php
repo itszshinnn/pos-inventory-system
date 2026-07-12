@@ -34,11 +34,38 @@ try {
         ];
     }
 
+    $topProductsSql = "
+        SELECT
+            p.name,
+            SUM(oi.quantity) AS sold
+        FROM order_items oi
+        INNER JOIN products p
+            ON oi.product_id = p.id
+        GROUP BY oi.product_id
+        ORDER BY sold DESC
+        LIMIT 5
+    ";
+
+    $topStmt = $db->prepare($topProductsSql);
+    $topStmt->execute();
+
+    $topProducts = [];
+
+    while ($row = $topStmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $topProducts[] = [
+            'name' => $row['name'],
+            'sold' => (int)$row['sold']
+        ];
+    }
+
     echo json_encode([
         'success' => true,
-        'data' => $graphData
-    ]);
 
+        'profitGraph' => $graphData,
+
+        'topProducts' => $topProducts
+    ]);
 } catch (PDOException $e) {
 
     echo json_encode([
@@ -47,3 +74,7 @@ try {
     ]);
 
 }
+
+
+
+?>

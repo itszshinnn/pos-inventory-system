@@ -342,16 +342,6 @@ usort($allNotifications, function ($a, $b) {
       color: white;
     }
 
-    .stock-out {
-      color: #dc3545;
-      font-weight: 600;
-    }
-
-    .stock-low {
-      color: #d4a017;
-      font-weight: 600;
-    }
-
     .graph-card {
       background: #fff;
       border-radius: 12px;
@@ -364,9 +354,16 @@ usort($allNotifications, function ($a, $b) {
       margin-bottom: 15px;
     }
 
-    #profitChart {
-      width: 100%;
-      height: 350px;
+    .graph-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    #profitChart,
+    #topSellingChart {
+      max-height: 350px;
     }
 
     @keyframes popupFade {
@@ -568,11 +565,19 @@ usort($allNotifications, function ($a, $b) {
 
           <?php endforeach; ?>
         </div>
-        <div class="graph-card">
-          <h3>Revenue, Cost & Profit</h3>
+      </div>
+      <div class="graph-container">
 
+        <div class="graph-card revenue-card">
+          <h3>Revenue, Cost & Profit</h3>
           <canvas id="profitChart"></canvas>
         </div>
+
+        <div class="graph-card top-selling-card">
+          <h3>Top Selling Products</h3>
+          <canvas id="topSellingChart"></canvas>
+        </div>
+
       </div>
     </div>
   </div>
@@ -591,6 +596,7 @@ usort($allNotifications, function ($a, $b) {
       }
     }
     let profitChart;
+    let topSellingChart;
 
     async function loadDashboardGraph() {
 
@@ -599,73 +605,89 @@ usort($allNotifications, function ($a, $b) {
 
       if (!result.success) return;
 
-      const labels = result.data.map(r => r.day);
-      const revenue = result.data.map(r => r.revenue);
-      const cost = result.data.map(r => r.cost);
-      const profit = result.data.map(r => r.profit);
+      const labels = result.profitGraph.map(r => r.day);
+      const revenue = result.profitGraph.map(r => r.revenue);
+      const cost = result.profitGraph.map(r => r.cost);
+      const profit = result.profitGraph.map(r => r.profit);
 
-      const ctx = document.getElementById('profitChart');
-
+      const ctx = document.getElementById("profitChart");
+      if (profitChart) {
+        profitChart.destroy();
+      }
       profitChart = new Chart(ctx, {
-
-        type: 'line',
-
+        type: "line",
         data: {
-
           labels: labels,
-
-          datasets: [
-
-            {
-              label: 'Revenue',
+          datasets: [{
+              label: "Revenue",
               data: revenue,
-              borderColor: '#3b82f6',
-              backgroundColor: 'transparent',
+              borderColor: "#3b82f6",
               tension: .35
             },
-
             {
-              label: 'Cost',
+              label: "Cost",
               data: cost,
-              borderColor: '#ef4444',
-              backgroundColor: 'transparent',
+              borderColor: "#ef4444",
               tension: .35
             },
-
             {
-              label: 'Profit',
+              label: "Profit",
               data: profit,
-              borderColor: '#22c55e',
-              backgroundColor: 'transparent',
+              borderColor: "#22c55e",
               tension: .35
             }
-
           ]
-
         },
-
         options: {
-
           responsive: true,
-
           plugins: {
             legend: {
-              position: 'top'
+              position: "top"
             }
           },
-
           scales: {
             y: {
               beginAtZero: true
             }
           }
-
         }
-
       });
 
-    }
+      const productNames = result.topProducts.map(p => p.name);
+      const soldQty = result.topProducts.map(p => p.sold);
+      const topCtx = document.getElementById("topSellingChart");
 
+      if (topSellingChart) {
+        topSellingChart.destroy();
+      }
+      topSellingChart = new Chart(topCtx, {
+        type: "bar",
+        data: {
+          labels: productNames,
+          datasets: [{
+            label: "Units Sold",
+            data: soldQty,
+            backgroundColor: "#5470ff"
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    }
     loadDashboardGraph();
   </script>
   <?php require_once 'stock_alert.php'; ?>

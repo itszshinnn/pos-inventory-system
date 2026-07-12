@@ -143,7 +143,7 @@ $alertLowStockCount = count($alertLowStocks);
     const globalLowStockCount = <?= $alertLowStockCount ?>;
     const globalOverlay = document.getElementById("stockAlertOverlay");
     const GLOBAL_KEY = "stockAlertNextShowTime";
-    const SNOOZE_MS = 10000;
+    const SNOOZE_MS = 600000;
 
     function showGlobalAlert() {
         if (globalLowStockCount <= 0) return;
