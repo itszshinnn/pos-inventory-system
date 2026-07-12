@@ -39,6 +39,10 @@ if (!isset($_SESSION['user_id'])) {
       height: 100vh;
     }
 
+    model-viewer {
+      background-color: #cccccc;
+    }
+
     .left-panel {
       width: 67%;
       background: #f5f5f5;
@@ -165,10 +169,55 @@ if (!isset($_SESSION['user_id'])) {
       border-color: #4d66ff;
     }
 
+    .brand-name {
+      font-size: 11px;
+      color: #1c1c1c;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .filter-select {
+      height: 38px;
+      border-radius: 10px;
+      border: 1.5px solid #bcbcbc;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+      background: white;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .filter-select:focus {
+      border-color: #4d66ff;
+    }
+
+    .reset-filter-btn {
+      height: 38px;
+      border-radius: 10px;
+      border: 1.5px solid #ff7070;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 700;
+      background: white;
+      cursor: pointer;
+      color: #ff7070;
+      transition: .2s;
+    }
+
+    .reset-filter-btn:hover {
+      background: #ff2c2c;
+      color: white;
+      border-color: #ff2c2c;
+    }
+
     .products-wrapper {
       flex: 1;
       overflow-y: auto;
       padding: 10px 14px 14px;
+      scrollbar-gutter: stable;
     }
 
     .products {
@@ -179,6 +228,10 @@ if (!isset($_SESSION['user_id'])) {
 
     .product-card {
       width: 155px;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       background: #d9d9d9;
       border-radius: 16px;
       padding: 14px;
@@ -188,7 +241,6 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .product-card:hover {
-      transform: translateY(-4px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
     }
 
@@ -213,6 +265,11 @@ if (!isset($_SESSION['user_id'])) {
       font-size: 13px;
       font-weight: 700;
       color: #333;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 32px;
     }
 
     .price {
@@ -258,6 +315,45 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 600;
     }
 
+    .btn-add {
+      flex: 2;
+      background: #5470ff;
+      color: white;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-add:hover:not(:disabled) {
+      background: #3c52d1;
+    }
+
+    .btn-add:active:not(:disabled) {
+      transform: scale(0.9);
+    }
+
+    .btn-view {
+      flex: 1;
+      background: #5a5a5a;
+      color: #ffffff;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-view:hover {
+      background: #3b3b3b;
+    }
+
+    .btn-view:active {
+      transform: scale(0.9);
+    }
+
     .right-panel {
       width: 33%;
       background: #efefef;
@@ -301,9 +397,11 @@ if (!isset($_SESSION['user_id'])) {
       flex-direction: column;
       color: #000000;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       border-bottom: 1px solid #c7c7c7;
       padding: 10px 0;
+      gap: 1px;
+      scrollbar-gutter: stable;
     }
 
     .order-items.has-items {
@@ -426,7 +524,7 @@ if (!isset($_SESSION['user_id'])) {
       width: 100%;
       height: 48px;
       border: none;
-      background: #00000062;
+      background: #2e2e2e;
       color: white;
       border-radius: 12px;
       font-size: 15px;
@@ -437,8 +535,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .checkout-btn:hover {
-      background: #2e2e2e;
-      color: white;
+      background: #00000097;
     }
 
     .clear-btn {
@@ -748,8 +845,25 @@ if (!isset($_SESSION['user_id'])) {
         <input type="text" class="search-box" id="searchInput" placeholder="Search...">
       </div>
 
-      <div class="categories" id="categories">
-        <button class="category-btn active" data-cat="All">All</button>
+      <div class="categories" id="filtersContainer" style="display: flex; gap: 8px; padding: 0 14px 14px; flex-wrap: wrap;">
+        <select id="filterCategory" class="filter-select" onchange="renderProducts()">
+          <option value="All">All Categories</option>
+        </select>
+        <select id="filterBrand" class="filter-select" onchange="renderProducts()">
+          <option value="All">All Brands</option>
+        </select>
+        <select id="sortPrice" class="filter-select" onchange="renderProducts()">
+          <option value="default">Sort by Price</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+        <select id="filterStock" class="filter-select" onchange="renderProducts()">
+          <option value="All">All Stock</option>
+          <option value="in_stock">In Stock</option>
+          <option value="low_stock">Low Stock (≤3)</option>
+          <option value="out_of_stock">Out of Stock</option>
+        </select>
+        <button class="reset-filter-btn" onclick="resetFilters()">Reset</button>
       </div>
 
       <div class="products-wrapper">
@@ -768,8 +882,8 @@ if (!isset($_SESSION['user_id'])) {
       </div>
 
       <div class="order-items" id="orderItems">
-        <p>No items yet</p>
-        <p>Click a product to add.</p>
+        <p>No items yet.</p>
+        <p>Click a product to add here.</p>
       </div>
 
       <div class="summary">
@@ -837,7 +951,7 @@ if (!isset($_SESSION['user_id'])) {
   <div id="model-modal" class="modal-backdrop" style="z-index: 1000;">
     <div class="modal-card" style="width: 700px; max-width: 90%; display: flex; gap: 20px; padding: 20px;">
 
-      <div id="viewer-container" style="flex: 1; height: 300px; background: #f0f0f0; border-radius: 12px; overflow: hidden;">
+      <div id="viewer-container" style="flex: 1; height: 300px; border-radius: 12px; overflow: hidden;">
       </div>
 
       <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -897,11 +1011,7 @@ if (!isset($_SESSION['user_id'])) {
   </div>
   <script>
     let allProducts = [];
-    let activeCategory = 'All';
-    let searchQuery = '';
-
     let cart = {};
-
     let cartTotal = 0;
     let finalCalculatedTotal = 0;
     let cartCount = 0;
@@ -919,12 +1029,35 @@ if (!isset($_SESSION['user_id'])) {
         allProducts = await pRes.json();
         const allCategories = await cRes.json();
 
-        renderCategories(allCategories);
+        initializeFilters(allCategories);
         renderProducts();
       } catch (err) {
         document.getElementById('products').innerHTML =
           '<div class="no-results">Failed to load products. Please check your connection.</div>';
       }
+    }
+
+    function initializeFilters(categories) {
+      const catSelect = document.getElementById('filterCategory');
+      categories.forEach(cat => {
+        catSelect.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+      });
+
+      const brandSelect = document.getElementById('filterBrand');
+      const uniqueBrands = [...new Set(allProducts.map(p => p.brand).filter(b => b))].sort();
+      uniqueBrands.forEach(brand => {
+        brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+      });
+    }
+
+    function stockLabel(s) {
+      const n = Number(s);
+      return n === 0 ? 'No stocks left' : n + ' stocks left';
+    }
+
+    function stockClass(s) {
+      const n = Number(s);
+      return n === 0 ? 'red' : n <= 3 ? 'orange' : 'green';
     }
 
     function renderCategories(categories) {
@@ -967,61 +1100,82 @@ if (!isset($_SESSION['user_id'])) {
     function renderProducts() {
       const container = document.getElementById('products');
 
-      const filtered = allProducts.filter(p => {
-        const matchCat = activeCategory === 'All' || p.category === activeCategory;
-        const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchCat && matchSearch;
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('filterCategory').value;
+      const brand = document.getElementById('filterBrand').value;
+      const priceSort = document.getElementById('sortPrice').value;
+      const stock = document.getElementById('filterStock').value;
+
+      let filtered = allProducts.filter(p => {
+        const matchSearch = p.name.toLowerCase().includes(query) || (p.brand && p.brand.toLowerCase().includes(query));
+        const matchCat = cat === 'All' || p.category === cat;
+        const matchBrand = brand === 'All' || p.brand === brand;
+
+        const dbStock = Number(p.stock);
+        const qtyInCart = cart[p.id] ? cart[p.id].qty : 0;
+        const displayStock = Math.max(0, dbStock - qtyInCart);
+
+        let matchStock = true;
+        if (stock === 'in_stock') matchStock = displayStock > 0;
+        if (stock === 'low_stock') matchStock = displayStock > 0 && displayStock <= 3;
+        if (stock === 'out_of_stock') matchStock = displayStock === 0;
+
+        return matchSearch && matchCat && matchBrand && matchStock;
       });
 
+      if (priceSort === 'asc') {
+        filtered.sort((a, b) => Number(a.price) - Number(b.price));
+      } else if (priceSort === 'desc') {
+        filtered.sort((a, b) => Number(b.price) - Number(a.price));
+      } else {
+        filtered.sort((a, b) => a.id - b.id);
+      }
+
       if (!filtered.length) {
-        container.innerHTML = '<div class="no-results">No products found.</div>';
+        container.innerHTML = '<div class="no-results">No products found based on your filters.</div>';
         return;
       }
 
       container.innerHTML = filtered.map(p => {
         const dbStock = Number(p.stock);
         const price = Number(p.price);
-
         const qtyInCart = cart[p.id] ? cart[p.id].qty : 0;
-
         const displayStock = Math.max(0, dbStock - qtyInCart);
-
         const outClass = displayStock === 0 ? ' out-of-stock' : '';
-        const onclick = displayStock > 0 ?
-          `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` :
-          '';
 
         let imgUrl = DEFAULT_IMG;
         if (p.image && p.image !== 'default_product.png') {
           imgUrl = `../Images/${p.image}`;
         }
 
-        const modelPath = p.model_path || '';
-        const desc = p.description || 'No description available for this item.';
-
         return `
-          <div class="product-card${outClass}" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div class="product-card${outClass}">
             <div>
               <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
               <div class="product-name">${p.name}</div>
+              <div class="brand-name">${p.brand || 'No Brand'}</div>
               <div class="price">Php${price.toFixed(2)}</div>
               <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
             </div>
             
-            <div style="display: flex; gap: 6px; margin-top: 12px;">
-              <button onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
-                      style="flex: 2; background: #5470ff; color: white; border: none; padding: 6px; border-radius: 6px; cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; font-weight: 600;">
+              <div style="display: flex; gap: 6px; margin-top: 12px; margin-bottom: 10px;">
+              <button class="btn-add" 
+                      onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
+                      style="cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; opacity: ${displayStock > 0 ? '1' : '0.6'};"
+                      ${displayStock === 0 ? 'disabled' : ''}>
                 + Add
               </button>
               
-              <button onclick="open3DViewer(${p.id})" style="flex: 1; background: #e0e0e0; color: #333; border: none; padding: 6px; border-radius: 6px; cursor: pointer; font-weight: 600;">
-              View
+              <button class="btn-view" onclick="open3DViewer(${p.id})">
+                View
               </button>
             </div>
           </div>
         `;
       }).join('');
     }
+
+    document.getElementById('searchInput').addEventListener('input', renderProducts);
 
     document.getElementById('searchInput').addEventListener('input', e => {
       searchQuery = e.target.value;
@@ -1055,12 +1209,19 @@ if (!isset($_SESSION['user_id'])) {
       renderProducts();
     }
 
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterCategory').value = 'All';
+      document.getElementById('filterBrand').value = 'All';
+      document.getElementById('sortPrice').value = 'default';
+      document.getElementById('filterStock').value = 'All';
+
+      renderProducts();
+    }
+
     function removeFromCart(id) {
       if (cart[id]) {
-        cart[id].qty--;
-        if (cart[id].qty <= 0) {
-          delete cart[id];
-        }
+        delete cart[id];
       }
       renderCart();
       renderProducts();
@@ -1097,14 +1258,17 @@ if (!isset($_SESSION['user_id'])) {
               <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div class="item-price">Php${(item.price * item.qty).toFixed(2)}</div>
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
-                <input type="number" 
-                       value="${item.qty}" 
-                       min="1" 
-                       style="width: 55px; padding: 4px; border: 1.5px solid #bcbcbc; border-radius: 6px; outline: none; font-family: 'DM Mono', monospace; text-align: center;"
-                       onchange="updateCartQty(${item.id}, this.value)">
+                <div class="item-price">Php${(item.price * item.qty).toFixed(2)}</div>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
+                    <div style="display: flex; align-items: center; border: 1.5px solid #bcbcbc; border-radius: 6px; overflow: hidden;">
+                    <button onclick="updateCartQty(${item.id}, ${item.qty - 1})" style="background: #e0e0e0; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: bold; color: #333; font-size: 15px; transition: 0.2s;" onmouseover="this.style.background='#dcdcdc'" onmouseout="this.style.background='#e0e0e0'">−</button>
+                    <input type="text" 
+                         value="${item.qty}" 
+                         style="width: 45px; height: 28px; border: none; outline: none; font-family: 'DM Mono', monospace; text-align: center; border-left: 1.5px solid #bcbcbc; border-right: 1.5px solid #bcbcbc;"
+                         onchange="updateCartQty(${item.id}, this.value)">
+                  <button onclick="updateCartQty(${item.id}, ${item.qty + 1})" style="background: #e0e0e0; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: bold; color: #333; font-size: 15px; transition: 0.2s;" onmouseover="this.style.background='#dcdcdc'" onmouseout="this.style.background='#e0e0e0'">+</button>
+                </div>
               </div>
             </div>
           </div>
