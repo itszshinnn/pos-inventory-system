@@ -358,7 +358,10 @@ usort($allNotifications, function ($a, $b) {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: 20px;
-      margin-top: 20px;
+    }
+
+    .revenue-card {
+      grid-column: span 2;
     }
 
     #profitChart,
@@ -569,8 +572,13 @@ usort($allNotifications, function ($a, $b) {
       <div class="graph-container">
 
         <div class="graph-card revenue-card">
-          <h3>Revenue, Cost & Profit</h3>
+          <h3>Revenue & Profit Overview</h3>
           <canvas id="profitChart"></canvas>
+        </div>
+
+        <div class="graph-card cogs-card">
+          <h3>Cost of Goods Sold</h3>
+          <canvas id="cogsChart"></canvas>
         </div>
 
         <div class="graph-card top-selling-card">
@@ -583,6 +591,7 @@ usort($allNotifications, function ($a, $b) {
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    
     function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
@@ -596,6 +605,7 @@ usort($allNotifications, function ($a, $b) {
       }
     }
     let profitChart;
+    let cogsChart;
     let topSellingChart;
 
     async function loadDashboardGraph() {
@@ -607,8 +617,9 @@ usort($allNotifications, function ($a, $b) {
 
       const labels = result.profitGraph.map(r => r.day);
       const revenue = result.profitGraph.map(r => r.revenue);
-      const cost = result.profitGraph.map(r => r.cost);
       const profit = result.profitGraph.map(r => r.profit);
+      const cogs = result.profitGraph.map(r => r.cost);
+      const purchases = result.profitGraph.map(r => r.purchases);
 
       const ctx = document.getElementById("profitChart");
       if (profitChart) {
@@ -616,43 +627,167 @@ usort($allNotifications, function ($a, $b) {
       }
       profitChart = new Chart(ctx, {
         type: "line",
+
         data: {
           labels: labels,
+
           datasets: [{
               label: "Revenue",
               data: revenue,
+
               borderColor: "#3b82f6",
-              tension: .35
+              backgroundColor: "rgba(59,130,246,0.20)",
+
+              fill: true,
+              tension: 0.4,
+
+              borderWidth: 3,
+              pointRadius: 4
             },
-            {
-              label: "Cost",
-              data: cost,
-              borderColor: "#ef4444",
-              tension: .35
-            },
+
             {
               label: "Profit",
               data: profit,
+
               borderColor: "#22c55e",
-              tension: .35
+              backgroundColor: "rgba(34,197,94,0.20)",
+
+              fill: true,
+              tension: 0.4,
+
+              borderWidth: 3,
+              pointRadius: 4
+            },
+            {
+                label: "Inventory Purchases",
+                data: purchases,
+
+                borderColor: "#f59e0b",
+                backgroundColor: "rgba(245,158,11,.18)",
+
+                fill: true,
+                tension: 0.4,
+
+                borderWidth: 3,
+                pointRadius: 4
             }
           ]
         },
+
         options: {
           responsive: true,
+
           plugins: {
             legend: {
               position: "top"
+            },
+
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ": ₱" +
+                    context.raw.toLocaleString();
+                }
+              }
             }
           },
+
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+
+              ticks: {
+                callback: function(value) {
+                  return "₱" + value.toLocaleString();
+                }
+              }
             }
           }
         }
       });
+      const cogsCtx = document.getElementById("cogsChart");
 
+
+      if (cogsChart) {
+        cogsChart.destroy();
+      }
+
+
+      cogsChart = new Chart(cogsCtx, {
+
+        type: "bar",
+
+        data: {
+
+          labels: labels,
+
+          datasets: [
+
+            {
+              label: "COGS",
+
+              data: cogs,
+
+              backgroundColor: "#ef4444",
+
+              borderRadius: 8
+            }
+
+          ]
+
+        },
+
+
+        options: {
+
+          responsive: true,
+
+
+          plugins: {
+
+            legend: {
+              position: "top"
+            },
+
+
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+
+                  return "COGS: ₱" +
+                    context.raw.toLocaleString();
+
+                }
+              }
+            }
+
+          },
+
+
+          scales: {
+
+            y: {
+
+              beginAtZero: true,
+
+              ticks: {
+
+                callback: function(value) {
+
+                  return "₱" +
+                    value.toLocaleString();
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      });
       const productNames = result.topProducts.map(p => p.name);
       const soldQty = result.topProducts.map(p => p.sold);
       const topCtx = document.getElementById("topSellingChart");

@@ -7,30 +7,66 @@ try {
 
     $database = new Database();
     $db = $database->getConnection();
+    $sales = [];
 
-    $sql = "
+    $salesSql = "
         SELECT
             DATE(created_at) AS day,
-            ROUND(COALESCE(SUM(total_amount),0),2) AS revenue,
-            ROUND(COALESCE(SUM(cost_of_goods_sold),0),2) AS cost,
-            ROUND(COALESCE(SUM(total_amount - cost_of_goods_sold),0),2) AS profit
+            SUM(total_amount) AS revenue,
+            SUM(cost_of_goods_sold) AS cost,
+            SUM(total_amount - cost_of_goods_sold) AS profit
         FROM orders
         GROUP BY DATE(created_at)
-        ORDER BY DATE(created_at) ASC
     ";
 
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-
-    $graphData = [];
+    $stmt = $db->query($salesSql);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        $graphData[] = [
-            'day'     => $row['day'],
+        $sales[$row['day']] = [
             'revenue' => (float)$row['revenue'],
             'cost'    => (float)$row['cost'],
             'profit'  => (float)$row['profit']
+        ];
+    }
+
+    $purchases = [];
+
+    $purchaseSql = "
+        SELECT
+            DATE(po.created_at) AS day,
+            SUM(pi.order_qty * pi.unit_cost) AS purchases
+        FROM purchase_orders po
+        INNER JOIN po_items pi
+            ON po.id = pi.po_id
+        WHERE po.status='Received'
+        GROUP BY DATE(po.created_at)
+    ";
+
+    $stmt = $db->query($purchaseSql);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $purchases[$row['day']] = (float)$row['purchases'];
+    }
+
+    $allDates = array_unique(array_merge(
+        array_keys($sales),
+        array_keys($purchases)
+    ));
+
+    sort($allDates);
+
+    $graphData = [];
+
+    foreach ($allDates as $day) {
+
+        $graphData[] = [
+            'day' => $day,
+            'revenue' => $sales[$day]['revenue'] ?? 0,
+            'cost' => $sales[$day]['cost'] ?? 0,
+            'profit' => $sales[$day]['profit'] ?? 0,
+            'purchases' => $purchases[$day] ?? 0
         ];
     }
 
@@ -46,12 +82,11 @@ try {
         LIMIT 5
     ";
 
-    $topStmt = $db->prepare($topProductsSql);
-    $topStmt->execute();
+    $stmt = $db->query($topProductsSql);
 
     $topProducts = [];
 
-    while ($row = $topStmt->fetch(PDO::FETCH_ASSOC)) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         $topProducts[] = [
             'name' => $row['name'],
@@ -61,10 +96,15 @@ try {
 
     echo json_encode([
         'success' => true,
-
         'profitGraph' => $graphData,
-
         'topProducts' => $topProducts
+    ]);
+
+} catch (PDOException $e) {
+
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage()
     ]);
 } catch (PDOException $e) {
 
