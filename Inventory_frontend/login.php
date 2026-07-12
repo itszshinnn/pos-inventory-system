@@ -195,7 +195,7 @@ if (isset($_POST['login'])) {
             padding: 14px;
             border: none;
             border-radius: 10px;
-            background: var(--dark-1);
+            background: #242424;
             color: var(--white);
             font-size: 16px;
             font-weight: 600;
@@ -204,7 +204,8 @@ if (isset($_POST['login'])) {
         }
 
         .btn:hover {
-            background: var(--dark-2);
+            background: #5f5f5f;
+            color: white;
         }
 
         .footer {

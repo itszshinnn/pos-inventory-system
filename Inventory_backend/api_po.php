@@ -109,15 +109,20 @@ switch ($method) {
             }
 
             $pdo->commit();
+
+            require_once __DIR__ . '/../MailService.php';
+            if (class_exists('MailService')) {
+                MailService::sendDeliveryNotification($poId, $items, $username);
+            }
+            
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             $pdo->rollBack();
             echo json_encode(['error' => 'Failed to receive PO: ' . $e->getMessage()]);
         }
         break;
-        
+
     default:
         http_response_code(405);
         echo json_encode(['error' => 'Method not allowed']);
 }
-?>

@@ -1,14 +1,18 @@
 <?php
 require_once '../Database/Database.php';
+require_once __DIR__ . '/../MailService.php';
 
-class TransactionManager {
+class TransactionManager
+{
     private $db;
 
-    public function __construct($dbConnection) {
+    public function __construct($dbConnection)
+    {
         $this->db = $dbConnection;
     }
 
-    public function processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount) {
+    public function processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -114,6 +118,15 @@ class TransactionManager {
 
                 $updateProductsTable = $this->db->prepare("UPDATE products SET stock = (SELECT COALESCE(SUM(quantity_remaining), 0) FROM product_batches WHERE product_id = ?) WHERE id = ?");
                 $updateProductsTable->execute([$id, $id]);
+                $checkStockStmt = $this->db->prepare("SELECT stock FROM products WHERE id = ?");
+                $checkStockStmt->execute([$id]);
+                $currentStockAfterSale = (int)$checkStockStmt->fetchColumn();
+
+                $threshold = 3;
+                if ($currentStockAfterSale <= $threshold) {
+                    MailService::sendLowStockAlert($product['name'], $currentStockAfterSale);
+                }
+
                 $itemStmt->execute([
                     $orderId,
                     $id,
@@ -139,11 +152,9 @@ class TransactionManager {
                 'order_no' => $orderNo,
                 'message'  => 'Transaction completed and logged successfully.'
             ];
-
         } catch (Exception $e) {
             $this->db->rollBack();
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
 }
-?>
