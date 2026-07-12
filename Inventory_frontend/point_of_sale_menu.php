@@ -627,6 +627,102 @@ if (!isset($_SESSION['user_id'])) {
     .modal-confirm-btn:hover {
       background: #239450;
     }
+
+    .receipt-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .receipt-card {
+      background: white;
+      width: 380px;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .receipt-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .receipt-subtitle {
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .receipt-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 6px;
+    }
+
+    .receipt-divider {
+      border: none;
+      border-top: 1px dashed #bbb;
+      margin: 14px 0;
+    }
+
+    .receipt-items-box {
+      margin: 10px 0;
+    }
+
+    .receipt-item-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .receipt-item-line span:last-child {
+      font-family: 'DM Mono', monospace;
+    }
+
+    .receipt-total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 700;
+      color: #000;
+      margin-top: 10px;
+    }
+
+    .receipt-total-line span:last-child {
+      font-family: 'DM Mono', monospace;
+    }
+
+    .receipt-close-btn {
+      width: 100%;
+      height: 42px;
+      background: #333538;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.2s;
+    }
+
+    .receipt-close-btn:hover {
+      background: #1a1a1a;
+    }
   </style>
 </head>
 
@@ -754,7 +850,51 @@ if (!isset($_SESSION['user_id'])) {
 
     </div>
   </div>
+  <div class="receipt-modal-backdrop" id="receiptModal">
+    <div class="receipt-card">
+      <h2>TRANSACTION RECEIPT</h2>
+      <div class="receipt-subtitle">K's Inventory System</div>
 
+      <div class="receipt-meta-row">
+        <span>Order Number:</span>
+        <strong id="rcptOrderNo">#0000</strong>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Date/Time:</span>
+        <span id="rcptDate">-</span>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Payment Method:</span>
+        <span id="rcptPayment">-</span>
+      </div>
+
+      <hr class="receipt-divider">
+
+      <div class="receipt-items-box" id="rcptItemsBox"></div>
+
+      <hr class="receipt-divider">
+
+      <div class="receipt-meta-row">
+        <span>Discount applied:</span>
+        <span id="rcptDiscount">-</span>
+      </div>
+      <div class="receipt-total-line">
+        <span>TOTAL PAID:</span>
+        <span id="rcptTotal">₱0.00</span>
+      </div>
+
+      <div class="receipt-meta-row" style="margin-top: 14px;">
+        <span>Cash Received:</span>
+        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Change Given:</span>
+        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">₱0.00</span>
+      </div>
+
+      <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
+    </div>
+  </div>
   <script>
     let allProducts = [];
     let activeCategory = 'All';
@@ -1147,10 +1287,36 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         if (result.success) {
-          alert(`Sale Confirmed!\nPaid via: ${selectedPayment}\nTotal: ₱${finalCalculatedTotal.toFixed(2)}`);
+
           closeCheckoutModal();
+
+          openReceiptModal({
+
+            order_no: result.order_no,
+
+            date: new Date().toLocaleString(),
+
+            payment: selectedPayment,
+
+            discount: computedDeduction,
+
+            total: finalCalculatedTotal,
+
+            cash_received: cashAmt,
+
+            change_amount: changeAmt,
+
+            items: cartArray.map(item => ({
+              name: item.name,
+              quantity: item.qty
+            }))
+
+          });
+
           clearOrder();
+
           loadData();
+
         } else {
           alert(result.message || 'Checkout failed');
         }
@@ -1223,6 +1389,48 @@ if (!isset($_SESSION['user_id'])) {
         window.history.replaceState(null, null, window.location.pathname);
       }
     };
+
+    function openReceiptModal(receiptData) {
+
+      document.getElementById("rcptOrderNo").textContent = "#" + receiptData.order_no;
+      document.getElementById("rcptDate").textContent = receiptData.date;
+      document.getElementById("rcptPayment").textContent = receiptData.payment;
+
+      const discount = parseFloat(receiptData.discount || 0);
+
+      document.getElementById("rcptDiscount").textContent =
+        discount > 0 ? `- ₱${discount.toFixed(2)}` : "None";
+
+      document.getElementById("rcptTotal").textContent =
+        `₱${parseFloat(receiptData.total).toFixed(2)}`;
+
+      document.getElementById("rcptCashReceived").textContent =
+        `₱${parseFloat(receiptData.cash_received).toFixed(2)}`;
+
+      document.getElementById("rcptChange").textContent =
+        `₱${parseFloat(receiptData.change_amount).toFixed(2)}`;
+
+      const itemsBox = document.getElementById("rcptItemsBox");
+      itemsBox.innerHTML = "";
+
+      receiptData.items.forEach(item => {
+
+        const row = document.createElement("div");
+
+        row.className = "receipt-item-line";
+
+        row.innerHTML = `<span>${item.name} × ${item.quantity}</span>`;
+
+        itemsBox.appendChild(row);
+
+      });
+
+      document.getElementById("receiptModal").style.display = "flex";
+    }
+
+    function closeReceiptModal() {
+      document.getElementById("receiptModal").style.display = "none";
+    }
   </script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </body>

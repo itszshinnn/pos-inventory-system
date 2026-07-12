@@ -13,10 +13,12 @@ $cashReceived = $data['cash_received'] ?? 0;
 $changeAmount = $data['change_amount'] ?? 0;
 
 if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod === 'Card') {
+
     $paymentManager = new PaymentManager();
     $result = $paymentManager->createGcashCheckout($cart, $totalAmount, $paymentMethod);
 
     if ($result['success']) {
+
         $_SESSION['pending_cart'] = $cart;
         $_SESSION['pending_total'] = $totalAmount;
         $_SESSION['pending_payment_method'] = $paymentMethod;
@@ -28,14 +30,19 @@ if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod ==
             'checkout_url' => $result['checkout_url']
         ]);
         exit;
+
     } else {
+
         echo json_encode([
             'success' => false,
             'message' => 'PayMongo Error: ' . $result['message']
         ]);
         exit;
+
     }
+
 } else {
+
     require_once '../Database/Database.php';
     require_once 'TransactionManager.php';
 
@@ -43,12 +50,32 @@ if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod ==
     $dbConnection = $dbInstance->getConnection();
 
     $tm = new TransactionManager($dbConnection);
-    $processResult = $tm->processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount);
+
+    $processResult = $tm->processCheckout(
+        $cart,
+        $paymentMethod,
+        $discountAmount,
+        $totalAmount,
+        $cashReceived,
+        $changeAmount
+    );
 
     if ($processResult['success']) {
-        echo json_encode(['success' => true, 'message' => 'Sale Confirmed']);
+
+        echo json_encode([
+            'success'   => true,
+            'message'   => 'Sale Confirmed',
+            'order_no'  => $processResult['order_no']
+        ]);
+
     } else {
-        echo json_encode(['success' => false, 'message' => 'Database Error: ' . $processResult['message']]);
+
+        echo json_encode([
+            'success' => false,
+            'message' => 'Database Error: ' . $processResult['message']
+        ]);
+
     }
+
     exit;
 }
