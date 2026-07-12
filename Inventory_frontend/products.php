@@ -233,8 +233,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <td>${p.category}</td>
         <td>${p.brand || '-'}</td>
         <td>${p.color || '-'}</td>
-        <td style="font-family: 'DM Mono', monospace; color: #00ab36;">₱${Number(p.price_bought).toFixed(2)}</td>
-        <td style="font-family: 'DM Mono', monospace; color: #00ab36;">₱${Number(p.price).toFixed(2)}</td>
+        <td style="font-family: 'DM Mono', monospace;">₱${Number(p.price_bought).toFixed(2)}</td>
+        <td style="font-family: 'DM Mono', monospace;">₱${Number(p.price).toFixed(2)}</td>
         <td>${p.stock}</td>
         <td>${stockStatus(p.stock)}</td>
         <td>
