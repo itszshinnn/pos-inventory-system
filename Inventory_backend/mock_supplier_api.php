@@ -16,7 +16,7 @@ foreach ($data['items'] as $item) {
     $total_cost += ($item['price_bought'] * $item['order_qty']);
 }
 
-$simulated_corporate_balance = 50000.00;
+$simulated_corporate_balance = 100000.00;
 
 if ($total_cost > $simulated_corporate_balance) {
     echo json_encode([

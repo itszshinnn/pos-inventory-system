@@ -169,6 +169,11 @@ switch ($method) {
             $log->execute([$id, $name, 'Edited', $oldStock, $stock, $username]);
 
             $pdo->commit();
+            require_once __DIR__ . '/../MailService.php';
+            $threshold = 3;
+            if ($stock <= $threshold) {
+                MailService::sendLowStockAlert($name, $stock);
+            }
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             if ($pdo->inTransaction()) $pdo->rollBack();
