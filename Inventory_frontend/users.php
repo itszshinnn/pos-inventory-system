@@ -495,6 +495,16 @@ try {
                 </div>
             <?php endif; ?>
 
+            <div class="dashboard-section" style="margin-bottom: 20px;">
+                <div class="section-title">System Settings</div>
+                <p style="color: #666; margin-bottom: 12px; font-size: 14px;">Define which business email address will receive automated low-stock warnings and restock confirmations.</p>
+
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <input type="email" id="settingAlertEmail" placeholder="manager@company.com" style="height: 44px; border: 1.5px solid #d8d8d8; border-radius: 10px; padding: 0 14px; font-size: 14px; width: 320px; outline:none;" />
+                    <button type="button" onclick="saveAlertEmailSetting()" style="height: 44px; padding: 0 20px; background: #4d66ff; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Update Settings</button>
+                </div>
+            </div>
+
             <div class="dashboard-section create-user-card">
 
                 <div class="section-title">
@@ -629,6 +639,46 @@ try {
                 const allUsers = <?= json_encode($users) ?>;
                 const currentUserId = <?= $_SESSION['user_id'] ?>;
 
+                async function fetchAlertEmailSetting() {
+                    try {
+                        const response = await fetch('../Inventory_backend/api_settings.php');
+                        const data = await response.json();
+                        if (data.admin_alert_email) {
+                            document.getElementById('settingAlertEmail').value = data.admin_alert_email;
+                        }
+                    } catch (err) {
+                        console.error("Failed to load email configurations:", err);
+                    }
+                }
+
+                async function saveAlertEmailSetting() {
+                    const emailVal = document.getElementById('settingAlertEmail').value.trim();
+                    if (!emailVal) return alert("Please enter an email address.");
+
+                    try {
+                        const response = await fetch('../Inventory_backend/api_settings.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                admin_alert_email: emailVal
+                            })
+                        });
+                        const data = await response.json();
+
+                        if (data.success) {
+                            alert("System notification settings updated successfully!");
+                        } else {
+                            alert(data.error || "An integration error occurred.");
+                        }
+                    } catch (err) {
+                        alert("Unable to reach configuration servers.");
+                    }
+                }
+
+                fetchAlertEmailSetting();
+
                 function openEdit(id, username, role) {
 
                     document.getElementById('editId').value = id;
@@ -749,7 +799,7 @@ try {
                 }
                 filterUserTable();
             </script>
-  <?php require_once 'stock_alert.php'; ?>
+            <?php require_once 'stock_alert.php'; ?>
 </body>
 
 </html>
