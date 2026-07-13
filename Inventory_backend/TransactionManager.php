@@ -35,7 +35,7 @@ class TransactionManager
             ) VALUES (?, ?, ?, ?, ?)';
 
             $itemStmt = $this->db->prepare($itemSql);
-
+            $lowStockAlertQueue = [];
             foreach ($cart as $item) {
                 $id    = intval($item['id']);
                 $qty   = intval($item['qty']);
@@ -124,7 +124,10 @@ class TransactionManager
 
                 $threshold = 3;
                 if ($currentStockAfterSale <= $threshold) {
-                    MailService::sendLowStockAlert($product['name'], $currentStockAfterSale);
+                    $lowStockAlertQueue[] = [
+                        'name' => $product['name'],
+                        'stock' => $currentStockAfterSale
+                    ];
                 }
 
                 $itemStmt->execute([
@@ -136,6 +139,11 @@ class TransactionManager
                 ]);
                 $totalOrderCOGS += $totalCOGS;
             }
+
+            if (!empty($lowStockAlertQueue)) {
+                MailService::sendLowStockAlert($lowStockAlertQueue);
+            }
+            
             $updateOrder = $this->db->prepare("
                 UPDATE orders
                 SET cost_of_goods_sold = ?

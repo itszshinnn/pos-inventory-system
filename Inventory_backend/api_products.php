@@ -172,7 +172,10 @@ switch ($method) {
             require_once __DIR__ . '/../MailService.php';
             $threshold = 3;
             if ($stock <= $threshold) {
-                MailService::sendLowStockAlert($name, $stock);
+                $lowStockItems = [
+                    ['name' => $name, 'stock' => $stock]
+                ];
+                MailService::sendLowStockAlert($lowStockItems);
             }
             echo json_encode(['success' => true]);
         } catch (Exception $e) {

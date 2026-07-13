@@ -41,18 +41,60 @@ class MailService
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            $mail->setFrom(SMTP_USER, 'Kinetix Store');
+            $mail->setFrom(SMTP_USER, "K's Inventory System");
             $mail->addAddress($targetEmail, 'Inventory Admin');
             $mail->isHTML(true);
             $mail->Subject = "Restock Delivered: Purchase Order #" . $poId;
 
-            $itemCount = count($items);
+            $itemListHtml = '<table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">';
+            $itemListHtml .= '<thead><tr style="background-color: #f8f9fb; text-align: left;">
+                <th style="padding: 12px; border-bottom: 2px solid #ddd; color: #444;">Product Name</th>
+                <th style="padding: 12px; border-bottom: 2px solid #ddd; color: #444;">Qty</th>
+                <th style="padding: 12px; border-bottom: 2px solid #ddd; color: #444;">Unit Cost</th>
+                <th style="padding: 12px; border-bottom: 2px solid #ddd; color: #444; text-align: right;">Total</th>
+            </tr></thead><tbody>';
+
+            $grandTotal = 0;
+
+            foreach ($items as $item) {
+                $qty = (int)$item['order_qty'];
+                $unitCost = (float)$item['unit_cost'];
+                $lineTotal = $qty * $unitCost;
+                $grandTotal += $lineTotal;
+
+                $itemListHtml .= "<tr>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #333;'>" . htmlspecialchars($item['name']) . "</td>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #333; font-weight: bold;'>" . $qty . "</td>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #333;'>Php " . number_format($unitCost, 2) . "</td>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #333; text-align: right; font-weight: bold;'>Php " . number_format($lineTotal, 2) . "</td>
+                </tr>";
+            }
+
+            $itemListHtml .= "<tr>
+                <td colspan='3' style='padding: 16px 12px; text-align: right; color: #333; border-top: 2px solid #ddd;'><strong>Grand Total:</strong></td>
+                <td style='padding: 16px 12px; color: #2db84d; text-align: right; font-size: 16px; font-weight: bold; border-top: 2px solid #ddd;'>Php " . number_format($grandTotal, 2) . "</td>
+            </tr>";
+
+            $itemListHtml .= '</tbody></table>';
+
             $mail->Body = "
-                <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee;'>
-                    <h2 style='color: #2db84d;'>Restock Delivered Successfully</h2>
-                    <p>Purchase Order <strong>#" . $poId . "</strong> has been marked as received by " . $receivedBy . ".</p>
-                    <p>A total of " . $itemCount . " unique products were added to your inventory.</p>
-                    <hr style='border: 0; border-top: 1px solid #eee;'>
+                <div style='font-family: \"Segoe UI\", Helvetica, Arial, sans-serif; max-width: 650px; margin: 0 auto; border: 1px solid #eef0f2; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                    <div style='background-color: #2db84d; padding: 24px; text-align: center;'>
+                        <h2 style='margin: 0; color: #ffffff; font-size: 22px; letter-spacing: 0.5px;'>Restock Confirmed</h2>
+                    </div>
+                    
+                    <div style='padding: 32px; background-color: #ffffff;'>
+                        <p style='font-size: 16px; color: #333; margin-top: 0;'>Hello,</p>
+                        <p style='font-size: 15px; color: #555; line-height: 1.6;'>Purchase Order <strong style='color: #1a1a1a;'>#" . $poId . "</strong> has been officially marked as received and processed into the inventory by <strong style='color: #1a1a1a;'>" . htmlspecialchars($receivedBy) . "</strong>.</p>
+                        
+                        " . $itemListHtml . "
+                        
+                        <p style='font-size: 14px; color: #777; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 15px;'>Log in to your dashboard to view the updated stock ledger.</p>
+                    </div>
+                    
+                    <div style='background-color: #f9f9f9; padding: 16px; text-align: center; font-size: 12px; color: #888;'>
+                        &copy; " . date('Y') . " K's Inventory System. This is an automated message.
+                    </div>
                 </div>
             ";
 
@@ -63,8 +105,12 @@ class MailService
         }
     }
 
-    public static function sendLowStockAlert($itemName, $remainingStock)
+    public static function sendLowStockAlert($lowStockItems)
     {
+        if (empty($lowStockItems)) {
+            return false;
+        }
+
         $mail = new PHPMailer(true);
         $targetEmail = self::getTargetAlertEmail();
 
@@ -78,17 +124,47 @@ class MailService
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            $mail->setFrom(SMTP_USER, 'Kinetix Store');
+            $mail->setFrom(SMTP_USER, "K's Inventory System");
             $mail->addAddress($targetEmail, 'Inventory Admin');
             $mail->isHTML(true);
-            $mail->Subject = "ALERT: Low Stock for " . $itemName;
+
+            $itemCount = count($lowStockItems);
+            $mail->Subject = "ALERT: " . $itemCount . " Item(s) Low on Stock";
+
+            $itemListHtml = '<table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">';
+            $itemListHtml .= '<thead><tr style="background-color: #fff0f0; text-align: left;">
+                <th style="padding: 12px; border-bottom: 2px solid #ffbcbc; color: #d9534f;">Product Name</th>
+                <th style="padding: 12px; border-bottom: 2px solid #ffbcbc; color: #d9534f; text-align: right;">Remaining Stock</th>
+            </tr></thead><tbody>';
+
+            foreach ($lowStockItems as $item) {
+                $stockColor = $item['stock'] == 0 ? '#d9534f' : '#d4a017';
+                $itemListHtml .= "<tr>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: #333; font-weight: bold;'>" . htmlspecialchars($item['name']) . "</td>
+                    <td style='padding: 12px; border-bottom: 1px solid #eee; color: " . $stockColor . "; text-align: right; font-weight: bold;'>" . $item['stock'] . " units</td>
+                </tr>";
+            }
+
+            $itemListHtml .= '</tbody></table>';
+
             $mail->Body    = "
-                <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee;'>
-                    <h2 style='color: #d9534f;'>Low Stock Warning</h2>
-                    <p>The inventory level for <strong>" . htmlspecialchars($itemName) . "</strong> has dropped below the safety threshold.</p>
-                    <p><strong>Current Available Stock:</strong> <span style='color: #d9534f; font-size: 18px; font-weight: bold;'>" . $remainingStock . " units</span></p>
-                    <hr style='border: 0; border-top: 1px solid #eee;'>
-                    <p style='font-size: 12px; color: #777;'><em>This is an automated system alert generated for your school defense project.</em></p>
+                <div style='font-family: \"Segoe UI\", Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eef0f2; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                    <div style='background-color: #d9534f; padding: 24px; text-align: center;'>
+                        <h2 style='margin: 0; color: #ffffff; font-size: 22px; letter-spacing: 0.5px;'>Low Stock Summary Report</h2>
+                    </div>
+                    
+                    <div style='padding: 32px; background-color: #ffffff;'>
+                        <p style='font-size: 16px; color: #333; margin-top: 0;'>Attention,</p>
+                        <p style='font-size: 15px; color: #555; line-height: 1.6;'>The following items in your inventory have dropped below the safety threshold and require immediate restocking:</p>
+                        
+                        " . $itemListHtml . "
+                        
+                        <p style='font-size: 14px; color: #777; margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 15px;'>Please log in to the dashboard to review your catalog and draft a new purchase order.</p>
+                    </div>
+                    
+                    <div style='background-color: #f9f9f9; padding: 16px; text-align: center; font-size: 12px; color: #888;'>
+                        &copy; " . date('Y') . " K's Inventory System. This is an automated message.
+                    </div>
                 </div>
             ";
 
