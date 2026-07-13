@@ -6,7 +6,7 @@ $config = [
     'PAYMONGO_SECRET' => 'sk_test_placeholder_key',
 ];
 
-$localConfigPath = __DIR__ . '/../config.local.php';
+$localConfigPath = __DIR__ . '/../config_local.php';
 
 if (file_exists($localConfigPath)) {
     $localConfig = require $localConfigPath;
