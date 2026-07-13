@@ -3,34 +3,46 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Since they are in the root directory, we require them directly
+require_once __DIR__ . '/Inventory_backend/config.php';
+require_once __DIR__ . '/Database/Database.php';
+
 require_once __DIR__ . '/Exception.php';
 require_once __DIR__ . '/PHPMailer.php';
 require_once __DIR__ . '/SMTP.php';
 
 class MailService
 {
+    private static function getTargetAlertEmail()
+    {
+        try {
+            $db = new Database();
+            $pdo = $db->getConnection();
+            $stmt = $pdo->prepare("SELECT setting_value FROM system_settings WHERE setting_key = 'admin_alert_email'");
+            $stmt->execute();
+            $email = $stmt->fetchColumn();
+            return !empty($email) ? $email : SMTP_USER;
+        } catch (Exception $e) {
+            return SMTP_USER;
+        }
+    }
 
     public static function sendDeliveryNotification($poId, $items, $receivedBy)
     {
         $mail = new PHPMailer(true);
+        $targetEmail = self::getTargetAlertEmail();
 
         try {
-            // Using your new Gmail settings
             $mail->isSMTP();
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'seanpaulforonda@gmail.com';
-            $mail->Password   = 'tzvfkgkmmyzsecpv'; // <-- Paste the exact same 16-letter password here
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            // Sender and Recipient (Sending to yourself)
-            $mail->setFrom('seanpaulforonda@gmail.com', 'Inventory System');
-            $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
-
-            // Email Content
+            $mail->setFrom(SMTP_USER, 'Kinetix Store');
+            $mail->addAddress($targetEmail, 'Inventory Admin');
             $mail->isHTML(true);
             $mail->Subject = "Restock Delivered: Purchase Order #" . $poId;
 
@@ -50,26 +62,24 @@ class MailService
             return false;
         }
     }
+
     public static function sendLowStockAlert($itemName, $remainingStock)
     {
         $mail = new PHPMailer(true);
+        $targetEmail = self::getTargetAlertEmail();
 
         try {
-            // Server settings using your Mailtrap credentials
             $mail->isSMTP();
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'seanpaulforonda@gmail.com'; // Your real Gmail address
-            $mail->Password   = 'tzvfkgkmmyzsecpv'; // <-- Paste the 16-letter password here (no spaces)
-            $mail->SMTPSecure = 'tls'; // This is required by Google for security
-            $mail->Port       = 587; // The specific port for Gmail
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = 587;
 
-            // Recipients
-            $mail->setFrom('seanpaulforonda@gmail.com', 'Gadget Inventory System');
-            $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
-
-            // Content
+            $mail->setFrom(SMTP_USER, 'Kinetix Store');
+            $mail->addAddress($targetEmail, 'Inventory Admin');
             $mail->isHTML(true);
             $mail->Subject = "ALERT: Low Stock for " . $itemName;
             $mail->Body    = "
@@ -78,7 +88,7 @@ class MailService
                     <p>The inventory level for <strong>" . htmlspecialchars($itemName) . "</strong> has dropped below the safety threshold.</p>
                     <p><strong>Current Available Stock:</strong> <span style='color: #d9534f; font-size: 18px; font-weight: bold;'>" . $remainingStock . " units</span></p>
                     <hr style='border: 0; border-top: 1px solid #eee;'>
-                    <p style='font-size: 12px; color: #777;'><em>This is an automated demo alert generated for your school defense project.</em></p>
+                    <p style='font-size: 12px; color: #777;'><em>This is an automated system alert generated for your school defense project.</em></p>
                 </div>
             ";
 

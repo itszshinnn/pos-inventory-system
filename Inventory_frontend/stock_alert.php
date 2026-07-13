@@ -1,8 +1,10 @@
 <?php
+// stock_alert.php
 require_once __DIR__ . '/../Database/Database.php';
 $alertDb = new Database();
 $alertPdo = $alertDb->getConnection();
 
+// Query only pulls items needing restock whose PO status isn't already 'Pending'
 $alertStmt = $alertPdo->query("
     SELECT p.id, p.name, p.stock 
     FROM products p
@@ -143,7 +145,7 @@ $alertLowStockCount = count($alertLowStocks);
     const globalLowStockCount = <?= $alertLowStockCount ?>;
     const globalOverlay = document.getElementById("stockAlertOverlay");
     const GLOBAL_KEY = "stockAlertNextShowTime";
-    const SNOOZE_MS = 600000;
+    const SNOOZE_MS = 10000;
 
     function showGlobalAlert() {
         if (globalLowStockCount <= 0) return;
@@ -159,19 +161,24 @@ $alertLowStockCount = count($alertLowStocks);
 
         if (window.location.pathname.includes("purchase_orders.php")) {
             hideGlobalAlert();
+            localStorage.removeItem(GLOBAL_KEY);
             return;
         }
 
         const nextShowTime = localStorage.getItem(GLOBAL_KEY);
 
-        if (nextShowTime === null) {
+        if (!nextShowTime) {
             showGlobalAlert();
             return;
         }
 
-        if (Date.now() >= parseInt(nextShowTime, 10)) {
+        const timeLeft = parseInt(nextShowTime, 10) - Date.now();
+
+        if (timeLeft <= 0) {
+            localStorage.removeItem(GLOBAL_KEY);
             showGlobalAlert();
         } else {
+            console.log("Alert snoozed. Seconds remaining: " + Math.ceil(timeLeft / 1000));
             hideGlobalAlert();
         }
     }
@@ -188,8 +195,7 @@ $alertLowStockCount = count($alertLowStocks);
 
     if (btnRestock) {
         btnRestock.onclick = function() {
-            // Sets 10-second timer. If they leave without buying, it pops up again.
-            localStorage.setItem(GLOBAL_KEY, (Date.now() + SNOOZE_MS).toString());
+            localStorage.removeItem(GLOBAL_KEY);
             const lowStockItems = <?= json_encode($alertLowStocks) ?>;
             const itemIds = lowStockItems.map(item => item.id).join(',');
             window.location.href = "purchase_orders.php" + (itemIds ? "?items=" + itemIds : "");
