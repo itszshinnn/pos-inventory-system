@@ -16,21 +16,18 @@ class MailService
         $mail = new PHPMailer(true);
 
         try {
-            // Using your new Gmail settings
             $mail->isSMTP();
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'seanpaulforonda@gmail.com';
-            $mail->Password   = 'tzvfkgkmmyzsecpv'; // <-- Paste the exact same 16-letter password here
+            $mail->Password   = 'tzvfkgkmmyzsecpv';
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            // Sender and Recipient (Sending to yourself)
             $mail->setFrom('seanpaulforonda@gmail.com', 'Inventory System');
             $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
 
-            // Email Content
             $mail->isHTML(true);
             $mail->Subject = "Restock Delivered: Purchase Order #" . $poId;
 
@@ -55,21 +52,18 @@ class MailService
         $mail = new PHPMailer(true);
 
         try {
-            // Server settings using your Mailtrap credentials
             $mail->isSMTP();
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'seanpaulforonda@gmail.com'; // Your real Gmail address
-            $mail->Password   = 'tzvfkgkmmyzsecpv'; // <-- Paste the 16-letter password here (no spaces)
-            $mail->SMTPSecure = 'tls'; // This is required by Google for security
-            $mail->Port       = 587; // The specific port for Gmail
+            $mail->Username   = 'seanpaulforonda@gmail.com';
+            $mail->Password   = 'tzvfkgkmmyzsecpv'; 
+            $mail->SMTPSecure = 'tls'; 
+            $mail->Port       = 587;
 
-            // Recipients
             $mail->setFrom('seanpaulforonda@gmail.com', 'Gadget Inventory System');
             $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
 
-            // Content
             $mail->isHTML(true);
             $mail->Subject = "ALERT: Low Stock for " . $itemName;
             $mail->Body    = "
