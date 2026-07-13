@@ -3,14 +3,14 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Since they are in the root directory, we require them directly
+require_once __DIR__ . '/Inventory_backend/config.php';
+
 require_once __DIR__ . '/Exception.php';
 require_once __DIR__ . '/PHPMailer.php';
 require_once __DIR__ . '/SMTP.php';
 
 class MailService
 {
-
     public static function sendDeliveryNotification($poId, $items, $receivedBy)
     {
         $mail = new PHPMailer(true);
@@ -20,14 +20,13 @@ class MailService
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'seanpaulforonda@gmail.com';
-            $mail->Password   = 'tzvfkgkmmyzsecpv';
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            $mail->setFrom('seanpaulforonda@gmail.com', 'Inventory System');
-            $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
-
+            $mail->setFrom(SMTP_USER, 'Inventory System');
+            $mail->addAddress(SMTP_USER, 'Inventory Admin');
             $mail->isHTML(true);
             $mail->Subject = "Restock Delivered: Purchase Order #" . $poId;
 
@@ -47,6 +46,7 @@ class MailService
             return false;
         }
     }
+
     public static function sendLowStockAlert($itemName, $remainingStock)
     {
         $mail = new PHPMailer(true);
@@ -56,14 +56,13 @@ class MailService
             $mail->CharSet    = 'UTF-8';
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'seanpaulforonda@gmail.com';
-            $mail->Password   = 'tzvfkgkmmyzsecpv'; 
-            $mail->SMTPSecure = 'tls'; 
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;
+            $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            $mail->setFrom('seanpaulforonda@gmail.com', 'Gadget Inventory System');
-            $mail->addAddress('seanforonda1738@gmail.com', 'Inventory Admin');
-
+            $mail->setFrom(SMTP_USER, 'Gadget Inventory System');
+            $mail->addAddress(SMTP_USER, 'Inventory Admin');
             $mail->isHTML(true);
             $mail->Subject = "ALERT: Low Stock for " . $itemName;
             $mail->Body    = "
