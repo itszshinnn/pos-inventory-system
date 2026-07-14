@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2026 at 11:54 AM
+-- Generation Time: Jul 14, 2026 at 01:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -165,7 +165,52 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (95, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
 (96, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
 (97, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(98, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36');
+(98, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
+(99, 8, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:30:09'),
+(100, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:30:20'),
+(101, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
+(102, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
+(103, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
+(104, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
+(105, 7, 'ASUS Gaming Monitor', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
+(106, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(107, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(108, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(109, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(110, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(111, 7, 'ASUS Gaming Monitor', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(112, 8, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
+(113, 1, 'Projector', 'Edited', 20, 3, 'Admin', '2026-07-14 10:53:21'),
+(114, 2, 'SD Card', 'Edited', 20, 3, 'Admin', '2026-07-14 10:53:28'),
+(115, 3, 'Headphone', 'Edited', 10, 3, 'Admin', '2026-07-14 10:53:36'),
+(116, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
+(117, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
+(118, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
+(119, 1, 'Projector', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
+(120, 2, 'SD Card', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
+(121, 3, 'Headphone', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
+(122, 1, 'Projector', 'Edited', 43, 3, 'Admin', '2026-07-14 10:57:48'),
+(123, 2, 'SD Card', 'Edited', 43, 3, 'Admin', '2026-07-14 10:57:55'),
+(124, 3, 'Headphone', 'Edited', 43, 3, 'Admin', '2026-07-14 10:58:01'),
+(125, 5, 'Speaker', 'Edited', 20, 3, 'Admin', '2026-07-14 10:58:08'),
+(126, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
+(127, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
+(128, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
+(129, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
+(130, 1, 'Projector', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:41'),
+(131, 2, 'SD Card', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:48'),
+(132, 3, 'Headphone', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:55'),
+(133, 5, 'Speaker', 'Edited', 23, 3, 'Admin', '2026-07-14 11:00:01'),
+(134, 6, 'USB Hub', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:09'),
+(135, 7, 'ASUS Gaming Monitor', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:18'),
+(136, 8, 'SSD', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:26'),
+(137, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(138, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(139, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(140, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(141, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(142, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
+(143, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59');
 
 -- --------------------------------------------------------
 
@@ -229,7 +274,10 @@ INSERT INTO `orders` (`id`, `order_no`, `user_id`, `total_amount`, `discount_amo
 (41, '0036', 5, 6000.00, 0.00, 'Cash', '2026-07-14 04:53:43', 6000.00, 0.00, 5000.00),
 (42, '0037', 5, 2000.00, 0.00, 'Cash', '2026-07-14 05:03:37', 2000.00, 0.00, 1500.00),
 (43, '0038', 1, 36.00, 0.00, 'Cash', '2026-07-14 05:03:54', 36.00, 0.00, 36.00),
-(44, '0039', 5, 2400.00, 0.00, 'Cash', '2026-07-14 05:06:58', 2500.00, 100.00, 1600.00);
+(44, '0039', 5, 2400.00, 0.00, 'Cash', '2026-07-14 05:06:58', 2500.00, 100.00, 1600.00),
+(45, '0040', 2, 134116.00, 0.00, 'Maya', '2026-07-14 10:29:32', 134116.00, 0.00, 101416.00),
+(46, '0041', 2, 144480.00, 0.00, 'GCash', '2026-07-14 10:33:02', 144480.00, 0.00, 109480.00),
+(47, '0042', 2, 12000.00, 0.00, 'GCash', '2026-07-14 10:36:02', 12000.00, 0.00, 8000.00);
 
 -- --------------------------------------------------------
 
@@ -314,7 +362,22 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at
 (63, 41, 1, 2, 6000.00, 5000.00),
 (64, 42, 5, 1, 2000.00, 1500.00),
 (65, 43, 7, 3, 36.00, 36.00),
-(66, 44, 3, 2, 2400.00, 1600.00);
+(66, 44, 3, 2, 2400.00, 1600.00),
+(67, 45, 1, 18, 54000.00, 45000.00),
+(68, 45, 2, 20, 10000.00, 7000.00),
+(69, 45, 3, 18, 21600.00, 14400.00),
+(70, 45, 5, 19, 38000.00, 28500.00),
+(71, 45, 6, 20, 10000.00, 6000.00),
+(72, 45, 7, 20, 240.00, 240.00),
+(73, 45, 8, 23, 276.00, 276.00),
+(74, 46, 1, 20, 60000.00, 50000.00),
+(75, 46, 2, 20, 10000.00, 7000.00),
+(76, 46, 3, 20, 24000.00, 16000.00),
+(77, 46, 5, 20, 40000.00, 30000.00),
+(78, 46, 6, 20, 10000.00, 6000.00),
+(79, 46, 7, 20, 240.00, 240.00),
+(80, 46, 8, 20, 240.00, 240.00),
+(81, 47, 3, 10, 12000.00, 8000.00);
 
 -- --------------------------------------------------------
 
@@ -399,7 +462,33 @@ INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) V
 (63, 30, 5, 20, 1500.00),
 (64, 30, 6, 20, 300.00),
 (65, 31, 5, 20, 1500.00),
-(66, 32, 8, 20, 12.00);
+(66, 32, 8, 20, 12.00),
+(67, 33, 1, 20, 2500.00),
+(68, 33, 2, 20, 350.00),
+(69, 33, 3, 20, 800.00),
+(70, 33, 6, 20, 300.00),
+(71, 33, 7, 20, 12.00),
+(72, 34, 1, 20, 2500.00),
+(73, 34, 2, 20, 350.00),
+(74, 34, 3, 20, 800.00),
+(75, 34, 5, 20, 1500.00),
+(76, 34, 6, 20, 300.00),
+(77, 34, 7, 20, 12.00),
+(78, 34, 8, 20, 12.00),
+(79, 35, 1, 20, 2500.00),
+(80, 35, 2, 20, 350.00),
+(81, 35, 3, 20, 800.00),
+(82, 36, 1, 20, 2500.00),
+(83, 36, 2, 20, 350.00),
+(84, 36, 3, 20, 800.00),
+(85, 36, 5, 20, 1500.00),
+(86, 37, 1, 20, 2500.00),
+(87, 37, 2, 20, 350.00),
+(88, 37, 3, 20, 800.00),
+(89, 37, 5, 20, 1500.00),
+(90, 37, 6, 20, 300.00),
+(91, 37, 7, 20, 12.00),
+(92, 37, 8, 20, 12.00);
 
 -- --------------------------------------------------------
 
@@ -430,12 +519,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
-(1, 'Projector', 4, 2500.00, 3000.00, 18, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
-(2, 'SD Card', 3, 350.00, 500.00, 20, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
-(3, 'Headphone', 2, 800.00, 1200.00, 18, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(5, 'Speaker', 2, 1500.00, 2000.00, 19, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(6, 'USB Hub', 6, 300.00, 500.00, 20, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
-(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 20, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
+(1, 'Projector', 4, 2500.00, 3000.00, 23, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
+(2, 'SD Card', 3, 350.00, 500.00, 23, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
+(3, 'Headphone', 2, 800.00, 1200.00, 23, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(5, 'Speaker', 2, 1500.00, 2000.00, 23, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(6, 'USB Hub', 6, 300.00, 500.00, 23, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
+(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 23, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
 (8, 'SSD', 3, 12.00, 12.00, 23, '2026-07-12 15:42:58', '1783870978_59dbcb815e1ae84f.png', '../Models/1783870978_e20c2f94.glb', 'nigga', 'ASUS', 'Black', 'niga', '', '');
 
 -- --------------------------------------------------------
@@ -510,21 +599,52 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (51, 5, 20, 0, 1500.00, '2026-07-13 14:22:20'),
 (52, 6, 20, 0, 300.00, '2026-07-13 14:22:20'),
 (53, 7, 20, 0, 12.00, '2026-07-13 14:22:20'),
-(54, 8, 20, 3, 12.00, '2026-07-13 14:22:20'),
+(54, 8, 20, 0, 12.00, '2026-07-13 14:22:20'),
 (55, 1, 20, 0, 2500.00, '2026-07-13 16:10:41'),
 (56, 2, 20, 0, 350.00, '2026-07-13 16:10:41'),
 (57, 3, 20, 0, 800.00, '2026-07-13 16:10:41'),
 (58, 5, 20, 0, 1500.00, '2026-07-13 16:10:41'),
 (59, 6, 20, 0, 300.00, '2026-07-13 16:10:41'),
-(60, 7, 20, 20, 12.00, '2026-07-13 16:10:41'),
-(61, 8, 20, 20, 12.00, '2026-07-13 16:10:41'),
+(60, 7, 20, 0, 12.00, '2026-07-13 16:10:41'),
+(61, 8, 20, 0, 12.00, '2026-07-13 16:10:41'),
 (62, 1, 20, 0, 2500.00, '2026-07-13 16:24:21'),
 (63, 2, 20, 0, 350.00, '2026-07-13 16:24:21'),
-(64, 1, 20, 18, 2500.00, '2026-07-13 16:27:36'),
-(65, 2, 20, 20, 350.00, '2026-07-13 16:27:36'),
-(66, 3, 20, 18, 800.00, '2026-07-13 16:27:36'),
-(67, 5, 20, 19, 1500.00, '2026-07-13 16:27:36'),
-(68, 6, 20, 20, 300.00, '2026-07-13 16:27:36');
+(64, 1, 20, 0, 2500.00, '2026-07-13 16:27:36'),
+(65, 2, 20, 0, 350.00, '2026-07-13 16:27:36'),
+(66, 3, 20, 0, 800.00, '2026-07-13 16:27:36'),
+(67, 5, 20, 0, 1500.00, '2026-07-13 16:27:36'),
+(68, 6, 20, 0, 300.00, '2026-07-13 16:27:36'),
+(69, 8, 20, 0, 12.00, '2026-07-14 10:30:09'),
+(70, 5, 20, 0, 1500.00, '2026-07-14 10:30:20'),
+(71, 1, 20, 0, 2500.00, '2026-07-14 10:31:01'),
+(72, 2, 20, 0, 350.00, '2026-07-14 10:31:01'),
+(73, 3, 20, 0, 800.00, '2026-07-14 10:31:01'),
+(74, 6, 20, 0, 300.00, '2026-07-14 10:31:01'),
+(75, 7, 20, 0, 12.00, '2026-07-14 10:31:01'),
+(76, 1, 20, 0, 2500.00, '2026-07-14 10:34:50'),
+(77, 2, 20, 0, 350.00, '2026-07-14 10:34:50'),
+(78, 3, 20, 0, 800.00, '2026-07-14 10:34:50'),
+(79, 5, 20, 0, 1500.00, '2026-07-14 10:34:50'),
+(80, 6, 20, 3, 300.00, '2026-07-14 10:34:50'),
+(81, 7, 20, 3, 12.00, '2026-07-14 10:34:50'),
+(82, 8, 20, 3, 12.00, '2026-07-14 10:34:50'),
+(83, 1, 20, 0, 2500.00, '2026-07-14 10:53:53'),
+(84, 2, 20, 0, 350.00, '2026-07-14 10:53:53'),
+(85, 3, 20, 0, 800.00, '2026-07-14 10:53:53'),
+(86, 1, 20, 0, 2500.00, '2026-07-14 10:53:57'),
+(87, 2, 20, 0, 350.00, '2026-07-14 10:53:57'),
+(88, 3, 20, 0, 800.00, '2026-07-14 10:53:57'),
+(89, 1, 20, 3, 2500.00, '2026-07-14 10:58:42'),
+(90, 2, 20, 3, 350.00, '2026-07-14 10:58:42'),
+(91, 3, 20, 3, 800.00, '2026-07-14 10:58:42'),
+(92, 5, 20, 3, 1500.00, '2026-07-14 10:58:42'),
+(93, 1, 20, 20, 2500.00, '2026-07-14 11:00:59'),
+(94, 2, 20, 20, 350.00, '2026-07-14 11:00:59'),
+(95, 3, 20, 20, 800.00, '2026-07-14 11:00:59'),
+(96, 5, 20, 20, 1500.00, '2026-07-14 11:00:59'),
+(97, 6, 20, 20, 300.00, '2026-07-14 11:00:59'),
+(98, 7, 20, 20, 12.00, '2026-07-14 11:00:59'),
+(99, 8, 20, 20, 12.00, '2026-07-14 11:00:59');
 
 -- --------------------------------------------------------
 
@@ -577,8 +697,13 @@ INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`,
 (28, 'PO-20260713-0028', 'Received', NULL, 0.00, '2026-07-13 16:09:34', 'Admin'),
 (29, 'PO-20260713-0029', 'Received', NULL, 0.00, '2026-07-13 16:24:17', 'Admin'),
 (30, 'PO-20260713-0030', 'Received', NULL, 0.00, '2026-07-13 16:27:32', 'Admin'),
-(31, 'PO-20260714-0031', 'Pending', NULL, 0.00, '2026-07-14 08:23:25', NULL),
-(32, 'PO-20260714-0032', 'Pending', NULL, 0.00, '2026-07-14 09:00:13', NULL);
+(31, 'PO-20260714-0031', 'Received', NULL, 0.00, '2026-07-14 08:23:25', 'Admin'),
+(32, 'PO-20260714-0032', 'Received', NULL, 0.00, '2026-07-14 09:00:13', 'Admin'),
+(33, 'PO-20260714-0033', 'Received', NULL, 0.00, '2026-07-14 10:30:57', 'Admin'),
+(34, 'PO-20260714-0034', 'Received', NULL, 0.00, '2026-07-14 10:34:46', 'Admin'),
+(35, 'PO-20260714-0035', 'Received', NULL, 0.00, '2026-07-14 10:53:49', 'Admin'),
+(36, 'PO-20260714-0036', 'Received', NULL, 0.00, '2026-07-14 10:58:38', 'Admin'),
+(37, 'PO-20260714-0037', 'Received', NULL, 0.00, '2026-07-14 11:00:55', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -597,7 +722,7 @@ CREATE TABLE `system_settings` (
 --
 
 INSERT INTO `system_settings` (`setting_key`, `setting_value`, `updated_at`) VALUES
-('admin_alert_email', 'earl.limo2013@gmail.com', '2026-07-13 16:05:59');
+('admin_alert_email', 'ilsymeunice@gmail.com', '2026-07-14 10:34:39');
 
 -- --------------------------------------------------------
 
@@ -712,25 +837,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -742,13 +867,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `users`
