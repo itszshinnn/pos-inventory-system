@@ -23,10 +23,22 @@ switch ($method) {
     case 'GET':
         try {
             $stmt = $pdo->query("
-                SELECT po.id, po.reference_no, po.status, po.created_at, 
-                       COUNT(poi.id) as total_items
+                SELECT
+                    po.id,
+                    po.reference_no,
+                    po.status,
+                    po.created_at,
+                    COUNT(poi.id) AS total_items,
+                    GROUP_CONCAT(
+                        p.name
+                        ORDER BY p.name
+                        SEPARATOR '|'
+                    ) AS product_names
                 FROM purchase_orders po
-                LEFT JOIN po_items poi ON po.id = poi.po_id
+                LEFT JOIN po_items poi
+                    ON po.id = poi.po_id
+                LEFT JOIN products p
+                    ON poi.product_id = p.id
                 WHERE po.status = 'Pending'
                 GROUP BY po.id
                 ORDER BY po.created_at DESC

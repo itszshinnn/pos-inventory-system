@@ -531,7 +531,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
             tbody.innerHTML = orders.map(order => `
         <tr>
-          <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold;">${order.reference_no}</td>
+          <td style="padding:12px; border-bottom:1px solid #eee;">
+                <strong>${order.reference_no}</strong>
+
+                <div style="margin-top:8px; color:#666; font-size:13px;">
+                    ${
+                        order.product_names
+                            ? order.product_names
+                                .split("|")
+                                .map(name => `• ${name}`)
+                                .join("<br>")
+                            : ""
+                    }
+                </div>
+            </td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">${order.created_at}</td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">${order.total_items} item(s)</td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">
