@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2026 at 06:03 PM
+-- Generation Time: Jul 14, 2026 at 07:04 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,7 +151,21 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (81, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
 (82, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
 (83, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(84, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20');
+(84, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
+(85, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
+(86, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
+(87, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
+(88, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
+(89, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
+(90, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
+(91, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
+(92, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:24:21'),
+(93, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:24:21'),
+(94, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
+(95, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
+(96, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
+(97, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
+(98, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36');
 
 -- --------------------------------------------------------
 
@@ -162,6 +176,7 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `order_no` varchar(20) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
   `discount_amount` decimal(10,2) DEFAULT 0.00,
   `payment_method` enum('Cash','Card','GCash','Maya') NOT NULL,
@@ -175,38 +190,45 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_no`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`, `cost_of_goods_sold`) VALUES
-(1, '0001', 6000.00, 0.00, 'Cash', '2026-07-06 08:50:55', 6000.00, 0.00, 5000.00),
-(2, '0002', 9000.00, 0.00, 'Cash', '2026-07-08 08:51:01', 9000.00, 0.00, 7500.00),
-(3, '0003', 3000.00, 0.00, 'Cash', '2026-07-11 08:51:07', 3000.00, 0.00, 2500.00),
-(4, '0004', 12000.00, 0.00, 'Cash', '2026-07-12 08:51:14', 12000.00, 0.00, 10000.00),
-(5, '0005', 500.00, 0.00, 'Cash', '2026-07-12 10:26:26', 500.00, 0.00, 350.00),
-(6, '0006', 3000.00, 0.00, 'Cash', '2026-07-12 10:26:34', 3000.00, 0.00, 2200.00),
-(7, '0007', 1200.00, 0.00, 'Cash', '2026-07-12 10:26:39', 1200.00, 0.00, 800.00),
-(8, '0008', 4000.00, 0.00, 'Cash', '2026-07-12 10:26:53', 4000.00, 0.00, 3000.00),
-(9, '0009', 36000.00, 0.00, 'Card', '2026-07-12 12:29:25', 36000.00, 0.00, 27000.00),
-(10, '0010', 48000.00, 0.00, 'Cash', '2026-07-12 15:40:56', 49000.00, 1000.00, 35200.00),
-(12, '0011', 204.00, 0.00, 'Maya', '2026-07-12 15:43:33', 204.00, 0.00, 204.00),
-(13, '0012', 12.00, 0.00, 'Cash', '2026-07-12 15:50:17', 15.00, 3.00, 12.00),
-(14, '0013', 2012.00, 0.00, 'Cash', '2026-07-12 15:53:11', 2100.00, 88.00, 2012.00),
-(15, '0014', 51000.00, 0.00, 'Cash', '2026-07-12 15:59:42', 52000.00, 1000.00, 42500.00),
-(16, '0015', 3000.00, 0.00, 'Cash', '2026-07-12 16:02:28', 40000.00, 37000.00, 2500.00),
-(17, '0016', 8500.00, 0.00, 'Cash', '2026-07-12 16:05:57', 9000.00, 500.00, 5950.00),
-(18, '0017', 108.00, 0.00, 'Cash', '2026-07-12 16:06:43', 200.00, 92.00, 108.00),
-(19, '0018', 12000.00, 0.00, 'Cash', '2026-07-12 16:15:33', 12000.00, 0.00, 12000.00),
-(20, '0019', 22800.00, 0.00, 'Cash', '2026-07-12 16:16:25', 23000.00, 200.00, 15200.00),
-(21, '0020', 20400.00, 0.00, 'Cash', '2026-07-12 16:40:39', 21000.00, 600.00, 13600.00),
-(22, '0021', 2000.00, 0.00, 'Cash', '2026-07-12 17:01:09', 2000.00, 0.00, 2000.00),
-(23, '0022', 12000.00, 0.00, 'Cash', '2026-07-12 17:12:17', 12000.00, 0.00, 10000.00),
-(24, '0023', 10500.00, 0.00, 'Cash', '2026-07-13 11:10:16', 11000.00, 500.00, 7350.00),
-(25, '0024', 1500.00, 0.00, 'Maya', '2026-07-13 11:14:48', 1500.00, 0.00, 1500.00),
-(26, '0025', 240.00, 0.00, 'Cash', '2026-07-13 11:20:14', 250.00, 10.00, 240.00),
-(27, '0026', 63000.00, 0.00, 'Cash', '2026-07-13 11:51:06', 63000.00, 0.00, 52500.00),
-(28, '0027', 57000.00, 0.00, 'GCash', '2026-07-13 12:06:42', 57000.00, 0.00, 47500.00),
-(29, '0028', 44000.00, 0.00, 'Cash', '2026-07-13 14:04:57', 44000.00, 0.00, 29000.00),
-(31, '0029', 84480.00, 0.00, 'Maya', '2026-07-13 14:17:15', 84480.00, 0.00, 59480.00),
-(32, '0030', 144480.00, 0.00, 'GCash', '2026-07-13 14:21:14', 144480.00, 0.00, 109480.00),
-(33, '0031', 158580.00, 0.00, 'Maya', '2026-07-13 14:24:26', 158580.00, 0.00, 120430.00);
+INSERT INTO `orders` (`id`, `order_no`, `user_id`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`, `cost_of_goods_sold`) VALUES
+(1, '0001', 1, 6000.00, 0.00, 'Cash', '2026-07-06 08:50:55', 6000.00, 0.00, 5000.00),
+(2, '0002', 1, 9000.00, 0.00, 'Cash', '2026-07-08 08:51:01', 9000.00, 0.00, 7500.00),
+(3, '0003', 1, 3000.00, 0.00, 'Cash', '2026-07-11 08:51:07', 3000.00, 0.00, 2500.00),
+(4, '0004', 1, 12000.00, 0.00, 'Cash', '2026-07-12 08:51:14', 12000.00, 0.00, 10000.00),
+(5, '0005', 1, 500.00, 0.00, 'Cash', '2026-07-12 10:26:26', 500.00, 0.00, 350.00),
+(6, '0006', 1, 3000.00, 0.00, 'Cash', '2026-07-12 10:26:34', 3000.00, 0.00, 2200.00),
+(7, '0007', 1, 1200.00, 0.00, 'Cash', '2026-07-12 10:26:39', 1200.00, 0.00, 800.00),
+(8, '0008', 1, 4000.00, 0.00, 'Cash', '2026-07-12 10:26:53', 4000.00, 0.00, 3000.00),
+(9, '0009', 1, 36000.00, 0.00, 'Card', '2026-07-12 12:29:25', 36000.00, 0.00, 27000.00),
+(10, '0010', 1, 48000.00, 0.00, 'Cash', '2026-07-12 15:40:56', 49000.00, 1000.00, 35200.00),
+(12, '0011', 1, 204.00, 0.00, 'Maya', '2026-07-12 15:43:33', 204.00, 0.00, 204.00),
+(13, '0012', 1, 12.00, 0.00, 'Cash', '2026-07-12 15:50:17', 15.00, 3.00, 12.00),
+(14, '0013', 1, 2012.00, 0.00, 'Cash', '2026-07-12 15:53:11', 2100.00, 88.00, 2012.00),
+(15, '0014', 1, 51000.00, 0.00, 'Cash', '2026-07-12 15:59:42', 52000.00, 1000.00, 42500.00),
+(16, '0015', 1, 3000.00, 0.00, 'Cash', '2026-07-12 16:02:28', 40000.00, 37000.00, 2500.00),
+(17, '0016', 1, 8500.00, 0.00, 'Cash', '2026-07-12 16:05:57', 9000.00, 500.00, 5950.00),
+(18, '0017', 1, 108.00, 0.00, 'Cash', '2026-07-12 16:06:43', 200.00, 92.00, 108.00),
+(19, '0018', 1, 12000.00, 0.00, 'Cash', '2026-07-12 16:15:33', 12000.00, 0.00, 12000.00),
+(20, '0019', 1, 22800.00, 0.00, 'Cash', '2026-07-12 16:16:25', 23000.00, 200.00, 15200.00),
+(21, '0020', 1, 20400.00, 0.00, 'Cash', '2026-07-12 16:40:39', 21000.00, 600.00, 13600.00),
+(22, '0021', 1, 2000.00, 0.00, 'Cash', '2026-07-12 17:01:09', 2000.00, 0.00, 2000.00),
+(23, '0022', 1, 12000.00, 0.00, 'Cash', '2026-07-12 17:12:17', 12000.00, 0.00, 10000.00),
+(24, '0023', 1, 10500.00, 0.00, 'Cash', '2026-07-13 11:10:16', 11000.00, 500.00, 7350.00),
+(25, '0024', 1, 1500.00, 0.00, 'Maya', '2026-07-13 11:14:48', 1500.00, 0.00, 1500.00),
+(26, '0025', 1, 240.00, 0.00, 'Cash', '2026-07-13 11:20:14', 250.00, 10.00, 240.00),
+(27, '0026', 1, 63000.00, 0.00, 'Cash', '2026-07-13 11:51:06', 63000.00, 0.00, 52500.00),
+(28, '0027', 1, 57000.00, 0.00, 'GCash', '2026-07-13 12:06:42', 57000.00, 0.00, 47500.00),
+(29, '0028', 1, 44000.00, 0.00, 'Cash', '2026-07-13 14:04:57', 44000.00, 0.00, 29000.00),
+(31, '0029', 1, 84480.00, 0.00, 'Maya', '2026-07-13 14:17:15', 84480.00, 0.00, 59480.00),
+(32, '0030', 1, 144480.00, 0.00, 'GCash', '2026-07-13 14:21:14', 144480.00, 0.00, 109480.00),
+(33, '0031', 1, 158580.00, 0.00, 'Maya', '2026-07-13 14:24:26', 158580.00, 0.00, 120430.00),
+(34, '0032', 1, 51000.00, 0.00, 'Cash', '2026-07-13 16:11:06', 51000.00, 0.00, 42500.00),
+(36, '0033', 1, 10000.00, 0.00, 'Cash', '2026-07-13 16:23:19', 10000.00, 0.00, 7000.00),
+(39, '0034', 1, 90100.00, 0.00, 'Cash', '2026-07-13 16:26:12', 100000.00, 9900.00, 68400.00),
+(40, '0035', 1, 70400.00, 0.00, 'Cash', '2026-07-13 16:26:59', 100000.00, 29600.00, 53500.00),
+(41, '0036', 5, 6000.00, 0.00, 'Cash', '2026-07-14 04:53:43', 6000.00, 0.00, 5000.00),
+(42, '0037', 5, 2000.00, 0.00, 'Cash', '2026-07-14 05:03:37', 2000.00, 0.00, 1500.00),
+(43, '0038', 1, 36.00, 0.00, 'Cash', '2026-07-14 05:03:54', 36.00, 0.00, 36.00);
 
 -- --------------------------------------------------------
 
@@ -276,7 +298,21 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at
 (48, 33, 5, 20, 40000.00, 30000.00),
 (49, 33, 6, 20, 10000.00, 6000.00),
 (50, 33, 7, 20, 240.00, 240.00),
-(51, 33, 8, 20, 240.00, 240.00);
+(51, 33, 8, 20, 240.00, 240.00),
+(52, 34, 1, 17, 51000.00, 42500.00),
+(53, 36, 2, 20, 10000.00, 7000.00),
+(54, 39, 1, 9, 27000.00, 22500.00),
+(55, 39, 2, 10, 5000.00, 3500.00),
+(56, 39, 3, 8, 9600.00, 6400.00),
+(57, 39, 5, 23, 46000.00, 34500.00),
+(58, 39, 6, 5, 2500.00, 1500.00),
+(59, 40, 1, 14, 42000.00, 35000.00),
+(60, 40, 2, 10, 5000.00, 3500.00),
+(61, 40, 3, 12, 14400.00, 9600.00),
+(62, 40, 6, 18, 9000.00, 5400.00),
+(63, 41, 1, 2, 6000.00, 5000.00),
+(64, 42, 5, 1, 2000.00, 1500.00),
+(65, 43, 7, 3, 36.00, 36.00);
 
 -- --------------------------------------------------------
 
@@ -345,7 +381,21 @@ INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) V
 (47, 27, 5, 20, 1500.00),
 (48, 27, 6, 20, 300.00),
 (49, 27, 7, 20, 12.00),
-(50, 27, 8, 20, 12.00);
+(50, 27, 8, 20, 12.00),
+(51, 28, 1, 20, 2500.00),
+(52, 28, 2, 20, 350.00),
+(53, 28, 3, 20, 800.00),
+(54, 28, 5, 20, 1500.00),
+(55, 28, 6, 20, 300.00),
+(56, 28, 7, 20, 12.00),
+(57, 28, 8, 20, 12.00),
+(58, 29, 1, 20, 2500.00),
+(59, 29, 2, 20, 350.00),
+(60, 30, 1, 20, 2500.00),
+(61, 30, 2, 20, 350.00),
+(62, 30, 3, 20, 800.00),
+(63, 30, 5, 20, 1500.00),
+(64, 30, 6, 20, 300.00);
 
 -- --------------------------------------------------------
 
@@ -376,13 +426,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
-(1, 'Projector', 4, 2500.00, 3000.00, 0, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
-(2, 'SD Card', 3, 350.00, 500.00, 0, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
-(3, 'Headphone', 2, 800.00, 1200.00, 0, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(5, 'Speaker', 2, 1500.00, 2000.00, 3, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(6, 'USB Hub', 6, 300.00, 500.00, 3, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
-(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 3, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
-(8, 'SSD', 3, 12.00, 12.00, 3, '2026-07-12 15:42:58', '1783870978_59dbcb815e1ae84f.png', '../Models/1783870978_e20c2f94.glb', 'nigga', 'ASUS', 'Black', 'niga', '', '');
+(1, 'Projector', 4, 2500.00, 3000.00, 18, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
+(2, 'SD Card', 3, 350.00, 500.00, 20, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
+(3, 'Headphone', 2, 800.00, 1200.00, 20, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(5, 'Speaker', 2, 1500.00, 2000.00, 19, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(6, 'USB Hub', 6, 300.00, 500.00, 20, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
+(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 20, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
+(8, 'SSD', 3, 12.00, 12.00, 23, '2026-07-12 15:42:58', '1783870978_59dbcb815e1ae84f.png', '../Models/1783870978_e20c2f94.glb', 'nigga', 'ASUS', 'Black', 'niga', '', '');
 
 -- --------------------------------------------------------
 
@@ -453,10 +503,24 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (48, 1, 20, 0, 2500.00, '2026-07-13 14:22:20'),
 (49, 2, 20, 0, 350.00, '2026-07-13 14:22:20'),
 (50, 3, 20, 0, 800.00, '2026-07-13 14:22:20'),
-(51, 5, 20, 3, 1500.00, '2026-07-13 14:22:20'),
-(52, 6, 20, 3, 300.00, '2026-07-13 14:22:20'),
-(53, 7, 20, 3, 12.00, '2026-07-13 14:22:20'),
-(54, 8, 20, 3, 12.00, '2026-07-13 14:22:20');
+(51, 5, 20, 0, 1500.00, '2026-07-13 14:22:20'),
+(52, 6, 20, 0, 300.00, '2026-07-13 14:22:20'),
+(53, 7, 20, 0, 12.00, '2026-07-13 14:22:20'),
+(54, 8, 20, 3, 12.00, '2026-07-13 14:22:20'),
+(55, 1, 20, 0, 2500.00, '2026-07-13 16:10:41'),
+(56, 2, 20, 0, 350.00, '2026-07-13 16:10:41'),
+(57, 3, 20, 0, 800.00, '2026-07-13 16:10:41'),
+(58, 5, 20, 0, 1500.00, '2026-07-13 16:10:41'),
+(59, 6, 20, 0, 300.00, '2026-07-13 16:10:41'),
+(60, 7, 20, 20, 12.00, '2026-07-13 16:10:41'),
+(61, 8, 20, 20, 12.00, '2026-07-13 16:10:41'),
+(62, 1, 20, 0, 2500.00, '2026-07-13 16:24:21'),
+(63, 2, 20, 0, 350.00, '2026-07-13 16:24:21'),
+(64, 1, 20, 18, 2500.00, '2026-07-13 16:27:36'),
+(65, 2, 20, 20, 350.00, '2026-07-13 16:27:36'),
+(66, 3, 20, 20, 800.00, '2026-07-13 16:27:36'),
+(67, 5, 20, 19, 1500.00, '2026-07-13 16:27:36'),
+(68, 6, 20, 20, 300.00, '2026-07-13 16:27:36');
 
 -- --------------------------------------------------------
 
@@ -505,7 +569,10 @@ INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`,
 (24, 'PO-20260713-0024', 'Received', NULL, 0.00, '2026-07-13 14:10:19', 'Admin'),
 (25, 'PO-20260713-0025', 'Received', NULL, 0.00, '2026-07-13 14:13:15', 'Admin'),
 (26, 'PO-20260713-0026', 'Received', NULL, 0.00, '2026-07-13 14:20:20', 'Admin'),
-(27, 'PO-20260713-0027', 'Received', NULL, 0.00, '2026-07-13 14:22:12', 'Admin');
+(27, 'PO-20260713-0027', 'Received', NULL, 0.00, '2026-07-13 14:22:12', 'Admin'),
+(28, 'PO-20260713-0028', 'Received', NULL, 0.00, '2026-07-13 16:09:34', 'Admin'),
+(29, 'PO-20260713-0029', 'Received', NULL, 0.00, '2026-07-13 16:24:17', 'Admin'),
+(30, 'PO-20260713-0030', 'Received', NULL, 0.00, '2026-07-13 16:27:32', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -524,7 +591,7 @@ CREATE TABLE `system_settings` (
 --
 
 INSERT INTO `system_settings` (`setting_key`, `setting_value`, `updated_at`) VALUES
-('admin_alert_email', 'ilsymeunice@gmail.com', '2026-07-13 13:31:00');
+('admin_alert_email', 'earl.limo2013@gmail.com', '2026-07-13 16:05:59');
 
 -- --------------------------------------------------------
 
@@ -548,7 +615,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
 (1, 'Triggerwords', '$2y$10$GOUoglsoJi6hJ7jxBg5OJuCC.lo.txE87TJOI3MkOMg5fd4uLOHgm', '2026-06-02 15:03:07', 'user'),
 (2, 'sean', '$2y$10$wniVyrbtsPkIoWI591WFcuHK0wDmnuGWBKSyGogkgurbh4QxBcYQq', '2026-06-02 15:03:18', 'user'),
 (3, 'pogi', '$2y$10$ixFOkjMMCru1eMUIQ3MQIOAMuOfEv8C4jh6FvnAkRhzw0LMtfIFTK', '2026-06-02 17:38:39', 'admin'),
-(4, 'cerbo', '$2y$10$3YI1T0E0MwACVk8.M01xyOiNdHpVGT3i9VdgVuzAvsgCl9tT20G9G', '2026-06-03 03:44:48', 'user');
+(4, 'cerbo', '$2y$10$3YI1T0E0MwACVk8.M01xyOiNdHpVGT3i9VdgVuzAvsgCl9tT20G9G', '2026-06-03 03:44:48', 'user'),
+(5, 'Earl', '$2y$10$FWdzp/hRNVq4Wo19mbaiW.qWxJJm129NoaCT0Ie/cmyJfir8WHqza', '2026-07-14 04:53:35', 'user');
 
 --
 -- Indexes for dumped tables
@@ -572,7 +640,8 @@ ALTER TABLE `inventory_logs`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `order_no` (`order_no`);
+  ADD UNIQUE KEY `order_no` (`order_no`),
+  ADD KEY `fk_orders_user` (`user_id`);
 
 --
 -- Indexes for table `order_items`
@@ -637,25 +706,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -667,23 +736,29 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `order_items`

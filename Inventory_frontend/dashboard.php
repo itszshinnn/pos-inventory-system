@@ -9,7 +9,7 @@ $pdo = $database->getConnection();
 $reportManager = new ReportManager($pdo);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-  header("Location: ../Inventory_frontend/login_signup.php");
+  header("Location: ../Inventory_frontend/login.php");
   exit;
 }
 
@@ -179,7 +179,7 @@ usort($allNotifications, function ($a, $b) {
 
     .metrics-row-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
     }
 
@@ -346,6 +346,8 @@ usort($allNotifications, function ($a, $b) {
       background: #fff;
       border-radius: 12px;
       padding: 20px;
+      position: relative;
+      height: 420px;
       margin-top: 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
     }
@@ -355,18 +357,14 @@ usort($allNotifications, function ($a, $b) {
     }
 
     .graph-container {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        gap: 20px;
+        width: 100%;
     }
 
     .revenue-card {
       grid-column: span 2;
-    }
-
-    #profitChart,
-    #topSellingChart {
-      max-height: 350px;
     }
 
     @keyframes popupFade {
@@ -494,23 +492,70 @@ usort($allNotifications, function ($a, $b) {
             </div>
           </div>
 
-          <div class="dashboard-section">
-            <div class="section-title">Recent Transactions</div>
-            <div class="metrics-row-grid">
-              <div class="metric-sub-card">
-                <h3>Total Revenue</h3>
-                <p class="green-txt">Php<?= number_format($totalRevenue, 2) ?></p>
-              </div>
-              <div class="metric-sub-card">
-                <h3>Transactions</h3>
-                <p class="blue-txt"><?= $transactions ?></p>
-              </div>
-              <div class="metric-sub-card">
-                <h3>Items Sold</h3>
-                <p><?= $itemsSold ?></p>
-              </div>
+            <div class="dashboard-section">
+                <div class="section-title">Today's Summary</div>
+
+                <div class="metrics-row-grid" style="grid-template-columns:repeat(4,1fr);">
+
+                    <div class="metric-sub-card">
+                        <h3>Today's Revenue</h3>
+                        <p class="green-txt">
+                            Php<?= number_format($todayRevenue, 2) ?>
+                        </p>
+                    </div>
+
+                    <div class="metric-sub-card">
+                        <h3>Today's COGS</h3>
+                        <p style="color:#ef4444;font-family:'DM Mono',monospace;">
+                            Php<?= number_format($todayCOGS, 2) ?>
+                        </p>
+                    </div>
+
+                    <div class="metric-sub-card">
+                        <h3>Today's Profit</h3>
+                        <p style="color:#22c55e;font-family:'DM Mono',monospace;">
+                            Php<?= number_format($todayProfit, 2) ?>
+                        </p>
+                    </div>
+
+                    <div class="metric-sub-card">
+                        <h3>Today's Sales</h3>
+                        <p class="blue-txt">
+                            <?= $todayTransactions ?>
+                        </p>
+                    </div>
+
+                </div>
             </div>
-          </div>
+
+            <div class="dashboard-section">
+                <div class="section-title">Overall Statistics</div>
+
+                <div class="metrics-row-grid">
+
+                    <div class="metric-sub-card">
+                        <h3>Total Revenue</h3>
+                        <p class="green-txt">
+                            Php<?= number_format($totalRevenue,2) ?>
+                        </p>
+                    </div>
+
+                    <div class="metric-sub-card">
+                        <h3>Transactions</h3>
+                        <p class="blue-txt">
+                            <?= $transactions ?>
+                        </p>
+                    </div>
+
+                    <div class="metric-sub-card">
+                        <h3>Items Sold</h3>
+                        <p>
+                            <?= $itemsSold ?>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
 
           <div class="dashboard-section">
             <div class="section-title">Total Revenue and Stuff</div>
@@ -676,7 +721,7 @@ usort($allNotifications, function ($a, $b) {
 
         options: {
           responsive: true,
-
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               position: "top"
@@ -741,7 +786,7 @@ usort($allNotifications, function ($a, $b) {
         options: {
 
           responsive: true,
-
+          maintainAspectRatio: false,
 
           plugins: {
 
@@ -807,6 +852,7 @@ usort($allNotifications, function ($a, $b) {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               display: false

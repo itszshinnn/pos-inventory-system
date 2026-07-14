@@ -205,6 +205,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             margin: 0 auto 20px;
         }
 
+        .sidebar a.sub-tab {
+            padding-left: 28px;
+            font-size: 0.88rem;
+            color: #bcbcbc;
+        }
+
+        .sidebar a.sub-tab::before {
+            content: "• ";
+            color: #666;
+            margin-right: 4px;
+        }
+
+        .sidebar a.sub-tab.active::before {
+            color: #4d66ff;
+        }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -242,6 +258,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <a href="categories.php">Categories</a>
             <a href="products.php">Products</a>
             <a href="purchase_orders.php" class="active">Purchase Orders</a>
+            <a href="purchase_history.php" class="sub-tab">Purchase History</a>
             <a href="xml.php">XML Files</a>
             <a href="history.php">History</a>
             <a href="users.php">Users</a>
@@ -531,7 +548,27 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
             tbody.innerHTML = orders.map(order => `
         <tr>
-          <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold;">${order.reference_no}</td>
+          <td style="padding:12px; border-bottom:1px solid #eee;">
+                <strong>${order.reference_no}</strong>
+
+                <div style="margin-top:8px; color:#666; font-size:13px;">
+                    ${
+                        order.product_names
+                            ? order.product_names
+                                .split("|")
+                                .map(item => `• ${item}`)
+                                .join("<br>")
+                            : ""
+                    }
+
+                    <div style="margin-top:6px; font-weight:bold; color:#4d66ff;">
+                        Total Cost: ₱${Number(order.total_cost).toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}
+                    </div>
+                </div>
+            </td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">${order.created_at}</td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">${order.total_items} item(s)</td>
           <td style="padding: 12px; border-bottom: 1px solid #eee;">

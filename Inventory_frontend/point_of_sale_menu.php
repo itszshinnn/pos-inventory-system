@@ -974,6 +974,10 @@ if (!isset($_SESSION['user_id'])) {
         <strong id="rcptOrderNo">#0000</strong>
       </div>
       <div class="receipt-meta-row">
+        <span>Cashier:</span>
+        <span id="rcptCashier">-</span>
+      </div>
+      <div class="receipt-meta-row">
         <span>Date/Time:</span>
         <span id="rcptDate">-</span>
       </div>
@@ -1010,6 +1014,7 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
   <script>
+    const cashierName = <?= json_encode($_SESSION['username']) ?>;
     let allProducts = [];
     let cart = {};
     let cartTotal = 0;
@@ -1557,6 +1562,7 @@ if (!isset($_SESSION['user_id'])) {
     function openReceiptModal(receiptData) {
 
       document.getElementById("rcptOrderNo").textContent = "#" + receiptData.order_no;
+      document.getElementById("rcptCashier").textContent = cashierName;
       document.getElementById("rcptDate").textContent = receiptData.date;
       document.getElementById("rcptPayment").textContent = receiptData.payment;
 

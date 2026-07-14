@@ -29,6 +29,24 @@ class ReportManager
             $metrics['totalRevenue']    = $this->db->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
             $metrics['transactions']    = $this->db->query('SELECT COUNT(*) FROM orders')->fetchColumn();
             $metrics['itemsSold']       = $this->db->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
+            $todayStmt = $this->db->prepare("
+                SELECT
+                    COALESCE(SUM(total_amount), 0) AS revenue,
+                    COALESCE(SUM(cost_of_goods_sold), 0) AS cogs,
+                    COALESCE(SUM(total_amount - cost_of_goods_sold), 0) AS profit,
+                    COUNT(*) AS transactions
+                FROM orders
+                WHERE DATE(created_at) = CURDATE()
+            ");
+
+            $todayStmt->execute();
+
+            $today = $todayStmt->fetch(PDO::FETCH_ASSOC);
+
+            $metrics['todayRevenue']      = $today['revenue'];
+            $metrics['todayCOGS']         = $today['cogs'];
+            $metrics['todayProfit']       = $today['profit'];
+            $metrics['todayTransactions'] = $today['transactions'];
 
             $metrics['totalLogs']       = $this->db->query('SELECT COUNT(*) FROM inventory_logs')->fetchColumn();
             $metrics['totalAdded']      = $this->db->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Added"')->fetchColumn();
@@ -40,6 +58,10 @@ class ReportManager
             $metrics['totalProducts'] = $metrics['totalUnits'] = $metrics['totalCategories'] = $metrics['lowStock'] = $metrics['outOfStock'] = 0;
             $metrics['totalRevenue'] = 0.00;
             $metrics['transactions'] = $metrics['itemsSold'] = $metrics['totalLogs'] = $metrics['totalAdded'] = $metrics['totalDeleted'] = 0;
+            $metrics['todayRevenue'] = 0;
+            $metrics['todayCOGS'] = 0;
+            $metrics['todayProfit'] = 0;
+            $metrics['todayTransactions'] = 0;
             $metrics['errorMsg'] = $e->getMessage();
         }
 
@@ -49,19 +71,25 @@ class ReportManager
     public function getSalesHistory()
     {
         try {
-            $query = 'SELECT o.order_no, 
-                             o.payment_method AS payment, 
-                             o.discount_amount AS discount, 
-                             o.total_amount AS total,
-                             o.cash_received,
-                             o.change_amount,
-                             o.created_at AS date,
-                             GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
-                      FROM orders o
-                      LEFT JOIN order_items oi ON o.id = oi.order_id
-                      LEFT JOIN products p ON oi.product_id = p.id
-                      GROUP BY o.id
-                      ORDER BY o.id DESC';
+            $query = 'SELECT
+                        o.order_no,
+                        u.username AS cashier,
+                        o.payment_method AS payment,
+                        o.discount_amount AS discount,
+                        o.total_amount AS total,
+                        o.cash_received,
+                        o.change_amount,
+                        o.created_at AS date,
+                        GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
+                    FROM orders o
+                    LEFT JOIN users u
+                        ON o.user_id = u.id
+                    LEFT JOIN order_items oi
+                        ON o.id = oi.order_id
+                    LEFT JOIN products p
+                        ON oi.product_id = p.id
+                    GROUP BY o.id
+                    ORDER BY o.id DESC';
 
             return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
