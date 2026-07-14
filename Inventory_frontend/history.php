@@ -299,6 +299,23 @@ $orders = $reportManager->getSalesHistory();
     .receipt-close-btn:hover {
       background: #1a1a1a;
     }
+
+    .table-wrap table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      white-space: normal !important;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .table-wrap td:nth-child(3),
+    .table-wrap th:nth-child(3) {
+      max-width: 350px;
+    }
   </style>
 </head>
 

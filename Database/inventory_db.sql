@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2026 at 07:04 AM
+-- Generation Time: Jul 14, 2026 at 11:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -228,7 +228,8 @@ INSERT INTO `orders` (`id`, `order_no`, `user_id`, `total_amount`, `discount_amo
 (40, '0035', 1, 70400.00, 0.00, 'Cash', '2026-07-13 16:26:59', 100000.00, 29600.00, 53500.00),
 (41, '0036', 5, 6000.00, 0.00, 'Cash', '2026-07-14 04:53:43', 6000.00, 0.00, 5000.00),
 (42, '0037', 5, 2000.00, 0.00, 'Cash', '2026-07-14 05:03:37', 2000.00, 0.00, 1500.00),
-(43, '0038', 1, 36.00, 0.00, 'Cash', '2026-07-14 05:03:54', 36.00, 0.00, 36.00);
+(43, '0038', 1, 36.00, 0.00, 'Cash', '2026-07-14 05:03:54', 36.00, 0.00, 36.00),
+(44, '0039', 5, 2400.00, 0.00, 'Cash', '2026-07-14 05:06:58', 2500.00, 100.00, 1600.00);
 
 -- --------------------------------------------------------
 
@@ -312,7 +313,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at
 (62, 40, 6, 18, 9000.00, 5400.00),
 (63, 41, 1, 2, 6000.00, 5000.00),
 (64, 42, 5, 1, 2000.00, 1500.00),
-(65, 43, 7, 3, 36.00, 36.00);
+(65, 43, 7, 3, 36.00, 36.00),
+(66, 44, 3, 2, 2400.00, 1600.00);
 
 -- --------------------------------------------------------
 
@@ -395,7 +397,9 @@ INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) V
 (61, 30, 2, 20, 350.00),
 (62, 30, 3, 20, 800.00),
 (63, 30, 5, 20, 1500.00),
-(64, 30, 6, 20, 300.00);
+(64, 30, 6, 20, 300.00),
+(65, 31, 5, 20, 1500.00),
+(66, 32, 8, 20, 12.00);
 
 -- --------------------------------------------------------
 
@@ -428,7 +432,7 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
 (1, 'Projector', 4, 2500.00, 3000.00, 18, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
 (2, 'SD Card', 3, 350.00, 500.00, 20, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
-(3, 'Headphone', 2, 800.00, 1200.00, 20, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
+(3, 'Headphone', 2, 800.00, 1200.00, 18, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
 (5, 'Speaker', 2, 1500.00, 2000.00, 19, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
 (6, 'USB Hub', 6, 300.00, 500.00, 20, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
 (7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 20, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
@@ -518,7 +522,7 @@ INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantit
 (63, 2, 20, 0, 350.00, '2026-07-13 16:24:21'),
 (64, 1, 20, 18, 2500.00, '2026-07-13 16:27:36'),
 (65, 2, 20, 20, 350.00, '2026-07-13 16:27:36'),
-(66, 3, 20, 20, 800.00, '2026-07-13 16:27:36'),
+(66, 3, 20, 18, 800.00, '2026-07-13 16:27:36'),
 (67, 5, 20, 19, 1500.00, '2026-07-13 16:27:36'),
 (68, 6, 20, 20, 300.00, '2026-07-13 16:27:36');
 
@@ -572,7 +576,9 @@ INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`,
 (27, 'PO-20260713-0027', 'Received', NULL, 0.00, '2026-07-13 14:22:12', 'Admin'),
 (28, 'PO-20260713-0028', 'Received', NULL, 0.00, '2026-07-13 16:09:34', 'Admin'),
 (29, 'PO-20260713-0029', 'Received', NULL, 0.00, '2026-07-13 16:24:17', 'Admin'),
-(30, 'PO-20260713-0030', 'Received', NULL, 0.00, '2026-07-13 16:27:32', 'Admin');
+(30, 'PO-20260713-0030', 'Received', NULL, 0.00, '2026-07-13 16:27:32', 'Admin'),
+(31, 'PO-20260714-0031', 'Pending', NULL, 0.00, '2026-07-14 08:23:25', NULL),
+(32, 'PO-20260714-0032', 'Pending', NULL, 0.00, '2026-07-14 09:00:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -712,19 +718,19 @@ ALTER TABLE `inventory_logs`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -742,7 +748,7 @@ ALTER TABLE `product_batches`
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`

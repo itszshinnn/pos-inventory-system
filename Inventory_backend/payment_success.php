@@ -16,7 +16,9 @@ if (isset($_SESSION['pending_cart']) && !empty($_SESSION['pending_cart'])) {
 
     $tm = new TransactionManager($dbConnection);
     
-    $tm->processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $totalAmount, 0);
+    $userId = $_SESSION['user_id'];
+
+    $tm->processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $totalAmount, 0, $userId);
 
     unset($_SESSION['pending_cart']);
     unset($_SESSION['pending_total']);

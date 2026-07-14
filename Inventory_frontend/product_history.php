@@ -429,8 +429,33 @@ $logs = $reportManager->getFullInventoryLogs();
   <script>
     const allLogs = <?= json_encode($logs) ?>;
 
-    function filterHistoryTable() {
+    function groupLogs(logsArray) {
+      const groups = {};
 
+      logsArray.forEach(log => {
+        const key = `${log.created_at}_${log.action_type}_${log.changed_by ?? 'Admin'}`;
+
+        if (!groups[key]) {
+          groups[key] = {
+            id: log.id,
+            action_type: log.action_type,
+            changed_by: log.changed_by,
+            created_at: log.created_at,
+            items: []
+          };
+        }
+
+        groups[key].items.push({
+          product_name: log.product_name,
+          old_stock: log.old_stock,
+          new_stock: log.new_stock
+        });
+      });
+
+      return Object.values(groups);
+    }
+
+    function filterHistoryTable() {
       const searchVal = document
         .getElementById('historySearchInput')
         .value
@@ -444,7 +469,6 @@ $logs = $reportManager->getFullInventoryLogs();
       const tbody = document.getElementById('historyTableBody');
 
       let filtered = allLogs.filter(log => {
-
         const product = (log.product_name || '').toLowerCase();
         const action = (log.action_type || '').toLowerCase();
         const admin = (log.changed_by || '').toLowerCase();
@@ -454,8 +478,9 @@ $logs = $reportManager->getFullInventoryLogs();
           admin.includes(searchVal);
       });
 
-      filtered.sort((a, b) => {
+      let grouped = groupLogs(filtered);
 
+      grouped.sort((a, b) => {
         const timeA = new Date(a.created_at).getTime();
         const timeB = new Date(b.created_at).getTime();
 
@@ -466,8 +491,7 @@ $logs = $reportManager->getFullInventoryLogs();
         }
       });
 
-      if (filtered.length === 0) {
-
+      if (grouped.length === 0) {
         tbody.innerHTML = `
                     <tr>
                         <td colspan="7"
@@ -481,40 +505,50 @@ $logs = $reportManager->getFullInventoryLogs();
         return;
       }
 
-      tbody.innerHTML = filtered.map(log => `
+      tbody.innerHTML = grouped.map(group => {
+        let productMarkup = '';
+        let oldStockMarkup = '';
+        let newStockMarkup = '';
+
+        if (group.items.length === 1) {
+          const item = group.items[0];
+          productMarkup = item.product_name;
+          oldStockMarkup = item.old_stock ?? '-';
+          newStockMarkup = item.new_stock ?? '-';
+        } else {
+          productMarkup = `<ul style="list-style-type: none; margin: 0; text-align: center;">` +
+            group.items.map(item => `<li>${item.product_name}</li>`).join('') + `</ul>`;
+
+          oldStockMarkup = `<ul style="list-style-type: none; margin: 0; padding: 0;">` +
+            group.items.map(item => `<li>${item.old_stock ?? '-'}</li>`).join('') + `</ul>`;
+
+          newStockMarkup = `<ul style="list-style-type: none; margin: 0; padding: 0;">` +
+            group.items.map(item => `<li>${item.new_stock ?? '-'}</li>`).join('') + `</ul>`;
+        }
+
+        return `
                 <tr>
-                    <td>#${log.id}</td>
-                    <td>${log.product_name}</td>
-                    <td>${log.action_type}</td>
-                    <td>${log.old_stock ?? '-'}</td>
-                    <td>${log.new_stock ?? '-'}</td>
-                    <td>${log.changed_by ?? 'Admin'}</td>
-                    <td>${log.created_at}</td>
+                    <td>#${group.id}</td>
+                    <td>${productMarkup}</td>
+                    <td><span style="font-weight: 600;">${group.action_type}</span></td>
+                    <td>${oldStockMarkup}</td>
+                    <td>${newStockMarkup}</td>
+                    <td>${group.changed_by ?? 'Admin'}</td>
+                    <td>${group.created_at}</td>
                 </tr>
-            `).join('');
+            `;
+      }).join('');
     }
 
     function toggleUserDropdown(event) {
-
       event.stopPropagation();
-
-      const dropdown =
-        document.getElementById("userDropdownMenu");
-
-      dropdown.style.display =
-        (dropdown.style.display === "block") ?
-        "none" :
-        "block";
+      const dropdown = document.getElementById("userDropdownMenu");
+      dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
     window.onclick = function() {
-
-      const dropdown =
-        document.getElementById("userDropdownMenu");
-
-      if (dropdown &&
-        dropdown.style.display === "block") {
-
+      const dropdown = document.getElementById("userDropdownMenu");
+      if (dropdown && dropdown.style.display === "block") {
         dropdown.style.display = "none";
       }
     }
