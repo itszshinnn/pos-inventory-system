@@ -355,7 +355,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
                     <td>${order.total_items}</td>
 
-                    <td>${order.status}</td>
+                        <td>
+                        <span style="
+                            padding:4px 10px;
+                            border-radius:6px;
+                            font-weight:bold;
+                            background:${order.status === 'Received' ? '#dff6dd' : '#fff3cd'};
+                            color:${order.status === 'Received' ? '#198754' : '#856404'};
+                        ">
+                            ${order.status}
+                        </span>
                 `;
                     tbody.appendChild(row);
                 });
