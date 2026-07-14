@@ -20,34 +20,94 @@ $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($method) {
-    case 'GET':
-        try {
+case 'GET':
+    try {
+
+        $type = $_GET['type'] ?? 'pending';
+
+        if ($type === 'history') {
+
             $stmt = $pdo->query("
                 SELECT
                     po.id,
                     po.reference_no,
                     po.status,
                     po.created_at,
+                    po.received_by,
+
                     COUNT(poi.id) AS total_items,
+
+                    SUM(poi.order_qty * poi.unit_cost) AS total_cost,
+
+                    GROUP_CONCAT(
+                        CONCAT(
+                            p.name,
+                            ' (',
+                            poi.order_qty,
+                            ')'
+                        )
+                        ORDER BY p.name
+                        SEPARATOR '|'
+                    ) AS product_names
+
+                FROM purchase_orders po
+
+                LEFT JOIN po_items poi
+                    ON po.id = poi.po_id
+
+                LEFT JOIN products p
+                    ON poi.product_id = p.id
+
+                GROUP BY po.id
+
+                ORDER BY po.created_at DESC
+            ");
+
+        } else {
+
+            $stmt = $pdo->query("
+                SELECT
+                    po.id,
+                    po.reference_no,
+                    po.status,
+                    po.created_at,
+
+                    COUNT(poi.id) AS total_items,
+                    SUM(poi.order_qty * poi.unit_cost) AS total_cost,
                     GROUP_CONCAT(
                         p.name
                         ORDER BY p.name
                         SEPARATOR '|'
                     ) AS product_names
+
                 FROM purchase_orders po
+
                 LEFT JOIN po_items poi
                     ON po.id = poi.po_id
+
                 LEFT JOIN products p
                     ON poi.product_id = p.id
+
                 WHERE po.status = 'Pending'
+
                 GROUP BY po.id
+
                 ORDER BY po.created_at DESC
             ");
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-        } catch (Exception $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+
         }
-        break;
+
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+    } catch (Exception $e) {
+
+        echo json_encode([
+            'error' => $e->getMessage()
+        ]);
+
+    }
+
+    break;
 
     case 'POST':
         if (!isset($input['items']) || empty($input['items'])) {
