@@ -2,128 +2,257 @@
 <products>
   <row>
     <id>1</id>
-    <name>Wireless Mouse</name>
-    <category_id>1</category_id>
-    <price>249.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:23:18</created_at>
-    <image>1779276198_6a0d99a6adc07.png</image>
+    <name>AirPods Pro (2nd Generation)</name>
+    <category_id>2</category_id>
+    <price_bought>7999.00</price_bought>
+    <price>10999.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:15:57</created_at>
+    <image>1784038557_98082bf0dc20fbeb.png</image>
+    <model_path>../Models/1784038557_82685acb.glb</model_path>
+    <description>Experience immersive sound with Active Noise Cancellation that blocks outside distractions and Transparency mode that lets you hear your surroundings when needed. Featuring the H2 chip for richer audio, up to 6 hours of listening time per charge, and a sweat/water-resistant design (IPX4), these earbuds are perfect for workouts, commutes, or calls on the go. The MagSafe charging case adds another 24 hours of battery life, while Adaptive Audio automatically adjusts to your environment for a seamless listening experience.</description>
+    <brand>Apple</brand>
+    <color>White</color>
+    <type>Wireless Earbuds</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>2</id>
-    <name>Wireless Keyboard</name>
-    <category_id>1</category_id>
-    <price>449.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:23:35</created_at>
-    <image>1779276215_6a0d99b79bb46.png</image>
+    <name>Cooler Master NotePal Cooling Pad</name>
+    <category_id>7</category_id>
+    <price_bought>1299.00</price_bought>
+    <price>2299.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:17:19</created_at>
+    <image>1784038639_a3798e433eb444e1.png</image>
+    <model_path>../Models/1784038639_fb3477b8.glb</model_path>
+    <description>Keep your laptop running cool during intense gaming or heavy multitasking sessions with this dual-fan cooling pad, designed to reduce internal temperatures and prevent thermal throttling. It features an adjustable height stand for ergonomic typing angles, a mesh metal surface for optimal airflow, and quiet operation that won't distract you during late-night work or gaming marathons. Compatible with laptops up to 17 inches, it's a must-have accessory for anyone who pushes their machine to the limit.</description>
+    <brand>Cooler Master</brand>
+    <color>Black</color>
+    <type>Laptop Cooling Pad</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>3</id>
-    <name>Earphones</name>
+    <name>JVC Wired Earphones</name>
     <category_id>2</category_id>
-    <price>69.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:23:50</created_at>
-    <image>1779276230_6a0d99c6d1c94.png</image>
+    <price_bought>199.00</price_bought>
+    <price>299.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:18:16</created_at>
+    <image>1784038696_d9c94ca0aec98f77.png</image>
+    <model_path>../Models/1784038696_b9416d9e.glb</model_path>
+    <description>Enjoy crisp, balanced sound on a budget with these lightweight in-ear earphones featuring 0.4-inch neodymium drivers for punchy bass and clear highs. The tangle-resistant cable and comfortable silicone ear tips make them ideal for daily commutes, workouts, or study sessions, while the 3.5mm universal jack ensures compatibility with most devices. A simple, no-fuss audio solution for anyone who wants reliable sound without breaking the bank.</description>
+    <brand>JVC</brand>
+    <color>White</color>
+    <type>Wired Earphones</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>4</id>
-    <name>Earbuds</name>
-    <category_id>2</category_id>
-    <price>149.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:24:11</created_at>
-    <image>1779276251_6a0d99db8e841.png</image>
+    <name>SanDisk Ultra Flair USB Flash Drive</name>
+    <category_id>3</category_id>
+    <price_bought>899.00</price_bought>
+    <price>1399.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:20:23</created_at>
+    <image>1784038823_8b224463f9bf6aec.png</image>
+    <model_path>../Models/1784038823_47afa6d9.glb</model_path>
+    <description>Transfer files up to 15x faster than standard USB 2.0 drives thanks to USB 3.0 technology, making it easy to move large photos, videos, and documents in seconds. The sleek metal casing offers durability for everyday carry in a bag or pocket, while the retractable design protects the connector from damage. Backward compatible with USB 2.0 ports, it's a reliable storage companion for students, professionals, and anyone needing extra space on the go.</description>
+    <brand>SanDisk</brand>
+    <color>Silver</color>
+    <type>USB Flash Drive</type>
+    <capacity_size>256GB</capacity_size>
+    <resolution/>
   </row>
   <row>
     <id>5</id>
-    <name>Speaker</name>
-    <category_id>2</category_id>
-    <price>249.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:24:29</created_at>
-    <image>1779276269_6a0d99edd1b29.png</image>
+    <name>Vention HDMI Cable</name>
+    <category_id>6</category_id>
+    <price_bought>399.00</price_bought>
+    <price>699.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:21:35</created_at>
+    <image>1784038895_33626002a495fd30.png</image>
+    <model_path>../Models/1784038895_67700e76.glb</model_path>
+    <description>Deliver stunning 4K@60Hz visuals and immersive audio with this high-speed HDMI 2.0 cable, built with gold-plated connectors for a stable, corrosion-resistant connection. The braided nylon jacket adds durability and tangle resistance, making it perfect for connecting gaming consoles, laptops, or streaming devices to your TV or monitor. Available in multiple lengths, it's a dependable choice for home theaters, offices, and gaming setups alike.</description>
+    <brand>Vention</brand>
+    <color>Black</color>
+    <type>HDMI Cable</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>6</id>
-    <name>USB Flash Drive 256gb</name>
-    <category_id>3</category_id>
-    <price>699.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:24:49</created_at>
-    <image>1779276289_6a0d9a015ed59.png</image>
+    <name>JBL Tune 760NC Headphones</name>
+    <category_id>2</category_id>
+    <price_bought>799.00</price_bought>
+    <price>1399.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:22:22</created_at>
+    <image>1784038942_315624736bd31d61.png</image>
+    <model_path>../Models/1784038942_6a644721.glb</model_path>
+    <description>Immerse yourself in JBL's signature Pure Bass Sound with Active Noise Cancelling that quiets the world around you, whether you're on a flight or working in a noisy office. With up to 35 hours of battery life on a single charge and fast charging that delivers hours of playback in minutes, these over-ear headphones are built for all-day use. Foldable and lightweight with plush ear cushions, they're a comfortable, feature-packed choice for music lovers and remote workers alike.</description>
+    <brand>JBL</brand>
+    <color>Black</color>
+    <type>Wireless Headphones</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>7</id>
-    <name>Micro SD Card 512gb</name>
-    <category_id>3</category_id>
-    <price>799.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:25:03</created_at>
-    <image>1779276303_6a0d9a0fb7c17.png</image>
+    <name>Razer BlackWidow V4 Wireless Keyboard</name>
+    <category_id>1</category_id>
+    <price_bought>1399.00</price_bought>
+    <price>2699.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:23:23</created_at>
+    <image>1784039003_cceeedd4e9528b61.png</image>
+    <model_path>../Models/1784039003_14e58370.glb</model_path>
+    <description>Built for gamers who demand precision, this mechanical keyboard features hot-swappable switches, per-key RGB Chroma lighting, and a durable aluminum top plate for a premium feel. It offers seamless connectivity via 2.4GHz wireless, Bluetooth, or wired USB-C, giving you flexibility across multiple devices without sacrificing responsiveness. With dedicated media controls and a comfortable magnetic wrist rest, it's equally suited for competitive gaming and everyday productivity.</description>
+    <brand>Razer</brand>
+    <color>Black</color>
+    <type>Wireless Mechanical Keyboard</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>8</id>
-    <name>Monitor</name>
+    <name>Epson EcoTank L3250 Printer</name>
     <category_id>4</category_id>
-    <price>2999.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-20 19:25:18</created_at>
-    <image>1779276318_6a0d9a1e94b54.png</image>
+    <price_bought>1499.00</price_bought>
+    <price>2299.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:24:09</created_at>
+    <image>1784039049_667dd614ea5ed1b3.png</image>
+    <model_path>../Models/1784039049_0c8db4e3.glb</model_path>
+    <description>This cartridge-free printer uses refillable ink tanks to deliver ultra-low-cost, high-volume printing—ideal for home offices, students, and small businesses. It combines printing, scanning, and copying in one compact unit, with built-in Wi-Fi for convenient wireless printing straight from your phone or laptop. Each ink bottle set can produce thousands of pages, drastically cutting the cost per print compared to traditional cartridge printers.</description>
+    <brand>Epson</brand>
+    <color>Black</color>
+    <type>All-in-One Printer</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>9</id>
-    <name>SSD 512gb</name>
-    <category_id>3</category_id>
-    <price>1199.00</price>
-    <stock>4</stock>
-    <created_at>2026-05-23 16:09:06</created_at>
-    <image>1779523746_392c55ef80499d2f.png</image>
+    <name>Epson Home Cinema Projector</name>
+    <category_id>5</category_id>
+    <price_bought>2399.00</price_bought>
+    <price>4399.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:25:12</created_at>
+    <image>1784039112_900d0c19e35ab837.png</image>
+    <model_path>../Models/1784039112_9ebe2d25.glb</model_path>
+    <description>Turn any room into a home theater with this projector's crisp 1080p resolution and up to 3,400 lumens of brightness, delivering vivid images even in moderately lit rooms. It supports large-screen projection up to 300 inches, making it perfect for movie nights, gaming sessions, or business presentations. With HDMI connectivity and built-in speakers, setup is quick and hassle-free for both casual users and home theater enthusiasts.</description>
+    <brand>Epson</brand>
+    <color>White</color>
+    <type>Home Cinema Projector</type>
+    <capacity_size/>
+    <resolution>1080p Full HD</resolution>
   </row>
   <row>
     <id>10</id>
-    <name>Cooling Pad</name>
-    <category_id>5</category_id>
-    <price>349.00</price>
-    <stock>4</stock>
-    <created_at>2026-05-23 16:09:19</created_at>
-    <image>1779523759_2c8ab3f73360125d.png</image>
+    <name>SanDisk Ultra SD Card</name>
+    <category_id>3</category_id>
+    <price_bought>799.00</price_bought>
+    <price>1299.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:26:26</created_at>
+    <image>1784039186_405a1deb03678aa6.png</image>
+    <model_path>../Models/1784039186_a9cc92a4.glb</model_path>
+    <description>Capture and store high-resolution photos and Full HD video with read speeds up to 140MB/s, ensuring smooth performance in cameras, drones, and camcorders. Rated Class 10 and UHS-I for reliable recording without dropped frames, it's built to withstand shockproof, waterproof, and temperature-resistant conditions for adventurous shooters. Whether you're a hobbyist photographer or a content creator on the move, this card offers dependable storage where it counts.</description>
+    <brand>SanDisk</brand>
+    <color>Black</color>
+    <type>SD Memory Card</type>
+    <capacity_size>64GB</capacity_size>
+    <resolution/>
+  </row>
+  <row>
+    <id>11</id>
+    <name>JBL Flip 6 Portable Speaker</name>
+    <category_id>2</category_id>
+    <price_bought>899.00</price_bought>
+    <price>1499.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:27:15</created_at>
+    <image>1784039235_e12bae550bfc5906.png</image>
+    <model_path>../Models/1784039235_e7101469.glb</model_path>
+    <description>Take the party anywhere with this portable speaker delivering powerful JBL Original Pro Sound and punchy bass in a compact, rugged design. It's IP67 waterproof and dustproof, so it's ready for pool days, beach trips, or outdoor gatherings without worry, and offers up to 12 hours of playtime on a single charge. PartyBoost lets you pair it with other compatible JBL speakers for even bigger sound, making it a versatile choice for solo listening or group events.</description>
+    <brand>JBL</brand>
+    <color>Black</color>
+    <type>Portable Bluetooth Speaker</type>
+    <capacity_size/>
+    <resolution/>
+  </row>
+  <row>
+    <id>12</id>
+    <name>Samsung 970 EVO Plus SSD</name>
+    <category_id>3</category_id>
+    <price_bought>3999.00</price_bought>
+    <price>6999.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:28:28</created_at>
+    <image>1784039308_88d89dfc2787b254.png</image>
+    <model_path>../Models/1784039308_3e885c1f.glb</model_path>
+    <description>Boost your system's speed dramatically with read speeds up to 3,500MB/s, cutting boot times, load screens, and file transfers to a fraction of what a traditional hard drive requires. Built on NVMe M.2 technology, it's ideal for gamers, video editors, and professionals working with large files or demanding applications. Backed by Samsung's reliable V-NAND technology and a durable design, it's a smart upgrade for any desktop or laptop with an available M.2 slot.</description>
+    <brand>Samsung</brand>
+    <color>Black</color>
+    <type>Internal Solid State Drive</type>
+    <capacity_size>1TB</capacity_size>
+    <resolution/>
   </row>
   <row>
     <id>13</id>
-    <name>Webcam</name>
-    <category_id>4</category_id>
-    <price>349.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-23 16:10:05</created_at>
-    <image>1779523805_cd357c934fd843b5.png</image>
+    <name>Vention USB-C Hub</name>
+    <category_id>6</category_id>
+    <price_bought>349.00</price_bought>
+    <price>499.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:29:29</created_at>
+    <image>1784039369_45e92449b2dc844d.png</image>
+    <model_path>../Models/1784039369_5b56a8d5.glb</model_path>
+    <description>Expand your laptop's connectivity instantly with this compact hub, offering USB 3.0 ports, HDMI output, and card reader slots all through a single USB-C connection. It's perfect for professionals and students who need to connect multiple peripherals, external displays, or storage devices while working from a slim ultrabook or MacBook. Sturdy aluminum construction and plug-and-play functionality make it a convenient, reliable travel companion for work or presentations.</description>
+    <brand>Vention</brand>
+    <color>Black</color>
+    <type>USB Hub / Docking Adapter</type>
+    <capacity_size/>
+    <resolution/>
   </row>
   <row>
     <id>14</id>
-    <name>Headphones</name>
-    <category_id>2</category_id>
-    <price>299.00</price>
-    <stock>5</stock>
-    <created_at>2026-05-23 16:10:19</created_at>
-    <image>1779523819_63b617c48fe219ee.png</image>
+    <name>Logitech C920 HD Pro Webcam</name>
+    <category_id>1</category_id>
+    <price_bought>849.00</price_bought>
+    <price>1349.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:30:44</created_at>
+    <image>1784039444_c5a3fad4d5784af2.png</image>
+    <model_path>../Models/1784039444_ebf06416.glb</model_path>
+    <description>Look sharp on every video call with Full HD 1080p video and built-in stereo autofocus that keeps you in crisp focus even as you move. Dual omnidirectional microphones capture clear audio, reducing background noise for professional-quality video conferencing, streaming, or content creation. Compatible with most video calling apps and easy to clip onto any monitor or laptop, it's a plug-and-play upgrade for remote work, online teaching, or streaming setups.</description>
+    <brand>Logitech</brand>
+    <color>Black</color>
+    <type>HD Webcam</type>
+    <capacity_size/>
+    <resolution>3840 x 2160 4K HD</resolution>
   </row>
   <row>
-    <id>16</id>
-    <name>Printer</name>
+    <id>15</id>
+    <name>ASUS ROG Strix XG32VQ Curved Gaming Monitor</name>
     <category_id>4</category_id>
-    <price>2499.00</price>
-    <stock>8</stock>
-    <created_at>2026-06-03 01:09:30</created_at>
-    <image>1780420170_7139b23f47b5c2bd.png</image>
-  </row>
-  <row>
-    <id>18</id>
-    <name>Projector</name>
-    <category_id>4</category_id>
-    <price>2499.00</price>
-    <stock>8</stock>
-    <created_at>2026-06-03 12:32:34</created_at>
-    <image>1780461154_a7ac2d9ecb5723fc.png</image>
+    <price_bought>2499.00</price_bought>
+    <price>5499.00</price>
+    <stock>20</stock>
+    <created_at>2026-07-14 22:32:37</created_at>
+    <image>1784039557_e78dd9ae8bcb2225.png</image>
+    <model_path>../Models/1784039557_e9d4ccb3.glb</model_path>
+    <description>A 32" QHD curved display with 165Hz refresh rate, 1ms response time, FreeSync Premium, HDR-ready color, and an ergonomic ROG-styled stand, built for gamers who demand speed and immersion.</description>
+    <brand>ASUS</brand>
+    <color>Black</color>
+    <type>Gaming Monitor</type>
+    <capacity_size/>
+    <resolution>3840 x 2160 4K HD</resolution>
   </row>
 </products>

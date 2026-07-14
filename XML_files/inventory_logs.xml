@@ -3,381 +3,171 @@
   <row>
     <id>1</id>
     <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
+    <product_name>AirPods Pro (2nd Generation) White</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:23:18</created_at>
+    <created_at>2026-07-14 22:14:27</created_at>
   </row>
   <row>
     <id>2</id>
-    <product_id>2</product_id>
-    <product_name>Wireless Keyboard</product_name>
+    <product_id>1</product_id>
+    <product_name>AirPods Pro (2nd Generation)</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:23:35</created_at>
+    <created_at>2026-07-14 22:15:57</created_at>
   </row>
   <row>
     <id>3</id>
-    <product_id>3</product_id>
-    <product_name>Earphones</product_name>
+    <product_id>2</product_id>
+    <product_name>Cooler Master NotePal Cooling Pad</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:23:50</created_at>
+    <created_at>2026-07-14 22:17:19</created_at>
   </row>
   <row>
     <id>4</id>
-    <product_id>4</product_id>
-    <product_name>Earbuds</product_name>
+    <product_id>3</product_id>
+    <product_name>JVC Wired Earphones</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:24:11</created_at>
+    <created_at>2026-07-14 22:18:16</created_at>
   </row>
   <row>
     <id>5</id>
-    <product_id>5</product_id>
-    <product_name>Speaker</product_name>
+    <product_id>4</product_id>
+    <product_name>SanDisk Ultra Flair USB Flash Drive</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:24:29</created_at>
+    <created_at>2026-07-14 22:20:23</created_at>
   </row>
   <row>
     <id>6</id>
-    <product_id>6</product_id>
-    <product_name>USB Flash Drive 256gb</product_name>
+    <product_id>5</product_id>
+    <product_name>Vention HDMI Cable</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:24:49</created_at>
+    <created_at>2026-07-14 22:21:35</created_at>
   </row>
   <row>
     <id>7</id>
-    <product_id>7</product_id>
-    <product_name>Micro SD Card 512gb</product_name>
+    <product_id>6</product_id>
+    <product_name>JBL Tune 760NC Headphones</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:25:03</created_at>
+    <created_at>2026-07-14 22:22:22</created_at>
   </row>
   <row>
     <id>8</id>
-    <product_id>8</product_id>
-    <product_name>Monitor</product_name>
+    <product_id>7</product_id>
+    <product_name>Razer BlackWidow V4 Wireless Keyboard</product_name>
     <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:25:18</created_at>
+    <created_at>2026-07-14 22:23:23</created_at>
   </row>
   <row>
     <id>9</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>8</product_id>
+    <product_name>Epson EcoTank L3250 Printer</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:12</created_at>
+    <created_at>2026-07-14 22:24:09</created_at>
   </row>
   <row>
     <id>10</id>
-    <product_id>2</product_id>
-    <product_name>Wireless Keyboard</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>9</product_id>
+    <product_name>Epson Home Cinema Projector</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:16</created_at>
+    <created_at>2026-07-14 22:25:12</created_at>
   </row>
   <row>
     <id>11</id>
-    <product_id>3</product_id>
-    <product_name>Earphones</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>10</product_id>
+    <product_name>SanDisk Ultra SD Card</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:19</created_at>
+    <created_at>2026-07-14 22:26:26</created_at>
   </row>
   <row>
     <id>12</id>
-    <product_id>4</product_id>
-    <product_name>Earbuds</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>11</product_id>
+    <product_name>JBL Flip 6 Portable Speaker</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:21</created_at>
+    <created_at>2026-07-14 22:27:15</created_at>
   </row>
   <row>
     <id>13</id>
-    <product_id>5</product_id>
-    <product_name>Speaker</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>12</product_id>
+    <product_name>Samsung 970 EVO Plus SSD</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:23</created_at>
+    <created_at>2026-07-14 22:28:28</created_at>
   </row>
   <row>
     <id>14</id>
-    <product_id>6</product_id>
-    <product_name>USB Flash Drive 256gb</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>13</product_id>
+    <product_name>Vention USB-C Hub</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:25</created_at>
+    <created_at>2026-07-14 22:29:29</created_at>
   </row>
   <row>
     <id>15</id>
-    <product_id>7</product_id>
-    <product_name>Micro SD Card 512gb</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>14</product_id>
+    <product_name>Logitech C920 HD Pro Webcam</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:27</created_at>
+    <created_at>2026-07-14 22:30:44</created_at>
   </row>
   <row>
     <id>16</id>
-    <product_id>8</product_id>
-    <product_name>Monitor</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>6</old_stock>
-    <new_stock>10</new_stock>
+    <product_id>15</product_id>
+    <product_name>ASUS ROG Strix XG32VQ Curved Gaming Monitor</product_name>
+    <action_type>Added</action_type>
+    <old_stock/>
+    <new_stock>30</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-05-20 19:29:30</created_at>
+    <created_at>2026-07-14 22:32:37</created_at>
   </row>
   <row>
     <id>17</id>
-    <product_id>9</product_id>
-    <product_name>SSD 512gb</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:09:06</created_at>
-  </row>
-  <row>
-    <id>18</id>
-    <product_id>10</product_id>
-    <product_name>Cooling Pad</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:09:19</created_at>
-  </row>
-  <row>
-    <id>19</id>
-    <product_id>11</product_id>
-    <product_name>USB Ports</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:09:35</created_at>
-  </row>
-  <row>
-    <id>20</id>
-    <product_id>12</product_id>
-    <product_name>HDMI Cable</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:09:52</created_at>
-  </row>
-  <row>
-    <id>21</id>
-    <product_id>13</product_id>
-    <product_name>Webcam</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:10:05</created_at>
-  </row>
-  <row>
-    <id>22</id>
-    <product_id>14</product_id>
-    <product_name>Headphones</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-05-23 16:10:19</created_at>
-  </row>
-  <row>
-    <id>23</id>
-    <product_id>15</product_id>
-    <product_name>Printer</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-01 19:22:48</created_at>
-  </row>
-  <row>
-    <id>24</id>
-    <product_id>15</product_id>
-    <product_name>Projector</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-02 23:56:14</created_at>
-  </row>
-  <row>
-    <id>25</id>
-    <product_id>0</product_id>
-    <product_name>Projector</product_name>
-    <action_type>Deleted</action_type>
-    <old_stock>10</old_stock>
-    <new_stock>0</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 00:00:39</created_at>
-  </row>
-  <row>
-    <id>26</id>
-    <product_id>14</product_id>
-    <product_name>Headphones</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>10</old_stock>
-    <new_stock>5</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 00:03:28</created_at>
-  </row>
-  <row>
-    <id>27</id>
-    <product_id>5</product_id>
-    <product_name>Speaker</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>2</old_stock>
-    <new_stock>5</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 01:03:05</created_at>
-  </row>
-  <row>
-    <id>28</id>
-    <product_id>16</product_id>
-    <product_name>Printer</product_name>
-    <action_type>Added</action_type>
-    <old_stock>0</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 01:09:30</created_at>
-  </row>
-  <row>
-    <id>29</id>
     <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
+    <product_name>AirPods Pro (2nd Generation)</product_name>
     <action_type>Edited</action_type>
-    <old_stock>5</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>sean</changed_by>
-    <created_at>2026-06-03 01:24:50</created_at>
-  </row>
-  <row>
-    <id>30</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>10</old_stock>
-    <new_stock>5</new_stock>
-    <changed_by>sean</changed_by>
-    <created_at>2026-06-03 01:33:09</created_at>
-  </row>
-  <row>
-    <id>31</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>5</old_stock>
-    <new_stock>1</new_stock>
+    <old_stock>55</old_stock>
+    <new_stock>25</new_stock>
     <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 01:38:27</created_at>
-  </row>
-  <row>
-    <id>32</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>1</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>pogi</changed_by>
-    <created_at>2026-06-03 01:38:56</created_at>
-  </row>
-  <row>
-    <id>33</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>10</old_stock>
-    <new_stock>5</new_stock>
-    <changed_by>pogi</changed_by>
-    <created_at>2026-06-03 01:41:21</created_at>
-  </row>
-  <row>
-    <id>34</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>5</old_stock>
-    <new_stock>10</new_stock>
-    <changed_by>cerbo</changed_by>
-    <created_at>2026-06-03 11:46:10</created_at>
-  </row>
-  <row>
-    <id>35</id>
-    <product_id>1</product_id>
-    <product_name>Wireless Mouse</product_name>
-    <action_type>Edited</action_type>
-    <old_stock>10</old_stock>
-    <new_stock>5</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 12:24:17</created_at>
-  </row>
-  <row>
-    <id>36</id>
-    <product_id>17</product_id>
-    <product_name>Projector</product_name>
-    <action_type>Added</action_type>
-    <old_stock/>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 12:26:04</created_at>
-  </row>
-  <row>
-    <id>37</id>
-    <product_id/>
-    <product_name>Projector</product_name>
-    <action_type>Deleted</action_type>
-    <old_stock>10</old_stock>
-    <new_stock/>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 12:32:02</created_at>
-  </row>
-  <row>
-    <id>38</id>
-    <product_id>18</product_id>
-    <product_name>Projector</product_name>
-    <action_type>Added</action_type>
-    <old_stock/>
-    <new_stock>10</new_stock>
-    <changed_by>Admin</changed_by>
-    <created_at>2026-06-03 12:32:34</created_at>
+    <created_at>2026-07-14 22:49:42</created_at>
   </row>
 </inventory_logs>

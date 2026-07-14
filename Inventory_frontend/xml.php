@@ -153,7 +153,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
       <a href="purchase_orders.php">Purchase Orders</a>
-      <a href="xml.php">XML Files</a>
+      <a href="xml.php">Backup & Restore</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
     </nav>
@@ -163,8 +163,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <div class="form-container">
 
         <div class="form-header">
-          <h2>XML File Management</h2>
-          <p>Import and export your database XML files.</p>
+          <h2>Backup & Restore</h2>
+          <p>Backup & Restore your database using XML files.</p>
         </div>
 
         <div class="form-section">

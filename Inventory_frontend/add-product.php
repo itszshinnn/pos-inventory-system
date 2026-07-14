@@ -205,7 +205,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="products.php" class="active">Products</a>
       <a href="add-product.php" class="active">- Add Products</a>
       <a href="purchase_orders.php">Purchase Orders</a>
-      <a href="xml.php">XML Files</a>
+      <a href="xml.php">Backup & Restore</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
     </nav>

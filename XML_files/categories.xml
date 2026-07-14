@@ -22,12 +22,17 @@
   </row>
   <row>
     <id>5</id>
-    <name>Other Devices</name>
+    <name>Projector Devices</name>
     <created_at>2026-05-18 13:50:19</created_at>
   </row>
   <row>
     <id>6</id>
     <name>Connection Devices</name>
     <created_at>2026-05-23 16:08:21</created_at>
+  </row>
+  <row>
+    <id>7</id>
+    <name>Other Devices</name>
+    <created_at>2026-05-18 13:53:33</created_at>
   </row>
 </categories>

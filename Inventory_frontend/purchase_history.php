@@ -259,7 +259,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <a href="products.php">Products</a>
             <a href="purchase_orders.php" class="active">Purchase Orders</a>
             <a href="purchase_history.php" class="sub-tab active">Purchase History</a>
-            <a href="xml.php">XML Files</a>
+            <a href="xml.php">Backup & Restore</a>
             <a href="history.php">History</a>
             <a href="users.php">Users</a>
         </nav>

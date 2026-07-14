@@ -339,7 +339,7 @@ $orders = $reportManager->getSalesHistory();
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
       <a href="purchase_orders.php">Purchase Orders</a>
-      <a href="xml.php">XML Files</a>
+      <a href="xml.php">Backup & Restore</a>
       <a href="history.php" class="active">History</a>
       <a href="history.php" class="sub-tab active">Sales History</a>
       <a href="product_history.php" class="sub-tab">Inventory Logs</a>

@@ -12,7 +12,7 @@
     <username>sean</username>
     <password>$2y$10$wniVyrbtsPkIoWI591WFcuHK0wDmnuGWBKSyGogkgurbh4QxBcYQq</password>
     <created_at>2026-06-02 23:03:18</created_at>
-    <role>admin</role>
+    <role>user</role>
   </row>
   <row>
     <id>3</id>
@@ -26,6 +26,13 @@
     <username>cerbo</username>
     <password>$2y$10$3YI1T0E0MwACVk8.M01xyOiNdHpVGT3i9VdgVuzAvsgCl9tT20G9G</password>
     <created_at>2026-06-03 11:44:48</created_at>
-    <role>admin</role>
+    <role>user</role>
+  </row>
+  <row>
+    <id>5</id>
+    <username>Earl</username>
+    <password>$2y$10$FWdzp/hRNVq4Wo19mbaiW.qWxJJm129NoaCT0Ie/cmyJfir8WHqza</password>
+    <created_at>2026-07-14 12:53:35</created_at>
+    <role>user</role>
   </row>
 </users>

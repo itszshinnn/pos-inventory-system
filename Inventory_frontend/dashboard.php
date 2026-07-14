@@ -405,7 +405,7 @@ usort($allNotifications, function ($a, $b) {
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
       <a href="purchase_orders.php">Purchase Orders</a>
-      <a href="xml.php">XML Files</a>
+      <a href="xml.php">Backup & Restore</a>
       <a href="history.php">History</a>
       <a href="users.php">Users</a>
     </nav>
