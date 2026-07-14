@@ -11,7 +11,7 @@ class TransactionManager
         $this->db = $dbConnection;
     }
 
-    public function processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount)
+    public function processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount, $userId)
     {
         try {
             $this->db->beginTransaction();
@@ -20,9 +20,17 @@ class TransactionManager
             $nextNumber = $countStmt->fetchColumn() + 1;
             $orderNo = str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
-            $orderSql = 'INSERT INTO orders (order_no, total_amount, discount_amount, payment_method, cash_received, change_amount) VALUES (?, ?, ?, ?, ?, ?)';
+            $orderSql = 'INSERT INTO orders (
+                order_no,
+                user_id,
+                total_amount,
+                discount_amount,
+                payment_method,
+                cash_received,
+                change_amount
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)';
             $orderStmt = $this->db->prepare($orderSql);
-            $orderStmt->execute([$orderNo, $totalAmount, $discountAmount, $paymentMethod, $cashReceived, $changeAmount]);
+            $orderStmt->execute([$orderNo, $userId, $totalAmount, $discountAmount, $paymentMethod, $cashReceived, $changeAmount]);
             $orderId = $this->db->lastInsertId();
             $totalOrderCOGS = 0;
 

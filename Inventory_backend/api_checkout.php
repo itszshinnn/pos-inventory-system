@@ -11,6 +11,7 @@ $totalAmount = $data['total_amount'];
 $discountAmount = $data['discount_amount'] ?? 0;
 $cashReceived = $data['cash_received'] ?? 0;
 $changeAmount = $data['change_amount'] ?? 0;
+$userId = $_SESSION['user_id'];
 
 if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod === 'Card') {
 
@@ -50,14 +51,15 @@ if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod ==
     $dbConnection = $dbInstance->getConnection();
 
     $tm = new TransactionManager($dbConnection);
-
+    $userId = $_SESSION['user_id'];
     $processResult = $tm->processCheckout(
         $cart,
         $paymentMethod,
         $discountAmount,
         $totalAmount,
         $cashReceived,
-        $changeAmount
+        $changeAmount,
+        $userId
     );
 
     if ($processResult['success']) {

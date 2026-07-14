@@ -372,6 +372,7 @@ $orders = $reportManager->getSalesHistory();
           <thead>
             <tr>
               <th style="width: 100px;">Order no.</th>
+              <th style="width: 150px;">Cashier</th>
               <th>Items Summary</th>
               <th style="width: 150px;">Payment Method</th>
               <th style="width: 110px;">Discount</th>
@@ -394,6 +395,10 @@ $orders = $reportManager->getSalesHistory();
       <div class="receipt-meta-row">
         <span>Order Number:</span>
         <strong id="rcptOrderNo">#0000</strong>
+      </div>
+      <div class="receipt-meta-row">
+        <span>Cashier:</span>
+        <span id="rcptCashier">-</span>
       </div>
       <div class="receipt-meta-row">
         <span>Date/Time:</span>
@@ -464,7 +469,7 @@ $orders = $reportManager->getSalesHistory();
       }
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
         return;
       }
 
@@ -475,6 +480,7 @@ $orders = $reportManager->getSalesHistory();
         return `
           <tr>
             <td style="font-weight: 700;">#${order.order_no}</td>
+            <td>${order.cashier || 'Unknown'}</td>
             <td>${order.item ? order.item : 'No items tracked'}</td>
             <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
             <td>${discountNum > 0 ? `Php${discountNum.toFixed(2)}` : '-'}</td>
@@ -494,7 +500,7 @@ $orders = $reportManager->getSalesHistory();
       document.getElementById('rcptOrderNo').textContent = `#${order.order_no}`;
       document.getElementById('rcptDate').textContent = order.date;
       document.getElementById('rcptPayment').textContent = order.payment;
-
+      document.getElementById('rcptCashier').textContent = order.cashier || 'Unknown';
       const discountNum = parseFloat(order.discount) || 0;
       document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- Php${discountNum.toFixed(2)}` : 'None';
       document.getElementById('rcptTotal').textContent = `Php${parseFloat(order.total).toFixed(2)}`;

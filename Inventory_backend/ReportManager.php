@@ -49,19 +49,25 @@ class ReportManager
     public function getSalesHistory()
     {
         try {
-            $query = 'SELECT o.order_no, 
-                             o.payment_method AS payment, 
-                             o.discount_amount AS discount, 
-                             o.total_amount AS total,
-                             o.cash_received,
-                             o.change_amount,
-                             o.created_at AS date,
-                             GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
-                      FROM orders o
-                      LEFT JOIN order_items oi ON o.id = oi.order_id
-                      LEFT JOIN products p ON oi.product_id = p.id
-                      GROUP BY o.id
-                      ORDER BY o.id DESC';
+            $query = 'SELECT
+                        o.order_no,
+                        u.username AS cashier,
+                        o.payment_method AS payment,
+                        o.discount_amount AS discount,
+                        o.total_amount AS total,
+                        o.cash_received,
+                        o.change_amount,
+                        o.created_at AS date,
+                        GROUP_CONCAT(CONCAT(p.name, " x", oi.quantity) SEPARATOR ", ") AS item
+                    FROM orders o
+                    LEFT JOIN users u
+                        ON o.user_id = u.id
+                    LEFT JOIN order_items oi
+                        ON o.id = oi.order_id
+                    LEFT JOIN products p
+                        ON oi.product_id = p.id
+                    GROUP BY o.id
+                    ORDER BY o.id DESC';
 
             return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
