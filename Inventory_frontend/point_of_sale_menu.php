@@ -375,17 +375,18 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .count {
-      width: 32px;
-      height: 32px;
+      height: 28px;
       background: #5470ff;
       color: white;
-      border-radius: 50%;
+      border-radius: 20px;
+      padding: 0 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(84, 112, 255, 0.3);
     }
 
     .order-items {
@@ -1249,9 +1250,11 @@ if (!isset($_SESSION['user_id'])) {
       orderItems.classList.add('has-items');
       orderItems.innerHTML = '';
 
+      let totalItemQuantity = 0;
+
       keys.forEach(key => {
         const item = cart[key];
-        cartCount += item.qty;
+        totalItemQuantity += item.qty;
         cartTotal += (item.price * item.qty);
 
         const itemEl = document.createElement('div');
@@ -1280,6 +1283,11 @@ if (!isset($_SESSION['user_id'])) {
         `;
         orderItems.appendChild(itemEl);
       });
+
+      const itemLabel = keys.length === 1 ? 'Product' : 'Products';
+      cartCount = `${keys.length} ${itemLabel} (${totalItemQuantity} pcs)`;
+
+      updateSummary();
 
       updateSummary();
     }
@@ -1341,6 +1349,7 @@ if (!isset($_SESSION['user_id'])) {
     function clearOrder() {
       cart = {};
       renderCart();
+      renderProducts();
       document.getElementById('discountInput').value = '';
     }
 
