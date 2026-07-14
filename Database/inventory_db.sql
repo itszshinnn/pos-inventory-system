@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2026 at 01:24 PM
+-- Generation Time: Jul 14, 2026 at 04:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,9 +42,9 @@ INSERT INTO `categories` (`id`, `name`, `created_at`) VALUES
 (2, 'Audio Devices', '2026-05-18 05:44:33'),
 (3, 'Storage Devices', '2026-05-18 05:44:33'),
 (4, 'Output Devices', '2026-05-18 05:44:33'),
-(5, 'Other Devices', '2026-05-18 05:50:19'),
+(5, 'Projector Devices', '2026-05-18 05:50:19'),
 (6, 'Connection Devices', '2026-05-23 08:08:21'),
-(7, 'Projector Devices', '2026-05-18 05:53:33');
+(7, 'Other Devices', '2026-05-18 05:53:33');
 
 -- --------------------------------------------------------
 
@@ -68,149 +68,22 @@ CREATE TABLE `inventory_logs` (
 --
 
 INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`, `old_stock`, `new_stock`, `changed_by`, `created_at`) VALUES
-(1, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:50:42'),
-(2, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:14'),
-(3, 4, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:16'),
-(4, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:18'),
-(5, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:21'),
-(6, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-12 08:59:36'),
-(7, 1, 'Projector', 'Restocked', 10, 15, 'Admin', '2026-07-12 09:42:25'),
-(8, 1, 'Projector', 'Restocked', 15, 20, 'Admin', '2026-07-12 10:04:34'),
-(9, 5, 'Speaker', 'Edited', 0, 10, 'Admin', '2026-07-12 13:06:46'),
-(10, 7, 'ASUS Gaming Monitor', 'Added', NULL, 12, 'Admin', '2026-07-12 13:23:41'),
-(11, NULL, 'SSD', 'Deleted', 3, NULL, 'Admin', '2026-07-12 15:42:15'),
-(12, 8, 'SSD', 'Added', NULL, 19, 'Admin', '2026-07-12 15:42:58'),
-(13, 1, 'Projector', 'Restocked', 2, 3, 'Admin', '2026-07-12 16:04:57'),
-(14, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-12 16:24:33'),
-(15, 5, 'Speaker', 'Restocked', 3, 4, 'Admin', '2026-07-12 16:35:28'),
-(16, 2, 'SD Card', 'Restocked', 2, 22, 'Admin', '2026-07-12 16:59:07'),
-(17, 6, 'USB Hub', 'Edited', 20, 3, 'Admin', '2026-07-12 17:00:15'),
-(18, 6, 'USB Hub', 'Edited', 3, 3, 'Admin', '2026-07-12 17:00:18'),
-(19, 1, 'Projector', 'Restocked', 3, 6, 'Admin', '2026-07-12 17:11:15'),
-(20, 2, 'SD Card', 'Edited', 22, 3, 'Admin', '2026-07-12 17:11:51'),
-(21, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 11:08:44'),
-(22, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 11:10:52'),
-(23, 7, 'ASUS Gaming Monitor', 'Edited', 23, 3, 'Admin', '2026-07-13 11:12:02'),
-(24, 2, 'SD Card', 'Edited', 2, 10, 'Admin', '2026-07-13 11:13:16'),
-(25, 2, 'SD Card', 'Edited', 10, 6, 'Admin', '2026-07-13 11:13:20'),
-(26, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 11:19:07'),
-(27, 1, 'Projector', 'Restocked', 2, 22, 'Admin', '2026-07-13 11:41:58'),
-(28, 1, 'Projector', 'Restocked', 1, 21, 'Admin', '2026-07-13 12:06:02'),
-(29, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:06:02'),
-(30, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:06:02'),
-(31, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:06:02'),
-(32, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:06:02'),
-(33, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:06:02'),
-(34, 8, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-13 12:06:02'),
-(35, 1, 'Projector', 'Restocked', 2, 22, 'Admin', '2026-07-13 12:08:29'),
-(36, 7, 'ASUS Gaming Monitor', 'Edited', 23, 3, 'Admin', '2026-07-13 12:09:08'),
-(37, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 12:09:47'),
-(38, 2, 'SD Card', 'Edited', 23, 3, 'Admin', '2026-07-13 13:31:24'),
-(39, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 13:32:31'),
-(40, 7, 'ASUS Gaming Monitor', 'Edited', 23, 3, 'Admin', '2026-07-13 14:01:46'),
-(41, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:02:04'),
-(42, 8, 'SSD', 'Edited', 20, 3, 'Admin', '2026-07-13 14:04:04'),
-(43, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:07:57'),
-(44, 2, 'SD Card', 'Edited', 23, 3, 'Admin', '2026-07-13 14:08:55'),
-(45, 2, 'SD Card', 'Edited', 3, 3, 'Admin', '2026-07-13 14:09:10'),
-(46, 1, 'Projector', 'Edited', 22, 3, 'Admin', '2026-07-13 14:09:39'),
-(47, 1, 'Projector', 'Edited', 3, 3, 'Admin', '2026-07-13 14:09:56'),
-(48, 5, 'Speaker', 'Edited', 23, 3, 'Admin', '2026-07-13 14:10:26'),
-(49, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(50, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(51, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(52, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(53, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(54, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(55, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:27'),
-(56, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(57, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(58, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(59, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(60, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(61, 5, 'Speaker', 'Edited', 3, 3, 'Admin', '2026-07-13 14:10:28'),
-(62, 7, 'ASUS Gaming Monitor', 'Edited', 23, 3, 'Admin', '2026-07-13 14:11:41'),
-(63, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:20'),
-(64, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:20'),
-(65, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:27'),
-(66, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:27'),
-(67, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:27'),
-(68, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:27'),
-(69, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:13:27'),
-(70, 1, 'Projector', 'Edited', 23, 3, 'Admin', '2026-07-13 14:13:48'),
-(71, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(72, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(73, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(74, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(75, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(76, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(77, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:20:24'),
-(78, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(79, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(80, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(81, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(82, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(83, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(84, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 14:22:20'),
-(85, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
-(86, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
-(87, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:10:41'),
-(88, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
-(89, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
-(90, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
-(91, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:10:41'),
-(92, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-13 16:24:21'),
-(93, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:24:21'),
-(94, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(95, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(96, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(97, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(98, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-13 16:27:36'),
-(99, 8, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:30:09'),
-(100, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:30:20'),
-(101, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
-(102, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
-(103, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
-(104, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
-(105, 7, 'ASUS Gaming Monitor', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:31:01'),
-(106, 1, 'Projector', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(107, 2, 'SD Card', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(108, 3, 'Headphone', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(109, 5, 'Speaker', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(110, 6, 'USB Hub', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(111, 7, 'ASUS Gaming Monitor', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(112, 8, 'SSD', 'Restocked', 0, 20, 'Admin', '2026-07-14 10:34:50'),
-(113, 1, 'Projector', 'Edited', 20, 3, 'Admin', '2026-07-14 10:53:21'),
-(114, 2, 'SD Card', 'Edited', 20, 3, 'Admin', '2026-07-14 10:53:28'),
-(115, 3, 'Headphone', 'Edited', 10, 3, 'Admin', '2026-07-14 10:53:36'),
-(116, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
-(117, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
-(118, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:53:53'),
-(119, 1, 'Projector', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
-(120, 2, 'SD Card', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
-(121, 3, 'Headphone', 'Restocked', 23, 43, 'Admin', '2026-07-14 10:53:57'),
-(122, 1, 'Projector', 'Edited', 43, 3, 'Admin', '2026-07-14 10:57:48'),
-(123, 2, 'SD Card', 'Edited', 43, 3, 'Admin', '2026-07-14 10:57:55'),
-(124, 3, 'Headphone', 'Edited', 43, 3, 'Admin', '2026-07-14 10:58:01'),
-(125, 5, 'Speaker', 'Edited', 20, 3, 'Admin', '2026-07-14 10:58:08'),
-(126, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
-(127, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
-(128, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
-(129, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-14 10:58:42'),
-(130, 1, 'Projector', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:41'),
-(131, 2, 'SD Card', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:48'),
-(132, 3, 'Headphone', 'Edited', 23, 3, 'Admin', '2026-07-14 10:59:55'),
-(133, 5, 'Speaker', 'Edited', 23, 3, 'Admin', '2026-07-14 11:00:01'),
-(134, 6, 'USB Hub', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:09'),
-(135, 7, 'ASUS Gaming Monitor', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:18'),
-(136, 8, 'SSD', 'Edited', 20, 3, 'Admin', '2026-07-14 11:00:26'),
-(137, 1, 'Projector', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(138, 2, 'SD Card', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(139, 3, 'Headphone', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(140, 5, 'Speaker', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(141, 6, 'USB Hub', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(142, 7, 'ASUS Gaming Monitor', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59'),
-(143, 8, 'SSD', 'Restocked', 3, 23, 'Admin', '2026-07-14 11:00:59');
+(1, 1, 'AirPods Pro (2nd Generation) White', 'Added', NULL, 30, 'Admin', '2026-07-14 14:14:27'),
+(2, 1, 'AirPods Pro (2nd Generation)', 'Added', NULL, 30, 'Admin', '2026-07-14 14:15:57'),
+(3, 2, 'Cooler Master NotePal Cooling Pad', 'Added', NULL, 30, 'Admin', '2026-07-14 14:17:19'),
+(4, 3, 'JVC Wired Earphones', 'Added', NULL, 30, 'Admin', '2026-07-14 14:18:16'),
+(5, 4, 'SanDisk Ultra Flair USB Flash Drive', 'Added', NULL, 30, 'Admin', '2026-07-14 14:20:23'),
+(6, 5, 'Vention HDMI Cable', 'Added', NULL, 30, 'Admin', '2026-07-14 14:21:35'),
+(7, 6, 'JBL Tune 760NC Headphones', 'Added', NULL, 30, 'Admin', '2026-07-14 14:22:22'),
+(8, 7, 'Razer BlackWidow V4 Wireless Keyboard', 'Added', NULL, 30, 'Admin', '2026-07-14 14:23:23'),
+(9, 8, 'Epson EcoTank L3250 Printer', 'Added', NULL, 30, 'Admin', '2026-07-14 14:24:09'),
+(10, 9, 'Epson Home Cinema Projector', 'Added', NULL, 30, 'Admin', '2026-07-14 14:25:12'),
+(11, 10, 'SanDisk Ultra SD Card', 'Added', NULL, 30, 'Admin', '2026-07-14 14:26:26'),
+(12, 11, 'JBL Flip 6 Portable Speaker', 'Added', NULL, 30, 'Admin', '2026-07-14 14:27:15'),
+(13, 12, 'Samsung 970 EVO Plus SSD', 'Added', NULL, 30, 'Admin', '2026-07-14 14:28:28'),
+(14, 13, 'Vention USB-C Hub', 'Added', NULL, 30, 'Admin', '2026-07-14 14:29:29'),
+(15, 14, 'Logitech C920 HD Pro Webcam', 'Added', NULL, 30, 'Admin', '2026-07-14 14:30:44'),
+(16, 15, 'ASUS ROG Strix XG32VQ Curved Gaming Monitor', 'Added', NULL, 30, 'Admin', '2026-07-14 14:32:37');
 
 -- --------------------------------------------------------
 
@@ -231,54 +104,6 @@ CREATE TABLE `orders` (
   `cost_of_goods_sold` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `order_no`, `user_id`, `total_amount`, `discount_amount`, `payment_method`, `created_at`, `cash_received`, `change_amount`, `cost_of_goods_sold`) VALUES
-(1, '0001', 1, 6000.00, 0.00, 'Cash', '2026-07-06 08:50:55', 6000.00, 0.00, 5000.00),
-(2, '0002', 1, 9000.00, 0.00, 'Cash', '2026-07-08 08:51:01', 9000.00, 0.00, 7500.00),
-(3, '0003', 1, 3000.00, 0.00, 'Cash', '2026-07-11 08:51:07', 3000.00, 0.00, 2500.00),
-(4, '0004', 1, 12000.00, 0.00, 'Cash', '2026-07-12 08:51:14', 12000.00, 0.00, 10000.00),
-(5, '0005', 1, 500.00, 0.00, 'Cash', '2026-07-12 10:26:26', 500.00, 0.00, 350.00),
-(6, '0006', 1, 3000.00, 0.00, 'Cash', '2026-07-12 10:26:34', 3000.00, 0.00, 2200.00),
-(7, '0007', 1, 1200.00, 0.00, 'Cash', '2026-07-12 10:26:39', 1200.00, 0.00, 800.00),
-(8, '0008', 1, 4000.00, 0.00, 'Cash', '2026-07-12 10:26:53', 4000.00, 0.00, 3000.00),
-(9, '0009', 1, 36000.00, 0.00, 'Card', '2026-07-12 12:29:25', 36000.00, 0.00, 27000.00),
-(10, '0010', 1, 48000.00, 0.00, 'Cash', '2026-07-12 15:40:56', 49000.00, 1000.00, 35200.00),
-(12, '0011', 1, 204.00, 0.00, 'Maya', '2026-07-12 15:43:33', 204.00, 0.00, 204.00),
-(13, '0012', 1, 12.00, 0.00, 'Cash', '2026-07-12 15:50:17', 15.00, 3.00, 12.00),
-(14, '0013', 1, 2012.00, 0.00, 'Cash', '2026-07-12 15:53:11', 2100.00, 88.00, 2012.00),
-(15, '0014', 1, 51000.00, 0.00, 'Cash', '2026-07-12 15:59:42', 52000.00, 1000.00, 42500.00),
-(16, '0015', 1, 3000.00, 0.00, 'Cash', '2026-07-12 16:02:28', 40000.00, 37000.00, 2500.00),
-(17, '0016', 1, 8500.00, 0.00, 'Cash', '2026-07-12 16:05:57', 9000.00, 500.00, 5950.00),
-(18, '0017', 1, 108.00, 0.00, 'Cash', '2026-07-12 16:06:43', 200.00, 92.00, 108.00),
-(19, '0018', 1, 12000.00, 0.00, 'Cash', '2026-07-12 16:15:33', 12000.00, 0.00, 12000.00),
-(20, '0019', 1, 22800.00, 0.00, 'Cash', '2026-07-12 16:16:25', 23000.00, 200.00, 15200.00),
-(21, '0020', 1, 20400.00, 0.00, 'Cash', '2026-07-12 16:40:39', 21000.00, 600.00, 13600.00),
-(22, '0021', 1, 2000.00, 0.00, 'Cash', '2026-07-12 17:01:09', 2000.00, 0.00, 2000.00),
-(23, '0022', 1, 12000.00, 0.00, 'Cash', '2026-07-12 17:12:17', 12000.00, 0.00, 10000.00),
-(24, '0023', 1, 10500.00, 0.00, 'Cash', '2026-07-13 11:10:16', 11000.00, 500.00, 7350.00),
-(25, '0024', 1, 1500.00, 0.00, 'Maya', '2026-07-13 11:14:48', 1500.00, 0.00, 1500.00),
-(26, '0025', 1, 240.00, 0.00, 'Cash', '2026-07-13 11:20:14', 250.00, 10.00, 240.00),
-(27, '0026', 1, 63000.00, 0.00, 'Cash', '2026-07-13 11:51:06', 63000.00, 0.00, 52500.00),
-(28, '0027', 1, 57000.00, 0.00, 'GCash', '2026-07-13 12:06:42', 57000.00, 0.00, 47500.00),
-(29, '0028', 1, 44000.00, 0.00, 'Cash', '2026-07-13 14:04:57', 44000.00, 0.00, 29000.00),
-(31, '0029', 1, 84480.00, 0.00, 'Maya', '2026-07-13 14:17:15', 84480.00, 0.00, 59480.00),
-(32, '0030', 1, 144480.00, 0.00, 'GCash', '2026-07-13 14:21:14', 144480.00, 0.00, 109480.00),
-(33, '0031', 1, 158580.00, 0.00, 'Maya', '2026-07-13 14:24:26', 158580.00, 0.00, 120430.00),
-(34, '0032', 1, 51000.00, 0.00, 'Cash', '2026-07-13 16:11:06', 51000.00, 0.00, 42500.00),
-(36, '0033', 1, 10000.00, 0.00, 'Cash', '2026-07-13 16:23:19', 10000.00, 0.00, 7000.00),
-(39, '0034', 1, 90100.00, 0.00, 'Cash', '2026-07-13 16:26:12', 100000.00, 9900.00, 68400.00),
-(40, '0035', 1, 70400.00, 0.00, 'Cash', '2026-07-13 16:26:59', 100000.00, 29600.00, 53500.00),
-(41, '0036', 5, 6000.00, 0.00, 'Cash', '2026-07-14 04:53:43', 6000.00, 0.00, 5000.00),
-(42, '0037', 5, 2000.00, 0.00, 'Cash', '2026-07-14 05:03:37', 2000.00, 0.00, 1500.00),
-(43, '0038', 1, 36.00, 0.00, 'Cash', '2026-07-14 05:03:54', 36.00, 0.00, 36.00),
-(44, '0039', 5, 2400.00, 0.00, 'Cash', '2026-07-14 05:06:58', 2500.00, 100.00, 1600.00),
-(45, '0040', 2, 134116.00, 0.00, 'Maya', '2026-07-14 10:29:32', 134116.00, 0.00, 101416.00),
-(46, '0041', 2, 144480.00, 0.00, 'GCash', '2026-07-14 10:33:02', 144480.00, 0.00, 109480.00),
-(47, '0042', 2, 12000.00, 0.00, 'GCash', '2026-07-14 10:36:02', 12000.00, 0.00, 8000.00);
-
 -- --------------------------------------------------------
 
 --
@@ -294,91 +119,6 @@ CREATE TABLE `order_items` (
   `cost_of_goods_sold` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_sale`, `cost_of_goods_sold`) VALUES
-(1, 1, 1, 2, 6000.00, 5000.00),
-(2, 2, 1, 3, 9000.00, 7500.00),
-(3, 3, 1, 1, 3000.00, 2500.00),
-(4, 4, 1, 4, 12000.00, 10000.00),
-(5, 5, 2, 1, 500.00, 350.00),
-(7, 7, 3, 1, 1200.00, 800.00),
-(8, 8, 5, 2, 4000.00, 3000.00),
-(9, 9, 5, 18, 36000.00, 27000.00),
-(11, 12, 8, 17, 204.00, 204.00),
-(12, 13, 8, 1, 12.00, 12.00),
-(13, 14, 5, 1, 2000.00, 2000.00),
-(14, 14, 8, 1, 12.00, 12.00),
-(15, 15, 1, 17, 51000.00, 42500.00),
-(16, 16, 1, 1, 3000.00, 2500.00),
-(17, 17, 2, 17, 8500.00, 5950.00),
-(18, 18, 7, 9, 108.00, 108.00),
-(19, 19, 5, 6, 12000.00, 12000.00),
-(20, 20, 3, 19, 22800.00, 15200.00),
-(21, 21, 3, 17, 20400.00, 13600.00),
-(22, 22, 5, 1, 2000.00, 2000.00),
-(23, 23, 1, 4, 12000.00, 10000.00),
-(24, 24, 2, 21, 10500.00, 7350.00),
-(25, 25, 2, 3, 1500.00, 1500.00),
-(26, 26, 7, 20, 240.00, 240.00),
-(27, 27, 1, 21, 63000.00, 52500.00),
-(28, 28, 1, 19, 57000.00, 47500.00),
-(29, 29, 2, 20, 10000.00, 7000.00),
-(30, 29, 3, 20, 24000.00, 16000.00),
-(31, 29, 6, 20, 10000.00, 6000.00),
-(32, 31, 2, 20, 10000.00, 7000.00),
-(33, 31, 3, 20, 24000.00, 16000.00),
-(34, 31, 5, 20, 40000.00, 30000.00),
-(35, 31, 6, 20, 10000.00, 6000.00),
-(36, 31, 7, 20, 240.00, 240.00),
-(37, 31, 8, 20, 240.00, 240.00),
-(38, 32, 1, 20, 60000.00, 50000.00),
-(39, 32, 2, 20, 10000.00, 7000.00),
-(40, 32, 3, 20, 24000.00, 16000.00),
-(41, 32, 5, 20, 40000.00, 30000.00),
-(42, 32, 6, 20, 10000.00, 6000.00),
-(43, 32, 7, 20, 240.00, 240.00),
-(44, 32, 8, 20, 240.00, 240.00),
-(45, 33, 1, 23, 69000.00, 57500.00),
-(46, 33, 2, 23, 11500.00, 8050.00),
-(47, 33, 3, 23, 27600.00, 18400.00),
-(48, 33, 5, 20, 40000.00, 30000.00),
-(49, 33, 6, 20, 10000.00, 6000.00),
-(50, 33, 7, 20, 240.00, 240.00),
-(51, 33, 8, 20, 240.00, 240.00),
-(52, 34, 1, 17, 51000.00, 42500.00),
-(53, 36, 2, 20, 10000.00, 7000.00),
-(54, 39, 1, 9, 27000.00, 22500.00),
-(55, 39, 2, 10, 5000.00, 3500.00),
-(56, 39, 3, 8, 9600.00, 6400.00),
-(57, 39, 5, 23, 46000.00, 34500.00),
-(58, 39, 6, 5, 2500.00, 1500.00),
-(59, 40, 1, 14, 42000.00, 35000.00),
-(60, 40, 2, 10, 5000.00, 3500.00),
-(61, 40, 3, 12, 14400.00, 9600.00),
-(62, 40, 6, 18, 9000.00, 5400.00),
-(63, 41, 1, 2, 6000.00, 5000.00),
-(64, 42, 5, 1, 2000.00, 1500.00),
-(65, 43, 7, 3, 36.00, 36.00),
-(66, 44, 3, 2, 2400.00, 1600.00),
-(67, 45, 1, 18, 54000.00, 45000.00),
-(68, 45, 2, 20, 10000.00, 7000.00),
-(69, 45, 3, 18, 21600.00, 14400.00),
-(70, 45, 5, 19, 38000.00, 28500.00),
-(71, 45, 6, 20, 10000.00, 6000.00),
-(72, 45, 7, 20, 240.00, 240.00),
-(73, 45, 8, 23, 276.00, 276.00),
-(74, 46, 1, 20, 60000.00, 50000.00),
-(75, 46, 2, 20, 10000.00, 7000.00),
-(76, 46, 3, 20, 24000.00, 16000.00),
-(77, 46, 5, 20, 40000.00, 30000.00),
-(78, 46, 6, 20, 10000.00, 6000.00),
-(79, 46, 7, 20, 240.00, 240.00),
-(80, 46, 8, 20, 240.00, 240.00),
-(81, 47, 3, 10, 12000.00, 8000.00);
-
 -- --------------------------------------------------------
 
 --
@@ -392,103 +132,6 @@ CREATE TABLE `po_items` (
   `order_qty` int(11) NOT NULL,
   `unit_cost` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `po_items`
---
-
-INSERT INTO `po_items` (`id`, `po_id`, `product_id`, `order_qty`, `unit_cost`) VALUES
-(1, 1, 1, 20, 2500.00),
-(2, 2, 2, 20, 350.00),
-(3, 3, 3, 20, 800.00),
-(5, 5, 5, 20, 1500.00),
-(6, 6, 6, 20, 300.00),
-(7, 7, 1, 5, 2500.00),
-(8, 8, 1, 5, 2500.00),
-(9, 9, 1, 1, 2500.00),
-(10, 10, 3, 20, 800.00),
-(11, 11, 5, 1, 1500.00),
-(12, 12, 2, 20, 350.00),
-(13, 13, 1, 3, 2500.00),
-(14, 14, 2, 20, 350.00),
-(15, 15, 7, 20, 12.00),
-(16, 16, 7, 20, 12.00),
-(17, 17, 1, 20, 2500.00),
-(18, 18, 1, 20, 2500.00),
-(19, 18, 2, 20, 350.00),
-(20, 18, 3, 20, 800.00),
-(21, 18, 5, 20, 1500.00),
-(22, 18, 6, 20, 300.00),
-(23, 18, 7, 20, 12.00),
-(24, 18, 8, 20, 12.00),
-(25, 19, 1, 20, 2500.00),
-(26, 20, 7, 20, 12.00),
-(27, 21, 2, 20, 350.00),
-(28, 22, 7, 20, 12.00),
-(29, 23, 2, 20, 350.00),
-(30, 24, 1, 20, 2500.00),
-(31, 24, 2, 20, 350.00),
-(32, 24, 3, 20, 800.00),
-(33, 24, 6, 20, 300.00),
-(34, 24, 8, 20, 12.00),
-(35, 25, 5, 20, 1500.00),
-(36, 25, 7, 20, 12.00),
-(37, 26, 1, 20, 2500.00),
-(38, 26, 2, 20, 350.00),
-(39, 26, 3, 20, 800.00),
-(40, 26, 5, 20, 1500.00),
-(41, 26, 6, 20, 300.00),
-(42, 26, 7, 20, 12.00),
-(43, 26, 8, 20, 12.00),
-(44, 27, 1, 20, 2500.00),
-(45, 27, 2, 20, 350.00),
-(46, 27, 3, 20, 800.00),
-(47, 27, 5, 20, 1500.00),
-(48, 27, 6, 20, 300.00),
-(49, 27, 7, 20, 12.00),
-(50, 27, 8, 20, 12.00),
-(51, 28, 1, 20, 2500.00),
-(52, 28, 2, 20, 350.00),
-(53, 28, 3, 20, 800.00),
-(54, 28, 5, 20, 1500.00),
-(55, 28, 6, 20, 300.00),
-(56, 28, 7, 20, 12.00),
-(57, 28, 8, 20, 12.00),
-(58, 29, 1, 20, 2500.00),
-(59, 29, 2, 20, 350.00),
-(60, 30, 1, 20, 2500.00),
-(61, 30, 2, 20, 350.00),
-(62, 30, 3, 20, 800.00),
-(63, 30, 5, 20, 1500.00),
-(64, 30, 6, 20, 300.00),
-(65, 31, 5, 20, 1500.00),
-(66, 32, 8, 20, 12.00),
-(67, 33, 1, 20, 2500.00),
-(68, 33, 2, 20, 350.00),
-(69, 33, 3, 20, 800.00),
-(70, 33, 6, 20, 300.00),
-(71, 33, 7, 20, 12.00),
-(72, 34, 1, 20, 2500.00),
-(73, 34, 2, 20, 350.00),
-(74, 34, 3, 20, 800.00),
-(75, 34, 5, 20, 1500.00),
-(76, 34, 6, 20, 300.00),
-(77, 34, 7, 20, 12.00),
-(78, 34, 8, 20, 12.00),
-(79, 35, 1, 20, 2500.00),
-(80, 35, 2, 20, 350.00),
-(81, 35, 3, 20, 800.00),
-(82, 36, 1, 20, 2500.00),
-(83, 36, 2, 20, 350.00),
-(84, 36, 3, 20, 800.00),
-(85, 36, 5, 20, 1500.00),
-(86, 37, 1, 20, 2500.00),
-(87, 37, 2, 20, 350.00),
-(88, 37, 3, 20, 800.00),
-(89, 37, 5, 20, 1500.00),
-(90, 37, 6, 20, 300.00),
-(91, 37, 7, 20, 12.00),
-(92, 37, 8, 20, 12.00);
 
 -- --------------------------------------------------------
 
@@ -519,13 +162,21 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `price_bought`, `price`, `stock`, `created_at`, `image`, `model_path`, `description`, `brand`, `color`, `type`, `capacity_size`, `resolution`) VALUES
-(1, 'Projector', 4, 2500.00, 3000.00, 23, '2026-07-12 08:01:09', '1783843269_e9b13a5fad644396.png', '../Models/1783843269_577cace3.glb', 'A device that displays images and videos onto a larger screen for presentations and entertainment.', 'Epson', 'White', 'Display Device', '', '1920x1080'),
-(2, 'SD Card', 3, 350.00, 500.00, 23, '2026-07-12 08:02:24', '1783843344_5246dc872c12a8ef.png', '../Models/1783843344_a5149ef9.glb', 'A portable storage device used for saving photos, videos, and digital files.', 'SanDisk', 'Black', 'Storage Device', '128GB', ''),
-(3, 'Headphone', 2, 800.00, 1200.00, 23, '2026-07-12 08:04:02', '1783843442_e12aa7fd7e6dfef6.png', '../Models/1783843442_6db03d66.glb', 'An audio device that provides private listening for music, calls, and multimedia.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(5, 'Speaker', 2, 1500.00, 2000.00, 23, '2026-07-12 08:05:46', '1783843546_2aefdb601eaee67b.png', '../Models/1783843546_e9305ae2.glb', 'An audio output device used to play music, videos, and other sounds clearly.', 'Logitech', 'Black', 'Audio Device', '', ''),
-(6, 'USB Hub', 6, 300.00, 500.00, 23, '2026-07-12 08:06:48', '1783843608_7f332d1bf9258b08.png', '../Models/1783843608_736a9825.glb', 'A device that expands a computer\'s USB ports for connecting multiple peripherals.', 'UGREEN', 'Gray', 'Connection Device', '', ''),
-(7, 'ASUS Gaming Monitor', 4, 12.00, 12.00, 23, '2026-07-12 13:23:41', '1783862621_2c5f849f226107f8.png', '../Models/1783862621_d94db461.glb', 'nigga', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160'),
-(8, 'SSD', 3, 12.00, 12.00, 23, '2026-07-12 15:42:58', '1783870978_59dbcb815e1ae84f.png', '../Models/1783870978_e20c2f94.glb', 'nigga', 'ASUS', 'Black', 'niga', '', '');
+(1, 'AirPods Pro (2nd Generation)', 2, 7999.00, 10999.00, 30, '2026-07-14 14:15:57', '1784038557_98082bf0dc20fbeb.png', '../Models/1784038557_82685acb.glb', 'Experience immersive sound with Active Noise Cancellation that blocks outside distractions and Transparency mode that lets you hear your surroundings when needed. Featuring the H2 chip for richer audio, up to 6 hours of listening time per charge, and a sweat/water-resistant design (IPX4), these earbuds are perfect for workouts, commutes, or calls on the go. The MagSafe charging case adds another 24 hours of battery life, while Adaptive Audio automatically adjusts to your environment for a seamless listening experience.', 'Apple', 'White', 'Wireless Earbuds', '', ''),
+(2, 'Cooler Master NotePal Cooling Pad', 7, 1299.00, 2299.00, 30, '2026-07-14 14:17:19', '1784038639_a3798e433eb444e1.png', '../Models/1784038639_fb3477b8.glb', 'Keep your laptop running cool during intense gaming or heavy multitasking sessions with this dual-fan cooling pad, designed to reduce internal temperatures and prevent thermal throttling. It features an adjustable height stand for ergonomic typing angles, a mesh metal surface for optimal airflow, and quiet operation that won\'t distract you during late-night work or gaming marathons. Compatible with laptops up to 17 inches, it\'s a must-have accessory for anyone who pushes their machine to the limit.', 'Cooler Master', 'Black', 'Laptop Cooling Pad', '', ''),
+(3, 'JVC Wired Earphones', 2, 199.00, 299.00, 30, '2026-07-14 14:18:16', '1784038696_d9c94ca0aec98f77.png', '../Models/1784038696_b9416d9e.glb', 'Enjoy crisp, balanced sound on a budget with these lightweight in-ear earphones featuring 0.4-inch neodymium drivers for punchy bass and clear highs. The tangle-resistant cable and comfortable silicone ear tips make them ideal for daily commutes, workouts, or study sessions, while the 3.5mm universal jack ensures compatibility with most devices. A simple, no-fuss audio solution for anyone who wants reliable sound without breaking the bank.', 'JVC', 'White', 'Wired Earphones', '', ''),
+(4, 'SanDisk Ultra Flair USB Flash Drive', 3, 899.00, 1399.00, 30, '2026-07-14 14:20:23', '1784038823_8b224463f9bf6aec.png', '../Models/1784038823_47afa6d9.glb', 'Transfer files up to 15x faster than standard USB 2.0 drives thanks to USB 3.0 technology, making it easy to move large photos, videos, and documents in seconds. The sleek metal casing offers durability for everyday carry in a bag or pocket, while the retractable design protects the connector from damage. Backward compatible with USB 2.0 ports, it\'s a reliable storage companion for students, professionals, and anyone needing extra space on the go.', 'SanDisk', 'Silver', 'USB Flash Drive', '256GB', ''),
+(5, 'Vention HDMI Cable', 6, 399.00, 699.00, 30, '2026-07-14 14:21:35', '1784038895_33626002a495fd30.png', '../Models/1784038895_67700e76.glb', 'Deliver stunning 4K@60Hz visuals and immersive audio with this high-speed HDMI 2.0 cable, built with gold-plated connectors for a stable, corrosion-resistant connection. The braided nylon jacket adds durability and tangle resistance, making it perfect for connecting gaming consoles, laptops, or streaming devices to your TV or monitor. Available in multiple lengths, it\'s a dependable choice for home theaters, offices, and gaming setups alike.', 'Vention', 'Black', 'HDMI Cable', '', ''),
+(6, 'JBL Tune 760NC Headphones', 2, 799.00, 1399.00, 30, '2026-07-14 14:22:22', '1784038942_315624736bd31d61.png', '../Models/1784038942_6a644721.glb', 'Immerse yourself in JBL\'s signature Pure Bass Sound with Active Noise Cancelling that quiets the world around you, whether you\'re on a flight or working in a noisy office. With up to 35 hours of battery life on a single charge and fast charging that delivers hours of playback in minutes, these over-ear headphones are built for all-day use. Foldable and lightweight with plush ear cushions, they\'re a comfortable, feature-packed choice for music lovers and remote workers alike.', 'JBL', 'Black', 'Wireless Headphones', '', ''),
+(7, 'Razer BlackWidow V4 Wireless Keyboard', 1, 1399.00, 2699.00, 30, '2026-07-14 14:23:23', '1784039003_cceeedd4e9528b61.png', '../Models/1784039003_14e58370.glb', 'Built for gamers who demand precision, this mechanical keyboard features hot-swappable switches, per-key RGB Chroma lighting, and a durable aluminum top plate for a premium feel. It offers seamless connectivity via 2.4GHz wireless, Bluetooth, or wired USB-C, giving you flexibility across multiple devices without sacrificing responsiveness. With dedicated media controls and a comfortable magnetic wrist rest, it\'s equally suited for competitive gaming and everyday productivity.', 'Razer', 'Black', 'Wireless Mechanical Keyboard', '', ''),
+(8, 'Epson EcoTank L3250 Printer', 4, 1499.00, 2299.00, 30, '2026-07-14 14:24:09', '1784039049_667dd614ea5ed1b3.png', '../Models/1784039049_0c8db4e3.glb', 'This cartridge-free printer uses refillable ink tanks to deliver ultra-low-cost, high-volume printing—ideal for home offices, students, and small businesses. It combines printing, scanning, and copying in one compact unit, with built-in Wi-Fi for convenient wireless printing straight from your phone or laptop. Each ink bottle set can produce thousands of pages, drastically cutting the cost per print compared to traditional cartridge printers.', 'Epson', 'Black', 'All-in-One Printer', '', ''),
+(9, 'Epson Home Cinema Projector', 5, 2399.00, 4399.00, 30, '2026-07-14 14:25:12', '1784039112_900d0c19e35ab837.png', '../Models/1784039112_9ebe2d25.glb', 'Turn any room into a home theater with this projector\'s crisp 1080p resolution and up to 3,400 lumens of brightness, delivering vivid images even in moderately lit rooms. It supports large-screen projection up to 300 inches, making it perfect for movie nights, gaming sessions, or business presentations. With HDMI connectivity and built-in speakers, setup is quick and hassle-free for both casual users and home theater enthusiasts.', 'Epson', 'White', 'Home Cinema Projector', '', '1080p Full HD'),
+(10, 'SanDisk Ultra SD Card', 3, 799.00, 1299.00, 30, '2026-07-14 14:26:26', '1784039186_405a1deb03678aa6.png', '../Models/1784039186_a9cc92a4.glb', 'Capture and store high-resolution photos and Full HD video with read speeds up to 140MB/s, ensuring smooth performance in cameras, drones, and camcorders. Rated Class 10 and UHS-I for reliable recording without dropped frames, it\'s built to withstand shockproof, waterproof, and temperature-resistant conditions for adventurous shooters. Whether you\'re a hobbyist photographer or a content creator on the move, this card offers dependable storage where it counts.', 'SanDisk', 'Black', 'SD Memory Card', '64GB', ''),
+(11, 'JBL Flip 6 Portable Speaker', 2, 899.00, 1499.00, 30, '2026-07-14 14:27:15', '1784039235_e12bae550bfc5906.png', '../Models/1784039235_e7101469.glb', 'Take the party anywhere with this portable speaker delivering powerful JBL Original Pro Sound and punchy bass in a compact, rugged design. It\'s IP67 waterproof and dustproof, so it\'s ready for pool days, beach trips, or outdoor gatherings without worry, and offers up to 12 hours of playtime on a single charge. PartyBoost lets you pair it with other compatible JBL speakers for even bigger sound, making it a versatile choice for solo listening or group events.', 'JBL', 'Black', 'Portable Bluetooth Speaker', '', ''),
+(12, 'Samsung 970 EVO Plus SSD', 3, 3999.00, 6999.00, 30, '2026-07-14 14:28:28', '1784039308_88d89dfc2787b254.png', '../Models/1784039308_3e885c1f.glb', 'Boost your system\'s speed dramatically with read speeds up to 3,500MB/s, cutting boot times, load screens, and file transfers to a fraction of what a traditional hard drive requires. Built on NVMe M.2 technology, it\'s ideal for gamers, video editors, and professionals working with large files or demanding applications. Backed by Samsung\'s reliable V-NAND technology and a durable design, it\'s a smart upgrade for any desktop or laptop with an available M.2 slot.', 'Samsung', 'Black', 'Internal Solid State Drive', '1TB', ''),
+(13, 'Vention USB-C Hub', 6, 349.00, 499.00, 30, '2026-07-14 14:29:29', '1784039369_45e92449b2dc844d.png', '../Models/1784039369_5b56a8d5.glb', 'Expand your laptop\'s connectivity instantly with this compact hub, offering USB 3.0 ports, HDMI output, and card reader slots all through a single USB-C connection. It\'s perfect for professionals and students who need to connect multiple peripherals, external displays, or storage devices while working from a slim ultrabook or MacBook. Sturdy aluminum construction and plug-and-play functionality make it a convenient, reliable travel companion for work or presentations.', 'Vention', 'Black', 'USB Hub / Docking Adapter', '', ''),
+(14, 'Logitech C920 HD Pro Webcam', 1, 849.00, 1349.00, 30, '2026-07-14 14:30:44', '1784039444_c5a3fad4d5784af2.png', '../Models/1784039444_ebf06416.glb', 'Look sharp on every video call with Full HD 1080p video and built-in stereo autofocus that keeps you in crisp focus even as you move. Dual omnidirectional microphones capture clear audio, reducing background noise for professional-quality video conferencing, streaming, or content creation. Compatible with most video calling apps and easy to clip onto any monitor or laptop, it\'s a plug-and-play upgrade for remote work, online teaching, or streaming setups.', 'Logitech', 'Black', 'HD Webcam', '', '3840 x 2160 4K HD'),
+(15, 'ASUS ROG Strix XG32VQ Curved Gaming Monitor', 4, 2499.00, 5499.00, 30, '2026-07-14 14:32:37', '1784039557_e78dd9ae8bcb2225.png', '../Models/1784039557_e9d4ccb3.glb', 'A 32\" QHD curved display with 165Hz refresh rate, 1ms response time, FreeSync Premium, HDR-ready color, and an ergonomic ROG-styled stand, built for gamers who demand speed and immersion.', 'ASUS', 'Black', 'Gaming Monitor', '', '3840 x 2160 4K HD');
 
 -- --------------------------------------------------------
 
@@ -547,104 +198,22 @@ CREATE TABLE `product_batches` (
 --
 
 INSERT INTO `product_batches` (`id`, `product_id`, `quantity_received`, `quantity_remaining`, `unit_cost`, `created_at`) VALUES
-(1, 1, 20, 0, 2500.00, '2026-07-12 08:50:42'),
-(2, 5, 20, 0, 1500.00, '2026-07-12 08:59:14'),
-(4, 3, 20, 0, 800.00, '2026-07-12 08:59:18'),
-(5, 2, 20, 0, 350.00, '2026-07-12 08:59:21'),
-(6, 6, 20, 0, 300.00, '2026-07-12 08:59:36'),
-(7, 1, 5, 0, 2500.00, '2026-07-12 09:42:25'),
-(8, 1, 5, 0, 2500.00, '2026-07-12 10:04:34'),
-(9, 5, 10, 0, 2000.00, '2026-07-12 13:06:46'),
-(10, 7, 12, 0, 12.00, '2026-07-12 13:23:41'),
-(11, 8, 19, 0, 12.00, '2026-07-12 15:42:58'),
-(12, 1, 1, 0, 2500.00, '2026-07-12 16:04:57'),
-(13, 3, 20, 0, 800.00, '2026-07-12 16:24:33'),
-(14, 5, 1, 0, 1500.00, '2026-07-12 16:35:28'),
-(15, 2, 20, 0, 350.00, '2026-07-12 16:59:07'),
-(16, 1, 3, 0, 2500.00, '2026-07-12 17:11:15'),
-(17, 2, 20, 0, 350.00, '2026-07-13 11:08:44'),
-(18, 7, 20, 0, 12.00, '2026-07-13 11:10:52'),
-(19, 2, 8, 0, 500.00, '2026-07-13 11:13:16'),
-(20, 7, 20, 0, 12.00, '2026-07-13 11:19:07'),
-(21, 1, 20, 0, 2500.00, '2026-07-13 11:41:58'),
-(22, 1, 20, 0, 2500.00, '2026-07-13 12:06:02'),
-(23, 2, 20, 0, 350.00, '2026-07-13 12:06:02'),
-(24, 3, 20, 0, 800.00, '2026-07-13 12:06:02'),
-(25, 5, 20, 0, 1500.00, '2026-07-13 12:06:02'),
-(26, 6, 20, 0, 300.00, '2026-07-13 12:06:02'),
-(27, 7, 20, 0, 12.00, '2026-07-13 12:06:02'),
-(28, 8, 20, 0, 12.00, '2026-07-13 12:06:02'),
-(29, 1, 20, 0, 2500.00, '2026-07-13 12:08:29'),
-(30, 7, 20, 0, 12.00, '2026-07-13 12:09:47'),
-(31, 2, 20, 0, 350.00, '2026-07-13 13:32:31'),
-(32, 7, 20, 0, 12.00, '2026-07-13 14:02:04'),
-(33, 2, 20, 0, 350.00, '2026-07-13 14:07:57'),
-(34, 5, 20, 0, 1500.00, '2026-07-13 14:13:20'),
-(35, 7, 20, 0, 12.00, '2026-07-13 14:13:20'),
-(36, 1, 20, 0, 2500.00, '2026-07-13 14:13:27'),
-(37, 2, 20, 0, 350.00, '2026-07-13 14:13:27'),
-(38, 3, 20, 0, 800.00, '2026-07-13 14:13:27'),
-(39, 6, 20, 0, 300.00, '2026-07-13 14:13:27'),
-(40, 8, 20, 0, 12.00, '2026-07-13 14:13:27'),
-(41, 1, 20, 0, 2500.00, '2026-07-13 14:20:24'),
-(42, 2, 20, 0, 350.00, '2026-07-13 14:20:24'),
-(43, 3, 20, 0, 800.00, '2026-07-13 14:20:24'),
-(44, 5, 20, 0, 1500.00, '2026-07-13 14:20:24'),
-(45, 6, 20, 0, 300.00, '2026-07-13 14:20:24'),
-(46, 7, 20, 0, 12.00, '2026-07-13 14:20:24'),
-(47, 8, 20, 0, 12.00, '2026-07-13 14:20:24'),
-(48, 1, 20, 0, 2500.00, '2026-07-13 14:22:20'),
-(49, 2, 20, 0, 350.00, '2026-07-13 14:22:20'),
-(50, 3, 20, 0, 800.00, '2026-07-13 14:22:20'),
-(51, 5, 20, 0, 1500.00, '2026-07-13 14:22:20'),
-(52, 6, 20, 0, 300.00, '2026-07-13 14:22:20'),
-(53, 7, 20, 0, 12.00, '2026-07-13 14:22:20'),
-(54, 8, 20, 0, 12.00, '2026-07-13 14:22:20'),
-(55, 1, 20, 0, 2500.00, '2026-07-13 16:10:41'),
-(56, 2, 20, 0, 350.00, '2026-07-13 16:10:41'),
-(57, 3, 20, 0, 800.00, '2026-07-13 16:10:41'),
-(58, 5, 20, 0, 1500.00, '2026-07-13 16:10:41'),
-(59, 6, 20, 0, 300.00, '2026-07-13 16:10:41'),
-(60, 7, 20, 0, 12.00, '2026-07-13 16:10:41'),
-(61, 8, 20, 0, 12.00, '2026-07-13 16:10:41'),
-(62, 1, 20, 0, 2500.00, '2026-07-13 16:24:21'),
-(63, 2, 20, 0, 350.00, '2026-07-13 16:24:21'),
-(64, 1, 20, 0, 2500.00, '2026-07-13 16:27:36'),
-(65, 2, 20, 0, 350.00, '2026-07-13 16:27:36'),
-(66, 3, 20, 0, 800.00, '2026-07-13 16:27:36'),
-(67, 5, 20, 0, 1500.00, '2026-07-13 16:27:36'),
-(68, 6, 20, 0, 300.00, '2026-07-13 16:27:36'),
-(69, 8, 20, 0, 12.00, '2026-07-14 10:30:09'),
-(70, 5, 20, 0, 1500.00, '2026-07-14 10:30:20'),
-(71, 1, 20, 0, 2500.00, '2026-07-14 10:31:01'),
-(72, 2, 20, 0, 350.00, '2026-07-14 10:31:01'),
-(73, 3, 20, 0, 800.00, '2026-07-14 10:31:01'),
-(74, 6, 20, 0, 300.00, '2026-07-14 10:31:01'),
-(75, 7, 20, 0, 12.00, '2026-07-14 10:31:01'),
-(76, 1, 20, 0, 2500.00, '2026-07-14 10:34:50'),
-(77, 2, 20, 0, 350.00, '2026-07-14 10:34:50'),
-(78, 3, 20, 0, 800.00, '2026-07-14 10:34:50'),
-(79, 5, 20, 0, 1500.00, '2026-07-14 10:34:50'),
-(80, 6, 20, 3, 300.00, '2026-07-14 10:34:50'),
-(81, 7, 20, 3, 12.00, '2026-07-14 10:34:50'),
-(82, 8, 20, 3, 12.00, '2026-07-14 10:34:50'),
-(83, 1, 20, 0, 2500.00, '2026-07-14 10:53:53'),
-(84, 2, 20, 0, 350.00, '2026-07-14 10:53:53'),
-(85, 3, 20, 0, 800.00, '2026-07-14 10:53:53'),
-(86, 1, 20, 0, 2500.00, '2026-07-14 10:53:57'),
-(87, 2, 20, 0, 350.00, '2026-07-14 10:53:57'),
-(88, 3, 20, 0, 800.00, '2026-07-14 10:53:57'),
-(89, 1, 20, 3, 2500.00, '2026-07-14 10:58:42'),
-(90, 2, 20, 3, 350.00, '2026-07-14 10:58:42'),
-(91, 3, 20, 3, 800.00, '2026-07-14 10:58:42'),
-(92, 5, 20, 3, 1500.00, '2026-07-14 10:58:42'),
-(93, 1, 20, 20, 2500.00, '2026-07-14 11:00:59'),
-(94, 2, 20, 20, 350.00, '2026-07-14 11:00:59'),
-(95, 3, 20, 20, 800.00, '2026-07-14 11:00:59'),
-(96, 5, 20, 20, 1500.00, '2026-07-14 11:00:59'),
-(97, 6, 20, 20, 300.00, '2026-07-14 11:00:59'),
-(98, 7, 20, 20, 12.00, '2026-07-14 11:00:59'),
-(99, 8, 20, 20, 12.00, '2026-07-14 11:00:59');
+(1, 1, 30, 30, 7999.00, '2026-07-14 14:14:27'),
+(2, 1, 30, 30, 7999.00, '2026-07-14 14:15:57'),
+(3, 2, 30, 30, 1299.00, '2026-07-14 14:17:19'),
+(4, 3, 30, 30, 199.00, '2026-07-14 14:18:16'),
+(5, 4, 30, 30, 899.00, '2026-07-14 14:20:23'),
+(6, 5, 30, 30, 399.00, '2026-07-14 14:21:35'),
+(7, 6, 30, 30, 799.00, '2026-07-14 14:22:22'),
+(8, 7, 30, 30, 1399.00, '2026-07-14 14:23:23'),
+(9, 8, 30, 30, 1499.00, '2026-07-14 14:24:09'),
+(10, 9, 30, 30, 2399.00, '2026-07-14 14:25:12'),
+(11, 10, 30, 30, 799.00, '2026-07-14 14:26:26'),
+(12, 11, 30, 30, 899.00, '2026-07-14 14:27:15'),
+(13, 12, 30, 30, 3999.00, '2026-07-14 14:28:28'),
+(14, 13, 30, 30, 349.00, '2026-07-14 14:29:29'),
+(15, 14, 30, 30, 849.00, '2026-07-14 14:30:44'),
+(16, 15, 30, 30, 2499.00, '2026-07-14 14:32:37');
 
 -- --------------------------------------------------------
 
@@ -661,49 +230,6 @@ CREATE TABLE `purchase_orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `received_by` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `purchase_orders`
---
-
-INSERT INTO `purchase_orders` (`id`, `reference_no`, `status`, `payment_method`, `amount_paid`, `created_at`, `received_by`) VALUES
-(1, 'PO-20260712-0001', 'Received', NULL, 0.00, '2026-07-01 08:50:37', 'Admin'),
-(2, 'PO-20260712-0002', 'Received', NULL, 0.00, '2026-07-02 08:58:29', 'Admin'),
-(3, 'PO-20260712-0003', 'Received', NULL, 0.00, '2026-07-06 08:58:39', 'Admin'),
-(4, 'PO-20260712-0004', 'Received', NULL, 0.00, '2026-07-06 08:58:55', 'Admin'),
-(5, 'PO-20260712-0005', 'Received', NULL, 0.00, '2026-07-08 08:59:06', 'Admin'),
-(6, 'PO-20260712-0006', 'Received', NULL, 0.00, '2026-07-08 08:59:28', 'Admin'),
-(7, 'PO-20260712-0007', 'Received', NULL, 0.00, '2026-07-09 09:42:05', 'Admin'),
-(8, 'PO-20260712-0008', 'Received', NULL, 0.00, '2026-07-12 10:04:27', 'Admin'),
-(9, 'PO-20260712-0009', 'Received', NULL, 0.00, '2026-07-12 16:04:52', 'Admin'),
-(10, 'PO-20260712-0010', 'Received', NULL, 0.00, '2026-07-12 16:24:28', 'Admin'),
-(11, 'PO-20260712-0011', 'Received', NULL, 0.00, '2026-07-12 16:35:23', 'Admin'),
-(12, 'PO-20260712-0012', 'Received', NULL, 0.00, '2026-07-12 16:58:47', 'Admin'),
-(13, 'PO-20260712-0013', 'Received', NULL, 0.00, '2026-07-12 17:11:08', 'Admin'),
-(14, 'PO-20260713-0014', 'Received', NULL, 0.00, '2026-07-13 11:08:40', 'Admin'),
-(15, 'PO-20260713-0015', 'Received', NULL, 0.00, '2026-07-13 11:10:46', 'Admin'),
-(16, 'PO-20260713-0016', 'Received', NULL, 0.00, '2026-07-13 11:19:00', 'Admin'),
-(17, 'PO-20260713-0017', 'Received', NULL, 0.00, '2026-07-13 11:41:47', 'Admin'),
-(18, 'PO-20260713-0018', 'Received', NULL, 0.00, '2026-07-13 12:05:58', 'Admin'),
-(19, 'PO-20260713-0019', 'Received', NULL, 0.00, '2026-07-13 12:08:07', 'Admin'),
-(20, 'PO-20260713-0020', 'Received', NULL, 0.00, '2026-07-13 12:09:22', 'Admin'),
-(21, 'PO-20260713-0021', 'Received', NULL, 0.00, '2026-07-13 13:32:23', 'Admin'),
-(22, 'PO-20260713-0022', 'Received', NULL, 0.00, '2026-07-13 14:02:00', 'Admin'),
-(23, 'PO-20260713-0023', 'Received', NULL, 0.00, '2026-07-13 14:07:54', 'Admin'),
-(24, 'PO-20260713-0024', 'Received', NULL, 0.00, '2026-07-13 14:10:19', 'Admin'),
-(25, 'PO-20260713-0025', 'Received', NULL, 0.00, '2026-07-13 14:13:15', 'Admin'),
-(26, 'PO-20260713-0026', 'Received', NULL, 0.00, '2026-07-13 14:20:20', 'Admin'),
-(27, 'PO-20260713-0027', 'Received', NULL, 0.00, '2026-07-13 14:22:12', 'Admin'),
-(28, 'PO-20260713-0028', 'Received', NULL, 0.00, '2026-07-13 16:09:34', 'Admin'),
-(29, 'PO-20260713-0029', 'Received', NULL, 0.00, '2026-07-13 16:24:17', 'Admin'),
-(30, 'PO-20260713-0030', 'Received', NULL, 0.00, '2026-07-13 16:27:32', 'Admin'),
-(31, 'PO-20260714-0031', 'Received', NULL, 0.00, '2026-07-14 08:23:25', 'Admin'),
-(32, 'PO-20260714-0032', 'Received', NULL, 0.00, '2026-07-14 09:00:13', 'Admin'),
-(33, 'PO-20260714-0033', 'Received', NULL, 0.00, '2026-07-14 10:30:57', 'Admin'),
-(34, 'PO-20260714-0034', 'Received', NULL, 0.00, '2026-07-14 10:34:46', 'Admin'),
-(35, 'PO-20260714-0035', 'Received', NULL, 0.00, '2026-07-14 10:53:49', 'Admin'),
-(36, 'PO-20260714-0036', 'Received', NULL, 0.00, '2026-07-14 10:58:38', 'Admin'),
-(37, 'PO-20260714-0037', 'Received', NULL, 0.00, '2026-07-14 11:00:55', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -837,43 +363,43 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory_logs`
 --
 ALTER TABLE `inventory_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `po_items`
 --
 ALTER TABLE `po_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product_batches`
 --
 ALTER TABLE `product_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`

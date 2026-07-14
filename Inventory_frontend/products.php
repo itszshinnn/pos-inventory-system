@@ -60,6 +60,26 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     .dropdown-menu a:hover {
       background-color: #fff0f0;
     }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap;
+    }
+
+    table td:nth-child(2),
+    table th:nth-child(2) {
+      white-space: normal;
+      min-width: 200px;
+      max-width: 350px;
+    }
   </style>
 </head>
 
