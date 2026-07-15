@@ -137,6 +137,14 @@
 
 ![chec](ReadMe/checkout.png)
 
+# Integration
+1. PayMongo Online Checkout API - we connected our Point of Sale system directly to the PayMongo API, which allows the staffs or cashiers to accept card payments and local e-wallets such as GCash and Maya. When a digital payment method was chosen at the checkout, the system calculates the amount in centavos, securely communicates with PayMongo's servers to get a unique checkout link, and seamlessly redirects the customer to a secure page to complete the transaction before returning them to our app to automatically confirm the sale and clear the cart.  
+
+2. Automated SMTP Mail Service - we built an automated email notification system using the standard SMTP protocols. This service runs behind the scenes and instantly delivers structured emails to a pre-configured business address whenever a product drops to a critical low-stock level of 3 units or lower, or when a pending supplier delivery has been physically checked into the shelves by an administrator.
+
+3. Interactive 3D Model Viewer - the POS menu uses Google's open-source 3D <model-viewer> web library. Whenever an admin adds a new product, they can upload its corresponding 3D asset (.glb or .gltf file), allowing users in the Point of Sale menu to click and open an interactive modal where they can freely click, drag, rotate, and zoom in on a full 3D model rendering of the item in real time.
+
+
 # Database
 ## Database Name
 - POS_Inventory_System
