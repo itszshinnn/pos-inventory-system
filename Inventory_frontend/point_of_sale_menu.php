@@ -928,6 +928,11 @@ if (!isset($_SESSION['user_id'])) {
         <span id="modalTotalAmount">Php0.00</span>
       </div>
 
+      <div class="modal-label">Customer Email Address (Optional):</div>
+      <div style="margin-bottom: 18px;">
+        <input type="email" class="cash-received-field" id="customerEmailInput" placeholder="customer@email.com" style="font-family: inherit;">
+      </div>
+
       <div class="modal-label">Payment method</div>
       <div class="payment-grid">
         <button class="pay-method-btn selected" onclick="selectPaymentMethod(this, 'Cash')">Cash</button>
@@ -1418,6 +1423,7 @@ if (!isset($_SESSION['user_id'])) {
     });
 
     async function confirmSale() {
+      const customerEmail = document.getElementById('customerEmailInput').value.trim();
       let cashAmt = 0;
       let changeAmt = 0;
 
@@ -1452,7 +1458,8 @@ if (!isset($_SESSION['user_id'])) {
               discount_amount: computedDeduction,
               total_amount: finalCalculatedTotal,
               cash_received: cashAmt,
-              change_amount: changeAmt
+              change_amount: changeAmt,
+              email: customerEmail
             })
           }
         );
