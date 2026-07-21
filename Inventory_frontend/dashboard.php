@@ -357,10 +357,10 @@ usort($allNotifications, function ($a, $b) {
     }
 
     .graph-container {
-        display: grid;
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-        gap: 20px;
-        width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 20px;
+      width: 100%;
     }
 
     .revenue-card {
@@ -492,70 +492,70 @@ usort($allNotifications, function ($a, $b) {
             </div>
           </div>
 
-            <div class="dashboard-section">
-                <div class="section-title">Today's Summary</div>
+          <div class="dashboard-section">
+            <div class="section-title">Today's Summary</div>
 
-                <div class="metrics-row-grid" style="grid-template-columns:repeat(4,1fr);">
+            <div class="metrics-row-grid" style="grid-template-columns:repeat(4,1fr);">
 
-                    <div class="metric-sub-card">
-                        <h3>Today's Revenue</h3>
-                        <p class="green-txt">
-                            Php<?= number_format($todayRevenue, 2) ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Today's Revenue</h3>
+                <p class="green-txt">
+                  Php<?= number_format($todayRevenue, 2) ?>
+                </p>
+              </div>
 
-                    <div class="metric-sub-card">
-                        <h3>Today's COGS</h3>
-                        <p style="color:#ef4444;font-family:'DM Mono',monospace;">
-                            Php<?= number_format($todayCOGS, 2) ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Today's COGS</h3>
+                <p style="color:#ef4444;font-family:'DM Mono',monospace;">
+                  Php<?= number_format($todayCOGS, 2) ?>
+                </p>
+              </div>
 
-                    <div class="metric-sub-card">
-                        <h3>Today's Profit</h3>
-                        <p style="color:#22c55e;font-family:'DM Mono',monospace;">
-                            Php<?= number_format($todayProfit, 2) ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Today's Profit</h3>
+                <p style="color:#22c55e;font-family:'DM Mono',monospace;">
+                  Php<?= number_format($todayProfit, 2) ?>
+                </p>
+              </div>
 
-                    <div class="metric-sub-card">
-                        <h3>Today's Sales</h3>
-                        <p class="blue-txt">
-                            <?= $todayTransactions ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Today's Sales</h3>
+                <p class="blue-txt">
+                  <?= $todayTransactions ?>
+                </p>
+              </div>
 
-                </div>
             </div>
+          </div>
 
-            <div class="dashboard-section">
-                <div class="section-title">Overall Statistics</div>
+          <div class="dashboard-section">
+            <div class="section-title">Overall Statistics</div>
 
-                <div class="metrics-row-grid">
+            <div class="metrics-row-grid">
 
-                    <div class="metric-sub-card">
-                        <h3>Total Revenue</h3>
-                        <p class="green-txt">
-                            Php<?= number_format($totalRevenue,2) ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Total Revenue</h3>
+                <p class="green-txt">
+                  Php<?= number_format($totalRevenue, 2) ?>
+                </p>
+              </div>
 
-                    <div class="metric-sub-card">
-                        <h3>Transactions</h3>
-                        <p class="blue-txt">
-                            <?= $transactions ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Transactions</h3>
+                <p class="blue-txt">
+                  <?= $transactions ?>
+                </p>
+              </div>
 
-                    <div class="metric-sub-card">
-                        <h3>Items Sold</h3>
-                        <p>
-                            <?= $itemsSold ?>
-                        </p>
-                    </div>
+              <div class="metric-sub-card">
+                <h3>Items Sold</h3>
+                <p>
+                  <?= $itemsSold ?>
+                </p>
+              </div>
 
-                </div>
             </div>
+          </div>
 
           <div class="dashboard-section">
             <div class="section-title">Total Revenue and Stuff</div>
@@ -636,7 +636,6 @@ usort($allNotifications, function ($a, $b) {
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    
     function toggleUserDropdown(event) {
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
@@ -704,17 +703,17 @@ usort($allNotifications, function ($a, $b) {
               pointRadius: 4
             },
             {
-                label: "Inventory Purchases",
-                data: purchases,
+              label: "Inventory Purchases",
+              data: purchases,
 
-                borderColor: "#f59e0b",
-                backgroundColor: "rgba(245,158,11,.18)",
+              borderColor: "#f59e0b",
+              backgroundColor: "rgba(245,158,11,.18)",
 
-                fill: true,
-                tension: 0.4,
+              fill: true,
+              tension: 0.4,
 
-                borderWidth: 3,
-                pointRadius: 4
+              borderWidth: 3,
+              pointRadius: 4
             }
           ]
         },
@@ -871,6 +870,7 @@ usort($allNotifications, function ($a, $b) {
     }
     loadDashboardGraph();
   </script>
+  <?php require_once 'ai_widget.php'; ?>
   <?php require_once 'stock_alert.php'; ?>
 </body>
 
