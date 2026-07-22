@@ -17,9 +17,25 @@ if (isset($_POST['login'])) {
     $password = trim($_POST['login_password']);
 
     if ($username === 'admin' && $password === 'admin') {
-        $_SESSION['user_id'] = 999;
+        $_SESSION['user_id'] = 0;
         $_SESSION['username'] = 'Admin';
         $_SESSION['role'] = 'admin';
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+        $stmt = $pdo->prepare("
+            INSERT INTO login_logs
+            (user_id, username, ip_address, user_agent)
+            VALUES (?, ?, ?, ?)
+        ");
+
+        $stmt->execute([
+            $_SESSION['user_id'],
+            $_SESSION['username'],
+            $ip,
+            $userAgent
+        ]);
 
         header("Location: ../Inventory_frontend/dashboard.php");
         exit;
@@ -38,6 +54,22 @@ if (isset($_POST['login'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+        $stmt = $pdo->prepare("
+            INSERT INTO login_logs
+            (user_id, username, ip_address, user_agent)
+            VALUES (?, ?, ?, ?)
+        ");
+
+        $stmt->execute([
+            $user['id'],
+            $user['username'],
+            $ip,
+            $userAgent
+        ]);
 
         if ($_SESSION['role'] === 'admin') {
             header("Location: ../Inventory_frontend/dashboard.php");

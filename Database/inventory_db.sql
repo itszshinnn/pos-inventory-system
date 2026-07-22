@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2026 at 04:55 PM
+-- Generation Time: Jul 22, 2026 at 04:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,6 +85,36 @@ INSERT INTO `inventory_logs` (`id`, `product_id`, `product_name`, `action_type`,
 (15, 14, 'Logitech C920 HD Pro Webcam', 'Added', NULL, 30, 'Admin', '2026-07-14 14:30:44'),
 (16, 15, 'ASUS ROG Strix XG32VQ Curved Gaming Monitor', 'Added', NULL, 30, 'Admin', '2026-07-14 14:32:37'),
 (17, 1, 'AirPods Pro (2nd Generation)', 'Edited', 55, 25, 'Admin', '2026-07-14 14:49:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login_logs`
+--
+
+CREATE TABLE `login_logs` (
+  `log_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `login_time` datetime DEFAULT current_timestamp(),
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login_logs`
+--
+
+INSERT INTO `login_logs` (`log_id`, `user_id`, `username`, `login_time`, `ip_address`, `user_agent`) VALUES
+(1, 5, 'Earl', '2026-07-22 22:26:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(2, 5, 'Earl', '2026-07-22 22:31:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(3, 0, 'Admin', '2026-07-22 22:31:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(4, 5, 'Earl', '2026-07-22 22:31:49', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(5, 0, 'Admin', '2026-07-22 22:32:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(6, 1, 'Triggerwords', '2026-07-22 22:32:24', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(7, 0, 'Admin', '2026-07-22 22:36:09', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(8, 5, 'Earl', '2026-07-22 22:51:07', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'),
+(9, 0, 'Admin', '2026-07-22 22:51:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -370,6 +400,12 @@ ALTER TABLE `inventory_logs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `login_logs`
+--
+ALTER TABLE `login_logs`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -441,6 +477,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `inventory_logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `login_logs`
+--
+ALTER TABLE `login_logs`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`

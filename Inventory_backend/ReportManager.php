@@ -106,4 +106,19 @@ class ReportManager
             return [];
         }
     }
+
+    public function getLoginLogs()
+    {
+        try {
+            $query = "
+                SELECT *
+                FROM login_logs
+                ORDER BY login_time DESC
+            ";
+
+            return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
 }

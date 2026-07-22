@@ -343,6 +343,7 @@ $orders = $reportManager->getSalesHistory();
       <a href="history.php" class="active">History</a>
       <a href="history.php" class="sub-tab active">Sales History</a>
       <a href="product_history.php" class="sub-tab">Inventory Logs</a>
+      <a href="login_history.php" class="sub-tab">Log History</a>
       <a href="users.php">Users</a>
     </nav>
 
