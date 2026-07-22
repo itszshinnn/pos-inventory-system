@@ -93,19 +93,39 @@ try {
             'sold' => (int)$row['sold']
         ];
     }
+    
+    $topCashiersSql = "
+        SELECT
+            u.username,
+            COUNT(o.id) AS sales
+        FROM orders o
+        INNER JOIN users u
+            ON o.user_id = u.id
+        WHERE MONTH(o.created_at) = MONTH(CURDATE())
+        AND YEAR(o.created_at) = YEAR(CURDATE())
+        GROUP BY u.id, u.username
+        ORDER BY sales DESC
+        LIMIT 5
+    ";
+
+    $stmt = $db->query($topCashiersSql);
+
+    $topCashiers = [];
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $topCashiers[] = [
+            'username' => $row['username'],
+            'sales' => (int)$row['sales']
+        ];
+    }
 
     echo json_encode([
         'success' => true,
         'profitGraph' => $graphData,
-        'topProducts' => $topProducts
+        'topProducts' => $topProducts,
+        'topCashiers' => $topCashiers
     ]);
 
-} catch (PDOException $e) {
-
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage()
-    ]);
 } catch (PDOException $e) {
 
     echo json_encode([

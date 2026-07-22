@@ -630,7 +630,12 @@ usort($allNotifications, function ($a, $b) {
           <h3>Top Selling Products</h3>
           <canvas id="topSellingChart"></canvas>
         </div>
-
+        
+        <div class="graph-card cashier-card">
+          <h3>Top 5 Staff this month based on transactions</h3>
+          <canvas id="cashierChart"></canvas>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -651,6 +656,7 @@ usort($allNotifications, function ($a, $b) {
     let profitChart;
     let cogsChart;
     let topSellingChart;
+    let cashierChart;
 
     async function loadDashboardGraph() {
 
@@ -866,6 +872,51 @@ usort($allNotifications, function ($a, $b) {
             }
           }
         }
+      });
+      const cashierNames = result.topCashiers.map(c => c.username);
+      const cashierSales = result.topCashiers.map(c => c.sales);
+
+      const cashierCtx = document.getElementById("cashierChart");
+
+      if (cashierChart) {
+          cashierChart.destroy();
+      }
+
+      cashierChart = new Chart(cashierCtx, {
+          type: "bar",
+          data: {
+              labels: cashierNames,
+              datasets: [{
+                  label: "Transactions",
+                  data: cashierSales,
+                  backgroundColor: [
+                      "#FFD700",
+                      "#C0C0C0",
+                      "#CD7F32",
+                      "#4d66ff",
+                      "#6b7280"
+                  ],
+                  borderRadius: 8
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              indexAxis: "y",
+              plugins: {
+                  legend: {
+                      display: false
+                  }
+              },
+              scales: {
+                  x: {
+                      beginAtZero: true,
+                      ticks: {
+                          precision: 0
+                      }
+                  }
+              }
+          }
       });
     }
     loadDashboardGraph();

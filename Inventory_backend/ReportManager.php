@@ -121,4 +121,23 @@ class ReportManager
             return [];
         }
     }
+    public function getTopCashiers()
+    {
+        $stmt = $this->db->query("
+            SELECT
+                u.username,
+                COUNT(o.id) AS sales
+            FROM orders o
+            INNER JOIN users u ON o.user_id = u.id
+            WHERE MONTH(o.created_at) = MONTH(CURDATE())
+            AND YEAR(o.created_at) = YEAR(CURDATE())
+            GROUP BY u.id, u.username
+            ORDER BY sales DESC
+            LIMIT 5
+        ");
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
+
+
