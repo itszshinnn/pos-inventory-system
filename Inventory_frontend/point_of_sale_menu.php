@@ -1529,9 +1529,10 @@ if (!isset($_SESSION['user_id'])) {
       const p = allProducts.find(x => x.id === productId);
       if (!p) return;
 
-      if (!p.model_path || p.model_path === 'null' || p.model_path === '') {
-        alert("A 3D model for " + p.name + " has not been uploaded yet.");
-      }
+      const modelPath =
+          (!p.model_path || p.model_path === 'null' || p.model_path === '')
+              ? '../Models/default.glb'
+              : p.model_path;
 
       let detailsHTML = `
             <div style="font-size: 14px; color: #444; line-height: 1.6;">
@@ -1551,7 +1552,12 @@ if (!isset($_SESSION['user_id'])) {
       detailsHTML += `</div>`;
 
       document.getElementById('viewer-container').innerHTML = `
-            <model-viewer src="${p.model_path}" auto-rotate camera-controls style="width: 100%; height: 100%;"></model-viewer>
+            <model-viewer
+                src="${modelPath}"
+                auto-rotate
+                camera-controls
+                style="width:100%; height:100%;">
+            </model-viewer>
         `;
       document.getElementById('modal-title').innerText = p.name;
       document.getElementById('modal-desc').innerHTML = detailsHTML;
