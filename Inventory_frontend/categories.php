@@ -156,6 +156,7 @@ session_start();
       .table-wrap {
         overflow-x: auto;
         width: 100%;
+        margin-bottom: 40px !important;
       }
 
       .table-wrap table {

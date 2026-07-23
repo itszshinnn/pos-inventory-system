@@ -76,6 +76,144 @@ $orders = $reportManager->getSalesHistory();
       background-color: #fff0f0;
     }
 
+    .sidebar-toggle-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 6px;
+      margin-right: 10px;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-toggle-btn {
+        display: flex;
+        padding: 4px;
+        margin-right: 2px;
+      }
+
+      .topbar {
+        padding: 0 10px;
+        height: 52px;
+        gap: 6px;
+      }
+
+      .topbar-admin {
+        padding: 4px 8px;
+        font-size: 0.82rem;
+        margin-right: 4px;
+        gap: 6px;
+      }
+
+      .profile-img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .topbar-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 240px;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        padding: 12px !important;
+        padding-bottom: 75px !important;
+      }
+
+      .history-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .history-stat-card {
+        padding: 12px !important;
+      }
+
+      .history-stat-card p {
+        font-size: 17px !important;
+      }
+
+      .history-toolbar {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+
+      .table-wrap {
+        margin-bottom: 70px !important;
+      }
+
+      .table-wrap table {
+        min-width: 850px;
+        table-layout: auto !important;
+      }
+
+      .receipt-modal-backdrop {
+        z-index: 99999 !important;
+        padding: 16px !important;
+      }
+
+      .receipt-card {
+        width: calc(100% - 24px) !important;
+        max-width: 380px !important;
+        max-height: 82vh !important;
+        overflow-y: auto !important;
+        padding: 18px 16px !important;
+        box-sizing: border-box !important;
+      }
+    }
+
     .sidebar a.sub-tab {
       padding-left: 28px;
       font-size: 0.88rem;
@@ -204,6 +342,19 @@ $orders = $reportManager->getSalesHistory();
       color: white;
     }
 
+    .badge-more {
+      display: inline-block;
+      background: #eef4ff;
+      color: #4d66ff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      margin-left: 4px;
+      border: 1px solid #c7d7fe;
+      white-space: nowrap;
+    }
+
     .receipt-modal-backdrop {
       position: fixed;
       top: 0;
@@ -324,6 +475,14 @@ $orders = $reportManager->getSalesHistory();
 <body>
 
   <div class="topbar">
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
       <img src="../Images/profile.png" alt="Profile" class="profile-img">
       <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
@@ -335,8 +494,10 @@ $orders = $reportManager->getSalesHistory();
     <span class="topbar-title">K's Inventory System</span>
   </div>
 
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
   <div class="layout">
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebarNav">
       <a href="dashboard.php">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
@@ -474,6 +635,17 @@ $orders = $reportManager->getSalesHistory();
       return 'badge-payment';
     }
 
+    function formatItemsSummary(itemString) {
+      if (!itemString) return 'No items tracked';
+      const items = itemString.split(', ');
+      if (items.length <= 2) {
+        return itemString;
+      }
+      const preview = items.slice(0, 2).join(', ');
+      const extraCount = items.length - 2;
+      return `${preview} <span class="badge-more">+${extraCount} more</span>`;
+    }
+
     function filterHistoryTable() {
       const searchVal = document.getElementById('historySearchInput').value.toLowerCase().trim();
       const paymentVal = document.getElementById('paymentFilter').value;
@@ -507,7 +679,7 @@ $orders = $reportManager->getSalesHistory();
           <tr>
             <td style="font-weight: 700;">#${order.order_no}</td>
             <td>${order.cashier || 'Unknown'}</td>
-            <td>${order.item ? order.item : 'No items tracked'}</td>
+            <td onclick="openReceiptModal('${order.order_no}')" style="cursor: pointer;" title="Click to view full receipt items">${formatItemsSummary(order.item)}</td>
             <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
             <td>${discountType}</td>
             <td>${discountNum > 0 ? `Php${discountNum.toFixed(2)}` : '-'}</td>
@@ -563,6 +735,21 @@ $orders = $reportManager->getSalesHistory();
       event.stopPropagation();
       const dropdown = document.getElementById("userDropdownMenu");
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    function toggleSidebar(event) {
+      if (event) event.stopPropagation();
+      const sidebar = document.getElementById("sidebarNav");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      sidebar.classList.toggle("active");
+      backdrop.classList.toggle("active");
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById("sidebarNav");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      if (sidebar) sidebar.classList.remove("active");
+      if (backdrop) backdrop.classList.remove("active");
     }
 
     window.onclick = function() {

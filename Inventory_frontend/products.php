@@ -187,6 +187,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         overflow-x: auto;
         width: 100%;
         border-radius: 8px;
+        margin-bottom: 40px !important;
       }
 
       .table-wrap table {

@@ -126,27 +126,23 @@
         }
 
         const savedOpenState = sessionStorage.getItem(CHAT_OPEN_KEY);
-        const chatBtn = document.getElementById('ai-chat-btn');
         if (savedOpenState === 'true') {
+            chatCard.style.display = 'flex';
             chatCard.classList.add('ai-card-active');
-            if (chatBtn) chatBtn.style.display = 'none';
         } else {
             chatCard.classList.remove('ai-card-active');
             chatCard.style.display = 'none';
-            if (chatBtn) chatBtn.style.display = 'flex';
         }
     }
 
     function toggleAiChat() {
         const chatCard = document.getElementById('ai-chat-card');
-        const chatBtn = document.getElementById('ai-chat-btn');
-        if (!chatCard.classList.contains('ai-card-active') && chatCard.style.display !== 'flex') {
-            chatCard.classList.add('ai-card-active');
-            if (chatBtn) chatBtn.style.display = 'none';
-        } else {
+        if (chatCard.style.display === 'flex' || chatCard.classList.contains('ai-card-active')) {
             chatCard.classList.remove('ai-card-active');
             chatCard.style.display = 'none';
-            if (chatBtn) chatBtn.style.display = 'flex';
+        } else {
+            chatCard.style.display = 'flex';
+            chatCard.classList.add('ai-card-active');
         }
         saveChatState();
     }
