@@ -800,6 +800,7 @@ try {
                 filterUserTable();
             </script>
             <?php require_once 'stock_alert.php'; ?>
+            <?php require_once 'ai_widget.php'; ?>
 </body>
 
 </html>

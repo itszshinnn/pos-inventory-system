@@ -564,6 +564,7 @@ $orders = $reportManager->getSalesHistory();
 
     filterHistoryTable();
   </script>
+  <?php require_once 'ai_widget.php'; ?>
   <?php require_once 'stock_alert.php'; ?>
 </body>
 

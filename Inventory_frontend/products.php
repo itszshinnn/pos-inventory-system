@@ -428,6 +428,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
     loadData();
   </script>
+  <?php require_once 'ai_widget.php'; ?>
   <?php require_once 'stock_alert.php'; ?>
 </body>
 
