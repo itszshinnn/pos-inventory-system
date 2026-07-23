@@ -76,6 +76,7 @@ class ReportManager
                         u.username AS cashier,
                         o.payment_method AS payment,
                         o.discount_amount AS discount,
+                        o.discount_type,
                         o.total_amount AS total,
                         o.cash_received,
                         o.change_amount,

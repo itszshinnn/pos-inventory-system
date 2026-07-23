@@ -11,7 +11,7 @@ class TransactionManager
         $this->db = $dbConnection;
     }
 
-    public function processCheckout($cart, $paymentMethod, $discountAmount, $totalAmount, $cashReceived, $changeAmount, $userId)
+    public function processCheckout($cart, $paymentMethod, $discountAmount, $discountType, $totalAmount, $cashReceived, $changeAmount, $userId)
     {
         try {
             $this->db->beginTransaction();
@@ -25,12 +25,13 @@ class TransactionManager
                 user_id,
                 total_amount,
                 discount_amount,
+                discount_type,
                 payment_method,
                 cash_received,
                 change_amount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
             $orderStmt = $this->db->prepare($orderSql);
-            $orderStmt->execute([$orderNo, $userId, $totalAmount, $discountAmount, $paymentMethod, $cashReceived, $changeAmount]);
+            $orderStmt->execute([$orderNo, $userId, $totalAmount, $discountAmount, $discountType, $paymentMethod, $cashReceived, $changeAmount]);
             $orderId = $this->db->lastInsertId();
             $totalOrderCOGS = 0;
 
@@ -39,8 +40,10 @@ class TransactionManager
                 product_id,
                 quantity,
                 price_at_sale,
-                cost_of_goods_sold
-            ) VALUES (?, ?, ?, ?, ?)';
+                cost_of_goods_sold,
+                item_discount_amount,
+                item_discount_type
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
             $itemStmt = $this->db->prepare($itemSql);
             $lowStockAlertQueue = [];
@@ -48,6 +51,19 @@ class TransactionManager
                 $id    = intval($item['id']);
                 $qty   = intval($item['qty']);
                 $price = floatval($item['price']);
+                $itemDiscountAmt = 0;
+                $itemDiscountType = null;
+
+                if (isset($item['itemDiscount']) && floatval($item['itemDiscount']) > 0) {
+                    $rawItemDisc = floatval($item['itemDiscount']);
+                    $itemDiscountType = $item['itemDiscountType'] ?? '%';
+                    $lineTotal = $price * $qty;
+                    if ($itemDiscountType === '%') {
+                        $itemDiscountAmt = min($lineTotal, $lineTotal * ($rawItemDisc / 100));
+                    } else {
+                        $itemDiscountAmt = min($lineTotal, $rawItemDisc);
+                    }
+                }
 
                 $stmt = $this->db->prepare("SELECT stock, name FROM products WHERE id = ?");
                 $stmt->execute([$id]);
@@ -143,7 +159,9 @@ class TransactionManager
                     $id,
                     $qty,
                     $price * $qty,
-                    $totalCOGS
+                    $totalCOGS,
+                    $itemDiscountAmt,
+                    $itemDiscountType
                 ]);
                 $totalOrderCOGS += $totalCOGS;
             }

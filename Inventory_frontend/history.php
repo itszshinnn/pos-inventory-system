@@ -255,6 +255,8 @@ $orders = $reportManager->getSalesHistory();
 
     .receipt-items-box {
       margin: 10px 0;
+      max-height: 150px;
+      overflow-y: auto;
     }
 
     .receipt-item-line {
@@ -393,6 +395,7 @@ $orders = $reportManager->getSalesHistory();
               <th style="width: 150px;">Cashier</th>
               <th>Items Summary</th>
               <th style="width: 150px;">Payment Method</th>
+              <th style="width: 120px;">Discount Type</th>
               <th style="width: 110px;">Discount</th>
               <th style="width: 130px;">Total Amount</th>
               <th style="width: 110px; text-align: center;">Actions</th>
@@ -433,6 +436,10 @@ $orders = $reportManager->getSalesHistory();
 
       <hr class="receipt-divider">
 
+      <div class="receipt-meta-row">
+        <span>Discount Type:</span>
+        <span id="rcptDiscountType">-</span>
+      </div>
       <div class="receipt-meta-row">
         <span>Discount applied:</span>
         <span id="rcptDiscount">-</span>
@@ -487,13 +494,14 @@ $orders = $reportManager->getSalesHistory();
       }
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #aaa; padding: 24px; font-weight: 500;">No matching transaction histories found.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = filtered.map(order => {
         const discountNum = parseFloat(order.discount) || 0;
         const totalNum = parseFloat(order.total) || 0;
+        const discountType = order.discount_type || '-';
 
         return `
           <tr>
@@ -501,6 +509,7 @@ $orders = $reportManager->getSalesHistory();
             <td>${order.cashier || 'Unknown'}</td>
             <td>${order.item ? order.item : 'No items tracked'}</td>
             <td><span class="${getPaymentBadgeClass(order.payment)}">${order.payment}</span></td>
+            <td>${discountType}</td>
             <td>${discountNum > 0 ? `Php${discountNum.toFixed(2)}` : '-'}</td>
             <td class="price-mono">Php${totalNum.toFixed(2)}</td>
             <td style="text-align: center;">
@@ -520,6 +529,7 @@ $orders = $reportManager->getSalesHistory();
       document.getElementById('rcptPayment').textContent = order.payment;
       document.getElementById('rcptCashier').textContent = order.cashier || 'Unknown';
       const discountNum = parseFloat(order.discount) || 0;
+      document.getElementById('rcptDiscountType').textContent = order.discount_type || 'None';
       document.getElementById('rcptDiscount').textContent = discountNum > 0 ? `- Php${discountNum.toFixed(2)}` : 'None';
       document.getElementById('rcptTotal').textContent = `Php${parseFloat(order.total).toFixed(2)}`;
 

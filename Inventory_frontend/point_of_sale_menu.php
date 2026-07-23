@@ -777,6 +777,8 @@ if (!isset($_SESSION['user_id'])) {
 
     .receipt-items-box {
       margin: 10px 0;
+      max-height: 150px;
+      overflow-y: auto;
     }
 
     .receipt-item-line {
@@ -820,6 +822,158 @@ if (!isset($_SESSION['user_id'])) {
 
     .receipt-close-btn:hover {
       background: #1a1a1a;
+    }
+
+    .discount-presets {
+      margin-bottom: 12px;
+    }
+
+    .discount-preset-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .discount-preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .discount-preset-btn {
+      background: white;
+      border: 1.5px solid #d0d0d0;
+      border-radius: 8px;
+      padding: 7px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .discount-preset-btn:hover {
+      border-color: #5470ff;
+      color: #5470ff;
+    }
+
+    .discount-preset-btn.active {
+      background: #eff2ff;
+      border-color: #5470ff;
+      color: #5470ff;
+    }
+
+    .discount-presets-divider {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 10px 0;
+    }
+
+    .item-discount-toggle {
+      background: none;
+      border: 1.5px solid #d0d0d0;
+      border-radius: 5px;
+      padding: 3px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+    }
+
+    .item-discount-toggle:hover {
+      border-color: #5470ff;
+      color: #5470ff;
+    }
+
+    .item-discount-toggle.has-discount {
+      background: #eff2ff;
+      border-color: #5470ff;
+      color: #5470ff;
+    }
+
+    .item-discount-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #e0e0e0;
+    }
+
+    .item-discount-input {
+      width: 65px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1.5px solid #bcbcbc;
+      padding: 0 6px;
+      font-size: 12px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .item-discount-input:focus {
+      border-color: #5470ff;
+    }
+
+    .item-discount-type {
+      height: 28px;
+      border-radius: 6px;
+      border: 1.5px solid #bcbcbc;
+      padding: 0 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      background: white;
+    }
+
+    .item-discount-apply {
+      height: 28px;
+      background: #5470ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .item-discount-apply:hover {
+      background: #3c52d1;
+    }
+
+    .item-discount-clear {
+      height: 28px;
+      background: #ff5c5c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .item-discount-clear:hover {
+      background: #e04444;
+    }
+
+    .item-discount-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff4b4b;
+      font-family: 'DM Mono', monospace;
     }
   </style>
 </head>
@@ -893,6 +1047,20 @@ if (!isset($_SESSION['user_id'])) {
           <span>Subtotal</span>
           <span id="subtotal">Php0.00</span>
         </div>
+
+        <div class="discount-presets">
+          <div class="discount-preset-label">Quick Discounts</div>
+          <div class="discount-preset-grid">
+            <button class="discount-preset-btn" data-name="Senior" data-percent="20" onclick="selectPresetDiscount(this)">Senior<br>20%</button>
+            <button class="discount-preset-btn" data-name="PWD" data-percent="20" onclick="selectPresetDiscount(this)">PWD<br>20%</button>
+            <button class="discount-preset-btn" data-name="Solo Parent" data-percent="10" onclick="selectPresetDiscount(this)">Solo Parent<br>10%</button>
+            <button class="discount-preset-btn" data-name="Employee" data-percent="10" onclick="selectPresetDiscount(this)">Employee<br>10%</button>
+            <button class="discount-preset-btn" data-name="Loyalty" data-percent="20" onclick="selectPresetDiscount(this)">Loyalty<br>20%</button>
+            <button class="discount-preset-btn" data-name="Promo" data-percent="30" onclick="selectPresetDiscount(this)">Promo<br>30%</button>
+          </div>
+        </div>
+
+        <hr class="discount-presets-divider">
 
         <div class="discount-row">
           <input type="number" class="discount-input" id="discountInput" placeholder="Discount" min="0">
@@ -1027,6 +1195,7 @@ if (!isset($_SESSION['user_id'])) {
     let finalCalculatedTotal = 0;
     let cartCount = 0;
     let selectedPayment = 'Cash';
+    let selectedDiscountPreset = null;
 
     const DEFAULT_IMG = 'https://cdn-icons-png.flaticon.com/512/2721/2721297.png';
 
@@ -1260,7 +1429,52 @@ if (!isset($_SESSION['user_id'])) {
       keys.forEach(key => {
         const item = cart[key];
         totalItemQuantity += item.qty;
-        cartTotal += (item.price * item.qty);
+
+        const lineTotal = item.price * item.qty;
+        let itemDeduction = 0;
+        if (item.itemDiscount && item.itemDiscount > 0) {
+          if (item.itemDiscountType === '%') {
+            itemDeduction = Math.min(lineTotal, lineTotal * (item.itemDiscount / 100));
+          } else {
+            itemDeduction = Math.min(lineTotal, item.itemDiscount);
+          }
+        }
+        const discountedLineTotal = lineTotal - itemDeduction;
+        cartTotal += discountedLineTotal;
+
+        const hasDiscount = item.itemDiscount && item.itemDiscount > 0;
+        const toggleClass = hasDiscount ? 'item-discount-toggle has-discount' : 'item-discount-toggle';
+        const toggleLabel = hasDiscount ? '% ✓' : '%';
+
+        let priceHTML = `<div class="item-price">Php${discountedLineTotal.toFixed(2)}</div>`;
+        if (hasDiscount) {
+          priceHTML = `
+            <div>
+              <div class="item-price">Php${discountedLineTotal.toFixed(2)}</div>
+              <div class="item-discount-badge">-Php${itemDeduction.toFixed(2)} (${item.itemDiscount}${item.itemDiscountType === '%' ? '%' : 'php'} off)</div>
+            </div>`;
+        }
+
+        let discountRowHTML = '';
+        if (item.showDiscountInput) {
+          if (hasDiscount) {
+            discountRowHTML = `
+              <div class="item-discount-row">
+                <span style="font-size: 11px; color: #888; font-weight: 600;">Discount: ${item.itemDiscount}${item.itemDiscountType === '%' ? '%' : ' Php'}</span>
+                <button class="item-discount-clear" onclick="clearItemDiscount(${item.id})">Remove</button>
+              </div>`;
+          } else {
+            discountRowHTML = `
+              <div class="item-discount-row">
+                <input type="number" class="item-discount-input" id="itemDiscInput_${item.id}" placeholder="0" min="0">
+                <select class="item-discount-type" id="itemDiscType_${item.id}">
+                  <option value="%">%</option>
+                  <option value="Php">Php</option>
+                </select>
+                <button class="item-discount-apply" onclick="applyItemDiscount(${item.id})">Apply</button>
+              </div>`;
+          }
+        }
 
         const itemEl = document.createElement('div');
         itemEl.classList.add('cart-item');
@@ -1268,10 +1482,13 @@ if (!isset($_SESSION['user_id'])) {
           <div class="cart-item-info" style="width: 100%;">
             <div class="name" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span>${item.name}</span>
-              <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
+              <div style="display: flex; gap: 5px;">
+                <button class="${toggleClass}" onclick="toggleItemDiscount(${item.id})" title="Item Discount">${toggleLabel}</button>
+                <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove Item">✕</button>
+              </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="item-price">Php${(item.price * item.qty).toFixed(2)}</div>
+                ${priceHTML}
                   <div style="display: flex; align-items: center; gap: 6px;">
                     <label style="font-size: 12px; font-weight: 600; color: #666;">Qty:</label>
                     <div style="display: flex; align-items: center; border: 1.5px solid #bcbcbc; border-radius: 6px; overflow: hidden;">
@@ -1284,6 +1501,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
               </div>
             </div>
+            ${discountRowHTML}
           </div>
         `;
         orderItems.appendChild(itemEl);
@@ -1348,14 +1566,80 @@ if (!isset($_SESSION['user_id'])) {
       document.getElementById('total').textContent = 'Php' + finalCalculatedTotal.toFixed(2);
     }
 
-    document.getElementById('discountInput').addEventListener('input', applyDiscount);
-    document.getElementById('discountType').addEventListener('change', applyDiscount);
+    document.getElementById('discountInput').addEventListener('input', function() {
+      clearPresetSelection();
+      applyDiscount();
+    });
+    document.getElementById('discountType').addEventListener('change', function() {
+      clearPresetSelection();
+      applyDiscount();
+    });
+
+    function selectPresetDiscount(btn) {
+      const name = btn.dataset.name;
+      const percent = parseFloat(btn.dataset.percent);
+
+      if (selectedDiscountPreset === name) {
+        clearPresetSelection();
+        document.getElementById('discountInput').value = '';
+        applyDiscount();
+        return;
+      }
+
+      document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedDiscountPreset = name;
+
+      document.getElementById('discountInput').value = percent;
+      document.getElementById('discountType').value = '%';
+      applyDiscount();
+    }
+
+    function toggleItemDiscount(id) {
+      if (!cart[id]) return;
+      cart[id].showDiscountInput = !cart[id].showDiscountInput;
+      renderCart();
+    }
+
+    function applyItemDiscount(id) {
+      if (!cart[id]) return;
+      const val = parseFloat(document.getElementById('itemDiscInput_' + id).value) || 0;
+      const type = document.getElementById('itemDiscType_' + id).value;
+
+      if (val <= 0) {
+        alert('Please enter a valid discount amount.');
+        return;
+      }
+
+      if (type === '%' && val > 100) {
+        alert('Percentage discount cannot exceed 100%.');
+        return;
+      }
+
+      cart[id].itemDiscount = val;
+      cart[id].itemDiscountType = type;
+      renderCart();
+    }
+
+    function clearItemDiscount(id) {
+      if (!cart[id]) return;
+      cart[id].itemDiscount = 0;
+      cart[id].itemDiscountType = null;
+      cart[id].showDiscountInput = false;
+      renderCart();
+    }
+
+    function clearPresetSelection() {
+      selectedDiscountPreset = null;
+      document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
+    }
 
     function clearOrder() {
       cart = {};
       renderCart();
       renderProducts();
       document.getElementById('discountInput').value = '';
+      clearPresetSelection();
     }
 
     function openCheckoutModal() {
@@ -1437,7 +1721,14 @@ if (!isset($_SESSION['user_id'])) {
       }
 
       try {
-        const cartArray = Object.values(cart);
+        const cartArray = Object.values(cart).map(item => {
+          const obj = { id: item.id, name: item.name, price: item.price, qty: item.qty };
+          if (item.itemDiscount && item.itemDiscount > 0) {
+            obj.itemDiscount = item.itemDiscount;
+            obj.itemDiscountType = item.itemDiscountType;
+          }
+          return obj;
+        });
 
         const rawDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
         const type = document.getElementById('discountType').value;
@@ -1445,6 +1736,8 @@ if (!isset($_SESSION['user_id'])) {
         if (rawDiscount > 0 && cartTotal > 0) {
           computedDeduction = (type === '%') ? Math.min(cartTotal, cartTotal * (rawDiscount / 100)) : Math.min(cartTotal, rawDiscount);
         }
+
+        const discountTypeName = selectedDiscountPreset || (computedDeduction > 0 ? 'Custom' : null);
 
         const response = await fetch(
           '../Inventory_backend/api_checkout.php', {
@@ -1456,6 +1749,7 @@ if (!isset($_SESSION['user_id'])) {
               cart: cartArray,
               payment_method: selectedPayment,
               discount_amount: computedDeduction,
+              discount_type: discountTypeName,
               total_amount: finalCalculatedTotal,
               cash_received: cashAmt,
               change_amount: changeAmt,

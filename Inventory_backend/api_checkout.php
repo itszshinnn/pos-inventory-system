@@ -9,6 +9,7 @@ $cart = $data['cart'];
 $paymentMethod = $data['payment_method'];
 $totalAmount = $data['total_amount'];
 $discountAmount = $data['discount_amount'] ?? 0;
+$discountType = $data['discount_type'] ?? null;
 $cashReceived = $data['cash_received'] ?? 0;
 $changeAmount = $data['change_amount'] ?? 0;
 $userId = $_SESSION['user_id'];
@@ -25,6 +26,7 @@ if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod ==
         $_SESSION['pending_total'] = $totalAmount;
         $_SESSION['pending_payment_method'] = $paymentMethod;
         $_SESSION['pending_discount'] = $discountAmount;
+        $_SESSION['pending_discount_type'] = $discountType;
         $_SESSION['pending_email'] = $customerEmail;
 
         echo json_encode([
@@ -58,6 +60,7 @@ if ($paymentMethod === 'GCash' || $paymentMethod === 'Maya' || $paymentMethod ==
         $cart,
         $paymentMethod,
         $discountAmount,
+        $discountType,
         $totalAmount,
         $cashReceived,
         $changeAmount,
