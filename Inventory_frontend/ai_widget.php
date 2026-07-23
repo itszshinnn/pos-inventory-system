@@ -1,18 +1,37 @@
 <style>
-  @keyframes aiFadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
+    @keyframes aiFadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    .ai-card-active {
+        display: flex !important;
+        animation: aiFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-  }
-  .ai-card-active {
-    display: flex !important;
-    animation: aiFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
+
+    @media (max-width: 768px) {
+        #ai-chat-card {
+            width: calc(100vw - 24px) !important;
+            max-width: 360px !important;
+            right: 12px !important;
+            bottom: 20px !important;
+            height: 480px !important;
+            max-height: 80vh !important;
+            z-index: 2050 !important;
+        }
+
+        #ai-chat-btn {
+            bottom: 20px !important;
+            right: 12px !important;
+        }
+    }
 </style>
 
 <div id="ai-chat-btn" onclick="toggleAiChat()" style="position: fixed; bottom: 35px; right: 20px; background: #0d6efd; color: #fff; padding: 10px 18px; border-radius: 30px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); z-index: 1001; font-weight: 600; font-size: 14px;">
@@ -107,21 +126,27 @@
         }
 
         const savedOpenState = sessionStorage.getItem(CHAT_OPEN_KEY);
+        const chatBtn = document.getElementById('ai-chat-btn');
         if (savedOpenState === 'true') {
             chatCard.classList.add('ai-card-active');
+            if (chatBtn) chatBtn.style.display = 'none';
         } else {
             chatCard.classList.remove('ai-card-active');
             chatCard.style.display = 'none';
+            if (chatBtn) chatBtn.style.display = 'flex';
         }
     }
 
     function toggleAiChat() {
         const chatCard = document.getElementById('ai-chat-card');
+        const chatBtn = document.getElementById('ai-chat-btn');
         if (!chatCard.classList.contains('ai-card-active') && chatCard.style.display !== 'flex') {
             chatCard.classList.add('ai-card-active');
+            if (chatBtn) chatBtn.style.display = 'none';
         } else {
             chatCard.classList.remove('ai-card-active');
             chatCard.style.display = 'none';
+            if (chatBtn) chatBtn.style.display = 'flex';
         }
         saveChatState();
     }
