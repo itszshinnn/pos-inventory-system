@@ -266,10 +266,10 @@ if (!isset($_SESSION['user_id'])) {
       font-weight: 700;
       color: #333;
       display: -webkit-box;
+      line-clamp: 2;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 32px;
     }
 
     .price {
@@ -1722,7 +1722,12 @@ if (!isset($_SESSION['user_id'])) {
 
       try {
         const cartArray = Object.values(cart).map(item => {
-          const obj = { id: item.id, name: item.name, price: item.price, qty: item.qty };
+          const obj = {
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            qty: item.qty
+          };
           if (item.itemDiscount && item.itemDiscount > 0) {
             obj.itemDiscount = item.itemDiscount;
             obj.itemDiscountType = item.itemDiscountType;
@@ -1824,9 +1829,9 @@ if (!isset($_SESSION['user_id'])) {
       if (!p) return;
 
       const modelPath =
-          (!p.model_path || p.model_path === 'null' || p.model_path === '')
-              ? '../Models/default.glb'
-              : p.model_path;
+        (!p.model_path || p.model_path === 'null' || p.model_path === '') ?
+        '../Models/default.glb' :
+        p.model_path;
 
       let detailsHTML = `
             <div style="font-size: 14px; color: #444; line-height: 1.6;">
