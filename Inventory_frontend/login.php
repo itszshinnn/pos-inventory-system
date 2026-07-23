@@ -12,74 +12,100 @@ $signupError = '';
 $signupSuccess = '';
 
 if (isset($_POST['login'])) {
+    $now = time();
+    $maxAttempts = 5;
+    $lockoutTime = 60; // 60 seconds cooldown
 
-    $username = trim($_POST['login_username']);
-    $password = trim($_POST['login_password']);
-
-    if ($username === 'admin' && $password === 'admin') {
-        $_SESSION['user_id'] = 0;
-        $_SESSION['username'] = 'Admin';
-        $_SESSION['role'] = 'admin';
-
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-
-        $stmt = $pdo->prepare("
-            INSERT INTO login_logs
-            (user_id, username, ip_address, user_agent)
-            VALUES (?, ?, ?, ?)
-        ");
-
-        $stmt->execute([
-            $_SESSION['user_id'],
-            $_SESSION['username'],
-            $ip,
-            $userAgent
-        ]);
-
-        header("Location: ../Inventory_frontend/dashboard.php");
-        exit;
+    if (!isset($_SESSION['login_attempts'])) {
+        $_SESSION['login_attempts'] = 0;
+        $_SESSION['last_attempt_time'] = $now;
     }
 
-    $stmt = $pdo->prepare("
-        SELECT * FROM users
-        WHERE username = ?
-    ");
+    // Reset attempt count if lockout period has passed
+    if (($now - $_SESSION['last_attempt_time']) > $lockoutTime) {
+        $_SESSION['login_attempts'] = 0;
+    }
 
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
+    // Enforce rate limiting lockout
+    if ($_SESSION['login_attempts'] >= $maxAttempts) {
+        $remainingLock = $lockoutTime - ($now - $_SESSION['last_attempt_time']);
+        $loginError = "Too many failed login attempts. Please wait {$remainingLock} seconds before trying again.";
+    } else {
+        $username = trim($_POST['login_username']);
+        $password = trim($_POST['login_password']);
 
-    if ($user && password_verify($password, $user['password'])) {
+        if ($username === 'admin' && $password === 'admin') {
+            $_SESSION['login_attempts'] = 0;
+            $_SESSION['user_id'] = 0;
+            $_SESSION['username'] = 'Admin';
+            $_SESSION['role'] = 'admin';
 
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            $stmt = $pdo->prepare("
+                INSERT INTO login_logs
+                (user_id, username, ip_address, user_agent)
+                VALUES (?, ?, ?, ?)
+            ");
+
+            $stmt->execute([
+                $_SESSION['user_id'],
+                $_SESSION['username'],
+                $ip,
+                $userAgent
+            ]);
+
+            header("Location: ../Inventory_frontend/dashboard.php");
+            exit;
+        }
 
         $stmt = $pdo->prepare("
-            INSERT INTO login_logs
-            (user_id, username, ip_address, user_agent)
-            VALUES (?, ?, ?, ?)
+            SELECT * FROM users
+            WHERE username = ?
         ");
 
-        $stmt->execute([
-            $user['id'],
-            $user['username'],
-            $ip,
-            $userAgent
-        ]);
+        $stmt->execute([$username]);
+        $user = $stmt->fetch();
 
-        if ($_SESSION['role'] === 'admin') {
-            header("Location: ../Inventory_frontend/dashboard.php");
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['login_attempts'] = 0;
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+            $stmt = $pdo->prepare("
+                INSERT INTO login_logs
+                (user_id, username, ip_address, user_agent)
+                VALUES (?, ?, ?, ?)
+            ");
+
+            $stmt->execute([
+                $user['id'],
+                $user['username'],
+                $ip,
+                $userAgent
+            ]);
+
+            if ($_SESSION['role'] === 'admin') {
+                header("Location: ../Inventory_frontend/dashboard.php");
+            } else {
+                header("Location: ../Inventory_frontend/point_of_sale_menu.php");
+            }
+            exit;
         } else {
-            header("Location: ../Inventory_frontend/point_of_sale_menu.php");
+            $_SESSION['login_attempts']++;
+            $_SESSION['last_attempt_time'] = $now;
+            $remaining = $maxAttempts - $_SESSION['login_attempts'];
+            if ($remaining > 0) {
+                $loginError = "Invalid username or password. ({$remaining} attempts remaining)";
+            } else {
+                $loginError = "Too many failed attempts. Account locked for 60 seconds.";
+            }
         }
-        exit;
-    } else {
-
-        $loginError = "Invalid username or password.";
     }
 }
 

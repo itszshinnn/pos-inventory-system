@@ -367,6 +367,147 @@ usort($allNotifications, function ($a, $b) {
       grid-column: span 2;
     }
 
+    .sidebar-toggle-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 6px;
+      margin-right: 10px;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-toggle-btn {
+        display: flex;
+      }
+
+      .topbar {
+        padding: 0 12px;
+      }
+
+      .topbar-title {
+        font-size: 0.95rem;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 240px;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        padding: 12px !important;
+      }
+
+      .dashboard-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .dashboard-left-content .stat-icon {
+        width: 42px;
+      }
+
+      .dashboard-left-content .stat-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .dashboard-left-content .stat-body {
+        padding: 8px 10px;
+      }
+
+      .dashboard-left-content .stat-body .num {
+        font-size: 1.1rem;
+      }
+
+      .dashboard-left-content .stat-body .label {
+        font-size: 0.72rem;
+      }
+
+      .metrics-row-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+
+      .metric-sub-card {
+        padding: 12px;
+      }
+
+      .metric-sub-card p {
+        font-size: 17px !important;
+        word-break: break-word;
+      }
+
+      .notif-item {
+        font-size: 12px;
+        padding: 10px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .graph-container {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .graph-card {
+        padding: 12px;
+        height: 320px;
+      }
+
+      .graph-card h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .revenue-card {
+        grid-column: span 1;
+      }
+    }
+
     @keyframes popupFade {
 
       from {
@@ -383,8 +524,15 @@ usort($allNotifications, function ($a, $b) {
   </style>
 </head>
 
-<body>
-  <div class="topbar">
+<body>  <div class="topbar">
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
     <div class="topbar-admin" onclick="toggleUserDropdown(event)">
       <img src="../Images/profile.png" alt="Profile" class="profile-img">
       <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
@@ -395,13 +543,15 @@ usort($allNotifications, function ($a, $b) {
     </div>
 
     <span class="topbar-title">
-      K's Inventory System
+      Kulotski
     </span>
   </div>
 
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
   <div class="layout">
-    <nav class="sidebar">
-      <a href="dashboard.php">Dashboard</a>
+    <nav class="sidebar" id="sidebarNav">
+      <a href="dashboard.php" class="active">Dashboard</a>
       <a href="categories.php">Categories</a>
       <a href="products.php">Products</a>
       <a href="purchase_orders.php">Purchase Orders</a>
@@ -647,7 +797,22 @@ usort($allNotifications, function ($a, $b) {
       dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
 
-    window.onclick = function() {
+    function toggleSidebar(event) {
+      if (event) event.stopPropagation();
+      const sidebar = document.getElementById("sidebarNav");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      sidebar.classList.toggle("active");
+      backdrop.classList.toggle("active");
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById("sidebarNav");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      if (sidebar) sidebar.classList.remove("active");
+      if (backdrop) backdrop.classList.remove("active");
+    }
+
+    window.onclick = function(event) {
       const dropdown = document.getElementById("userDropdownMenu");
       if (dropdown && dropdown.style.display === "block") {
         dropdown.style.display = "none";

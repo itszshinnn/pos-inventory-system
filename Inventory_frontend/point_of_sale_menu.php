@@ -270,6 +270,8 @@ if (!isset($_SESSION['user_id'])) {
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      height: 36px;
+      line-height: 1.35;
     }
 
     .price {
