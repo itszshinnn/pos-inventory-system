@@ -145,6 +145,7 @@ session_start();
       .main {
         width: 100%;
         padding: 12px !important;
+        padding-bottom: 90px !important;
       }
 
       .cat-layout {
@@ -159,6 +160,20 @@ session_start();
 
       .table-wrap table {
         min-width: 480px;
+      }
+
+      .modal-overlay {
+        z-index: 99999 !important;
+        padding: 16px !important;
+      }
+
+      .modal {
+        width: calc(100% - 24px) !important;
+        max-width: 400px !important;
+        margin: auto !important;
+        padding: 20px 16px !important;
+        border-radius: 14px !important;
+        box-sizing: border-box !important;
       }
     }
   </style>
@@ -202,7 +217,7 @@ session_start();
       <a href="users.php">Users</a>
     </nav>
 
-    <div class="main">
+    <div class="main" style="padding-bottom: 90px;">
       <div class="cat-layout">
 
         <div class="form-card">

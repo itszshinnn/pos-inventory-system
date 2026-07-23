@@ -168,11 +168,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       .main {
         width: 100%;
         padding: 12px !important;
+        padding-bottom: 90px !important;
       }
 
       .table-toolbar {
         flex-wrap: wrap !important;
         gap: 8px !important;
+        margin-bottom: 12px !important;
       }
 
       .table-toolbar input,
@@ -184,14 +186,31 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       .table-wrap {
         overflow-x: auto;
         width: 100%;
+        border-radius: 8px;
       }
 
       .table-wrap table {
         min-width: 850px;
       }
 
+      .modal-overlay {
+        z-index: 99999 !important;
+        padding: 16px !important;
+      }
+
+      .modal {
+        width: calc(100% - 24px) !important;
+        max-width: 700px !important;
+        max-height: 82vh !important;
+        margin: auto !important;
+        padding: 18px 16px !important;
+        border-radius: 14px !important;
+        box-sizing: border-box !important;
+      }
+
       .edit-modal-grid {
         grid-template-columns: 1fr !important;
+        gap: 10px !important;
       }
     }
   </style>
@@ -236,25 +255,26 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="users.php">Users</a>
     </nav>
 
-    <div class="main">
+    <div class="main" style="padding-bottom: 90px;">
+      <div class="table-toolbar" style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center;">
+        <input class="search-box" type="text" id="searchInput" placeholder="Search name, category, brand, color..." oninput="applyFilters()" style="flex: 1; height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; font-family: inherit;">
+
+        <select id="filterBrand" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+          <option value="">All Brands</option>
+        </select>
+
+        <select id="filterColor" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+          <option value="">All Colors</option>
+        </select>
+
+        <select id="sortPrice" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
+          <option value="">Sort by: Default</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
+
       <div class="table-wrap">
-        <div class="table-toolbar" style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center;">
-          <input class="search-box" type="text" id="searchInput" placeholder="Search name, category, brand, color..." oninput="applyFilters()" style="flex: 1; height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; font-family: inherit;">
-
-          <select id="filterBrand" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
-            <option value="">All Brands</option>
-          </select>
-
-          <select id="filterColor" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
-            <option value="">All Colors</option>
-          </select>
-
-          <select id="sortPrice" onchange="applyFilters()" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; background: white; cursor: pointer; font-family: inherit;">
-            <option value="">Sort by: Default</option>
-            <option value="asc">Price: Low to High</option>
-            <option value="desc">Price: High to Low</option>
-          </select>
-        </div>
         <table>
           <thead>
             <tr>
