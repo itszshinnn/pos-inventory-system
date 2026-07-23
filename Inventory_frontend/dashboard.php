@@ -405,14 +405,34 @@ usort($allNotifications, function ($a, $b) {
     @media (max-width: 768px) {
       .sidebar-toggle-btn {
         display: flex;
+        padding: 4px;
+        margin-right: 2px;
       }
 
       .topbar {
-        padding: 0 12px;
+        padding: 0 10px;
+        height: 52px;
+        gap: 6px;
+      }
+
+      .topbar-admin {
+        padding: 4px 8px;
+        font-size: 0.82rem;
+        margin-right: 4px;
+        gap: 6px;
+      }
+
+      .profile-img {
+        width: 24px;
+        height: 24px;
       }
 
       .topbar-title {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .sidebar {
