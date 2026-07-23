@@ -543,7 +543,7 @@ usort($allNotifications, function ($a, $b) {
     </div>
 
     <span class="topbar-title">
-      Kulotski
+      K's Inventory System
     </span>
   </div>
 
