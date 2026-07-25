@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>K's Inventory — Add Product</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style.css?v=<?= filemtime(__DIR__ . '/../style.css') ?>">
 
   <style>
     .topbar-admin {
@@ -253,11 +253,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         top: 0;
         left: 0;
         height: 100vh;
+        height: 100dvh;
         width: 240px;
         z-index: 2000;
         transform: translateX(-100%);
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        padding-bottom: 24px !important;
       }
 
       .sidebar.active {
@@ -289,139 +291,181 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 <body>
 
-  <div class="topbar">
-    <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
-
-    <div class="topbar-admin" onclick="toggleUserDropdown(event)">
-      <img src="../Images/profile.png" alt="Profile" class="profile-img">
-      <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
-      <div id="userDropdownMenu" class="dropdown-menu">
-        <a href="../Inventory_frontend/logout.php">Logout</a>
-      </div>
-    </div>
-    <span class="topbar-title">K's Inventory System</span>
-  </div>
-
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
   <div class="layout">
-    <nav class="sidebar" id="sidebarNav">
-      <a href="dashboard.php">Dashboard</a>
-      <a href="categories.php">Categories</a>
-      <a href="products.php">Products</a>
-      <a href="add-product.php" class="active">- Add Products</a>
-      <a href="purchase_orders.php">Purchase Orders</a>
-      <a href="xml.php">Backup & Restore</a>
-      <a href="history.php">History</a>
-      <a href="users.php">Users</a>
-    </nav>
-
-    <div class="main">
-
-      <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 1.5rem; color: #1a1a1a; margin-bottom: 4px;">Add New Product</h2>
-        <p style="color: #666; font-size: 0.9rem; margin-top: 0;">Fill in the details below to add a new item to your inventory catalog.</p>
+    <nav class="sidebar no-transition" id="sidebarNav">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">
+          <img src="../Images/logo.svg" alt="Logo" style="width: 26px; height: 26px; object-fit: contain;">
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Kinetix</span>
+          <span class="brand-sub">Inventory System</span>
+        </div>
       </div>
 
-      <form id="productForm" onsubmit="event.preventDefault(); addProduct();" enctype="multipart/form-data">
-        <div class="modern-form-container">
+      <span class="sidebar-group-label">Menu</span>
+      <a href="dashboard.php"><?php include '../Images/dashboard.svg'; ?> <span>Dashboard</span></a>
+      <a href="categories.php"><?php include '../Images/categories.svg'; ?> <span>Categories</span></a>
+      <a href="products.php"><?php include '../Images/products.svg'; ?> <span>Products</span></a>
+      <a href="add-product.php" class="sub-tab active">Add Products</a>
+      <a href="purchase_orders.php"><?php include '../Images/purchase_orders.svg'; ?> <span>Purchase Orders</span></a>
 
-          <div class="form-section">
-            <div class="section-header">Basic Information</div>
-            <div class="grid-row">
-              <div class="input-group">
-                <label>Product Name</label>
-                <input type="text" id="prodName" class="modern-input" placeholder="e.g., Wireless Mechanical Keyboard" required />
-              </div>
-              <div class="input-group">
-                <label>Category</label>
-                <select id="prodCategory" class="modern-input" required>
-                  <option value="" disabled selected>Select category</option>
-                </select>
-              </div>
-              <div class="input-group full-width">
-                <label>Description</label>
-                <textarea id="prodDesc" class="modern-input" placeholder="Enter detailed product description (Optional)"></textarea>
-              </div>
-            </div>
+      <span class="sidebar-group-label">Reports</span>
+      <a href="xml.php"><?php include '../Images/backup.svg'; ?> <span>Backup and Restore</span></a>
+      <a href="#" onclick="toggleHistorySubmenu(event)" id="historyParentLink"><?php include '../Images/history.svg'; ?> <span>History</span></a>
+      <div id="historySubmenu" style="display: <?= (in_array(basename($_SERVER['PHP_SELF']), ['history.php', 'product_history.php', 'login_history.php']) ? 'block' : 'none') ?>;">
+        <a href="history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'history.php' ? ' active' : '') ?>">Sales History</a>
+        <a href="product_history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'product_history.php' ? ' active' : '') ?>">Inventory Logs</a>
+        <a href="login_history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'login_history.php' ? ' active' : '') ?>">Log History</a>
+      </div>
+      <a href="users.php"><?php include '../Images/users.svg'; ?> <span>Users</span></a>
+
+      <div class="sidebar-logout">
+        <a href="../Inventory_frontend/logout.php">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <span>Logout</span>
+        </a>
+      </div>
+    </nav>
+    <script>
+      (function() {
+        const state = sessionStorage.getItem("sidebarState");
+        if (state === "active") {
+          const sb = document.getElementById("sidebarNav");
+          const bd = document.getElementById("sidebarBackdrop");
+          if (sb) sb.classList.add("active");
+          if (bd) bd.classList.add("active");
+        }
+      })();
+    </script>
+
+    <div class="main-wrapper">
+      <div class="topbar">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <span class="topbar-title">Add Products</span>
+
+        <div class="topbar-right-group">
+          <button id="topbar-ai-btn" onclick="toggleAiChat()" class="topbar-ai-btn"><img src="../Images/message.svg" alt="AI" style="width: 15px; height: 15px; object-fit: contain; filter: brightness(0) invert(1); flex-shrink: 0;"> AI Assistant</button>
+          <div class="topbar-admin">
+            <img src="../Images/profile.png" alt="Profile" class="profile-img">
+            Welcome back, <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?>!
           </div>
-
-          <div class="form-section">
-            <div class="section-header">Pricing & Inventory</div>
-            <div class="grid-row">
-              <div class="input-group">
-                <label>Price Bought / Cost (₱)</label>
-                <input type="number" id="prodPriceBought" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
-              </div>
-              <div class="input-group">
-                <label>Price Sold / Retail (₱)</label>
-                <input type="number" id="prodPrice" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
-              </div>
-              <div class="input-group">
-                <label>Initial Stock</label>
-                <input type="number" id="prodStock" class="modern-input" placeholder="0" min="0" required />
-              </div>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-header">Product Specifications</div>
-            <div class="grid-row">
-              <div class="input-group">
-                <label>Brand</label>
-                <input type="text" id="prodBrand" class="modern-input" placeholder="e.g., Logitech, Samsung" />
-              </div>
-              <div class="input-group">
-                <label>Color</label>
-                <input type="text" id="prodColor" class="modern-input" placeholder="e.g., Matte Black" />
-              </div>
-              <div class="input-group">
-                <label>Type</label>
-                <input type="text" id="prodType" class="modern-input" placeholder="e.g., Peripheral, Storage" />
-              </div>
-              <div class="input-group">
-                <label>Capacity / Size</label>
-                <input type="text" id="prodSize" class="modern-input" placeholder="e.g., 512GB, 16GB (Optional)" />
-              </div>
-              <div class="input-group">
-                <label>Resolution</label>
-                <input type="text" id="prodRes" class="modern-input" placeholder="e.g., 1920x1080 (Optional)" />
-              </div>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-header">Media Files</div>
-            <div class="grid-row">
-              <div class="input-group">
-                <label>Product Image</label>
-                <div class="file-input-wrapper">
-                  <label for="prodImage" id="fileLabel" class="file-input-label">📁 Click to Browse Image...</label>
-                  <input type="file" id="prodImage" accept=".jpg,.jpeg,.png,.webp,.gif" onchange="updateFileLabel()" />
-                </div>
-              </div>
-              <div class="input-group">
-                <label>3D Model (.glb)</label>
-                <div class="file-input-wrapper">
-                  <label for="prodModel" id="modelLabel" class="file-input-label">📦 Click to Browse .GLB (Optional)...</label>
-                  <input type="file" id="prodModel" accept=".glb,.gltf" onchange="updateModelLabel()" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="action-bar">
-            <button type="submit" class="btn-submit">Save Product to Inventory</button>
-          </div>
-
         </div>
-      </form>
+      </div>
+
+      <div class="main">
+
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 1.5rem; color: #1a1a1a; margin-bottom: 4px;">Add New Product</h2>
+          <p style="color: #666; font-size: 0.9rem; margin-top: 0;">Fill in the details below to add a new item to your inventory catalog.</p>
+        </div>
+
+        <form id="productForm" onsubmit="event.preventDefault(); addProduct();" enctype="multipart/form-data">
+          <div class="modern-form-container">
+
+            <div class="form-section">
+              <div class="section-header">Basic Information</div>
+              <div class="grid-row">
+                <div class="input-group">
+                  <label>Product Name <span style="color:#e05c5c;">*</span></label>
+                  <input type="text" id="prodName" class="modern-input" placeholder="e.g. Wireless Gaming Mouse" required />
+                </div>
+                <div class="input-group">
+                  <label>Category <span style="color:#e05c5c;">*</span></label>
+                  <select id="prodCategory" class="modern-input" required>
+                    <option value="" disabled selected>Loading categories...</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-header">Pricing & Stock</div>
+              <div class="grid-row">
+                <div class="input-group">
+                  <label>Cost Price (₱) <span style="color:#e05c5c;">*</span></label>
+                  <input type="number" id="prodPriceBought" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
+                </div>
+                <div class="input-group">
+                  <label>Retail Selling Price (₱) <span style="color:#e05c5c;">*</span></label>
+                  <input type="number" id="prodPrice" class="modern-input" placeholder="0.00" min="0" step="0.01" required />
+                </div>
+                <div class="input-group">
+                  <label>Initial Stock Quantity <span style="color:#e05c5c;">*</span></label>
+                  <input type="number" id="prodStock" class="modern-input" placeholder="0" min="0" required />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-header">Product Specifications (Optional)</div>
+              <div class="grid-row">
+                <div class="input-group">
+                  <label>Brand</label>
+                  <input type="text" id="prodBrand" class="modern-input" placeholder="e.g. Razer, Logitech, ASUS" />
+                </div>
+                <div class="input-group">
+                  <label>Color</label>
+                  <input type="text" id="prodColor" class="modern-input" placeholder="e.g. Black, White, RGB" />
+                </div>
+                <div class="input-group">
+                  <label>Type / Series</label>
+                  <input type="text" id="prodType" class="modern-input" placeholder="e.g. Wireless, Mechanical" />
+                </div>
+              </div>
+              <div class="grid-row" style="margin-top: 14px;">
+                <div class="input-group">
+                  <label>Capacity / Size</label>
+                  <input type="text" id="prodSize" class="modern-input" placeholder="e.g. 16GB, 27-inch, Large" />
+                </div>
+                <div class="input-group">
+                  <label>Resolution / Specs</label>
+                  <input type="text" id="prodRes" class="modern-input" placeholder="e.g. 4K 144Hz, 2560x1440" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-header">Media & Description</div>
+              <div class="input-group" style="margin-bottom: 16px;">
+                <label>Description</label>
+                <textarea id="prodDesc" class="modern-input" placeholder="Enter product features, warranty information..." rows="3"></textarea>
+              </div>
+
+              <div class="grid-row">
+                <div class="input-group">
+                  <label>Product Image</label>
+                  <div class="file-input-wrapper">
+                    <label for="prodImage" id="fileLabel" class="file-input-label">📁 Click to Browse Image...</label>
+                    <input type="file" id="prodImage" accept="image/*" onchange="updateFileLabel()" />
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label>3D Model (.glb)</label>
+                  <div class="file-input-wrapper">
+                    <label for="prodModel" id="modelLabel" class="file-input-label">📦 Click to Browse .GLB (Optional)...</label>
+                    <input type="file" id="prodModel" accept=".glb,.gltf" onchange="updateModelLabel()" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-bar">
+              <button type="submit" class="btn-submit">Save Product to Inventory</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -547,8 +591,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (event) event.stopPropagation();
       const sidebar = document.getElementById("sidebarNav");
       const backdrop = document.getElementById("sidebarBackdrop");
-      sidebar.classList.toggle("active");
-      backdrop.classList.toggle("active");
+      if (sidebar && backdrop) {
+        sidebar.classList.toggle("active");
+        backdrop.classList.toggle("active");
+        if (sidebar.classList.contains("active")) {
+          sessionStorage.setItem("sidebarState", "active");
+        } else {
+          sessionStorage.setItem("sidebarState", "inactive");
+        }
+      }
     }
 
     function closeSidebar() {
@@ -556,7 +607,29 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       const backdrop = document.getElementById("sidebarBackdrop");
       if (sidebar) sidebar.classList.remove("active");
       if (backdrop) backdrop.classList.remove("active");
+      sessionStorage.setItem("sidebarState", "inactive");
     }
+
+    function toggleHistorySubmenu(event) {
+      if (event) event.preventDefault();
+      const submenu = document.getElementById("historySubmenu");
+      if (submenu) {
+        submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const sidebarState = sessionStorage.getItem("sidebarState");
+      const sidebar = document.getElementById("sidebarNav");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      if (sidebarState === "active") {
+        if (sidebar) sidebar.classList.add("active");
+        if (backdrop) backdrop.classList.add("active");
+      }
+      setTimeout(() => {
+        if (sidebar) sidebar.classList.remove("no-transition");
+      }, 50);
+    });
 
     window.onclick = function() {
       const dropdown = document.getElementById("userDropdownMenu");

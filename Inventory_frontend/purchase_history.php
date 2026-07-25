@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K's Inventory — Purchase Orders</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=<?= filemtime(__DIR__ . '/../style.css') ?>">
 
     <style>
         .topbar-admin {
@@ -134,11 +134,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                 top: 0;
                 left: 0;
                 height: 100vh;
+                height: 100dvh;
                 width: 240px;
                 z-index: 2000;
                 transform: translateX(-100%);
                 transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
                 box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+                padding-bottom: 24px !important;
             }
 
             .sidebar.active {
@@ -315,21 +317,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             margin: 0 auto 20px;
         }
 
-        .sidebar a.sub-tab {
-            padding-left: 28px;
-            font-size: 0.88rem;
-            color: #bcbcbc;
-        }
 
-        .sidebar a.sub-tab::before {
-            content: "• ";
-            color: #666;
-            margin-right: 4px;
-        }
-
-        .sidebar a.sub-tab.active::before {
-            color: #4d66ff;
-        }
 
         @keyframes spin {
             0% {
@@ -351,65 +339,104 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 <body>
 
-    <div class="topbar">
-        <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
-
-        <div class="topbar-admin" onclick="toggleUserDropdown(event)">
-            <img src="../Images/profile.png" alt="Profile" class="profile-img">
-            <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> ▼
-            <div id="userDropdownMenu" class="dropdown-menu">
-                <a href="logout.php">Logout</a>
-            </div>
-        </div>
-        <span class="topbar-title">K's Inventory System</span>
-    </div>
-
     <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
     <div class="layout">
-        <nav class="sidebar" id="sidebarNav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="categories.php">Categories</a>
-            <a href="products.php">Products</a>
-            <a href="purchase_orders.php" class="active">Purchase Orders</a>
-            <a href="purchase_history.php" class="sub-tab active">Purchase History</a>
-            <a href="xml.php">Backup & Restore</a>
-            <a href="history.php">History</a>
-            <a href="users.php">Users</a>
-        </nav>
-
-        <div class="main">
-            <div class="restock-section">
-                <div class="section-title">Purchase History</div>
-
-                <div class="table-wrap">
-                    <table style="width:100%; border-collapse:collapse;">
-                        <thead>
-                            <tr>
-                                <th>Purchase Order</th>
-                                <th>Date Ordered</th>
-                                <th>Received By</th>
-                                <th>Total Items</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="historyTableBody">
-                            <tr>
-                                <td colspan="5">Loading...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <nav class="sidebar no-transition" id="sidebarNav">
+            <div class="sidebar-brand">
+                <div class="brand-logo-icon">
+                    <img src="../Images/logo.svg" alt="Logo" style="width: 26px; height: 26px; object-fit: contain;">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Kinetix</span>
+                    <span class="brand-sub">Inventory System</span>
                 </div>
             </div>
 
+            <span class="sidebar-group-label">Menu</span>
+            <a href="dashboard.php"><?php include '../Images/dashboard.svg'; ?> <span>Dashboard</span></a>
+            <a href="categories.php"><?php include '../Images/categories.svg'; ?> <span>Categories</span></a>
+            <a href="products.php"><?php include '../Images/products.svg'; ?> <span>Products</span></a>
+            <a href="purchase_orders.php"><?php include '../Images/purchase_orders.svg'; ?> <span>Purchase Orders</span></a>
+            <a href="purchase_history.php" class="sub-tab active">Purchase History</a>
 
+            <span class="sidebar-group-label">Reports</span>
+            <a href="xml.php"><?php include '../Images/backup.svg'; ?> <span>Backup and Restore</span></a>
+            <a href="#" onclick="toggleHistorySubmenu(event)" id="historyParentLink"><?php include '../Images/history.svg'; ?> <span>History</span></a>
+            <div id="historySubmenu" style="display: <?= (in_array(basename($_SERVER['PHP_SELF']), ['history.php', 'product_history.php', 'login_history.php']) ? 'block' : 'none') ?>;">
+                <a href="history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'history.php' ? ' active' : '') ?>">Sales History</a>
+                <a href="product_history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'product_history.php' ? ' active' : '') ?>">Inventory Logs</a>
+                <a href="login_history.php" class="sub-tab<?= (basename($_SERVER['PHP_SELF']) == 'login_history.php' ? ' active' : '') ?>">Log History</a>
+            </div>
+            <a href="users.php"><?php include '../Images/users.svg'; ?> <span>Users</span></a>
+
+            <div class="sidebar-logout">
+                <a href="../Inventory_frontend/logout.php">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+        <script>
+          (function() {
+            const state = sessionStorage.getItem("sidebarState");
+            if (state === "active") {
+              const sb = document.getElementById("sidebarNav");
+              const bd = document.getElementById("sidebarBackdrop");
+              if (sb) sb.classList.add("active");
+              if (bd) bd.classList.add("active");
+            }
+          })();
+        </script>
+
+        <div class="main-wrapper">
+            <div class="topbar">
+                <button class="sidebar-toggle-btn" onclick="toggleSidebar(event)" aria-label="Toggle Navigation Sidebar">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+
+                <span class="topbar-title">Purchase History</span>
+
+                <div class="topbar-right-group">
+                    <button id="topbar-ai-btn" onclick="toggleAiChat()" class="topbar-ai-btn"><img src="../Images/message.svg" alt="AI" style="width: 15px; height: 15px; object-fit: contain; filter: brightness(0) invert(1); flex-shrink: 0;"> AI Assistant</button>
+                    <div class="topbar-admin">
+                        <img src="../Images/profile.png" alt="Profile" class="profile-img">
+                        Welcome back, <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?>!
+                    </div>
+                </div>
+            </div>
+
+            <div class="main">
+                <div class="restock-section">
+                    <div class="section-title">Purchase History</div>
+
+                    <div class="table-wrap">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <th>Purchase Order</th>
+                                    <th>Date Ordered</th>
+                                    <th>Received By</th>
+                                    <th>Total Items</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="historyTableBody">
+                                <tr>
+                                    <td colspan="5">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 
@@ -507,8 +534,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             if (event) event.stopPropagation();
             const sidebar = document.getElementById("sidebarNav");
             const backdrop = document.getElementById("sidebarBackdrop");
-            sidebar.classList.toggle("active");
-            backdrop.classList.toggle("active");
+            if (sidebar && backdrop) {
+                sidebar.classList.toggle("active");
+                backdrop.classList.toggle("active");
+                if (sidebar.classList.contains("active")) {
+                    sessionStorage.setItem("sidebarState", "active");
+                } else {
+                    sessionStorage.setItem("sidebarState", "inactive");
+                }
+            }
         }
 
         function closeSidebar() {
@@ -516,7 +550,29 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             const backdrop = document.getElementById("sidebarBackdrop");
             if (sidebar) sidebar.classList.remove("active");
             if (backdrop) backdrop.classList.remove("active");
+            sessionStorage.setItem("sidebarState", "inactive");
         }
+
+        function toggleHistorySubmenu(event) {
+            if (event) event.preventDefault();
+            const submenu = document.getElementById("historySubmenu");
+            if (submenu) {
+                submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebarState = sessionStorage.getItem("sidebarState");
+            const sidebar = document.getElementById("sidebarNav");
+            const backdrop = document.getElementById("sidebarBackdrop");
+            if (sidebarState === "active") {
+                if (sidebar) sidebar.classList.add("active");
+                if (backdrop) backdrop.classList.add("active");
+            }
+            setTimeout(() => {
+                if (sidebar) sidebar.classList.remove("no-transition");
+            }, 50);
+        });
 
         window.onclick = function() {
             const dropdown = document.getElementById("userDropdownMenu");

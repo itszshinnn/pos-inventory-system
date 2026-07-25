@@ -123,7 +123,7 @@ if (isset($_POST['login'])) {
 
     <style>
         :root {
-            --dark-1: #333538;
+            --dark-1: #1e2337;
             --dark-2: #333538;
             --bg: #F5F6F8;
             --white: #FFFFFF;

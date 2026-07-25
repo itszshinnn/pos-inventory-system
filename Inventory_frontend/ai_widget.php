@@ -1,8 +1,8 @@
 <style>
-    @keyframes aiFadeUp {
+    @keyframes aiFadeDown {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(-16px);
         }
 
         to {
@@ -13,71 +13,120 @@
 
     .ai-card-active {
         display: flex !important;
-        animation: aiFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: aiFadeDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @media (max-width: 768px) {
+        #ai-chat-btn {
+            display: flex !important;
+            position: fixed !important;
+            bottom: 20px !important;
+            right: 16px !important;
+            left: auto !important;
+            top: auto !important;
+            margin: 0 !important;
+            background: linear-gradient(135deg, #1e2337 0%, #141726 100%) !important;
+            color: #ffffff !important;
+            padding: 10px 18px !important;
+            border-radius: 30px !important;
+            border: 1px solid rgba(67, 97, 238, 0.4) !important;
+            box-shadow: 0 8px 24px rgba(30, 35, 55, 0.45) !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+            align-items: center !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+            z-index: 2000 !important;
+            white-space: nowrap !important;
+        }
+
         #ai-chat-card {
             width: calc(100vw - 24px) !important;
             max-width: 360px !important;
-            right: 12px !important;
-            bottom: 20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            right: auto !important;
+            top: auto !important;
+            bottom: 75px !important;
             height: 480px !important;
             max-height: 80vh !important;
             z-index: 2050 !important;
         }
+    }
 
+    @media (min-width: 769px) {
         #ai-chat-btn {
-            bottom: 20px !important;
-            right: 12px !important;
+            display: none !important;
         }
+    }
+
+    #ai-chat-logs::-webkit-scrollbar,
+    .ai-prompt-chips-bar::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    #ai-chat-logs::-webkit-scrollbar-track,
+    .ai-prompt-chips-bar::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+
+    #ai-chat-logs::-webkit-scrollbar-thumb,
+    .ai-prompt-chips-bar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    #ai-chat-logs::-webkit-scrollbar-thumb:hover,
+    .ai-prompt-chips-bar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
 </style>
 
-<div id="ai-chat-btn" onclick="toggleAiChat()" style="position: fixed; bottom: 35px; right: 20px; background: #0d6efd; color: #fff; padding: 10px 18px; border-radius: 30px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); z-index: 1001; font-weight: 600; font-size: 14px;">
-    <img src="../Images/message.svg" alt="AI Chat" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+<div id="ai-chat-btn" onclick="toggleAiChat()" title="AI Assistant">
+    <img src="../Images/message.svg" alt="AI" style="width: 16px; height: 16px; object-fit: contain; filter: brightness(0) invert(1);">
     <span>AI Assistant</span>
 </div>
 
-<div id="ai-chat-card" style="display: none; border: 1px solid #e0e0e0; background: #ffffff; border-radius: 16px; width: 360px; height: 490px; max-height: 80vh; position: fixed; bottom: 95px; right: 20px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.22); flex-direction: column; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<div id="ai-chat-card" style="display: none; border: 1px solid rgba(27, 78, 245, 0.25); background: #ffffff; border-radius: 16px; width: 380px; height: 520px; max-height: calc(100vh - 80px); position: fixed; top: 62px; right: 16px; z-index: 2500; box-shadow: 0 16px 40px rgba(0,0,0,0.16); flex-direction: column; overflow: hidden; font-family: var(--font, 'DM Sans', sans-serif);">
 
-    <div style="background: #0d6efd; color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <h4 style="margin: 0; font-size: 15px; font-weight: 600;">AI Assistant</h4>
-            <span style="font-size: 11px; opacity: 0.85;">Online • Smart POS Assistant</span>
+    <div style="background: #1B4EF5; color: white; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+            <h4 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.2px; line-height: 1.2;">AI Assistant</h4>
+            <span style="font-size: 11px; opacity: 0.9; font-weight: 500; line-height: 1.1;">Online • Smart POS Assistant</span>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-            <button onclick="startNewChat()" style="background: rgba(255,255,255,0.2); border: none; cursor: pointer; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px;" title="Start New Chat">
+            <button onclick="startNewChat()" style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); cursor: pointer; color: white; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; transition: background 0.2s;" onhover="this.style.background='rgba(255,255,255,0.3)'" title="Start New Chat">
                 + New Chat
             </button>
-            <button onclick="toggleAiChat()" style="background: none; border: none; cursor: pointer; color: white; padding: 0; display: flex; align-items: center; justify-content: center;">
+            <button onclick="toggleAiChat()" style="background: none; border: none; cursor: pointer; color: white; padding: 0; display: flex; align-items: center; justify-content: center;" title="Close">
                 <img src="../Images/close.svg" alt="Close" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
             </button>
         </div>
     </div>
 
-    <div id="ai-chat-logs" style="flex: 1; min-height: 0; padding: 12px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px;">
-        <div style="align-self: flex-start; background: #e9ecef; color: #212529; padding: 8px 12px; border-radius: 12px 12px 12px 2px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+    <div id="ai-chat-logs" style="flex: 1; min-height: 0; padding: 14px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 12px;">
+        <div style="align-self: flex-start; background: #f3f3f3; color: #0f172a; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.5; border: 1px solid #cbd5e1; font-weight: 450;">
             Hello! Ask me about system records, sales, stock, or general questions.
         </div>
     </div>
 
-    <div class="ai-prompt-chips-bar" style="padding: 8px 10px 4px; background: #ffffff; border-top: 1px solid #eeeeee; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <button onclick="sendQuickPrompt('How much is today\'s total sales?')" style="white-space: nowrap; flex-shrink: 0; background: #eef4ff; color: #0d6efd; border: 1px solid #b6d4fe; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📊 Today's sales</button>
+    <div class="ai-prompt-chips-bar" style="padding: 8px 10px 4px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+        <button onclick="sendQuickPrompt('How much is today\'s total sales?')" style="white-space: nowrap; flex-shrink: 0; background: #eef4ff; color: #1B4EF5; border: 1px solid #c7d2fe; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📊 Today's sales</button>
         <button onclick="sendQuickPrompt('Which items are low or out of stock?')" style="white-space: nowrap; flex-shrink: 0; background: #fff8e6; color: #d97706; border: 1px solid #fde68a; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">⚠️ Low stock items</button>
-        <button onclick="sendQuickPrompt('What is the status of purchase orders?')" style="white-space: nowrap; flex-shrink: 0; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📦 Purchase orders</button>
+        <button onclick="sendQuickPrompt('How many products were sold today?')" style="white-space: nowrap; flex-shrink: 0; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📦 Purchase orders</button>
     </div>
 
     <div style="padding: 8px 12px 4px; background: #ffffff;">
-        <div style="display: flex; align-items: center; background: #f8f9fa; border: 1.5px solid #ced4da; border-radius: 24px; padding: 3px 4px 3px 14px; transition: border-color 0.2s;" onfocusin="this.style.borderColor='#0d6efd'" onfocusout="this.style.borderColor='#ced4da'">
-            <input type="text" id="ai-user-input" placeholder="Ask a question..." style="flex: 1; background: transparent; border: none; outline: none; font-size: 13px; color: #212529; padding: 4px 0;">
-            <button onclick="sendAdminQuery()" style="width: 32px; height: 32px; cursor: pointer; background: #0d6efd; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; transition: background 0.2s;" title="Send Message">
+        <div style="display: flex; align-items: center; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 24px; padding: 3px 4px 3px 14px; transition: border-color 0.2s;" onfocusin="this.style.borderColor='#1B4EF5'" onfocusout="this.style.borderColor='#cbd5e1'">
+            <input type="text" id="ai-user-input" placeholder="Ask a question..." style="flex: 1; background: transparent; border: none; outline: none; font-size: 13.5px; color: #0f172a; padding: 5px 0; font-family: inherit;">
+            <button onclick="sendAdminQuery()" style="width: 32px; height: 32px; cursor: pointer; background: #1B4EF5; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; transition: background 0.2s;" title="Send Message">
                 <img src="../Images/send.svg" alt="Send" style="width: 15px; height: 15px; filter: brightness(0) invert(1); display: block;">
             </button>
         </div>
     </div>
 
-    <div style="padding: 2px 12px 8px; background: #ffffff; text-align: center; font-size: 10px; color: #9a9a9a; font-weight: 500; letter-spacing: 0.3px;">
+    <div style="padding: 4px 12px 10px; background: #ffffff; text-align: center; font-size: 11.5px; color: #64748b; font-weight: 600; letter-spacing: 0.3px;">
         Powered by Llama
     </div>
 </div>
@@ -87,13 +136,35 @@
     const CHAT_OPEN_KEY = 'ai_chat_is_open';
     const CHAT_DRAFT_KEY = 'ai_chat_draft_text';
 
+    function alignAiCardWithButton() {
+        const topbarBtn = document.getElementById('topbar-ai-btn');
+        const chatCard = document.getElementById('ai-chat-card');
+        if (topbarBtn && chatCard && window.innerWidth > 768) {
+            const rect = topbarBtn.getBoundingClientRect();
+            let targetLeft = rect.left;
+            if (targetLeft + 380 > window.innerWidth - 16) {
+                targetLeft = window.innerWidth - 396;
+            }
+            chatCard.style.right = 'auto';
+            chatCard.style.left = Math.max(16, targetLeft) + 'px';
+        } else if (chatCard && window.innerWidth <= 768) {
+            chatCard.style.left = '';
+            chatCard.style.right = '';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         restoreChatState();
+        alignAiCardWithButton();
 
         const input = document.getElementById('ai-user-input');
         input.addEventListener('input', () => {
             sessionStorage.setItem(CHAT_DRAFT_KEY, input.value);
         });
+    });
+
+    window.addEventListener('resize', alignAiCardWithButton, {
+        passive: true
     });
 
     function saveChatState() {
@@ -129,6 +200,7 @@
         if (savedOpenState === 'true') {
             chatCard.style.display = 'flex';
             chatCard.classList.add('ai-card-active');
+            alignAiCardWithButton();
         } else {
             chatCard.classList.remove('ai-card-active');
             chatCard.style.display = 'none';
@@ -143,6 +215,7 @@
         } else {
             chatCard.style.display = 'flex';
             chatCard.classList.add('ai-card-active');
+            alignAiCardWithButton();
         }
         saveChatState();
     }
@@ -152,7 +225,7 @@
         const input = document.getElementById('ai-user-input');
 
         logs.innerHTML = `
-            <div style="align-self: flex-start; background: #e9ecef; color: #212529; padding: 8px 12px; border-radius: 12px 12px 12px 2px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+            <div style="align-self: flex-start; background: #f3f3f3; color: #0f172a; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.5; border: 1px solid #dddddd; font-weight: 450;">
                 Hello! Ask me about system records, sales, stock, or general questions.
             </div>`;
         input.value = '';
@@ -182,7 +255,7 @@
         if (!question) return;
 
         logs.innerHTML += `
-        <div style="align-self: flex-end; background: #0d6efd; color: white; padding: 8px 12px; border-radius: 12px 12px 2px 12px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+        <div style="align-self: flex-end; background: #1B4EF5; color: #ffffff; padding: 10px 14px; border-radius: 14px 14px 4px 14px; max-width: 84%; font-size: 13.5px; line-height: 1.5; font-weight: 450;">
             ${escapeHtml(question)}
         </div>`;
 
@@ -194,7 +267,7 @@
 
         const loadingId = 'loading-' + Date.now();
         logs.innerHTML += `
-        <div id="${loadingId}" style="align-self: flex-start; background: #e9ecef; color: #6c757d; padding: 8px 12px; border-radius: 12px 12px 12px 2px; font-size: 12px;">
+        <div id="${loadingId}" style="align-self: flex-start; background: #f1f5f9; color: #64748b; padding: 8px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">
             Thinking...
         </div>`;
         logs.scrollTop = logs.scrollHeight;
@@ -216,12 +289,12 @@
 
             if (data.success) {
                 logs.innerHTML += `
-                <div style="align-self: flex-start; background: #e9ecef; color: #212529; padding: 8px 12px; border-radius: 12px 12px 12px 2px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+                <div style="align-self: flex-start; background: #f3f3f3; color: #0f172a; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.5; border: 1px solid #cbd5e1; font-weight: 450;">
                     ${parseMarkdown(data.answer)}
                 </div>`;
             } else {
                 logs.innerHTML += `
-                <div style="align-self: flex-start; background: #f8d7da; color: #721c24; padding: 8px 12px; border-radius: 12px 12px 12px 2px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+                <div style="align-self: flex-start; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.4;">
                     ${escapeHtml(data.error)}
                 </div>`;
             }
@@ -229,7 +302,7 @@
             const loadingElem = document.getElementById(loadingId);
             if (loadingElem) loadingElem.remove();
             logs.innerHTML += `
-            <div style="align-self: flex-start; background: #f8d7da; color: #721c24; padding: 8px 12px; border-radius: 12px 12px 12px 2px; max-width: 80%; font-size: 13px; line-height: 1.4;">
+            <div style="align-self: flex-start; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.4;">
                 Error: Unable to reach backend server.
             </div>`;
         }

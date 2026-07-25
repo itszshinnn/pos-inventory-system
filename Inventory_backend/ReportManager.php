@@ -10,15 +10,70 @@ class ReportManager
         $this->db = $dbConnection;
     }
 
-    public function getDashboardMetrics()
+    public function getDashboardMetrics($range = 'today', $startDate = null, $endDate = null)
     {
         $metrics = [];
+        $dateFieldSql = "";
+        $poDateFieldSql = "";
+        $logDateFieldSql = "";
+        $params = [];
+
+        switch ($range) {
+            case 'today':
+                $dateFieldSql = "DATE(created_at) = CURDATE()";
+                $poDateFieldSql = "DATE(po.created_at) = CURDATE()";
+                $logDateFieldSql = "DATE(created_at) = CURDATE()";
+                break;
+            case 'yesterday':
+                $dateFieldSql = "DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                $poDateFieldSql = "DATE(po.created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                $logDateFieldSql = "DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                break;
+            case 'week':
+                $dateFieldSql = "DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+                $poDateFieldSql = "DATE(po.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+                $logDateFieldSql = "DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+                break;
+            case 'month':
+                $dateFieldSql = "DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
+                $poDateFieldSql = "DATE(po.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
+                $logDateFieldSql = "DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
+                break;
+            case 'custom':
+                if ($startDate && $endDate) {
+                    $dateFieldSql = "DATE(created_at) BETWEEN :start AND :end";
+                    $poDateFieldSql = "DATE(po.created_at) BETWEEN :start AND :end";
+                    $logDateFieldSql = "DATE(created_at) BETWEEN :start AND :end";
+                    $params[':start'] = $startDate;
+                    $params[':end'] = $endDate;
+                } else {
+                    $dateFieldSql = "DATE(created_at) = CURDATE()";
+                    $poDateFieldSql = "DATE(po.created_at) = CURDATE()";
+                    $logDateFieldSql = "DATE(created_at) = CURDATE()";
+                }
+                break;
+            case 'alltime':
+            default:
+                $dateFieldSql = "1=1";
+                $poDateFieldSql = "1=1";
+                $logDateFieldSql = "1=1";
+                break;
+        }
 
         try {
-            $metrics['productLogs'] = $this->db->query("SELECT product_name, action_type, changed_by, created_at FROM inventory_logs ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
-            $metrics['salesLogs']   = $this->db->query("SELECT order_no, total_amount, created_at FROM orders ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+            $logsStmt = $this->db->prepare("SELECT product_name, action_type, changed_by, created_at FROM inventory_logs ORDER BY id DESC LIMIT 5");
+            $logsStmt->execute();
+            $metrics['productLogs'] = $logsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $salesStmt = $this->db->prepare("SELECT order_no, total_amount, created_at FROM orders ORDER BY id DESC LIMIT 5");
+            $salesStmt->execute();
+            $metrics['salesLogs'] = $salesStmt->fetchAll(PDO::FETCH_ASSOC);
+
             $metrics['lowStocks']   = $this->db->query("SELECT id, name, stock FROM products WHERE stock <= 3 ORDER BY stock ASC")->fetchAll(PDO::FETCH_ASSOC);
-            $metrics['newUsers']    = $this->db->query("SELECT username, role, created_at FROM users ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+
+            $usersStmt = $this->db->prepare("SELECT username, role, created_at FROM users ORDER BY id DESC LIMIT 5");
+            $usersStmt->execute();
+            $metrics['newUsers'] = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
 
             $metrics['totalProducts']   = $this->db->query('SELECT COUNT(*) FROM products')->fetchColumn();
             $metrics['totalUnits']      = $this->db->query('SELECT COALESCE(SUM(stock), 0) FROM products')->fetchColumn();
@@ -26,31 +81,67 @@ class ReportManager
             $metrics['lowStock']        = $this->db->query('SELECT COUNT(*) FROM products WHERE stock > 0 AND stock <= 3')->fetchColumn();
             $metrics['outOfStock']      = $this->db->query('SELECT COUNT(*) FROM products WHERE stock = 0')->fetchColumn();
 
-            $metrics['totalRevenue']    = $this->db->query('SELECT COALESCE(SUM(total_amount), 0) FROM orders')->fetchColumn();
-            $metrics['transactions']    = $this->db->query('SELECT COUNT(*) FROM orders')->fetchColumn();
-            $metrics['itemsSold']       = $this->db->query('SELECT COALESCE(SUM(quantity), 0) FROM order_items')->fetchColumn();
-            $todayStmt = $this->db->prepare("
+            $revenueStmt = $this->db->prepare("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE $dateFieldSql");
+            $revenueStmt->execute($params);
+            $metrics['totalRevenue'] = $revenueStmt->fetchColumn();
+
+            $transStmt = $this->db->prepare("SELECT COUNT(*) FROM orders WHERE $dateFieldSql");
+            $transStmt->execute($params);
+            $metrics['transactions'] = $transStmt->fetchColumn();
+
+            $soldStmt = $this->db->prepare("SELECT COALESCE(SUM(oi.quantity), 0) FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE " . str_replace("created_at", "o.created_at", $dateFieldSql));
+            $soldStmt->execute($params);
+            $metrics['itemsSold'] = $soldStmt->fetchColumn();
+
+            $perfStmt = $this->db->prepare("
                 SELECT
                     COALESCE(SUM(total_amount), 0) AS revenue,
                     COALESCE(SUM(cost_of_goods_sold), 0) AS cogs,
                     COALESCE(SUM(total_amount - cost_of_goods_sold), 0) AS profit,
                     COUNT(*) AS transactions
                 FROM orders
-                WHERE DATE(created_at) = CURDATE()
+                WHERE $dateFieldSql
             ");
-
-            $todayStmt->execute();
-
-            $today = $todayStmt->fetch(PDO::FETCH_ASSOC);
+            $perfStmt->execute($params);
+            $today = $perfStmt->fetch(PDO::FETCH_ASSOC);
 
             $metrics['todayRevenue']      = $today['revenue'];
             $metrics['todayCOGS']         = $today['cogs'];
             $metrics['todayProfit']       = $today['profit'];
             $metrics['todayTransactions'] = $today['transactions'];
 
-            $metrics['totalLogs']       = $this->db->query('SELECT COUNT(*) FROM inventory_logs')->fetchColumn();
-            $metrics['totalAdded']      = $this->db->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Added"')->fetchColumn();
-            $metrics['totalDeleted']    = $this->db->query('SELECT COUNT(*) FROM inventory_logs WHERE action_type = "Deleted"')->fetchColumn();
+            $purchasesStmt = $this->db->prepare("
+                SELECT COALESCE(SUM(poi.order_qty * poi.unit_cost), 0)
+                FROM purchase_orders po
+                JOIN po_items poi ON po.id = poi.po_id
+                WHERE $poDateFieldSql
+            ");
+            $purchasesStmt->execute($params);
+            $metrics['todayPurchases'] = $purchasesStmt->fetchColumn();
+
+            $totalLogsStmt = $this->db->prepare("SELECT COUNT(*) FROM inventory_logs WHERE $logDateFieldSql");
+            $totalLogsStmt->execute($params);
+            $metrics['totalLogs'] = $totalLogsStmt->fetchColumn();
+
+            $totalAddedStmt = $this->db->prepare("SELECT COUNT(*) FROM inventory_logs WHERE action_type = 'Added' AND $logDateFieldSql");
+            $totalAddedStmt->execute($params);
+            $metrics['totalAdded'] = $totalAddedStmt->fetchColumn();
+
+            $totalDeletedStmt = $this->db->prepare("SELECT COUNT(*) FROM inventory_logs WHERE action_type = 'Deleted' AND $logDateFieldSql");
+            $totalDeletedStmt->execute($params);
+            $metrics['totalDeleted'] = $totalDeletedStmt->fetchColumn();
+
+            $topProductsStmt = $this->db->prepare("
+                SELECT p.name, COALESCE(SUM(oi.quantity), 0) AS sold
+                FROM order_items oi
+                INNER JOIN products p ON oi.product_id = p.id
+                INNER JOIN orders o ON oi.order_id = o.id
+                GROUP BY oi.product_id, p.name
+                ORDER BY sold DESC
+                LIMIT 5
+            ");
+            $topProductsStmt->execute();
+            $metrics['topProducts'] = $topProductsStmt->fetchAll(PDO::FETCH_ASSOC);
 
             $metrics['errorMsg'] = null;
         } catch (Exception $e) {
@@ -60,8 +151,10 @@ class ReportManager
             $metrics['transactions'] = $metrics['itemsSold'] = $metrics['totalLogs'] = $metrics['totalAdded'] = $metrics['totalDeleted'] = 0;
             $metrics['todayRevenue'] = 0;
             $metrics['todayCOGS'] = 0;
+            $metrics['todayPurchases'] = 0;
             $metrics['todayProfit'] = 0;
             $metrics['todayTransactions'] = 0;
+            $metrics['topProducts'] = [];
             $metrics['errorMsg'] = $e->getMessage();
         }
 
