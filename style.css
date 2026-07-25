@@ -96,7 +96,7 @@ body {
   padding: 6px 4px;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.9rem !important;
   user-select: none;
   box-shadow: none;
   margin-right: 16px;
