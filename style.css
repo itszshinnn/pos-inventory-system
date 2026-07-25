@@ -848,11 +848,13 @@ tbody tr:hover {
     flex-shrink: 0 !important;
     line-height: 1 !important;
     margin-right: 0 !important;
+    color: #cbd5e1 !important;
+    letter-spacing: -0.2px !important;
   }
 
   .topbar-admin-text {
     display: inline !important;
-    font-size: 0.85rem !important;
+    font-size: 0.82rem !important;
     letter-spacing: -0.2px !important;
     max-width: none !important;
     overflow: visible !important;
