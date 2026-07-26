@@ -6,13 +6,13 @@
 
 ## Online Site
 - Linked to an online hosted version of the POS System. fully working https://k-inventory.html-5.me/
-- Admin account:
-Username: admin
-Password: admin
+- **Admin account:**
+  - **Username:** `admin`
+  - **Password:** `admin`
 
-- User account:
-Username: User
-Password: 1234
+- **User account:**
+  - **Username:** `User`
+  - **Password:** `1234`
 
 ## Members
 - Sean
@@ -28,161 +28,119 @@ Password: 1234
 - Can login using an Admin account
 - Can login using an User/Staff account
 
-![login](ReadMe/login.png)
+![Login](ReadMe/login.png)
 
 # Admin Side:
 
 ## Dashboard
-- Total Products
-- Total Units
-- Total Categories
-- Low Stock
-- Out of Stock
-- Total Revenue
-- Total Transactions
-- Total Items Sold
-- Total Logs
-- Total Products Added
-- Total Products Deleted
-- Notifications tab: (Added product, Deleted product, Edited product, Stock alert, New user, Processed Orders)
+- Statistical metric summaries: Total Products, Total Units, Low Stock, Out of Stock, Total Revenue, Total COGS, Total Purchases, Total Profit, and Total Sales.
+- Real-time graph and top 5 selling products: Revenue, Net profit, Inventory purchases, Top 5 Selling Products
+- Real-time Notifications panel tracking: Added/Deleted/Edited products, low stock alerts, new user registrations, and completed sales transactions.
 
-![dash](ReadMe/dashboard.png)
+![Dashboard](ReadMe/dashboard.png)
 
 ## Category Management
-- Add Category
-- View Categories
-- Edit Category
-- Delete Category
+- Add, view, edit, and delete product categories.
 
-![cate](ReadMe/categories.png)
+![Category Management](ReadMe/categories.png)
 
 ## Product Management
-- View All Products
-- Search Product
-- Add Product
-- Edit Product
-- Delete Product
+- List all products with details: Product No., Name, Category, Brand, Color, Size, Cost price (Bought), Retail price (Selling), and Stock levels.
+- Direct inventory action buttons: restock batches, edit product details, or delete items.
+- Search filter by keyword or matching name.
+- Filter by categories, brands, and colros.
 
-![prod](ReadMe/products.png)
-
-- Product No. / Name / Catergory / Price / Stocks / Status (Fine,Low,Out of stock) / Actions (Edit or Delete)
-
-![edit](ReadMe/editproduct.png)
+![Product Management](ReadMe/products.png)
 
 ## Add Product
-- Enter Product Name
-- Select Category
-- Input price
-- Input stock
-- (optional, has default image) upload product image 
+- Form to add new inventory products: specify name, category, initial cost price, initial retail selling price, stock quantities, technical specifications, description, and upload product images or 3D asset models (.glb/.gltf format).
 
-![add](ReadMe/addproduct.png)
+![Add Product](ReadMe/add_products.png)
 
-## XML Files
-- Export each table in the database to individual files
-- Export all database tables into one singular file
-- Import XML 
-- Import both works on individual files and database file
+## Purchase Orders & Procurement
+- Search inventory products to dynamically generate supplier restocking batches.
+- Manage draft purchase orders and track incoming deliveries.
+- Log incoming batches into inventory records once physically checked into shelves.
 
-![xml](ReadMe/XML.png)
+![Purchase Orders](ReadMe/purchase_orders.png)
 
-## History
+## Purchase History
+- Log records of all completed supplier purchase orders.
+
+![Purchase History](ReadMe/purchase_history.png)
+
+## Backup and Restoration
+- Database XML export utility: download single tables or the entire consolidated database backup file.
+- Database XML import utility: restore single table backups or full database states.
+
+![Backup and Restoration](ReadMe/backup_and_restore.png)
+
+## History Logs
 ### Sales History
-- Records all the processed orders
-- Order No. / Items Summary / Payment method / Discount / Total Amount / Actions (View Receipt)
+- Records and archives all POS cashier transactions.
+- Highlights: Order No., Itemized summaries, Payment methods, applied discounts, and total transaction amounts.
+- Action triggers: Click to view/print digital receipts or export filtered lists into Microsoft Excel formats.
+- **Excel Export:** Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
 
-![hist](ReadMe/history.png)
-
-![reci](ReadMe/receipt.png)
+![Sales History](ReadMe/sales_history.png)
 
 ### Inventory Logs
-- Records changes made to the items
-- Shows old and new stock when changed
-- Shows when an item or stock gets deleted
-- Shows when an item or stock gets added
-- Shows date on each changes
+- Auto-ledger tracking stock quantity modifications, edits, additions, and deletions.
+- Records old stock levels, new stock levels, active modifiers, and timestamped actions.
+- **Excel Export:** Export active inventory modification logs into styled spreadsheets.
 
-![inv](ReadMe/invhistory.png)
+![Inventory Logs](ReadMe/inventory_logs.png)
 
-## Accounts 
-- Shows total accounts
-- Shows total Admin accounts
-- Shows total Staff accounts
-- Admin can create a staff or an admin account
-- Shows all of the existing staff (including admin)
-- Admin can edit or delete staff accounts
+### Logs History
+- Keyword search utility for specific system history logs.
 
-![userss](ReadMe/users.png)
+![Logs History](ReadMe/logs_history.png)
 
-# User Side :
+## Accounts Management
+- Statistics overview: Total accounts, Admin accounts, and Staff accounts.
+- Set SMTP email credentials to receive critical automated notifications.
+- Create, update, or remove Admin and Staff user credentials.
+
+![Accounts Management](ReadMe/user1.png)
+![Accounts Management Details](ReadMe/user2.png)
+
+# User Side:
 ## POS System
-- Shows all of the items in the database
-- Shows records of stock of each item
-- Greys out items that are sold out
-- User can filter items using categories
-- User can search for an item
-- Clicking on an item adds them to cart
+- Shows all items in the database with their respective images and 3D models.
+- Real-time stock indicator displays (automatically grays out items when sold out).
+- Category, brands, price, and stock filtering and real-time search inputs to find products quickly.
+- **Interactive 3D Product Viewer:** Cashiers can click "View" on any product to open a premium details modal featuring an interactive 3D model viewport (supports rotation, zoom, drag) and technical attributes (cost, brand, dimensions, color, type).
+- **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
-![POS Screenshot](ReadMe/POS.png)
+![POS System](ReadMe/pos.png)
 
-## Cart
-- Shows all of the items inside the cart
-- User can remove the item from the cart
-- User can input a discount, either percentage (%) or in pesos
+## Cart & Presets
+- Displays all selected items inside the sidebar cart with a live quantity counter.
+- Easy cart control operations (increment, decrement, and delete actions per line item).
+- **Flexible Discounts:** Cashiers can input percentage discounts (e.g. `10%`) or flat currency discounts (e.g. `₱50`) directly on the transaction total.
 
-## Checkout
-- Shows a breakdown of the items price
-- Shows the total of the order
-- User can choose a payment method (Cash, Card, GCash, Maya)
-- User inputs how much is paid
-- System automatically calculates the change
+## Checkout & Processing
+- Itemized pricing breakdown displaying subtotal, discount reduction, and total due.
+- Payment method options: Cash, Card, GCash, and Maya (with PayMongo redirects for digital options).
+- Interactive cash-received field with instant change calculation.
+- Automatically generates and displays receipt summaries upon checking out.
 
-![chec](ReadMe/checkout.png)
+![Checkout & Processing](ReadMe/checkout.png)
 
 # Integration
-1. PayMongo Online Checkout API - we connected our Point of Sale system directly to the PayMongo API, which allows the staffs or cashiers to accept card payments and local e-wallets such as GCash and Maya. When a digital payment method was chosen at the checkout, the system calculates the amount in centavos, securely communicates with PayMongo's servers to get a unique checkout link, and seamlessly redirects the customer to a secure page to complete the transaction before returning them to our app to automatically confirm the sale and clear the cart.  
+1. **PayMongo Online Checkout API:** Point of Sale system directly integrated with the PayMongo API to accept card payments and local e-wallets (GCash and Maya) seamlessly via secure checkout session redirects.
 
-2. Automated SMTP Mail Service - we built an automated email notification system using the standard SMTP protocols. This service runs behind the scenes and instantly delivers structured emails to a pre-configured business address whenever a product drops to a critical low-stock level of 3 units or lower, or when a pending supplier delivery has been physically checked into the shelves by an administrator.
+2. **Automated SMTP Mail Service:** Automated background email notifications using SMTP protocols that instantly deliver stock alerts to administrators when items drop below critical levels.
 
-3. Interactive 3D Model Viewer - the POS menu uses Google's open-source 3D <model-viewer> web library. Whenever an admin adds a new product, they can upload its corresponding 3D asset (.glb or .gltf file), allowing users in the Point of Sale menu to click and open an interactive modal where they can freely click, drag, rotate, and zoom in on a full 3D model rendering of the item in real time.
+3. **Interactive 3D Model Viewer:** Integration of Google's `<model-viewer>` library allowing administrators to upload `.glb` or `.gltf` 3D product models, which staff can interactively inspect in real-time.
 
+4. **Native Excel Spreadsheet Exports:** Client-side spreadsheet builder that outputs files using the native `application/vnd.ms-excel` MIME type. Resolves the text import wizard prompt, keeps order number formats (preserving leading zeros), and shows up in the file browser under default spreadsheet filters.
+
+5. **Conversational AI Assistant with Action Intents:** Natural-language bot powered by Groq API (Llama models). Includes:
+   - **Database QA:** Evaluates natural language queries to generate safe SQL read commands.
+   - **Continuous Conversation Context:** Tracks history states using sessionStorage to handle follow-up statements.
+   - **Action Intent Execution:** Processes modification requests (like restocking, updating retail prices, and cost prices) directly into transactions. Includes support for bulk multi-command updates in a single prompt.
 
 # Database
 ## Database Name
-- POS_Inventory_System
-
-# Notes
-## How to clone the repo
-- Open xampp/htdocs folder in vscode
-- Open view -> Terminal
-- Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
-- Always pull before pushing changes.
-- Use proper commit changes.
-- PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
-
-## Git Commands
-- git pull origin (branch name) | download all the latest code in this branch
-- git checkout (branch name) | switch your workspace into an existing branch
-- git merge (branch name)  | merge your target branch to your active current branch
-- git push origin (branch name)  | uploads your local commit to your branch
-- git status | checks what branch you are currently in
-
-## Step by step
-- Make sure you are in your own branch
-- Add/edit your code
-- Commit changes and add message/comment
-- Push your updates to GitHub (into your own branch)
-- Switch to main branch
-- Always make sure you are update in main branch
-- Merge your own branch into main branch
-- Push the updated main branch to GitHub
-
-## How to Add the database
-- Open phpmyadmin on xampp
-- On the left side bar press "New"
-- Create database named "inventory_db"
-- Once done ignore the add table name
-- Click the "Import" tab above
-- Click the "Choose File"
-- Select inventory_db.sql
-- Once uploaded go to the bottom and click import
+- inventory_db
