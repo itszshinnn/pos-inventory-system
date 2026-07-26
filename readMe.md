@@ -25,8 +25,8 @@
 # Features
 
 ## Login
-- Can login using an Admin account
-- Can login using an User/Staff account
+- Login using an Admin account
+- Login using an User/Staff account
 
 ![Login](ReadMe/login.png)
 
