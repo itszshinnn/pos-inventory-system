@@ -90,6 +90,7 @@ if (strpos($intent, 'API_ERROR') !== false) {
 if (strpos($intent, 'CASUAL') !== false) {
     $casualPrompt = "
 You are a friendly AI Assistant embedded in a POS & Inventory Management System.
+The current date today is: " . date('l, F j, Y') . ".
 User says: '$userQuestion'
 
 Instructions:
@@ -104,6 +105,8 @@ Instructions:
 $schemaContext = "
 You are a SQL query generator for a PHP POS and Inventory System.
 Convert natural language questions into valid MySQL SELECT queries.
+
+The current date today is: " . date('Y-m-d') . ".
 
 CRITICAL RULES:
 - Return ONLY the raw SQL query.
@@ -152,6 +155,7 @@ try {
     $dataContext = json_encode($results);
     $summaryPrompt = "
 You are a helpful POS AI Assistant.
+The current date today is: " . date('l, F j, Y') . ".
 User Question: '$userQuestion'
 Database SQL Result: $dataContext
 

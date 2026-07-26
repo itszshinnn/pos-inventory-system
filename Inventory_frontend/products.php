@@ -74,6 +74,25 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       border-radius: 8px;
     }
 
+    @media (min-width: 769px) {
+      #productsTable {
+        font-size: 0.71rem !important;
+      }
+      #productsTable th,
+      #productsTable td {
+        padding: 8px 4px !important;
+      }
+      #productsTable td:nth-child(2),
+      #productsTable th:nth-child(2) {
+        min-width: 130px !important;
+        max-width: 240px !important;
+      }
+      #productsTable th:last-child,
+      #productsTable td:last-child {
+        width: 170px !important;
+      }
+    }
+
     .table-wrap thead th {
       position: sticky;
       top: 0;

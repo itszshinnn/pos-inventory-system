@@ -13,24 +13,34 @@ if (!isset($_SESSION['user_id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K's Inventory System</title>
+  <title>Kinetix POS Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../style.css?v=<?= filemtime(__DIR__ . '/../style.css') ?>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
-  </style>
+    :root {
+      --bg: #f0f1f4;
+      --brand: #1B4EF5;
+      --brand-hover: #153ec3;
+      --text: #1a1c20;
+      --text-muted: #7a7f8a;
+      --border: #dde1e9;
+      --card-bg: #ffffff;
+      --white: #ffffff;
+    }
 
-  <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'DM Sans', 'Segoe UI', sans-serif;
+      font-family: var(--font);
     }
 
     body {
-      background: #f5f5f5;
+      background: var(--bg);
       overflow: hidden;
+      color: var(--text);
     }
 
     .container {
@@ -39,28 +49,25 @@ if (!isset($_SESSION['user_id'])) {
       height: 100vh;
     }
 
-    model-viewer {
-      background-color: #cccccc;
-    }
-
     .left-panel {
-      width: 67%;
-      background: #f5f5f5;
-      border-right: 1px solid #cfcfcf;
+      width: 66%;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
     .topbar {
-      height: 55px;
-      background: #333538;
+      height: 56px;
+      background: #181b2a;
       display: flex;
       align-items: center;
-      padding: 0 16px;
+      padding: 0 20px;
       gap: 16px;
       color: white;
       flex-shrink: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .topbar-admin {
@@ -69,21 +76,22 @@ if (!isset($_SESSION['user_id'])) {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #ff4b4b;
-      padding: 6px 14px;
+      background: transparent;
+      padding: 6px 12px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 600;
+      color: #ffffff;
       transition: .2s;
     }
 
     .topbar-admin:hover {
-      background: #ff2f2f;
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .profile-img {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -91,15 +99,16 @@ if (!isset($_SESSION['user_id'])) {
     .dropdown-menu {
       display: none;
       position: absolute;
-      left: 0;
-      top: 115%;
+      right: 0;
+      left: auto;
+      top: 110%;
       background-color: #ffffff;
       min-width: 140px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
       border-radius: 8px;
-      z-index: 1050;
+      z-index: 2100;
       overflow: hidden;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border);
     }
 
     .dropdown-menu a {
@@ -117,89 +126,83 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-icon img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
     }
 
     .search-container {
-      padding: 12px 14px 8px;
+      padding: 16px 16px 8px;
     }
 
     .search-box {
       width: 100%;
-      height: 42px;
-      border-radius: 14px;
-      border: 2.5px solid #bcbcbc;
-      padding: 0 16px;
-      font-size: 16px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      padding: 0 14px;
+      font-size: 14px;
       outline: none;
+      background: #ffffff;
+      color: var(--text);
       transition: .2s;
     }
 
     .search-box:focus {
-      border-color: #4d66ff;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(27, 78, 245, 0.15);
     }
 
     .categories {
       display: flex;
       gap: 8px;
-      padding: 0 14px 10px;
+      padding: 0 16px 12px;
       flex-wrap: wrap;
     }
 
-    .category-btn {
-      border: 2px solid #a7a7a7;
-      background: white;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .category-btn:hover {
-      transform: scale(1.05);
-    }
-
-    .category-btn.active {
-      background: #4d66ff;
-      color: white;
-      border-color: #4d66ff;
-    }
-
-    .brand-name {
-      font-size: 11px;
-      color: #1c1c1c;
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
     .filter-select {
-      height: 38px;
-      border-radius: 10px;
-      border: 1.5px solid #bcbcbc;
+      height: 40px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
       padding: 0 12px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 600;
       outline: none;
       background: white;
       cursor: pointer;
-      color: #333;
+      color: var(--text);
     }
 
     .filter-select:focus {
-      border-color: #4d66ff;
+      border-color: var(--brand);
     }
 
     .reset-filter-btn {
-      height: 38px;
-      border-radius: 10px;
+      height: 40px;
+      border-radius: 8px;
       border: 1.5px solid #ff7070;
       padding: 0 16px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
       background: white;
       cursor: pointer;
@@ -216,55 +219,66 @@ if (!isset($_SESSION['user_id'])) {
     .products-wrapper {
       flex: 1;
       overflow-y: auto;
-      padding: 10px 14px 14px;
+      padding: 4px 16px 16px;
       scrollbar-gutter: stable;
     }
 
     .products {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 14px;
-      flex-wrap: wrap;
     }
 
     .product-card {
-      width: 155px;
-      height: 250px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: #d9d9d9;
-      border-radius: 16px;
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: .2s;
+      transition: all 0.25s ease;
+      position: relative;
     }
 
     .product-card:hover {
-      box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      border-color: rgba(27, 78, 245, 0.25);
     }
 
     .product-card.out-of-stock {
-      opacity: .55;
-      cursor: not-allowed;
+      opacity: .6;
     }
 
-    .product-card.out-of-stock:hover {
-      transform: none;
-      box-shadow: none;
+    .card-media-wrap {
+      width: 100%;
+      height: 110px;
+      background: #f8fafc;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 10px;
     }
 
     .product-card img {
-      width: 75px;
-      height: 75px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      margin-bottom: 7px;
+      padding: 6px;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent;
     }
 
     .product-name {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
-      color: #333;
+      color: var(--text);
       display: -webkit-box;
       line-clamp: 2;
       -webkit-line-clamp: 2;
@@ -272,93 +286,102 @@ if (!isset($_SESSION['user_id'])) {
       overflow: hidden;
       height: 36px;
       line-height: 1.35;
+      margin-bottom: 2px;
+    }
+
+    .brand-name {
+      font-size: 10px;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     .price {
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 500;
-      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 4px;
     }
 
     .stock {
-      margin-top: 5px;
-      font-size: 12px;
+      margin-top: 4px;
+      font-size: 11px;
       font-weight: 700;
+      display: inline-block;
     }
 
     .green {
-      color: #2db84d;
+      color: #10b981;
     }
 
     .orange {
-      color: #d9992f;
+      color: #f59e0b;
     }
 
     .red {
-      color: #ff5c5c;
+      color: #ef4444;
     }
 
-    .no-results {
+    .no-results, .spinner-wrap {
       width: 100%;
       text-align: center;
-      color: #aaa;
+      color: var(--text-muted);
       font-size: 14px;
       font-weight: 600;
-      padding: 30px 0;
-    }
-
-    .spinner-wrap {
-      width: 100%;
-      text-align: center;
       padding: 40px 0;
-      color: #aaa;
-      font-size: 14px;
-      font-weight: 600;
     }
 
     .btn-add {
       flex: 2;
-      background: #5470ff;
+      background: var(--brand);
       color: white;
       border: none;
-      padding: 6px;
+      padding: 8px 10px;
       border-radius: 6px;
       font-weight: 600;
-      transition: background 0.2s ease, transform 0.1s ease;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(27, 78, 245, 0.15);
+      transition: all 0.2s ease;
     }
 
     .btn-add:hover:not(:disabled) {
-      background: #3c52d1;
+      background: var(--brand-hover);
     }
 
     .btn-add:active:not(:disabled) {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
 
     .btn-view {
       flex: 1;
-      background: #5a5a5a;
-      color: #ffffff;
-      border: none;
-      padding: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+      padding: 8px 10px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-      transition: background 0.2s ease, transform 0.1s ease;
+      font-size: 12px;
+      transition: all 0.2s ease;
     }
 
     .btn-view:hover {
-      background: #3b3b3b;
+      background: rgba(0, 0, 0, 0.03);
+      color: var(--text);
+      border-color: var(--text-muted);
     }
 
     .btn-view:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
 
     .right-panel {
-      width: 33%;
-      background: #efefef;
+      width: 34%;
+      background: var(--white);
+      border-left: 1px solid var(--border);
       display: flex;
       flex-direction: column;
     }
@@ -367,28 +390,30 @@ if (!isset($_SESSION['user_id'])) {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 13px 16px;
-      border-bottom: 1px solid #c7c7c7;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
 
     .order-header h1 {
-      font-size: 20px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
     }
 
     .count {
-      height: 28px;
-      background: #5470ff;
+      height: 26px;
+      background: var(--brand);
       color: white;
       border-radius: 20px;
       padding: 0 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(84, 112, 255, 0.3);
+      box-shadow: 0 2px 6px rgba(27, 78, 245, 0.2);
     }
 
     .order-items {
@@ -398,72 +423,75 @@ if (!isset($_SESSION['user_id'])) {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      color: #000000;
-      font-size: 16px;
+      color: var(--text-muted);
+      font-size: 14px;
       font-weight: 500;
-      border-bottom: 1px solid #c7c7c7;
-      padding: 10px 0;
-      gap: 1px;
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+      gap: 10px;
       scrollbar-gutter: stable;
     }
 
     .order-items.has-items {
       justify-content: flex-start;
-      padding: 12px 10px;
+      padding: 16px;
     }
 
     .cart-item {
       width: 100%;
-      background: white;
-      padding: 10px 12px;
-      border-radius: 12px;
-      margin-bottom: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .cart-item-info .name {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
+      color: var(--text);
     }
 
     .cart-item-info .item-price {
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 500;
-      color: #000000;
-    }
-
-    .cart-item-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
     }
 
     .qty-badge {
       font-family: 'DM Mono', monospace;
       font-size: 13px;
-      font-weight: 500;
-      background: #e0e0e0;
-      padding: 2px 8px;
-      border-radius: 6px;
+      font-weight: 600;
     }
 
     .remove-btn {
-      background: red;
-      color: white;
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
       border: none;
-      padding: 5px 9px;
-      border-radius: 7px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .remove-btn:hover {
+      background: #ef4444;
+      color: white;
     }
 
     .summary {
-      padding: 13px 14px;
+      padding: 16px;
       flex-shrink: 0;
+      background: var(--white);
     }
 
     .summary-row {
@@ -472,41 +500,92 @@ if (!isset($_SESSION['user_id'])) {
       margin-bottom: 12px;
       font-size: 15px;
       font-weight: 700;
+      color: var(--text);
     }
 
     .summary-row span:last-child {
       font-family: 'DM Mono', monospace;
-      font-weight: 500;
+      font-weight: 600;
+    }
+
+    .discount-presets {
+      margin-bottom: 14px;
+    }
+
+    .discount-preset-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .discount-preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .discount-preset-btn {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .discount-preset-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .discount-preset-btn.active {
+      background: rgba(27, 78, 245, 0.08);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .discount-presets-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 12px 0;
     }
 
     .discount-row {
       display: flex;
       gap: 8px;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .discount-input {
-      width: 150px;
+      width: 120px;
       height: 38px;
       border-radius: 8px;
-      border: 2px solid #a8a8a8;
+      border: 1.5px solid var(--border);
       padding: 0 10px;
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
       transition: .2s;
     }
 
     .discount-input:focus {
-      border-color: #4d66ff;
+      border-color: var(--brand);
     }
 
     .discount-type-select {
       height: 38px;
       border-radius: 8px;
-      border: 2px solid #a8a8a8;
+      border: 1.5px solid var(--border);
       padding: 0 8px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       cursor: pointer;
       outline: none;
@@ -516,51 +595,77 @@ if (!isset($_SESSION['user_id'])) {
     .discount-result {
       flex: 1;
       font-family: 'DM Mono', monospace;
-      font-size: 14px;
-      font-weight: 500;
-      color: #ff4b4b;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #ef4444;
       text-align: right;
       white-space: nowrap;
     }
 
     .checkout-btn {
       width: 100%;
-      height: 48px;
+      height: 46px;
       border: none;
-      background: #2e2e2e;
+      background: var(--brand);
       color: white;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14.5px;
       font-weight: 700;
       cursor: pointer;
       margin-bottom: 10px;
-      transition: .2s;
+      box-shadow: 0 4px 12px rgba(27, 78, 245, 0.15);
+      transition: all 0.2s ease;
     }
 
     .checkout-btn:hover {
-      background: #00000097;
+      background: var(--brand-hover);
+      box-shadow: 0 6px 16px rgba(27, 78, 245, 0.25);
     }
 
     .clear-btn {
       width: 100%;
-      height: 48px;
-      border: 2.5px solid #ff7070;
+      height: 42px;
+      border: 1.5px solid #ff7070;
       background: white;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       color: #ff7070;
-      transition: .2s;
+      transition: all 0.2s ease;
     }
 
     .clear-btn:hover {
       background: #ff2c2c;
-      border: 2.5px solid #ff2c2c;
+      border-color: #ff2c2c;
       color: white;
     }
 
-    .modal-backdrop {
+    .item-discount-toggle {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .item-discount-toggle:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .item-discount-toggle.has-discount {
+      background: rgba(27, 78, 245, 0.08);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    /* Modal Styling */
+    .modal-backdrop, .receipt-modal-backdrop {
       position: fixed;
       top: 0;
       left: 0;
@@ -570,22 +675,23 @@ if (!isset($_SESSION['user_id'])) {
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 2500;
     }
 
     .modal-card {
       background: white;
       width: 440px;
-      border-radius: 24px;
+      border-radius: 16px;
       padding: 24px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border);
     }
 
     .modal-card h2 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       margin-bottom: 20px;
-      color: #1a1a1a;
+      color: var(--text);
     }
 
     .modal-items-list {
@@ -597,8 +703,8 @@ if (!isset($_SESSION['user_id'])) {
     .modal-item-row {
       display: flex;
       justify-content: space-between;
-      font-size: 15px;
-      color: #555;
+      font-size: 14px;
+      color: var(--text);
       margin-bottom: 8px;
     }
 
@@ -608,29 +714,30 @@ if (!isset($_SESSION['user_id'])) {
 
     .modal-divider {
       border: none;
-      border-top: 2px solid #000000;
+      border-top: 1px solid var(--border);
       margin: 12px 0;
     }
 
     .modal-total-row {
       display: flex;
       justify-content: space-between;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      color: #000000;
+      color: var(--text);
       margin-bottom: 16px;
     }
 
     .modal-total-row span:last-child {
       font-family: 'DM Mono', monospace;
-      font-weight: 500;
     }
 
     .modal-label {
-      font-size: 14px;
-      color: #8c8c8c;
-      font-weight: 500;
-      margin-bottom: 10px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .payment-grid {
@@ -642,26 +749,26 @@ if (!isset($_SESSION['user_id'])) {
 
     .pay-method-btn {
       background: white;
-      border: 1.5px solid #dcdcdc;
+      border: 1.5px solid var(--border);
       padding: 12px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 500;
-      color: #666;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
       cursor: pointer;
       transition: .2s;
       text-align: center;
     }
 
     .pay-method-btn:hover {
-      border-color: #5470ff;
+      border-color: var(--brand);
+      color: var(--brand);
     }
 
     .pay-method-btn.selected {
-      background: #eff2ff;
-      border: 2px solid #5470ff;
-      color: #5470ff;
-      font-weight: 600;
+      background: rgba(27, 78, 245, 0.08);
+      border: 2px solid var(--brand);
+      color: var(--brand);
     }
 
     .cash-input-wrap {
@@ -670,24 +777,24 @@ if (!isset($_SESSION['user_id'])) {
 
     .cash-received-field {
       width: 100%;
-      height: 44px;
-      border: 1.5px solid #dcdcdc;
-      border-radius: 10px;
+      height: 42px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
       padding: 0 14px;
-      font-size: 16px;
+      font-size: 15px;
       font-family: 'DM Mono', monospace;
       outline: none;
     }
 
     .cash-received-field:focus {
-      border-color: #5470ff;
+      border-color: var(--brand);
     }
 
     .change-display {
       font-family: 'DM Mono', monospace;
       font-size: 14px;
-      font-weight: 500;
-      color: #2db84d;
+      font-weight: 600;
+      color: #10b981;
       margin-top: 6px;
       text-align: right;
     }
@@ -699,13 +806,13 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .modal-cancel-btn {
-      height: 46px;
+      height: 44px;
       background: #f2f2f2;
       border: none;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 700;
-      color: #4a4a4a;
+      color: var(--text-muted);
       cursor: pointer;
     }
 
@@ -714,51 +821,190 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .modal-confirm-btn {
-      height: 46px;
-      background: #2cb864;
+      height: 44px;
+      background: #10b981;
       border: none;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 700;
       color: white;
       cursor: pointer;
     }
 
     .modal-confirm-btn:hover {
-      background: #239450;
+      background: #0d9488;
     }
 
-    .receipt-modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+    /* Redesigned Product View Modal */
+    .viewer-modal-card {
+      width: 760px;
+      max-width: 90%;
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      position: relative;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
     }
 
+    .modal-close-x {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+      z-index: 10;
+    }
+
+    .modal-close-x:hover {
+      color: var(--text);
+    }
+
+    #viewer-container {
+      flex: 1.1;
+      height: 340px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .viewer-modal-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .viewer-modal-details h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      padding-right: 20px;
+    }
+
+    .viewer-modal-close-btn {
+      width: 100%;
+      height: 42px;
+      background: #181b2a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 16px;
+    }
+
+    .viewer-modal-close-btn:hover {
+      background: #10121d;
+    }
+
+    .modal-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .detail-item {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-item strong {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .detail-item span {
+      font-weight: 600;
+    }
+
+    .detail-item .price-val {
+      color: var(--brand);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+    }
+
+    .modal-desc-section {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .modal-desc-section strong {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .modal-desc-section p {
+      color: #334155;
+    }
+
+    @media (max-width: 768px) {
+      .viewer-modal-card {
+        flex-direction: column;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 20px 16px;
+        gap: 16px;
+      }
+
+      #viewer-container {
+        height: 220px;
+        flex-shrink: 0;
+      }
+    }
+
+    /* Receipt modal */
     .receipt-card {
       background: white;
       width: 380px;
-      border-radius: 20px;
+      border-radius: 16px;
       padding: 24px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border);
     }
 
     .receipt-card h2 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 4px;
       text-align: center;
     }
 
     .receipt-subtitle {
-      font-size: 13px;
-      color: #666;
+      font-size: 12px;
+      color: var(--text-muted);
       text-align: center;
       margin-bottom: 20px;
     }
@@ -766,14 +1012,14 @@ if (!isset($_SESSION['user_id'])) {
     .receipt-meta-row {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      color: #444;
+      font-size: 12.5px;
+      color: var(--text);
       margin-bottom: 6px;
     }
 
     .receipt-divider {
       border: none;
-      border-top: 1px dashed #bbb;
+      border-top: 1px dashed var(--border);
       margin: 14px 0;
     }
 
@@ -786,9 +1032,9 @@ if (!isset($_SESSION['user_id'])) {
     .receipt-item-line {
       display: flex;
       justify-content: space-between;
-      font-size: 14px;
+      font-size: 13.5px;
       margin-bottom: 8px;
-      color: #333;
+      color: var(--text);
     }
 
     .receipt-item-line span:last-child {
@@ -798,9 +1044,9 @@ if (!isset($_SESSION['user_id'])) {
     .receipt-total-line {
       display: flex;
       justify-content: space-between;
-      font-size: 18px;
+      font-size: 16.5px;
       font-weight: 700;
-      color: #000;
+      color: var(--text);
       margin-top: 10px;
     }
 
@@ -811,11 +1057,11 @@ if (!isset($_SESSION['user_id'])) {
     .receipt-close-btn {
       width: 100%;
       height: 42px;
-      background: #333538;
+      background: #181b2a;
       color: white;
       border: none;
-      border-radius: 10px;
-      font-size: 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
       font-weight: 600;
       cursor: pointer;
       margin-top: 20px;
@@ -823,82 +1069,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .receipt-close-btn:hover {
-      background: #1a1a1a;
-    }
-
-    .discount-presets {
-      margin-bottom: 12px;
-    }
-
-    .discount-preset-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-
-    .discount-preset-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-
-    .discount-preset-btn {
-      background: white;
-      border: 1.5px solid #d0d0d0;
-      border-radius: 8px;
-      padding: 7px 4px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #555;
-      cursor: pointer;
-      transition: 0.2s;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .discount-preset-btn:hover {
-      border-color: #5470ff;
-      color: #5470ff;
-    }
-
-    .discount-preset-btn.active {
-      background: #eff2ff;
-      border-color: #5470ff;
-      color: #5470ff;
-    }
-
-    .discount-presets-divider {
-      border: none;
-      border-top: 1px solid #ddd;
-      margin: 10px 0;
-    }
-
-    .item-discount-toggle {
-      background: none;
-      border: 1.5px solid #d0d0d0;
-      border-radius: 5px;
-      padding: 3px 7px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #888;
-      cursor: pointer;
-      transition: 0.2s;
-      line-height: 1;
-    }
-
-    .item-discount-toggle:hover {
-      border-color: #5470ff;
-      color: #5470ff;
-    }
-
-    .item-discount-toggle.has-discount {
-      background: #eff2ff;
-      border-color: #5470ff;
-      color: #5470ff;
+      background: #10121d;
     }
 
     .item-discount-row {
@@ -907,30 +1078,29 @@ if (!isset($_SESSION['user_id'])) {
       gap: 5px;
       margin-top: 6px;
       padding-top: 6px;
-      border-top: 1px dashed #e0e0e0;
+      border-top: 1px dashed var(--border);
     }
 
     .item-discount-input {
       width: 65px;
       height: 28px;
       border-radius: 6px;
-      border: 1.5px solid #bcbcbc;
+      border: 1.5px solid var(--border);
       padding: 0 6px;
       font-size: 12px;
       outline: none;
-      transition: 0.2s;
     }
 
     .item-discount-input:focus {
-      border-color: #5470ff;
+      border-color: var(--brand);
     }
 
     .item-discount-type {
       height: 28px;
       border-radius: 6px;
-      border: 1.5px solid #bcbcbc;
+      border: 1.5px solid var(--border);
       padding: 0 4px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       outline: none;
@@ -939,7 +1109,7 @@ if (!isset($_SESSION['user_id'])) {
 
     .item-discount-apply {
       height: 28px;
-      background: #5470ff;
+      background: var(--brand);
       color: white;
       border: none;
       border-radius: 6px;
@@ -951,7 +1121,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .item-discount-apply:hover {
-      background: #3c52d1;
+      background: var(--brand-hover);
     }
 
     .item-discount-clear {
@@ -972,10 +1142,82 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .item-discount-badge {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       color: #ff4b4b;
       font-family: 'DM Mono', monospace;
+    }
+
+    /* Mobile Bottom Tab Bar */
+    .mobile-tabs-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 56px;
+      background: #181b2a;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 2000;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .mobile-tab-btn {
+      background: none;
+      border: none;
+      color: #a4b1cd;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .mobile-tab-btn i {
+      font-size: 18px;
+    }
+
+    .mobile-tab-btn.active {
+      color: #ffffff;
+      background: var(--brand);
+    }
+
+    /* Responsive Views */
+    @media (max-width: 900px) {
+      .container {
+        height: calc(100vh - 56px);
+      }
+
+      .left-panel, .right-panel {
+        width: 100% !important;
+        height: 100% !important;
+        display: none !important;
+      }
+
+      .left-panel.active, .right-panel.active {
+        display: flex !important;
+      }
+
+      .mobile-tabs-nav {
+        display: grid;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .product-card {
+        padding: 10px;
+      }
+
+      .card-media-wrap {
+        height: 95px;
+      }
     }
   </style>
 </head>
@@ -983,19 +1225,28 @@ if (!isset($_SESSION['user_id'])) {
 <body>
   <div class="container">
 
-    <div class="left-panel">
+    <div class="left-panel active">
 
       <div class="topbar">
-        <div class="topbar-admin" onclick="toggleUserDropdown(event)">
-          <img src="../Images/profile.png" alt="Profile" class="profile-img">
-          <?= htmlspecialchars($_SESSION['username'] ?? 'User') ?> ▼
-
-          <div id="userDropdownMenu" class="dropdown-menu">
-            <a href="../Inventory_frontend/logout.php">Logout</a>
+        <div class="title">
+          <div class="brand-logo-icon">
+            <img src="../Images/logo.svg" alt="Logo">
+          </div>
+          <div class="brand-text-wrapper" style="display: flex; flex-direction: column; gap: 1px; line-height: 1.15; color: #ffffff;">
+            <span class="brand-name" style="font-size: 15px; font-weight: 700; letter-spacing: -0.01em;">Kinetix</span>
+            <span class="brand-sub" style="font-size: 9px; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 0.05em;">Point of Sale System</span>
           </div>
         </div>
 
-        <div class="title">K's Inventory System</div>
+        <div class="topbar-admin" onclick="toggleUserDropdown(event)">
+          <img src="../Images/profile.png" alt="Profile" class="profile-img">
+          <span><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></span>
+          <span style="font-size: 8px; opacity: 0.8; margin-left: 2px;">▼</span>
+
+          <div id="userDropdownMenu" class="dropdown-menu">
+            <a href="logout.php">Logout</a>
+          </div>
+        </div>
       </div>
 
       <div class="search-container">
@@ -1085,6 +1336,18 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
+  <!-- Mobile Bottom Tab Bar -->
+  <div class="mobile-tabs-nav">
+    <button class="mobile-tab-btn active" onclick="switchMobileTab('products')">
+      <i class="fa-solid fa-tags"></i>
+      <span>Products</span>
+    </button>
+    <button class="mobile-tab-btn" onclick="switchMobileTab('cart')">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart (<span id="mobileCartCount">0</span>)</span>
+    </button>
+  </div>
+
   <div class="modal-backdrop" id="checkoutModal">
     <div class="modal-card">
       <h2>Checkout</h2>
@@ -1124,20 +1387,17 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
-  <div id="model-modal" class="modal-backdrop" style="z-index: 1000;">
-    <div class="modal-card" style="width: 700px; max-width: 90%; display: flex; gap: 20px; padding: 20px;">
-
-      <div id="viewer-container" style="flex: 1; height: 300px; border-radius: 12px; overflow: hidden;">
-      </div>
-
-      <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+  <div id="model-modal" class="modal-backdrop" style="z-index: 2600;">
+    <div class="modal-card viewer-modal-card">
+      <button class="modal-close-x" onclick="close3DViewer()" title="Close">&times;</button>
+      <div id="viewer-container"></div>
+      <div class="viewer-modal-details">
         <div>
-          <h2 id="modal-title" style="margin-bottom: 10px; font-size: 20px;">Product Title</h2>
-          <p id="modal-desc" style="font-size: 14px; color: #555; line-height: 1.5;">Product description goes here...</p>
+          <h2 id="modal-title">Product Title</h2>
+          <div id="modal-desc">Product description goes here...</div>
         </div>
-        <button onclick="close3DViewer()" style="margin-top: 20px; padding: 12px; background: #ff4b4b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Close</button>
+        <button class="viewer-modal-close-btn" onclick="close3DViewer()">Close</button>
       </div>
-
     </div>
   </div>
   <div class="receipt-modal-backdrop" id="receiptModal">
@@ -1333,14 +1593,16 @@ if (!isset($_SESSION['user_id'])) {
         return `
         <div class="product-card${outClass}">
             <div>
-              <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+              <div class="card-media-wrap">
+                <img src="${imgUrl}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+              </div>
               <div class="product-name">${p.name}</div>
               <div class="brand-name">${p.brand || 'No Brand'}</div>
               <div class="price">Php${price.toFixed(2)}</div>
               <div class="stock ${stockClass(displayStock)}">${stockLabel(displayStock)}</div>
             </div>
             
-              <div style="display: flex; gap: 6px; margin-top: 12px; margin-bottom: 10px;">
+            <div style="display: flex; gap: 6px; margin-top: 12px;">
               <button class="btn-add" 
                       onclick="${displayStock > 0 ? `addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})` : ''}" 
                       style="cursor: ${displayStock > 0 ? 'pointer' : 'not-allowed'}; opacity: ${displayStock > 0 ? '1' : '0.6'};"
@@ -1512,7 +1774,10 @@ if (!isset($_SESSION['user_id'])) {
       const itemLabel = keys.length === 1 ? 'Product' : 'Products';
       cartCount = `${keys.length} ${itemLabel} (${totalItemQuantity} pcs)`;
 
-      updateSummary();
+      const mobileCartCountEl = document.getElementById('mobileCartCount');
+      if (mobileCartCountEl) {
+        mobileCartCountEl.textContent = totalItemQuantity;
+      }
 
       updateSummary();
     }
@@ -1836,21 +2101,25 @@ if (!isset($_SESSION['user_id'])) {
         p.model_path;
 
       let detailsHTML = `
-            <div style="font-size: 14px; color: #444; line-height: 1.6;">
-                <strong>Price:</strong> Php${Number(p.price).toFixed(2)}<br>
-                <strong>Brand:</strong> ${p.brand || 'N/A'}<br>
-                <strong>Color:</strong> ${p.color || 'N/A'}<br>
-                <strong>Type:</strong> ${p.type || 'N/A'}<br>
-        `;
+        <div class="modal-details-grid">
+          <div class="detail-item"><strong>Price</strong><span class="price-val">Php${Number(p.price).toFixed(2)}</span></div>
+          <div class="detail-item"><strong>Brand</strong><span>${p.brand || 'N/A'}</span></div>
+          <div class="detail-item"><strong>Color</strong><span>${p.color || 'N/A'}</span></div>
+          <div class="detail-item"><strong>Type</strong><span>${p.type || 'N/A'}</span></div>
+      `;
 
-      if (p.capacity_size) detailsHTML += `<strong>Size/Capacity:</strong> ${p.capacity_size}<br>`;
-      if (p.resolution) detailsHTML += `<strong>Resolution:</strong> ${p.resolution}<br>`;
+      if (p.capacity_size) detailsHTML += `<div class="detail-item"><strong>Size</strong><span>${p.capacity_size}</span></div>`;
+      if (p.resolution) detailsHTML += `<div class="detail-item"><strong>Resolution</strong><span>${p.resolution}</span></div>`;
+      detailsHTML += `</div>`;
 
       if (p.description) {
-        detailsHTML += `<br><strong>Description:</strong><br>${p.description}`;
+        detailsHTML += `
+          <div class="modal-desc-section">
+            <strong>Description</strong>
+            <p>${p.description}</p>
+          </div>
+        `;
       }
-
-      detailsHTML += `</div>`;
 
       document.getElementById('viewer-container').innerHTML = `
             <model-viewer
@@ -1923,6 +2192,24 @@ if (!isset($_SESSION['user_id'])) {
 
     function closeReceiptModal() {
       document.getElementById("receiptModal").style.display = "none";
+    }
+
+    function switchMobileTab(tab) {
+      const leftPanel = document.querySelector('.left-panel');
+      const rightPanel = document.querySelector('.right-panel');
+      const tabBtns = document.querySelectorAll('.mobile-tab-btn');
+      
+      if (tab === 'products') {
+        leftPanel.classList.add('active');
+        rightPanel.classList.remove('active');
+        tabBtns[0].classList.add('active');
+        tabBtns[1].classList.remove('active');
+      } else {
+        rightPanel.classList.add('active');
+        leftPanel.classList.remove('active');
+        tabBtns[1].classList.add('active');
+        tabBtns[0].classList.remove('active');
+      }
     }
   </script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>

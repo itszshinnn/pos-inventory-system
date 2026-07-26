@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   exit;
 }
 
-$metrics = $reportManager->getDashboardMetrics();
+$metrics = $reportManager->getDashboardMetrics('alltime');
 extract($metrics);
 
 $orders = $reportManager->getSalesHistory();

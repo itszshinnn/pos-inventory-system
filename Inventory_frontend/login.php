@@ -117,17 +117,27 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K's Inventory System</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Kinetix Inventory System — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
         :root {
-            --dark-1: #1e2337;
-            --dark-2: #333538;
-            --bg: #F5F6F8;
-            --white: #FFFFFF;
-            --muted: #6b6f73;
+            --bg: #f0f1f4;
+            --brand: #1B4EF5;
+            --brand-hover: #153ec3;
+            --text: #1a1c20;
+            --text-muted: #64748b;
+            --border: #dde1e9;
+            --card-bg: #ffffff;
+            --error-bg: #fef2f2;
+            --error-text: #ef4444;
+            --error-border: #fee2e2;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
 
         * {
@@ -138,92 +148,138 @@ if (isset($_POST['login'])) {
         }
 
         body {
-            min-height: 100vh;
             background: var(--bg);
-            color: var(--dark-1);
-            padding-top: 64px;
+            color: var(--text);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-        }
-
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: var(--dark-1);
-            color: var(--white);
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-            z-index: 1000;
+            padding: 20px;
         }
 
-        .topbar .brand {
-            font-weight: 700;
-            letter-spacing: 0.4px;
-        }
-
-        .topbar .actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .container {
-            width: 420px;
-            background: var(--white);
-            border-radius: 14px;
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            margin-top: 100px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 20px 48px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
-        .title {
+        .brand-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
             text-align: center;
-            font-size: 30px;
+        }
+
+        .brand-logo-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            background: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(27, 78, 245, 0.25);
+        }
+
+        .brand-logo-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .brand-sub {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 2px;
+        }
+
+        .alert-error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-border);
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
             font-weight: 600;
-            color: var(--dark-1);
-            margin-bottom: 30px;
-            letter-spacing: -1px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.4;
         }
 
-        .form {
-            display: none;
+        .alert-error i {
+            margin-top: 2px;
+            font-size: 0.95rem;
+            flex-shrink: 0;
         }
 
-        .form.active {
-            display: block;
-        }
-
-        .input-box {
-            margin-bottom: 18px;
+        .input-group {
+            margin-bottom: 20px;
             position: relative;
         }
 
-        .input-box input {
+        .input-group label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .input-wrapper input {
             width: 100%;
-            padding: 14px;
-            border: 2px solid rgba(0, 0, 0, 0.13);
-            border-radius: 10px;
+            padding: 12px 14px 12px 42px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
             outline: none;
-            font-size: 15px;
+            font-size: 0.93rem;
             background: #fafafa;
-            transition: 0.2s;
+            color: var(--text);
+            transition: all 0.2s ease;
         }
 
-        .input-box input[type="password"],
-        .input-box input[type="text"].pass-field {
-            padding-right: 46px;
+        .input-wrapper input:focus {
+            border-color: var(--brand);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 3px rgba(27, 78, 245, 0.15);
         }
 
-        .input-box input:focus {
-            border-color: var(--dark-2);
-            background: var(--white);
+        .input-wrapper input:focus + i.input-icon {
+            color: var(--brand);
         }
 
         .toggle-password {
@@ -234,8 +290,8 @@ if (isset($_POST['login'])) {
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--muted);
-            font-size: 18px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -245,89 +301,95 @@ if (isset($_POST['login'])) {
         }
 
         .toggle-password:hover {
-            color: var(--dark-1);
+            color: var(--text);
         }
 
-        .btn {
+        .btn-submit {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 10px;
-            background: #242424;
-            color: var(--white);
-            font-size: 16px;
+            border-radius: 8px;
+            background: var(--brand);
+            color: #ffffff;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(27, 78, 245, 0.15);
+            margin-top: 4px;
         }
 
-        .btn:hover {
-            background: #5f5f5f;
-            color: white;
+        .btn-submit:hover {
+            background: var(--brand-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(27, 78, 245, 0.25);
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 14px;
-            color: var(--muted);
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(27, 78, 245, 0.15);
         }
 
-        .footer a {
-            color: var(--dark-2);
-            text-decoration: none;
-        }
-
-        @media(max-width:500px) {
-
-            .container {
-                width: 90%;
-                padding: 30px;
+        @media(max-width: 480px) {
+            .login-card {
+                padding: 30px 24px;
             }
-
         }
     </style>
-
 </head>
 
 <body>
 
-    <div class="topbar">
-        <div class="brand">K's Inventory System</div>
-    </div>
+    <div class="login-card">
+        <div class="brand-header">
+            <div class="brand-logo-icon">
+                <img src="../Images/logo.svg" alt="Logo">
+            </div>
+            <h1 class="brand-name">Kinetix</h1>
+            <span class="brand-sub">Inventory System</span>
+        </div>
 
-    <div class="container">
-
-        <div class="title">K's Inventory System</div>
-
-        <form id="loginForm" class="form active" method="POST">
-
+        <form id="loginForm" method="POST">
             <?php if ($loginError): ?>
-                <div class="footer" style="color:red; margin-bottom:15px;">
-                    <?= $loginError ?>
+                <div class="alert-error">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span><?= htmlspecialchars($loginError) ?></span>
                 </div>
             <?php endif; ?>
 
-            <div class="input-box">
-                <input
-                    type="text"
-                    name="login_username"
-                    placeholder="Username"
-                    required>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <input
+                        type="text"
+                        id="username"
+                        name="login_username"
+                        placeholder="Enter username"
+                        required>
+                    <i class="fa-solid fa-user input-icon"></i>
+                </div>
             </div>
 
-            <div class="input-box">
-                <input type="password" id="loginPassword" class="pass-field" name="login_password" placeholder="Password" required>
-                <button type="button" class="toggle-password" onclick="toggleVisibility('loginPassword', this)">
-                    <i class="fa-regular fa-eye-slash"></i> </button>
+            <div class="input-group">
+                <label for="loginPassword">Password</label>
+                <div class="input-wrapper">
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="login_password"
+                        placeholder="Enter password"
+                        required>
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <button type="button" class="toggle-password" onclick="toggleVisibility('loginPassword', this)">
+                        <i class="fa-regular fa-eye-slash"></i>
+                    </button>
+                </div>
             </div>
 
-            <button type="submit" name="login" class="btn">
+            <button type="submit" name="login" class="btn-submit">
                 Login
             </button>
-
         </form>
-
     </div>
 
     <script>
@@ -342,27 +404,6 @@ if (isset($_POST['login'])) {
                 inputField.type = "password";
                 icon.className = "fa-regular fa-eye-slash";
             }
-        }
-
-        function showForm(type) {
-
-            let login = document.getElementById('loginForm');
-            let signup = document.getElementById('signupForm');
-
-            let buttons = document.querySelectorAll('.tab-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            if (type === 'login') {
-                login.classList.add('active');
-                signup.classList.remove('active');
-                buttons[0].classList.add('active');
-            } else {
-                signup.classList.add('active');
-                login.classList.remove('active');
-                buttons[1].classList.add('active');
-            }
-
         }
     </script>
 
