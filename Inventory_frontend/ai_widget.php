@@ -232,6 +232,7 @@
 
         sessionStorage.removeItem(CHAT_STORAGE_KEY);
         sessionStorage.removeItem(CHAT_DRAFT_KEY);
+        sessionStorage.removeItem('ai_chat_history');
         saveChatState();
     }
 
@@ -272,6 +273,8 @@
         </div>`;
         logs.scrollTop = logs.scrollHeight;
 
+        const history = JSON.parse(sessionStorage.getItem('ai_chat_history') || '[]');
+
         try {
             const response = await fetch('../Inventory_backend/api_ai_chat.php', {
                 method: 'POST',
@@ -279,7 +282,8 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    question: question
+                    question: question,
+                    history: history
                 })
             });
 
@@ -292,6 +296,10 @@
                 <div style="align-self: flex-start; background: #f3f3f3; color: #0f172a; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.5; border: 1px solid #cbd5e1; font-weight: 450;">
                     ${parseMarkdown(data.answer)}
                 </div>`;
+                
+                history.push({ role: 'user', content: question });
+                history.push({ role: 'assistant', content: data.answer });
+                sessionStorage.setItem('ai_chat_history', JSON.stringify(history.slice(-10)));
             } else {
                 logs.innerHTML += `
                 <div style="align-self: flex-start; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 10px 14px; border-radius: 14px 14px 14px 4px; max-width: 84%; font-size: 13.5px; line-height: 1.4;">

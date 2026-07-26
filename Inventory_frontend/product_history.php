@@ -209,11 +209,20 @@ $logs = $reportManager->getFullInventoryLogs();
 
       .history-toolbar {
         display: grid !important;
-        grid-template-columns: 1fr auto !important;
+        grid-template-columns: 1fr 125px !important;
         gap: 8px !important;
       }
 
       .history-toolbar input {
+        width: 100% !important;
+      }
+
+      .history-toolbar select {
+        width: 100% !important;
+      }
+
+      .history-toolbar .export-btn {
+        grid-column: span 2 !important;
         width: 100% !important;
       }
 
@@ -273,10 +282,21 @@ $logs = $reportManager->getFullInventoryLogs();
     }
 
     .history-toolbar {
-      display: grid;
-      grid-template-columns: 1fr 180px 150px;
+      display: flex;
       gap: 12px;
       margin-bottom: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .history-toolbar input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .history-toolbar select {
+      width: 160px;
+      flex-shrink: 0;
     }
 
     .history-toolbar input,
@@ -403,7 +423,7 @@ $logs = $reportManager->getFullInventoryLogs();
     }
 
     .receipt-item-line span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .receipt-total-line {
@@ -416,7 +436,7 @@ $logs = $reportManager->getFullInventoryLogs();
     }
 
     .receipt-total-line span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .receipt-close-btn {
@@ -548,6 +568,11 @@ $logs = $reportManager->getFullInventoryLogs();
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>
           </select>
+
+          <button onclick="exportLogsExcel()" class="export-btn" title="Export current filtered logs to Excel">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Export Excel</span>
+          </button>
         </div>
 
         <div class="table-wrap">
@@ -610,6 +635,85 @@ $logs = $reportManager->getFullInventoryLogs();
 
   <script>
     const allLogs = <?= json_encode($logs) ?>;
+
+    function exportLogsExcel() {
+      const searchVal = document.getElementById('historySearchInput').value.toLowerCase().trim();
+      const sortVal = document.getElementById('sortFilter').value;
+
+      let filtered = allLogs.filter(log => {
+        const product = (log.product_name || '').toLowerCase();
+        const action = (log.action_type || '').toLowerCase();
+        const admin = (log.changed_by || '').toLowerCase();
+
+        return product.includes(searchVal) ||
+          action.includes(searchVal) ||
+          admin.includes(searchVal);
+      });
+
+      filtered.sort((a, b) => {
+        const timeA = new Date(a.created_at).getTime();
+        const timeB = new Date(b.created_at).getTime();
+        if (sortVal === 'oldest') {
+          return timeA - timeB;
+        } else {
+          return timeB - timeA;
+        }
+      });
+
+      let html = `<html xmlns:o="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">`;
+      html += `<head><meta charset="utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>`;
+      html += `<body><table><thead><tr>`;
+      
+      const headers = ["Log ID", "Product Name", "Action", "Old Stock", "New Stock", "Admin", "Date"];
+      headers.forEach(h => {
+        html += `<th style="background-color: #f2f2f2; border: 1px solid #dddddd; padding: 8px; font-weight: bold;">${h}</th>`;
+      });
+      html += `</tr></thead><tbody>`;
+
+      filtered.forEach(log => {
+        const logId = log.id || '-';
+        const prod = log.product_name || '';
+        const action = log.action_type || '';
+        const oldStock = log.old_stock ?? '-';
+        const newStock = log.new_stock ?? '-';
+        const admin = log.changed_by || 'Admin';
+        const date = log.created_at || '';
+
+        html += `<tr>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px; mso-number-format:'0';">${escapeExcelHtml(logId)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px;">${escapeExcelHtml(prod)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px;">${escapeExcelHtml(action)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px; mso-number-format:'0';">${escapeExcelHtml(oldStock)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px; mso-number-format:'0';">${escapeExcelHtml(newStock)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px;">${escapeExcelHtml(admin)}</td>`;
+        html += `<td style="border: 1px solid #dddddd; padding: 8px;">${escapeExcelHtml(date)}</td>`;
+        html += `</tr>`;
+      });
+
+      html += `</tbody></table></body></html>`;
+
+      const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `inventory_logs_${new Date().toISOString().slice(0, 10)}.xls`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function escapeExcelHtml(unsafe) {
+      if (unsafe === null || unsafe === undefined) return '';
+      return unsafe.toString().replace(/[&<>"']/g, function(m) {
+        switch (m) {
+          case '&': return '&amp;';
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '"': return '&quot;';
+          case "'": return '&#039;';
+        }
+      });
+    }
 
     function groupLogs(logsArray) {
       const groups = {};

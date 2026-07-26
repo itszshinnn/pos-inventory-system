@@ -298,7 +298,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .price {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 14px;
       font-weight: 600;
       color: var(--text);
@@ -455,14 +455,14 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .cart-item-info .item-price {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 13.5px;
       font-weight: 600;
       color: var(--text);
     }
 
     .qty-badge {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 13px;
       font-weight: 600;
     }
@@ -504,7 +504,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .summary-row span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-weight: 600;
     }
 
@@ -594,7 +594,7 @@ if (!isset($_SESSION['user_id'])) {
 
     .discount-result {
       flex: 1;
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 13.5px;
       font-weight: 600;
       color: #ef4444;
@@ -709,7 +709,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .modal-item-row span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
     }
 
     .modal-divider {
@@ -728,7 +728,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .modal-total-row span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
     }
 
     .modal-label {
@@ -782,7 +782,7 @@ if (!isset($_SESSION['user_id'])) {
       border-radius: 8px;
       padding: 0 14px;
       font-size: 15px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       outline: none;
     }
 
@@ -791,7 +791,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .change-display {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 14px;
       font-weight: 600;
       color: #10b981;
@@ -943,7 +943,7 @@ if (!isset($_SESSION['user_id'])) {
 
     .detail-item .price-val {
       color: var(--brand);
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
       font-size: 14px;
     }
 
@@ -1038,7 +1038,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .receipt-item-line span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
     }
 
     .receipt-total-line {
@@ -1051,7 +1051,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .receipt-total-line span:last-child {
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
     }
 
     .receipt-close-btn {
@@ -1145,7 +1145,7 @@ if (!isset($_SESSION['user_id'])) {
       font-size: 10.5px;
       font-weight: 600;
       color: #ff4b4b;
-      font-family: 'DM Mono', monospace;
+      font-family: 'DM Sans', monospace;
     }
 
     /* Mobile Bottom Tab Bar */
@@ -1439,11 +1439,11 @@ if (!isset($_SESSION['user_id'])) {
 
       <div class="receipt-meta-row" style="margin-top: 14px;">
         <span>Cash Received:</span>
-        <span id="rcptCashReceived" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
+        <span id="rcptCashReceived" style="font-family: 'DM Sans', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
       <div class="receipt-meta-row">
         <span>Change Given:</span>
-        <span id="rcptChange" style="font-family: 'DM Mono', monospace; font-weight: 500; color: #444;">Php0.00</span>
+        <span id="rcptChange" style="font-family: 'DM Sans', monospace; font-weight: 500; color: #444;">Php0.00</span>
       </div>
 
       <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
@@ -1759,7 +1759,7 @@ if (!isset($_SESSION['user_id'])) {
                     <button onclick="updateCartQty(${item.id}, ${item.qty - 1})" style="background: #e0e0e0; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: bold; color: #333; font-size: 15px; transition: 0.2s;" onmouseover="this.style.background='#dcdcdc'" onmouseout="this.style.background='#e0e0e0'">−</button>
                     <input type="text" 
                          value="${item.qty}" 
-                         style="width: 45px; height: 28px; border: none; outline: none; font-family: 'DM Mono', monospace; text-align: center; border-left: 1.5px solid #bcbcbc; border-right: 1.5px solid #bcbcbc;"
+                         style="width: 45px; height: 28px; border: none; outline: none; font-family: 'DM Sans', monospace; text-align: center; border-left: 1.5px solid #bcbcbc; border-right: 1.5px solid #bcbcbc;"
                          onchange="updateCartQty(${item.id}, this.value)">
                   <button onclick="updateCartQty(${item.id}, ${item.qty + 1})" style="background: #e0e0e0; border: none; width: 28px; height: 28px; cursor: pointer; font-weight: bold; color: #333; font-size: 15px; transition: 0.2s;" onmouseover="this.style.background='#dcdcdc'" onmouseout="this.style.background='#e0e0e0'">+</button>
                 </div>

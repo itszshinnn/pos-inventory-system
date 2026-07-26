@@ -1190,3 +1190,37 @@ tbody tr:hover {
     justify-content: flex-start;
   }
 }
+
+.export-btn {
+  height: 40px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 0 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.export-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+  background: rgba(27, 78, 245, 0.04);
+}
+
+.export-btn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 768px) {
+  .export-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

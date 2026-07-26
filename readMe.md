@@ -25,7 +25,7 @@ Password: 1234
 - Calinaya
 - Morimitsu
  
-# Features
+# # Features
 
 ## Login
 - Can login using an Admin account
@@ -93,6 +93,7 @@ Password: 1234
 ### Sales History
 - Records all the processed orders
 - Order No. / Items Summary / Payment method / Discount / Total Amount / Actions (View Receipt)
+- **Excel Export:** Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
 
 ![hist](ReadMe/history.png)
 
@@ -104,6 +105,7 @@ Password: 1234
 - Shows when an item or stock gets deleted
 - Shows when an item or stock gets added
 - Shows date on each changes
+- **Excel Export:** Export active inventory modification logs into styled spreadsheets.
 
 ![inv](ReadMe/invhistory.png)
 
@@ -143,49 +145,19 @@ Password: 1234
 ![chec](ReadMe/checkout.png)
 
 # Integration
-1. PayMongo Online Checkout API - we connected our Point of Sale system directly to the PayMongo API, which allows the staffs or cashiers to accept card payments and local e-wallets such as GCash and Maya. When a digital payment method was chosen at the checkout, the system calculates the amount in centavos, securely communicates with PayMongo's servers to get a unique checkout link, and seamlessly redirects the customer to a secure page to complete the transaction before returning them to our app to automatically confirm the sale and clear the cart.  
+1. **PayMongo Online Checkout API:** Point of Sale system directly integrated with the PayMongo API to accept card payments and local e-wallets (GCash and Maya) seamlessly via secure checkout session redirects.
 
-2. Automated SMTP Mail Service - we built an automated email notification system using the standard SMTP protocols. This service runs behind the scenes and instantly delivers structured emails to a pre-configured business address whenever a product drops to a critical low-stock level of 3 units or lower, or when a pending supplier delivery has been physically checked into the shelves by an administrator.
+2. **Automated SMTP Mail Service:** Automated background email notifications using SMTP protocols that instantly deliver stock alerts to administrators when items drop below critical levels.
 
-3. Interactive 3D Model Viewer - the POS menu uses Google's open-source 3D <model-viewer> web library. Whenever an admin adds a new product, they can upload its corresponding 3D asset (.glb or .gltf file), allowing users in the Point of Sale menu to click and open an interactive modal where they can freely click, drag, rotate, and zoom in on a full 3D model rendering of the item in real time.
+3. **Interactive 3D Model Viewer:** Integration of Google's `<model-viewer>` library allowing administrators to upload `.glb` or `.gltf` 3D product models, which staff can interactively inspect in real-time.
 
+4. **Native Excel Spreadsheet Exports:** Client-side spreadsheet builder that outputs files using the native `application/vnd.ms-excel` MIME type. Resolves the text import wizard prompt, keeps order number formats (preserving leading zeros), and shows up in the file browser under default spreadsheet filters.
+
+5. **Conversational AI Assistant with Action Intents:** Natural-language bot powered by Groq API (Llama models). Includes:
+   - **Database QA:** Evaluates natural language queries to generate safe SQL read commands.
+   - **Continuous Conversation Context:** Tracks history states using sessionStorage to handle follow-up statements.
+   - **Action Intent Execution:** Processes modification requests (like restocking, updating retail prices, and cost prices) directly into transactions. Includes support for bulk multi-command updates in a single prompt.
 
 # Database
 ## Database Name
-- POS_Inventory_System
-
-# Notes
-## How to clone the repo
-- Open xampp/htdocs folder in vscode
-- Open view -> Terminal
-- Type in "git clone https://github.com/itszshinnn/pos-inventory-system.git"
-- Always pull before pushing changes.
-- Use proper commit changes.
-- PUT YOUR FRONTEND CODES IN THE .Drafts Folder, kami na ni sean mag coconnect nyan
-
-## Git Commands
-- git pull origin (branch name) | download all the latest code in this branch
-- git checkout (branch name) | switch your workspace into an existing branch
-- git merge (branch name)  | merge your target branch to your active current branch
-- git push origin (branch name)  | uploads your local commit to your branch
-- git status | checks what branch you are currently in
-
-## Step by step
-- Make sure you are in your own branch
-- Add/edit your code
-- Commit changes and add message/comment
-- Push your updates to GitHub (into your own branch)
-- Switch to main branch
-- Always make sure you are update in main branch
-- Merge your own branch into main branch
-- Push the updated main branch to GitHub
-
-## How to Add the database
-- Open phpmyadmin on xampp
-- On the left side bar press "New"
-- Create database named "inventory_db"
-- Once done ignore the add table name
-- Click the "Import" tab above
-- Click the "Choose File"
-- Select inventory_db.sql
-- Once uploaded go to the bottom and click import
+- inventory_db
