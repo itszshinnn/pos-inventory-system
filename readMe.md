@@ -4,9 +4,6 @@
 
 - The **POS Inventory System** is an application developed to help gadget peripherals and accessories stores efficiently manage their inventory and sales operations in one centralized platform. It caters to small and medium-sized businesses by providing an organized way to monitor products, process customer transactions, and manage stock levels. The system is designed for both administrators and staff, where administrators can manage products, categories, accounts, and reports, while staff can efficiently process sales through the point-of-sale interface. With features such as inventory tracking, sales history, XML import/export, and real-time stock monitoring, the system improves operational efficiency, reduces manual errors, and streamlines daily business activities.
 
-
-=======
-
 ## Online Site
 - Link to an online hosted version of the POS System. fully working https://k-inventory.html-5.me/
 - Admin account:
