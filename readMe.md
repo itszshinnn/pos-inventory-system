@@ -40,6 +40,7 @@
 - Real-time Notifications panel tracking: Added/Deleted/Edited products, low stock alerts, new user registrations, and completed sales transactions.
 
 ![Dashboard](ReadMe/dashboard.png)
+![Dashboard](ReadMe/description.png)
 
 ## Category Management
 - Add, view, edit, and delete product categories.
