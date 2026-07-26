@@ -38,15 +38,13 @@ Password: 1234
 ## Dashboard
 - Total Products
 - Total Units
-- Total Categories
 - Low Stock
 - Out of Stock
 - Total Revenue
-- Total Transactions
-- Total Items Sold
-- Total Logs
-- Total Products Added
-- Total Products Deleted
+- Total COGS
+- Total Purchases
+- Total Profit
+- Total Sales
 - Notifications tab: (Added product, Deleted product, Edited product, Stock alert, New user, Processed Orders)
 
 ![dash](ReadMe/dashboard.png)
@@ -68,22 +66,36 @@ Password: 1234
 
 ![prod](ReadMe/products.png)
 
-- Product No. / Name / Catergory / Price / Stocks / Status (Fine,Low,Out of stock) / Actions (Edit or Delete)
+- Product No. | Name | Catergory | Brand | Color | Size | Bought | Retail | Stocks (Fine,Low,Out of stock) | Actions (Restock, Edit or Delete)
 
 ![edit](ReadMe/editproduct.png)
 
 ## Add Product
 - Enter Product Name
 - Select Category
-- Input price
-- Input stock
-- (optional, has default image) upload product image 
+- Input Cost Price
+- Input Retail Selling Price
+- Input Initial Quantity of Stocks
+- Input Product Specifications (Optional)
+- Input Product Description, Images, and 3D Models
 
 ![add](ReadMe/addproduct.png)
 
-## XML Files
-- Export each table in the database to individual files
-- Export all database tables into one singular file
+## Purchase Orders
+- Search product to add in restocking
+- View draft purchase orders
+- View pending incoming orders
+
+![add](ReadMe/[purchaseorders].png)
+
+## Purchase History
+- View purchase history
+
+![add](ReadMe/[purchasehistory].png)
+
+## Backup and History
+- Export tables into one database XML file
+- Export tables into seperate XML files
 - Import XML 
 - Import both works on individual files and database file
 
@@ -92,8 +104,9 @@ Password: 1234
 ## History
 ### Sales History
 - Records all the processed orders
-- Order No. / Items Summary / Payment method / Discount / Total Amount / Actions (View Receipt)
-- **Excel Export:** Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
+- View total revenue, total transactions made, total items sold
+- Sort data in table
+- Excel Export: Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
 
 ![hist](ReadMe/history.png)
 
@@ -101,11 +114,18 @@ Password: 1234
 
 ### Inventory Logs
 - Records changes made to the items
+- View total logs, products added, products deleted
 - Shows old and new stock when changed
 - Shows when an item or stock gets deleted
 - Shows when an item or stock gets added
 - Shows date on each changes
-- **Excel Export:** Export active inventory modification logs into styled spreadsheets.
+- Excel Export: Export active inventory modification logs into styled spreadsheets.
+
+![inv](ReadMe/invhistory.png)
+
+### Logs History
+- Search for specific history logs
+- View logs changes
 
 ![inv](ReadMe/invhistory.png)
 
@@ -113,34 +133,32 @@ Password: 1234
 - Shows total accounts
 - Shows total Admin accounts
 - Shows total Staff accounts
-- Admin can create a staff or an admin account
-- Shows all of the existing staff (including admin)
-- Admin can edit or delete staff accounts
+- Add system email for business emails to receive notifications
+- Account creation
+- Account actions (edit and delete)
 
 ![userss](ReadMe/users.png)
 
-# User Side :
+# User Side:
 ## POS System
-- Shows all of the items in the database
-- Shows records of stock of each item
-- Greys out items that are sold out
-- User can filter items using categories
-- User can search for an item
-- Clicking on an item adds them to cart
+- Shows all items in the database with their respective images and 3D models.
+- Real-time stock indicator displays (automatically grays out items when sold out).
+- Category filtering and real-time search inputs to find products quickly.
+- **Interactive 3D Product Viewer:** Cashiers can click "View" on any product to open a premium details modal featuring an interactive 3D model viewport (supports rotation, zoom, drag) and technical attributes (cost, brand, dimensions, color, type).
+- **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
 ![POS Screenshot](ReadMe/POS.png)
 
-## Cart
-- Shows all of the items inside the cart
-- User can remove the item from the cart
-- User can input a discount, either percentage (%) or in pesos
+## Cart & Presets
+- Displays all selected items inside the sidebar cart with a live quantity counter.
+- Easy cart control operations (increment, decrement, and delete actions per line item).
+- **Flexible Discounts:** Cashiers can input percentage discounts (e.g. `10%`) or flat currency discounts (e.g. `₱50`) directly on the transaction total.
 
-## Checkout
-- Shows a breakdown of the items price
-- Shows the total of the order
-- User can choose a payment method (Cash, Card, GCash, Maya)
-- User inputs how much is paid
-- System automatically calculates the change
+## Checkout & Processing
+- Itemized pricing breakdown displaying subtotal, discount reduction, and total due.
+- Payment method options: Cash, Card, GCash, and Maya (with PayMongo redirects for digital options).
+- Interactive cash-received field with instant change calculation.
+- Automatically generates and displays receipt summaries upon checking out.
 
 ![chec](ReadMe/checkout.png)
 
