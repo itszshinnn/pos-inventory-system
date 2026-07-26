@@ -135,7 +135,8 @@ if (isset($_POST['login'])) {
             --error-border: #fee2e2;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             overflow: hidden;
         }
@@ -162,7 +163,7 @@ if (isset($_POST['login'])) {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 20px 48px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.13), 0 20px 48px rgba(0, 0, 0, 0.13);
             border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
@@ -278,7 +279,7 @@ if (isset($_POST['login'])) {
             box-shadow: 0 0 0 3px rgba(27, 78, 245, 0.15);
         }
 
-        .input-wrapper input:focus + i.input-icon {
+        .input-wrapper input:focus+i.input-icon {
             color: var(--brand);
         }
 
@@ -405,6 +406,7 @@ if (isset($_POST['login'])) {
                 icon.className = "fa-regular fa-eye-slash";
             }
         }
+        sessionStorage.removeItem("sidebarState");
     </script>
 
 </body>

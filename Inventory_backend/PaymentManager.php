@@ -16,8 +16,19 @@ class PaymentManager
             return $item['name'] . " (x" . $item['qty'] . ")";
         }, $cartArray);
         $summaryName = "Order: " . implode(", ", $itemNames);
-
         $summaryName = substr($summaryName, 0, 250);
+
+        // --- DYNAMIC URL BUILDER ---
+        // Dynamically detects http/https and your IP/Domain (e.g. 192.168.1.9 or localhost)
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+
+        // Automatically finds the correct folder path on your server
+        $backendDir = dirname($_SERVER['SCRIPT_NAME']); // Path to Inventory_backend
+        $projectBase = dirname($backendDir);           // Root project folder
+
+        $successUrl = "{$protocol}://{$host}{$backendDir}/payment_success.php";
+        $cancelUrl  = "{$protocol}://{$host}{$projectBase}/Inventory_frontend/point_of_sale_menu.php";
 
         $payload = [
             'data' => [
@@ -31,9 +42,9 @@ class PaymentManager
                         ]
                     ],
                     'payment_method_types' => [$apiPaymentMethod],
-                    'success_url' => 'http://localhost/inventory/Inventory_backend/payment_success.php',
-                    'cancel_url' => 'http://localhost/inventory/Inventory_frontend/point_of_sale_menu.php',
-                    'description' => 'Inventory System Demo Checkout'
+                    'success_url' => $successUrl,
+                    'cancel_url' => $cancelUrl,
+                    'description' => 'Inventory System Checkout'
                 ]
             ]
         ];

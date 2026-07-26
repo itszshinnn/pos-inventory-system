@@ -24,8 +24,8 @@ if (!isset($_SESSION['user_id'])) {
       --brand: #1B4EF5;
       --brand-hover: #153ec3;
       --text: #1a1c20;
-      --text-muted: #7a7f8a;
-      --border: #dde1e9;
+      --text-muted: #3e3e3e;
+      --border: #c2c2c2;
       --card-bg: #ffffff;
       --white: #ffffff;
     }
@@ -178,6 +178,7 @@ if (!isset($_SESSION['user_id'])) {
       gap: 8px;
       padding: 0 16px 12px;
       flex-wrap: wrap;
+      flex-shrink: 0;
     }
 
     .filter-select {
@@ -232,7 +233,7 @@ if (!isset($_SESSION['user_id'])) {
     .product-card {
       background: var(--card-bg);
       border-radius: 12px;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       padding: 12px;
       display: flex;
       flex-direction: column;
@@ -242,8 +243,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .product-card:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-      border-color: rgba(27, 78, 245, 0.25);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
     }
 
     .product-card.out-of-stock {
@@ -267,12 +267,13 @@ if (!isset($_SESSION['user_id'])) {
       height: 100%;
       object-fit: contain;
       padding: 6px;
+      background-color: #c1c1c1;
     }
 
     model-viewer {
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: #c1c1c1;
     }
 
     .product-name {
@@ -324,7 +325,8 @@ if (!isset($_SESSION['user_id'])) {
       color: #ef4444;
     }
 
-    .no-results, .spinner-wrap {
+    .no-results,
+    .spinner-wrap {
       width: 100%;
       text-align: center;
       color: var(--text-muted);
@@ -665,17 +667,20 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     /* Modal Styling */
-    .modal-backdrop, .receipt-modal-backdrop {
+    .modal-backdrop,
+    .receipt-modal-backdrop {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       background: rgba(0, 0, 0, 0.4);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 2500;
+      overflow-y: auto;
     }
 
     .modal-card {
@@ -835,7 +840,6 @@ if (!isset($_SESSION['user_id'])) {
       background: #0d9488;
     }
 
-    /* Redesigned Product View Modal */
     .viewer-modal-card {
       width: 760px;
       max-width: 90%;
@@ -861,6 +865,8 @@ if (!isset($_SESSION['user_id'])) {
       line-height: 1;
       transition: color 0.15s;
       z-index: 10;
+      padding: 10px;
+      margin: -10px;
     }
 
     .modal-close-x:hover {
@@ -893,16 +899,17 @@ if (!isset($_SESSION['user_id'])) {
 
     .viewer-modal-close-btn {
       width: 100%;
-      height: 42px;
+      height: 46px;
       background: #181b2a;
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s;
-      margin-top: 16px;
+      flex-shrink: 0;
+      margin-top: 8px;
     }
 
     .viewer-modal-close-btn:hover {
@@ -970,22 +977,50 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     @media (max-width: 768px) {
+      #model-modal {
+        align-items: flex-start;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
       .viewer-modal-card {
+        position: relative;
+        width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+        flex-shrink: 0;
+        display: flex;
         flex-direction: column;
-        width: 95%;
-        max-height: 90vh;
-        overflow-y: auto;
-        padding: 20px 16px;
-        gap: 16px;
+        overflow: hidden;
+        padding: 16px;
+        gap: 14px;
       }
 
       #viewer-container {
         height: 220px;
         flex-shrink: 0;
       }
+
+      .viewer-modal-details {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+      }
+
+      .viewer-modal-close-btn {
+        height: 48px;
+        font-size: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        flex-shrink: 0;
+      }
     }
 
-    /* Receipt modal */
+    .modal-backdrop {
+      padding: 12px;
+      overflow: hidden;
+    }
+
     .receipt-card {
       background: white;
       width: 380px;
@@ -1148,7 +1183,6 @@ if (!isset($_SESSION['user_id'])) {
       font-family: 'DM Sans', monospace;
     }
 
-    /* Mobile Bottom Tab Bar */
     .mobile-tabs-nav {
       display: none;
       position: fixed;
@@ -1186,20 +1220,39 @@ if (!isset($_SESSION['user_id'])) {
       background: var(--brand);
     }
 
-    /* Responsive Views */
     @media (max-width: 900px) {
       .container {
-        height: calc(100vh - 56px);
+        height: calc(100dvh - 56px);
       }
 
-      .left-panel, .right-panel {
+      .left-panel,
+      .right-panel {
         width: 100% !important;
         height: 100% !important;
         display: none !important;
       }
 
-      .left-panel.active, .right-panel.active {
+      .left-panel.active,
+      .right-panel.active {
         display: flex !important;
+      }
+
+      /* Fix for filter dropdowns overlapping product cards */
+      .categories {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 0 14px 12px;
+      }
+
+      .categories .filter-select,
+      .categories .reset-filter-btn {
+        width: 100%;
+      }
+
+      /* Stretches reset button full width on mobile grid */
+      .reset-filter-btn {
+        grid-column: span 2;
       }
 
       .mobile-tabs-nav {
@@ -1336,7 +1389,6 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
-  <!-- Mobile Bottom Tab Bar -->
   <div class="mobile-tabs-nav">
     <button class="mobile-tab-btn active" onclick="switchMobileTab('products')">
       <i class="fa-solid fa-tags"></i>
@@ -1391,11 +1443,13 @@ if (!isset($_SESSION['user_id'])) {
     <div class="modal-card viewer-modal-card">
       <button class="modal-close-x" onclick="close3DViewer()" title="Close">&times;</button>
       <div id="viewer-container"></div>
+
       <div class="viewer-modal-details">
-        <div>
+        <div class="viewer-modal-info">
           <h2 id="modal-title">Product Title</h2>
           <div id="modal-desc">Product description goes here...</div>
         </div>
+
         <button class="viewer-modal-close-btn" onclick="close3DViewer()">Close</button>
       </div>
     </div>
@@ -2122,12 +2176,19 @@ if (!isset($_SESSION['user_id'])) {
       }
 
       document.getElementById('viewer-container').innerHTML = `
-            <model-viewer
-                src="${modelPath}"
-                auto-rotate
-                camera-controls
-                style="width:100%; height:100%;">
-            </model-viewer>
+<model-viewer
+    src="${modelPath}"
+    auto-rotate
+    camera-controls
+    touch-action="pan-y"
+    style="
+        display:block;
+        width:100%;
+        height:100%;
+        min-height:300px;
+        background:#f8fafc;
+    ">
+</model-viewer>
         `;
       document.getElementById('modal-title').innerText = p.name;
       document.getElementById('modal-desc').innerHTML = detailsHTML;
@@ -2198,7 +2259,7 @@ if (!isset($_SESSION['user_id'])) {
       const leftPanel = document.querySelector('.left-panel');
       const rightPanel = document.querySelector('.right-panel');
       const tabBtns = document.querySelectorAll('.mobile-tab-btn');
-      
+
       if (tab === 'products') {
         leftPanel.classList.add('active');
         rightPanel.classList.remove('active');

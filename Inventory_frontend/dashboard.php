@@ -972,6 +972,7 @@ usort($allNotifications, function ($a, $b) {
       if (event) event.stopPropagation();
       const sidebar = document.getElementById("sidebarNav");
       const backdrop = document.getElementById("sidebarBackdrop");
+
       if (sidebar && backdrop) {
         sidebar.classList.toggle("active");
         backdrop.classList.toggle("active");
@@ -1000,13 +1001,7 @@ usort($allNotifications, function ($a, $b) {
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      const sidebarState = sessionStorage.getItem("sidebarState");
       const sidebar = document.getElementById("sidebarNav");
-      const backdrop = document.getElementById("sidebarBackdrop");
-      if (sidebarState === "active") {
-        if (sidebar) sidebar.classList.add("active");
-        if (backdrop) backdrop.classList.add("active");
-      }
       setTimeout(() => {
         if (sidebar) sidebar.classList.remove("no-transition");
       }, 50);
