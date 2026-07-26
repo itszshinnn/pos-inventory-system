@@ -132,6 +132,12 @@
 </div>
 
 <script>
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'logout-event') {
+            window.location.href = 'login.php';
+        }
+    });
+
     const CHAT_STORAGE_KEY = 'ai_chat_logs_history';
     const CHAT_OPEN_KEY = 'ai_chat_is_open';
     const CHAT_DRAFT_KEY = 'ai_chat_draft_text';

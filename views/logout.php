@@ -12,6 +12,7 @@ session_destroy();
     sessionStorage.removeItem('ai_chat_logs_history');
     sessionStorage.removeItem('ai_chat_is_open');
     sessionStorage.removeItem('ai_chat_draft_text');
+    localStorage.setItem('logout-event', 'logout-' + Date.now());
     window.location.href = "login.php";
   </script>
 </head>

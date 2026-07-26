@@ -1495,6 +1495,12 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
   <script>
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'logout-event') {
+        window.location.href = 'login.php';
+      }
+    });
+
     const cashierName = <?= json_encode($_SESSION['username']) ?>;
     let allProducts = [];
     let cart = {};
