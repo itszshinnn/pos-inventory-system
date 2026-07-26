@@ -1,5 +1,4 @@
 <?php
-header("Location: Inventory_frontend/dashboard.php");
+header("Location: views/dashboard.php");
 exit;
-
 ?>

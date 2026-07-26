@@ -3,16 +3,16 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-if (file_exists(__DIR__ . '/Inventory_backend/config.php')) {
-    require_once __DIR__ . '/Inventory_backend/config.php';
+if (file_exists(__DIR__ . '/src/config.php')) {
+    require_once __DIR__ . '/src/config.php';
 } else {
     require_once __DIR__ . '/config.php';
 }
 
-require_once __DIR__ . '/Database/Database.php';
-require_once __DIR__ . '/Exception.php';
-require_once __DIR__ . '/PHPMailer.php';
-require_once __DIR__ . '/SMTP.php';
+require_once __DIR__ . '/src/Database.php';
+require_once __DIR__ . '/src/libs/Exception.php';
+require_once __DIR__ . '/src/libs/PHPMailer.php';
+require_once __DIR__ . '/src/libs/SMTP.php';
 
 class MailService
 {

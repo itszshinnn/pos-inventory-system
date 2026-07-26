@@ -36,8 +36,8 @@
 - Login using an Admin account
 - Login using an User/Staff account
 
-![Login](ReadMe/login.png)
-![Login](ReadMe/login.png)
+![Login](docs/screenshots/login.png)
+![Login](docs/screenshots/login.png)
 
 # Admin Side:
 
@@ -49,15 +49,15 @@
 - Real-time graph and top 5 selling products: Revenue, Net profit, Inventory purchases, Top 5 Selling Products
 - Real-time Notifications panel tracking: Added/Deleted/Edited products, low stock alerts, new user registrations, and completed sales transactions.
 
-![Dashboard](ReadMe/dashboard.png)
-![Dashboard](ReadMe/dashboard.png)
+![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ## Category Management
 - Add, view, edit, and delete product categories.
 - Add, view, edit, and delete product categories.
 
-![Category Management](ReadMe/categories.png)
-![Category Management](ReadMe/categories.png)
+![Category Management](docs/screenshots/categories.png)
+![Category Management](docs/screenshots/categories.png)
 
 ## Product Management
 - List all products with details: Product No., Name, Category, Brand, Color, Size, Cost price (Bought), Retail price (Selling), and Stock levels.
@@ -65,55 +65,55 @@
 - Search filter by keyword or matching name.
 - Filter by categories, brands, and colros.
 
-![Product Management](ReadMe/products.png)
+![Product Management](docs/screenshots/products.png)
 - List all products with details: Product No., Name, Category, Brand, Color, Size, Cost price (Bought), Retail price (Selling), and Stock levels.
 - Direct inventory action buttons: restock batches, edit product details, or delete items.
 - Search filter by keyword or matching name.
 - Filter by categories, brands, and colros.
 
-![Product Management](ReadMe/products.png)
+![Product Management](docs/screenshots/products.png)
 
 ## Add Product
 - Form to add new inventory products: specify name, category, initial cost price, initial retail selling price, stock quantities, technical specifications, description, and upload product images or 3D asset models (.glb/.gltf format).
 - Form to add new inventory products: specify name, category, initial cost price, initial retail selling price, stock quantities, technical specifications, description, and upload product images or 3D asset models (.glb/.gltf format).
 
-![Add Product](ReadMe/add_products.png)
-![Add Product](ReadMe/add_products.png)
+![Add Product](docs/screenshots/add_products.png)
+![Add Product](docs/screenshots/add_products.png)
 
 ## Purchase Orders & Procurement
 - Search inventory products to dynamically generate supplier restocking batches.
 - Manage draft purchase orders and track incoming deliveries.
 - Log incoming batches into inventory records once physically checked into shelves.
 
-![Purchase Orders](ReadMe/purchase_orders.png)
+![Purchase Orders](docs/screenshots/purchase_orders.png)
 
 ## Purchase History
 - Log records of all completed supplier purchase orders.
 
-![Purchase History](ReadMe/purchase_history.png)
+![Purchase History](docs/screenshots/purchase_history.png)
 
 ## Backup and Restoration
 - Database XML export utility: download single tables or the entire consolidated database backup file.
 - Database XML import utility: restore single table backups or full database states.
 
-![Backup and Restoration](ReadMe/backup_and_restore.png)
+![Backup and Restoration](docs/screenshots/backup_and_restore.png)
 ## Purchase Orders & Procurement
 - Search inventory products to dynamically generate supplier restocking batches.
 - Manage draft purchase orders and track incoming deliveries.
 - Log incoming batches into inventory records once physically checked into shelves.
 
-![Purchase Orders](ReadMe/purchase_orders.png)
+![Purchase Orders](docs/screenshots/purchase_orders.png)
 
 ## Purchase History
 - Log records of all completed supplier purchase orders.
 
-![Purchase History](ReadMe/purchase_history.png)
+![Purchase History](docs/screenshots/purchase_history.png)
 
 ## Backup and Restoration
 - Database XML export utility: download single tables or the entire consolidated database backup file.
 - Database XML import utility: restore single table backups or full database states.
 
-![Backup and Restoration](ReadMe/backup_and_restore.png)
+![Backup and Restoration](docs/screenshots/backup_and_restore.png)
 
 ## History Logs
 ## History Logs
@@ -123,50 +123,50 @@
 - Action triggers: Click to view/print digital receipts or export filtered lists into Microsoft Excel formats.
 - **Excel Export:** Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
 
-![Sales History](ReadMe/sales_history.png)
+![Sales History](docs/screenshots/sales_history.png)
 - Records and archives all POS cashier transactions.
 - Highlights: Order No., Itemized summaries, Payment methods, applied discounts, and total transaction amounts.
 - Action triggers: Click to view/print digital receipts or export filtered lists into Microsoft Excel formats.
 - **Excel Export:** Export currently filtered transactions as native `.xls` spreadsheets with gridlines and formatted order numbers.
 
-![Sales History](ReadMe/sales_history.png)
+![Sales History](docs/screenshots/sales_history.png)
 
 ### Inventory Logs
 - Auto-ledger tracking stock quantity modifications, edits, additions, and deletions.
 - Records old stock levels, new stock levels, active modifiers, and timestamped actions.
 - **Excel Export:** Export active inventory modification logs into styled spreadsheets.
 
-![Inventory Logs](ReadMe/inventory_logs.png)
+![Inventory Logs](docs/screenshots/inventory_logs.png)
 
 ### Logs History
 - Keyword search utility for specific system history logs.
 
-![Logs History](ReadMe/logs_history.png)
+![Logs History](docs/screenshots/logs_history.png)
 - Auto-ledger tracking stock quantity modifications, edits, additions, and deletions.
 - Records old stock levels, new stock levels, active modifiers, and timestamped actions.
 - **Excel Export:** Export active inventory modification logs into styled spreadsheets.
 
-![Inventory Logs](ReadMe/inventory_logs.png)
+![Inventory Logs](docs/screenshots/inventory_logs.png)
 
 ### Logs History
 - Keyword search utility for specific system history logs.
 
-![Logs History](ReadMe/logs_history.png)
+![Logs History](docs/screenshots/logs_history.png)
 
 ## Accounts Management
 - Statistics overview: Total accounts, Admin accounts, and Staff accounts.
 - Set SMTP email credentials to receive critical automated notifications.
 - Create, update, or remove Admin and Staff user credentials.
 
-![Accounts Management](ReadMe/user1.png)
-![Accounts Management Details](ReadMe/user2.png)
+![Accounts Management](docs/screenshots/user1.png)
+![Accounts Management Details](docs/screenshots/user2.png)
 ## Accounts Management
 - Statistics overview: Total accounts, Admin accounts, and Staff accounts.
 - Set SMTP email credentials to receive critical automated notifications.
 - Create, update, or remove Admin and Staff user credentials.
 
-![Accounts Management](ReadMe/user1.png)
-![Accounts Management Details](ReadMe/user2.png)
+![Accounts Management](docs/screenshots/user1.png)
+![Accounts Management Details](docs/screenshots/user2.png)
 
 # User Side:
 ## POS System
@@ -176,8 +176,8 @@
 - **Interactive 3D Product Viewer:** Cashiers can click "View" on any product to open a premium details modal featuring an interactive 3D model viewport (supports rotation, zoom, drag) and technical attributes (cost, brand, dimensions, color, type).
 - **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
-![POS System](ReadMe/POS.png)
-![Description](ReadMe/description.png)
+![POS System](docs/screenshots/POS.png)
+![Description](docs/screenshots/description.png)
 
 ## Cart & Presets
 - Displays all selected items inside the sidebar cart with a live quantity counter.
@@ -190,7 +190,7 @@
 - Interactive cash-received field with instant change calculation.
 - Automatically generates and displays receipt summaries upon checking out.
 
-![Checkout & Processing](ReadMe/checkout.png)
+![Checkout & Processing](docs/screenshots/checkout.png)
 
 # Integration
 1. **PayMongo Online Checkout API:** Point of Sale system directly integrated with the PayMongo API to accept card payments and local e-wallets (GCash and Maya) seamlessly via secure checkout session redirects.
