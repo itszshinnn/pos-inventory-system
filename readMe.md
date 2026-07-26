@@ -112,7 +112,7 @@
 - **Interactive 3D Product Viewer:** Cashiers can click "View" on any product to open a premium details modal featuring an interactive 3D model viewport (supports rotation, zoom, drag) and technical attributes (cost, brand, dimensions, color, type).
 - **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
-![POS System](ReadMe/pos.png)
+![POS System](ReadMe/POS.png)
 
 ## Cart & Presets
 - Displays all selected items inside the sidebar cart with a live quantity counter.
