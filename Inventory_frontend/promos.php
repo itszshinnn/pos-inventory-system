@@ -336,7 +336,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
             <select id="promoType" style="flex: 1; min-width: 120px; height: 44px; padding: 10px; border-radius: 8px; border: 1.5px solid #bcbcbc; outline: none; font-family: var(--font); font-size: 0.93rem; box-sizing: border-box; background: white;">
               <option value="percent">Percentage (%)</option>
-              <option value="amount">Flat Amount (Php)</option>
+              <option value="amount">Fixed Amount (Php)</option>
             </select>
 
             <button class="btn" onclick="addPromo()" style="height: 44px; padding: 0 24px; border-radius: 8px; font-weight: 600; font-family: var(--font); font-size: 0.93rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; box-sizing: border-box; background: #1B4EF5; color: white;">Add Promo</button>
@@ -388,7 +388,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <label style="font-size: 12px; font-weight: 600; color: #475569;">Discount Type</label>
         <select id="editType" style="width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid #bcbcbc; font-family: var(--font); background: white;">
           <option value="percent">Percentage (%)</option>
-          <option value="amount">Flat Amount (Php)</option>
+          <option value="amount">Fixed Amount (Php)</option>
         </select>
       </div>
 
@@ -451,7 +451,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <td>${i + 1}</td>
         <td style="text-align:center;font-weight:600;">${p.code}</td>
         <td style="text-align:center;">${p.discount_type === 'percent' ? parseFloat(p.discount_value) + '%' : 'Php' + parseFloat(p.discount_value).toFixed(2)}</td>
-        <td style="text-align:center;">${p.discount_type === 'percent' ? 'Percentage' : 'Flat Amount'}</td>
+        <td style="text-align:center;">${p.discount_type === 'percent' ? 'Percentage' : 'Fixed Amount'}</td>
         <td style="text-align:center;">
           <span class="status-badge ${p.is_active == 1 ? 'active' : 'inactive'}">${p.is_active == 1 ? 'Active' : 'Inactive'}</span>
         </td>
