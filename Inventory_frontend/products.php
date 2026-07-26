@@ -276,6 +276,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <a href="products.php" class="active"><?php include '../Images/products.svg'; ?> <span>Products</span></a>
       <a href="add-product.php" class="sub-tab">Add Products</a>
       <a href="purchase_orders.php"><?php include '../Images/purchase_orders.svg'; ?> <span>Purchase Orders</span></a>
+      <a href="promos.php"><?php include '../Images/promos.svg'; ?> <span>Promo Codes</span></a>
 
       <span class="sidebar-group-label">Reports</span>
       <a href="xml.php"><?php include '../Images/backup.svg'; ?> <span>Backup and Restore</span></a>

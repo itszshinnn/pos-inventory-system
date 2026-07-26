@@ -1354,20 +1354,6 @@ if (!isset($_SESSION['user_id'])) {
           <span id="subtotal">Php0.00</span>
         </div>
 
-        <div class="discount-presets">
-          <div class="discount-preset-label">Quick Discounts</div>
-          <div class="discount-preset-grid">
-            <button class="discount-preset-btn" data-name="Senior" data-percent="20" onclick="selectPresetDiscount(this)">Senior<br>20%</button>
-            <button class="discount-preset-btn" data-name="PWD" data-percent="20" onclick="selectPresetDiscount(this)">PWD<br>20%</button>
-            <button class="discount-preset-btn" data-name="Solo Parent" data-percent="10" onclick="selectPresetDiscount(this)">Solo Parent<br>10%</button>
-            <button class="discount-preset-btn" data-name="Employee" data-percent="10" onclick="selectPresetDiscount(this)">Employee<br>10%</button>
-            <button class="discount-preset-btn" data-name="Loyalty" data-percent="20" onclick="selectPresetDiscount(this)">Loyalty<br>20%</button>
-            <button class="discount-preset-btn" data-name="Promo" data-percent="30" onclick="selectPresetDiscount(this)">Promo<br>30%</button>
-          </div>
-        </div>
-
-        <hr class="discount-presets-divider">
-
         <div class="discount-row">
           <input type="number" class="discount-input" id="discountInput" placeholder="Discount" min="0">
           <select class="discount-type-select" id="discountType">
@@ -1375,6 +1361,11 @@ if (!isset($_SESSION['user_id'])) {
             <option value="Php">Php</option>
           </select>
           <div class="discount-result" id="discountResult"></div>
+        </div>
+
+        <div class="discount-row" style="margin-top: 8px; display: flex; align-items: center; gap: 6px;">
+          <input type="text" class="discount-input" id="promoCodeInput" placeholder="Enter Promo Code" style="flex: 1; text-transform: uppercase;">
+          <button class="discount-preset-btn" onclick="applyPromoCode()" style="padding: 8px 12px; height: 36px; line-height: 20px; font-size: 12px; white-space: nowrap; border-radius: 6px; margin: 0; background: #1B4EF5; color: white;">Apply</button>
         </div>
 
         <div class="summary-row">
@@ -1953,6 +1944,45 @@ if (!isset($_SESSION['user_id'])) {
     function clearPresetSelection() {
       selectedDiscountPreset = null;
       document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
+      const promoInput = document.getElementById('promoCodeInput');
+      if (promoInput) promoInput.value = '';
+    }
+
+    async function applyPromoCode() {
+      const code = document.getElementById('promoCodeInput').value.trim();
+      if (!code) {
+        alert('Please enter a promo code.');
+        return;
+      }
+
+      try {
+        const response = await fetch('../Inventory_backend/api_validate_promo.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ code: code })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          // Clear active visual presets
+          document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
+          
+          document.getElementById('discountInput').value = data.discount_value;
+          document.getElementById('discountType').value = (data.discount_type === 'percent') ? '%' : 'Php';
+          
+          selectedDiscountPreset = "Promo: " + data.code;
+          
+          alert(`Promo code applied: ${data.code} (${data.discount_value}${data.discount_type === 'percent' ? '%' : ' Php'} Off)`);
+          
+          applyDiscount();
+        } else {
+          alert(data.error || 'Failed to apply promo code.');
+        }
+      } catch (err) {
+        alert('Error validating promo code.');
+      }
     }
 
     function clearOrder() {
