@@ -38,7 +38,6 @@
 - Real-time Notifications panel tracking: Added/Deleted/Edited products, low stock alerts, new user registrations, and completed sales transactions.
 
 ![Dashboard](ReadMe/dashboard.png)
-![Description](ReadMe/description.png)
 
 ## Category Management
 - Add, view, edit, and delete product categories.
@@ -114,6 +113,7 @@
 - **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
 ![POS System](ReadMe/POS.png)
+![Description](ReadMe/description.png)
 
 ## Cart & Presets
 - Displays all selected items inside the sidebar cart with a live quantity counter.
