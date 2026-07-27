@@ -8,7 +8,7 @@ The **POS Inventory System** is an application developed to help gadget peripher
 - Linked to an online hosted version of the POS System (fully working): https://k-inventory.html-5.me/
 - **Admin account:**
   - **Username:** `admin`
-  - **Password:** `admin`
+  - **Password:** `password`
 - **User account:**
   - **Username:** `User`
   - **Password:** `1234`

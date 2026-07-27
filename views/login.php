@@ -12,54 +12,24 @@ $signupError = '';
 $signupSuccess = '';
 
 if (isset($_POST['login'])) {
-    $now = time();
     $maxAttempts = 5;
-    $lockoutTime = 60; // 60 seconds cooldown
+    $lockoutMinutes = 1;
 
-    if (!isset($_SESSION['login_attempts'])) {
-        $_SESSION['login_attempts'] = 0;
-        $_SESSION['last_attempt_time'] = $now;
-    }
+    $username = trim($_POST['login_username']);
+    $password = trim($_POST['login_password']);
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
-    // Reset attempt count if lockout period has passed
-    if (($now - $_SESSION['last_attempt_time']) > $lockoutTime) {
-        $_SESSION['login_attempts'] = 0;
-    }
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) FROM login_attempts
+        WHERE username = ? AND attempted_at > (NOW() - INTERVAL ? MINUTE)
+    ");
+    $stmt->execute([$username, $lockoutMinutes]);
+    $recentFailures = $stmt->fetchColumn();
 
-    // Enforce rate limiting lockout
-    if ($_SESSION['login_attempts'] >= $maxAttempts) {
-        $remainingLock = $lockoutTime - ($now - $_SESSION['last_attempt_time']);
-        $loginError = "Too many failed login attempts. Please wait {$remainingLock} seconds before trying again.";
+    if ($recentFailures >= $maxAttempts) {
+        $loginError = "Too many failed login attempts. Please wait a minute before trying again.";
     } else {
-        $username = trim($_POST['login_username']);
-        $password = trim($_POST['login_password']);
-
-        if ($username === 'admin' && $password === 'admin') {
-            $_SESSION['login_attempts'] = 0;
-            $_SESSION['user_id'] = 0;
-            $_SESSION['username'] = 'Admin';
-            $_SESSION['role'] = 'admin';
-
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-
-            $stmt = $pdo->prepare("
-                INSERT INTO login_logs
-                (user_id, username, ip_address, user_agent)
-                VALUES (?, ?, ?, ?)
-            ");
-
-            $stmt->execute([
-                $_SESSION['user_id'],
-                $_SESSION['username'],
-                $ip,
-                $userAgent
-            ]);
-
-            header("Location: dashboard.php");
-            exit;
-        }
-
         $stmt = $pdo->prepare("
             SELECT * FROM users
             WHERE username = ?
@@ -69,21 +39,25 @@ if (isset($_POST['login'])) {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['login_attempts'] = 0;
+            // Step 3 fix: rotate the session ID on successful login to
+            // prevent session fixation.
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            // Clear this user's failed-attempt history on success.
+            $clear = $pdo->prepare("DELETE FROM login_attempts WHERE username = ?");
+            $clear->execute([$username]);
 
-            $stmt = $pdo->prepare("
+            $log = $pdo->prepare("
                 INSERT INTO login_logs
                 (user_id, username, ip_address, user_agent)
                 VALUES (?, ?, ?, ?)
             ");
 
-            $stmt->execute([
+            $log->execute([
                 $user['id'],
                 $user['username'],
                 $ip,
@@ -97,13 +71,17 @@ if (isset($_POST['login'])) {
             }
             exit;
         } else {
-            $_SESSION['login_attempts']++;
-            $_SESSION['last_attempt_time'] = $now;
-            $remaining = $maxAttempts - $_SESSION['login_attempts'];
+            $ins = $pdo->prepare("
+                INSERT INTO login_attempts (username, ip_address, attempted_at)
+                VALUES (?, ?, NOW())
+            ");
+            $ins->execute([$username, $ip]);
+
+            $remaining = $maxAttempts - ($recentFailures + 1);
             if ($remaining > 0) {
                 $loginError = "Invalid username or password. ({$remaining} attempts remaining)";
             } else {
-                $loginError = "Too many failed attempts. Account locked for 60 seconds.";
+                $loginError = "Too many failed attempts. Account locked for a minute.";
             }
         }
     }
