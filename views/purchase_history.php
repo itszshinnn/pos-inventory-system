@@ -491,7 +491,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                             }
 
                             <div style="margin-top:6px;font-weight:bold;color:#4d66ff;">
-                                Total Cost: ₱${Number(order.total_cost).toLocaleString(undefined, {
+                                Total Cost: Php${Number(order.total_cost).toLocaleString(undefined, {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
                                 })}

@@ -18,17 +18,14 @@ class PaymentManager
         $summaryName = "Order: " . implode(", ", $itemNames);
         $summaryName = substr($summaryName, 0, 250);
 
-        // --- DYNAMIC URL BUILDER ---
-        // Dynamically detects http/https and your IP/Domain (e.g. 192.168.1.9 or localhost)
         $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
 
-        // Automatically finds the correct folder path on your server
-        $backendDir = dirname($_SERVER['SCRIPT_NAME']); // Path to Inventory_backend
-        $projectBase = dirname($backendDir);           // Root project folder
+        $backendDir = dirname($_SERVER['SCRIPT_NAME']);
+        $projectBase = dirname($backendDir);     
 
         $successUrl = "{$protocol}://{$host}{$backendDir}/payment_success.php";
-        $cancelUrl  = "{$protocol}://{$host}{$projectBase}/Inventory_frontend/point_of_sale_menu.php";
+        $cancelUrl  = "{$protocol}://{$host}{$projectBase}/views/point_of_sale_menu.php";
 
         $payload = [
             'data' => [
