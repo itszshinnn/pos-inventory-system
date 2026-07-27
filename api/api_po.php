@@ -97,7 +97,6 @@ case 'POST':
         $nextId = $refStmt->fetchColumn() + 1;
         $refNumber = 'PO-' . date('Ymd') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
 
-        // 1. Calculate initial total cost
         $totalCost = 0;
         $costStmt = $pdo->prepare("SELECT price_bought FROM products WHERE id = ?");
 
@@ -107,7 +106,6 @@ case 'POST':
             $totalCost += ($item['order_qty'] * $unitCost);
         }
 
-        // 2. Save purchase_order with calculated amount_paid
         $poStmt = $pdo->prepare("INSERT INTO purchase_orders (reference_no, status, amount_paid) VALUES (?, 'Pending', ?)");
         $poStmt->execute([$refNumber, $totalCost]);
         $poId = $pdo->lastInsertId();
@@ -148,13 +146,11 @@ case 'PUT':
         $getItems->execute([$poId]);
         $items = $getItems->fetchAll(PDO::FETCH_ASSOC);
 
-        // 1. Calculate final total amount paid from po_items
         $finalTotalCost = 0;
         foreach ($items as $item) {
             $finalTotalCost += ($item['order_qty'] * $item['unit_cost']);
         }
 
-        // 2. Update status, received_by, AND amount_paid
         $updatePO = $pdo->prepare("UPDATE purchase_orders SET status = 'Received', received_by = ?, amount_paid = ? WHERE id = ?");
         $updatePO->execute([$username, $finalTotalCost, $poId]);
 

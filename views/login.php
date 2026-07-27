@@ -39,15 +39,12 @@ if (isset($_POST['login'])) {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            // Step 3 fix: rotate the session ID on successful login to
-            // prevent session fixation.
             session_regenerate_id(true);
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            // Clear this user's failed-attempt history on success.
             $clear = $pdo->prepare("DELETE FROM login_attempts WHERE username = ?");
             $clear->execute([$username]);
 

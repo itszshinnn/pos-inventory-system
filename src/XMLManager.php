@@ -132,7 +132,6 @@ class XMLManager
                     }
                 }
             }
-            // SCENARIO 2: It is a SINGLE table export (Root node is the table name)
             else {
                 if (!in_array($rootName, $allowedTables)) {
                     throw new Exception("Invalid XML format or unauthorized table: " . $rootName);
@@ -156,7 +155,6 @@ class XMLManager
         }
     }
 
-    // Helper Function: Safely inserts a single XML row into the specified table
     private function insertXMLRow($rowNode, $tableName)
     {
         $columns = [];

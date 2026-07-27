@@ -1,10 +1,8 @@
 <?php
-// stock_alert.php
 require_once __DIR__ . '/../src/Database.php';
 $alertDb = new Database();
 $alertPdo = $alertDb->getConnection();
 
-// Query only pulls items needing restock whose PO status isn't already 'Pending'
 $alertStmt = $alertPdo->query("
     SELECT p.id, p.name, p.stock 
     FROM products p

@@ -74,7 +74,6 @@ function callGroqAPI($messagesOrPrompt, $apiKey)
     return trim($responseData['choices'][0]['message']['content'] ?? '');
 }
 
-// 1. INTENT CLASSIFICATION WITH CONTEXT HISTORY
 $classificationMessages = [];
 $classificationMessages[] = [
     "role" => "system",
@@ -124,7 +123,6 @@ if (strpos($intent, 'API_ERROR') !== false) {
     exit;
 }
 
-// ROUTE 1: Action Handler (supports bulk changes and context resolution)
 if (strpos($intent, 'ACTION') !== false) {
     $actionMessages = [];
     $actionMessages[] = [

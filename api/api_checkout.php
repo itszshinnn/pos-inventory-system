@@ -15,10 +15,8 @@ $changeAmount = floatval($data['change_amount'] ?? 0);
 $userId = $_SESSION['user_id'];
 $customerEmail = trim($data['email'] ?? "");
 
-// --- SERVER-SIDE VALIDATION ---
 $errors = [];
 
-// 1. Validate cart presence and array structure
 if (empty($cart) || !is_array($cart)) {
     $errors[] = "Checkout failed: Cart is empty or invalid.";
 } else {
@@ -34,28 +32,23 @@ if (empty($cart) || !is_array($cart)) {
     }
 }
 
-// 2. Validate allowed payment methods
 $allowedPaymentMethods = ['Cash', 'Card', 'GCash', 'Maya'];
 if (!in_array($paymentMethod, $allowedPaymentMethods, true)) {
     $errors[] = "Invalid payment method selected: " . htmlspecialchars($paymentMethod);
 }
 
-// 3. Validate numerical amounts
 if ($totalAmount < 0 || $discountAmount < 0) {
     $errors[] = "Total amount or discount amount cannot be negative.";
 }
 
-// 4. Validate cash sufficiency for Cash payments
 if ($paymentMethod === 'Cash' && $cashReceived < $totalAmount) {
     $errors[] = "Insufficient cash received. Required: Php" . number_format($totalAmount, 2) . ", Received: Php" . number_format($cashReceived, 2);
 }
 
-// 5. Validate customer email format if provided
 if (!empty($customerEmail) && !filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
     $errors[] = "Invalid customer email address format.";
 }
 
-// If any validation failed, reject transaction immediately
 if (!empty($errors)) {
     echo json_encode([
         'success' => false,

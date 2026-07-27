@@ -852,27 +852,6 @@ if (!isset($_SESSION['user_id'])) {
       border: 1px solid var(--border);
     }
 
-    .modal-close-x {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      background: none;
-      border: none;
-      font-size: 24px;
-      font-weight: 400;
-      color: var(--text-muted);
-      cursor: pointer;
-      line-height: 1;
-      transition: color 0.15s;
-      z-index: 10;
-      padding: 10px;
-      margin: -10px;
-    }
-
-    .modal-close-x:hover {
-      color: var(--text);
-    }
-
     #viewer-container {
       flex: 1.1;
       height: 340px;
@@ -1250,7 +1229,6 @@ if (!isset($_SESSION['user_id'])) {
         width: 100%;
       }
 
-      /* Stretches reset button full width on mobile grid */
       .reset-filter-btn {
         grid-column: span 2;
       }
@@ -1443,7 +1421,6 @@ if (!isset($_SESSION['user_id'])) {
 
   <div id="model-modal" class="modal-backdrop" style="z-index: 2600;">
     <div class="modal-card viewer-modal-card">
-      <button class="modal-close-x" onclick="close3DViewer()" title="Close">&times;</button>
       <div id="viewer-container"></div>
 
       <div class="viewer-modal-details">
@@ -2028,7 +2005,6 @@ if (!isset($_SESSION['user_id'])) {
 
         const data = await response.json();
         if (data.success) {
-          // Clear active visual presets
           document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
 
           document.getElementById('discountInput').value = data.discount_value;

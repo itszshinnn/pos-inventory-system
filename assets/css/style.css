@@ -800,7 +800,6 @@ tbody tr:hover {
   }
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .topbar {
     position: sticky !important;
