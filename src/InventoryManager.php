@@ -13,22 +13,22 @@ class InventoryManager
     public function getAllProducts()
     {
         $sql = 'SELECT p.id, p.name, p.price_bought, p.price, p.stock, p.category_id, p.image, p.model_path, p.description, 
-                       p.brand, p.color, p.type, p.capacity_size, p.resolution,
-                       c.name AS category
-                FROM products p
-                JOIN categories c ON p.category_id = c.id
-                ORDER BY p.id ASC';
+               p.brand, p.color, p.type, p.capacity_size, p.resolution, p.barcode,
+               c.name AS category
+        FROM products p
+        JOIN categories c ON p.category_id = c.id
+        ORDER BY p.id ASC';
 
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addProduct(Product $product, $imageName, $modelPath, $description, $brand, $color, $type, $capacity_size, $resolution, $username)
+    public function addProduct(Product $product, $imageName, $modelPath, $description, $brand, $color, $type, $capacity_size, $resolution, $username, $barcode = null)
     {
         try {
             $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare("INSERT INTO products (name, category_id, price_bought, price, stock, image, model_path, description, brand, color, type, capacity_size, resolution) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO products (name, category_id, price_bought, price, stock, image, model_path, description, brand, color, type, capacity_size, resolution, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $product->getName(),
                 $product->getCategoryId(),
@@ -42,7 +42,8 @@ class InventoryManager
                 $color,
                 $type,
                 $capacity_size,
-                $resolution
+                $resolution,
+                $barcode
             ]);
 
             $productId = $this->db->lastInsertId();

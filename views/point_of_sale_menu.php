@@ -18,6 +18,7 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
   <style>
     :root {
       --bg: #f0f1f4;
@@ -666,7 +667,6 @@ if (!isset($_SESSION['user_id'])) {
       color: var(--brand);
     }
 
-    /* Modal Styling */
     .modal-backdrop,
     .receipt-modal-backdrop {
       position: fixed;
@@ -1302,8 +1302,16 @@ if (!isset($_SESSION['user_id'])) {
         </div>
       </div>
 
-      <div class="search-container">
-        <input type="text" class="search-box" id="searchInput" placeholder="Search...">
+      <div class="search-container" style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" class="search-box" id="searchInput" placeholder="Search..." style="flex: 1;">
+        <button id="scanBtn" onclick="openScanner()" style="height:40px; padding:0 14px; border-radius:8px; border:1.5px solid var(--border); background:white; cursor:pointer; font-weight:600;">📷 Scan</button>
+      </div>
+
+      <div id="scannerModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:3000; align-items:center; justify-content:center;">
+        <div style="background:white; padding:16px; border-radius:12px; width:320px;">
+          <div id="reader" style="width:100%;"></div>
+          <button onclick="closeScanner()" style="width:100%; margin-top:12px; height:36px; border-radius:8px; border:none; background:#ff4b4b; color:white; font-weight:600; cursor:pointer;">Cancel</button>
+        </div>
       </div>
 
       <div class="categories" id="filtersContainer" style="display: flex; gap: 8px; padding: 0 14px 14px; flex-wrap: wrap;">
@@ -1704,6 +1712,49 @@ if (!isset($_SESSION['user_id'])) {
       renderProducts();
     }
 
+    let html5QrScanner = null;
+
+    function openScanner() {
+      document.getElementById('scannerModal').style.display = 'flex';
+      html5QrScanner = new Html5Qrcode("reader");
+      html5QrScanner.start({
+          facingMode: "environment"
+        }, {
+          fps: 10,
+          qrbox: 250
+        },
+        (decodedText) => {
+          handleScannedBarcode(decodedText);
+        }
+      );
+    }
+
+    function closeScanner() {
+      document.getElementById('scannerModal').style.display = 'none';
+
+      if (html5QrScanner) {
+        html5QrScanner.stop()
+          .then(() => html5QrScanner.clear())
+          .catch(() => {})
+          .finally(() => {
+            html5QrScanner = null;
+          });
+      }
+    }
+
+    function handleScannedBarcode(barcode) {
+      const product = allProducts.find(p => p.barcode === barcode);
+
+      closeScanner();
+
+      if (!product) {
+        alert('No product found for barcode: ' + barcode);
+        return;
+      }
+
+      addToCart(product.id, product.name, Number(product.price));
+    }
+
     function resetFilters() {
       document.getElementById('searchInput').value = '';
       document.getElementById('filterCategory').value = 'All';
@@ -1967,21 +2018,23 @@ if (!isset($_SESSION['user_id'])) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ code: code })
+          body: JSON.stringify({
+            code: code
+          })
         });
 
         const data = await response.json();
         if (data.success) {
           // Clear active visual presets
           document.querySelectorAll('.discount-preset-btn').forEach(b => b.classList.remove('active'));
-          
+
           document.getElementById('discountInput').value = data.discount_value;
           document.getElementById('discountType').value = (data.discount_type === 'percent') ? '%' : 'Php';
-          
+
           selectedDiscountPreset = "Promo: " + data.code;
-          
+
           alert(`Promo code applied: ${data.code} (${data.discount_value}${data.discount_type === 'percent' ? '%' : ' Php'} Off)`);
-          
+
           applyDiscount();
         } else {
           alert(data.error || 'Failed to apply promo code.');

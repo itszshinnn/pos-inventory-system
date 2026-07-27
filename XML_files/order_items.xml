@@ -6,6 +6,8 @@
     <product_id>1</product_id>
     <quantity>5</quantity>
     <price_at_sale>54995.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>39995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -14,6 +16,8 @@
     <product_id>2</product_id>
     <quantity>5</quantity>
     <price_at_sale>11495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>6495.00</cost_of_goods_sold>
   </row>
   <row>
@@ -22,6 +26,8 @@
     <product_id>3</product_id>
     <quantity>5</quantity>
     <price_at_sale>1495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -30,6 +36,8 @@
     <product_id>4</product_id>
     <quantity>5</quantity>
     <price_at_sale>6995.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>4495.00</cost_of_goods_sold>
   </row>
   <row>
@@ -38,6 +46,8 @@
     <product_id>5</product_id>
     <quantity>5</quantity>
     <price_at_sale>3495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -46,6 +56,8 @@
     <product_id>6</product_id>
     <quantity>5</quantity>
     <price_at_sale>6995.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>3995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -54,6 +66,8 @@
     <product_id>7</product_id>
     <quantity>5</quantity>
     <price_at_sale>13495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>6995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -62,6 +76,8 @@
     <product_id>8</product_id>
     <quantity>5</quantity>
     <price_at_sale>11495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>7495.00</cost_of_goods_sold>
   </row>
   <row>
@@ -70,6 +86,8 @@
     <product_id>9</product_id>
     <quantity>5</quantity>
     <price_at_sale>21995.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>11995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -78,6 +96,8 @@
     <product_id>10</product_id>
     <quantity>5</quantity>
     <price_at_sale>6495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>3995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -86,6 +106,8 @@
     <product_id>11</product_id>
     <quantity>5</quantity>
     <price_at_sale>7495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>4495.00</cost_of_goods_sold>
   </row>
   <row>
@@ -94,6 +116,8 @@
     <product_id>12</product_id>
     <quantity>5</quantity>
     <price_at_sale>34995.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>19995.00</cost_of_goods_sold>
   </row>
   <row>
@@ -102,6 +126,8 @@
     <product_id>13</product_id>
     <quantity>5</quantity>
     <price_at_sale>2495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1745.00</cost_of_goods_sold>
   </row>
   <row>
@@ -110,6 +136,8 @@
     <product_id>14</product_id>
     <quantity>5</quantity>
     <price_at_sale>6745.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>4245.00</cost_of_goods_sold>
   </row>
   <row>
@@ -118,6 +146,8 @@
     <product_id>15</product_id>
     <quantity>5</quantity>
     <price_at_sale>27495.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>12495.00</cost_of_goods_sold>
   </row>
   <row>
@@ -126,6 +156,8 @@
     <product_id>1</product_id>
     <quantity>1</quantity>
     <price_at_sale>10999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>7999.00</cost_of_goods_sold>
   </row>
   <row>
@@ -134,6 +166,8 @@
     <product_id>2</product_id>
     <quantity>1</quantity>
     <price_at_sale>2299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1299.00</cost_of_goods_sold>
   </row>
   <row>
@@ -142,6 +176,8 @@
     <product_id>3</product_id>
     <quantity>1</quantity>
     <price_at_sale>299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>199.00</cost_of_goods_sold>
   </row>
   <row>
@@ -150,6 +186,8 @@
     <product_id>4</product_id>
     <quantity>1</quantity>
     <price_at_sale>1399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>899.00</cost_of_goods_sold>
   </row>
   <row>
@@ -158,6 +196,8 @@
     <product_id>5</product_id>
     <quantity>1</quantity>
     <price_at_sale>699.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -166,6 +206,8 @@
     <product_id>6</product_id>
     <quantity>1</quantity>
     <price_at_sale>1399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>799.00</cost_of_goods_sold>
   </row>
   <row>
@@ -174,6 +216,8 @@
     <product_id>7</product_id>
     <quantity>1</quantity>
     <price_at_sale>2699.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -182,6 +226,8 @@
     <product_id>8</product_id>
     <quantity>1</quantity>
     <price_at_sale>2299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1499.00</cost_of_goods_sold>
   </row>
   <row>
@@ -190,6 +236,8 @@
     <product_id>9</product_id>
     <quantity>1</quantity>
     <price_at_sale>4399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -198,6 +246,8 @@
     <product_id>10</product_id>
     <quantity>1</quantity>
     <price_at_sale>1299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>799.00</cost_of_goods_sold>
   </row>
   <row>
@@ -206,6 +256,8 @@
     <product_id>11</product_id>
     <quantity>1</quantity>
     <price_at_sale>1499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>899.00</cost_of_goods_sold>
   </row>
   <row>
@@ -214,6 +266,8 @@
     <product_id>12</product_id>
     <quantity>1</quantity>
     <price_at_sale>6999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>3999.00</cost_of_goods_sold>
   </row>
   <row>
@@ -222,6 +276,8 @@
     <product_id>13</product_id>
     <quantity>1</quantity>
     <price_at_sale>499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>349.00</cost_of_goods_sold>
   </row>
   <row>
@@ -230,6 +286,8 @@
     <product_id>14</product_id>
     <quantity>1</quantity>
     <price_at_sale>1349.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>849.00</cost_of_goods_sold>
   </row>
   <row>
@@ -238,6 +296,8 @@
     <product_id>15</product_id>
     <quantity>1</quantity>
     <price_at_sale>5499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2499.00</cost_of_goods_sold>
   </row>
   <row>
@@ -246,6 +306,8 @@
     <product_id>1</product_id>
     <quantity>1</quantity>
     <price_at_sale>10999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>7999.00</cost_of_goods_sold>
   </row>
   <row>
@@ -254,6 +316,8 @@
     <product_id>2</product_id>
     <quantity>1</quantity>
     <price_at_sale>2299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1299.00</cost_of_goods_sold>
   </row>
   <row>
@@ -262,6 +326,8 @@
     <product_id>3</product_id>
     <quantity>1</quantity>
     <price_at_sale>299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>199.00</cost_of_goods_sold>
   </row>
   <row>
@@ -270,6 +336,8 @@
     <product_id>4</product_id>
     <quantity>1</quantity>
     <price_at_sale>1399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>899.00</cost_of_goods_sold>
   </row>
   <row>
@@ -278,6 +346,8 @@
     <product_id>5</product_id>
     <quantity>1</quantity>
     <price_at_sale>699.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -286,6 +356,8 @@
     <product_id>6</product_id>
     <quantity>1</quantity>
     <price_at_sale>1399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>799.00</cost_of_goods_sold>
   </row>
   <row>
@@ -294,6 +366,8 @@
     <product_id>7</product_id>
     <quantity>1</quantity>
     <price_at_sale>2699.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -302,6 +376,8 @@
     <product_id>8</product_id>
     <quantity>1</quantity>
     <price_at_sale>2299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1499.00</cost_of_goods_sold>
   </row>
   <row>
@@ -310,6 +386,8 @@
     <product_id>9</product_id>
     <quantity>1</quantity>
     <price_at_sale>4399.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2399.00</cost_of_goods_sold>
   </row>
   <row>
@@ -318,6 +396,8 @@
     <product_id>10</product_id>
     <quantity>1</quantity>
     <price_at_sale>1299.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>799.00</cost_of_goods_sold>
   </row>
   <row>
@@ -326,6 +406,8 @@
     <product_id>11</product_id>
     <quantity>1</quantity>
     <price_at_sale>1499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>899.00</cost_of_goods_sold>
   </row>
   <row>
@@ -334,6 +416,8 @@
     <product_id>12</product_id>
     <quantity>1</quantity>
     <price_at_sale>6999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>3999.00</cost_of_goods_sold>
   </row>
   <row>
@@ -342,6 +426,8 @@
     <product_id>13</product_id>
     <quantity>1</quantity>
     <price_at_sale>499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>349.00</cost_of_goods_sold>
   </row>
   <row>
@@ -350,6 +436,8 @@
     <product_id>14</product_id>
     <quantity>1</quantity>
     <price_at_sale>1349.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>849.00</cost_of_goods_sold>
   </row>
   <row>
@@ -358,6 +446,8 @@
     <product_id>15</product_id>
     <quantity>1</quantity>
     <price_at_sale>5499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2499.00</cost_of_goods_sold>
   </row>
   <row>
@@ -366,6 +456,8 @@
     <product_id>1</product_id>
     <quantity>3</quantity>
     <price_at_sale>32997.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>23997.00</cost_of_goods_sold>
   </row>
   <row>
@@ -374,6 +466,8 @@
     <product_id>2</product_id>
     <quantity>3</quantity>
     <price_at_sale>6897.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>3897.00</cost_of_goods_sold>
   </row>
   <row>
@@ -382,6 +476,8 @@
     <product_id>3</product_id>
     <quantity>3</quantity>
     <price_at_sale>897.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>597.00</cost_of_goods_sold>
   </row>
   <row>
@@ -390,6 +486,8 @@
     <product_id>4</product_id>
     <quantity>3</quantity>
     <price_at_sale>4197.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2697.00</cost_of_goods_sold>
   </row>
   <row>
@@ -398,6 +496,8 @@
     <product_id>5</product_id>
     <quantity>3</quantity>
     <price_at_sale>2097.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1197.00</cost_of_goods_sold>
   </row>
   <row>
@@ -406,6 +506,8 @@
     <product_id>6</product_id>
     <quantity>3</quantity>
     <price_at_sale>4197.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2397.00</cost_of_goods_sold>
   </row>
   <row>
@@ -414,6 +516,8 @@
     <product_id>7</product_id>
     <quantity>3</quantity>
     <price_at_sale>8097.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>4197.00</cost_of_goods_sold>
   </row>
   <row>
@@ -422,6 +526,8 @@
     <product_id>8</product_id>
     <quantity>3</quantity>
     <price_at_sale>6897.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>4497.00</cost_of_goods_sold>
   </row>
   <row>
@@ -430,6 +536,8 @@
     <product_id>9</product_id>
     <quantity>3</quantity>
     <price_at_sale>13197.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>7197.00</cost_of_goods_sold>
   </row>
   <row>
@@ -438,6 +546,8 @@
     <product_id>10</product_id>
     <quantity>3</quantity>
     <price_at_sale>3897.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2397.00</cost_of_goods_sold>
   </row>
   <row>
@@ -446,6 +556,8 @@
     <product_id>11</product_id>
     <quantity>3</quantity>
     <price_at_sale>4497.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2697.00</cost_of_goods_sold>
   </row>
   <row>
@@ -454,6 +566,8 @@
     <product_id>12</product_id>
     <quantity>3</quantity>
     <price_at_sale>20997.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>11997.00</cost_of_goods_sold>
   </row>
   <row>
@@ -462,6 +576,8 @@
     <product_id>13</product_id>
     <quantity>3</quantity>
     <price_at_sale>1497.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>1047.00</cost_of_goods_sold>
   </row>
   <row>
@@ -470,6 +586,8 @@
     <product_id>14</product_id>
     <quantity>3</quantity>
     <price_at_sale>4047.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>2547.00</cost_of_goods_sold>
   </row>
   <row>
@@ -478,6 +596,78 @@
     <product_id>15</product_id>
     <quantity>3</quantity>
     <price_at_sale>16497.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
     <cost_of_goods_sold>7497.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>61</id>
+    <order_id>5</order_id>
+    <product_id>7</product_id>
+    <quantity>3</quantity>
+    <price_at_sale>8097.00</price_at_sale>
+    <item_discount_amount>809.70</item_discount_amount>
+    <item_discount_type>%</item_discount_type>
+    <cost_of_goods_sold>4197.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>62</id>
+    <order_id>6</order_id>
+    <product_id>15</product_id>
+    <quantity>1</quantity>
+    <price_at_sale>5499.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>2499.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>63</id>
+    <order_id>7</order_id>
+    <product_id>5</product_id>
+    <quantity>1</quantity>
+    <price_at_sale>699.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>399.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>64</id>
+    <order_id>8</order_id>
+    <product_id>1</product_id>
+    <quantity>1</quantity>
+    <price_at_sale>10999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>65</id>
+    <order_id>9</order_id>
+    <product_id>1</product_id>
+    <quantity>17</quantity>
+    <price_at_sale>186983.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>135983.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>66</id>
+    <order_id>10</order_id>
+    <product_id>1</product_id>
+    <quantity>20</quantity>
+    <price_at_sale>219980.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>159980.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>67</id>
+    <order_id>11</order_id>
+    <product_id>1</product_id>
+    <quantity>1</quantity>
+    <price_at_sale>10999.00</price_at_sale>
+    <item_discount_amount>0.00</item_discount_amount>
+    <item_discount_type/>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
   </row>
 </order_items>

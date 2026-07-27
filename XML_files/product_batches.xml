@@ -12,7 +12,7 @@
     <id>2</id>
     <product_id>1</product_id>
     <quantity_received>30</quantity_received>
-    <quantity_remaining>20</quantity_remaining>
+    <quantity_remaining>0</quantity_remaining>
     <unit_cost>7999.00</unit_cost>
     <created_at>2026-07-14 22:15:57</created_at>
   </row>
@@ -44,7 +44,7 @@
     <id>6</id>
     <product_id>5</product_id>
     <quantity_received>30</quantity_received>
-    <quantity_remaining>20</quantity_remaining>
+    <quantity_remaining>19</quantity_remaining>
     <unit_cost>399.00</unit_cost>
     <created_at>2026-07-14 22:21:35</created_at>
   </row>
@@ -60,7 +60,7 @@
     <id>8</id>
     <product_id>7</product_id>
     <quantity_received>30</quantity_received>
-    <quantity_remaining>20</quantity_remaining>
+    <quantity_remaining>17</quantity_remaining>
     <unit_cost>1399.00</unit_cost>
     <created_at>2026-07-14 22:23:23</created_at>
   </row>
@@ -124,8 +124,40 @@
     <id>16</id>
     <product_id>15</product_id>
     <quantity_received>30</quantity_received>
-    <quantity_remaining>20</quantity_remaining>
+    <quantity_remaining>19</quantity_remaining>
     <unit_cost>2499.00</unit_cost>
     <created_at>2026-07-14 22:32:37</created_at>
+  </row>
+  <row>
+    <id>17</id>
+    <product_id>1</product_id>
+    <quantity_received>20</quantity_received>
+    <quantity_remaining>1</quantity_remaining>
+    <unit_cost>7999.00</unit_cost>
+    <created_at>2026-07-26 23:54:21</created_at>
+  </row>
+  <row>
+    <id>18</id>
+    <product_id>1</product_id>
+    <quantity_received>20</quantity_received>
+    <quantity_remaining>20</quantity_remaining>
+    <unit_cost>7999.00</unit_cost>
+    <created_at>2026-07-27 00:01:31</created_at>
+  </row>
+  <row>
+    <id>19</id>
+    <product_id>7</product_id>
+    <quantity_received>3</quantity_received>
+    <quantity_remaining>3</quantity_remaining>
+    <unit_cost>1399.00</unit_cost>
+    <created_at>2026-07-27 00:36:55</created_at>
+  </row>
+  <row>
+    <id>20</id>
+    <product_id>5</product_id>
+    <quantity_received>1</quantity_received>
+    <quantity_remaining>1</quantity_remaining>
+    <unit_cost>399.00</unit_cost>
+    <created_at>2026-07-27 00:38:49</created_at>
   </row>
 </product_batches>

@@ -8,10 +8,10 @@ $xmlManager = new XMLManager($pdo);
 
 try {
     $xmlManager->exportAllTablesToFolder('../XML_files/');
-    header("Location: ../Inventory_frontend/xml.php?success=exported");
+    header("Location: ../views/xml.php?success=exported");
     exit;
 } catch (Exception $e) {
-    header("Location: ../Inventory_frontend/xml.php?error=" . urlencode($e->getMessage()));
+    header("Location: ../views/xml.php?error=" . urlencode($e->getMessage()));
     exit;
 }
 ?>

@@ -35,4 +35,11 @@
     <created_at>2026-07-14 12:53:35</created_at>
     <role>user</role>
   </row>
+  <row>
+    <id>6</id>
+    <username>admin</username>
+    <password>$2y$10$Va0kMx/3cvAtjLH8JXxvce6EABUWFcqKk9NTCrMpdFxloyED1i2VK</password>
+    <created_at>2026-07-27 11:57:54</created_at>
+    <role>admin</role>
+  </row>
 </users>

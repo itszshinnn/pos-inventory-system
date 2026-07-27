@@ -5,7 +5,6 @@ require '../src/Database.php';
 $database = new Database();
 $pdo = $database->getConnection();
 
-session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   header("Location: login.php");
   exit;

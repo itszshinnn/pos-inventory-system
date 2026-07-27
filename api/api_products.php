@@ -46,6 +46,7 @@ switch ($method) {
         $type         = trim($_POST['type'] ?? '');
         $size         = trim($_POST['capacity_size'] ?? '');
         $resolution   = trim($_POST['resolution'] ?? '');
+        $barcode      = trim($_POST['barcode'] ?? '') ?: null;
 
         $imageName   = 'default_product.png';
         $modelPath   = null;
@@ -102,7 +103,7 @@ switch ($method) {
 
         $newProduct = new Product($name, $category_id, $price_bought, $price, $stock);
 
-        $result = $manager->addProduct($newProduct, $imageName, $modelPath, $description, $brand, $color, $type, $size, $resolution, $username);
+        $result = $manager->addProduct($newProduct, $imageName, $modelPath, $description, $brand, $color, $type, $size, $resolution, $username, $barcode);
 
         if (isset($result['error'])) http_response_code(500);
         echo json_encode($result);
@@ -122,6 +123,7 @@ switch ($method) {
         $type          = trim($input['type'] ?? '');
         $capacity_size = trim($input['capacity_size'] ?? '');
         $resolution    = trim($input['resolution'] ?? '');
+        $barcode      = trim($_POST['barcode'] ?? '') ?: null;
 
         if (!$id || !$name || !$category_id || $price < 0 || $stock < 0) {
             http_response_code(400);

@@ -325,7 +325,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
       <div class="sidebar-logout">
         <a href="logout.php">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+          </svg>
           <span>Logout</span>
         </a>
       </div>
@@ -385,6 +389,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                   <select id="prodCategory" class="modern-input" required>
                     <option value="" disabled selected>Loading categories...</option>
                   </select>
+                </div>
+                <div class="input-group">
+                  <label>Barcode</label>
+                  <input type="text" id="prodBarcode" class="modern-input" placeholder="Scan or type barcode" />
                 </div>
               </div>
             </div>
@@ -534,6 +542,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       const type = document.getElementById('prodType').value.trim();
       const size = document.getElementById('prodSize').value.trim();
       const resolution = document.getElementById('prodRes').value.trim();
+      const barcode = document.getElementById('prodBarcode').value.trim();
 
       if (!name) return showToast('Please enter a product name.', true);
       if (!category_id) return showToast('Please select a category.', true);
@@ -553,6 +562,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       formData.append('type', type);
       formData.append('capacity_size', size);
       formData.append('resolution', resolution);
+      formData.append('barcode', barcode);
 
       if (imageFile) formData.append('image', imageFile);
       if (modelFile) formData.append('model_file', modelFile);
