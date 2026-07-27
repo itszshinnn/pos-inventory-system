@@ -114,7 +114,7 @@
     <div class="ai-prompt-chips-bar" style="padding: 8px 10px 4px; background: #ffffff; border-top: 1px solid #f1f5f9; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
         <button onclick="sendQuickPrompt('How much is today\'s total sales?')" style="white-space: nowrap; flex-shrink: 0; background: #eef4ff; color: #1B4EF5; border: 1px solid #c7d2fe; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📊 Today's sales</button>
         <button onclick="sendQuickPrompt('Which items are low or out of stock?')" style="white-space: nowrap; flex-shrink: 0; background: #fff8e6; color: #d97706; border: 1px solid #fde68a; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">⚠️ Low stock items</button>
-        <button onclick="sendQuickPrompt('How many products were sold today?')" style="white-space: nowrap; flex-shrink: 0; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📦 Purchase orders</button>
+        <button onclick="sendQuickPrompt('How many products were sold today?')" style="white-space: nowrap; flex-shrink: 0; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 600; cursor: pointer;">📦 Today's sold items</button>
     </div>
 
     <div style="padding: 8px 12px 4px; background: #ffffff;">

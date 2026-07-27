@@ -37,5 +37,5 @@ if (isset($_SESSION['pending_cart']) && !empty($_SESSION['pending_cart'])) {
     unset($_SESSION['pending_email']);
 }
 
-header("Location: ../Inventory_frontend/point_of_sale_menu.php?payment=success");
+header("Location: ../views/point_of_sale_menu.php?payment=success");
 exit();
