@@ -1304,7 +1304,10 @@ if (!isset($_SESSION['user_id'])) {
 
       <div class="search-container" style="display: flex; gap: 8px; align-items: center;">
         <input type="text" class="search-box" id="searchInput" placeholder="Search..." style="flex: 1;">
-        <button id="scanBtn" onclick="openScanner()" style="height:40px; padding:0 14px; border-radius:8px; border:1.5px solid var(--border); background:white; cursor:pointer; font-weight:600;">📷 Scan</button>
+        <button id="scanBtn" onclick="openScanner()" style="height:40px; padding:0 14px; border-radius:8px; border:1.5px solid var(--border); background:white; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:8px;">
+          <img src="../assets/images/scan.svg" alt="" style="width:18px; height:18px;">
+          Scan
+        </button>
       </div>
 
       <div id="scannerModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:3000; align-items:center; justify-content:center;">

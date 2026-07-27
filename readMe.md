@@ -53,6 +53,7 @@ The **POS Inventory System** is an application developed to help gadget peripher
 
 ## Add Product
 - Form to add new inventory products: specify name, category, initial cost price, initial retail selling price, stock quantities, technical specifications, description, and upload product images or 3D asset models (.glb/.gltf format).
+- Assign a unique barcode to each product for barcode-based lookup and scanning in the POS terminal.
 
 ![Add Product](docs/screenshots/add_products.png)
 
@@ -110,6 +111,7 @@ The **POS Inventory System** is an application developed to help gadget peripher
 - Shows all items in the database with their respective images and 3D models.
 - Real-time stock indicator displays (automatically grays out items when sold out).
 - Category, brands, price, and stock filtering and real-time search inputs to find products quickly.
+- **Barcode Scanning:** Cashiers can scan a product's barcode using the device camera to instantly add it to the cart, and no manual search needed.
 - **Interactive 3D Product Viewer:** Cashiers can click "View" on any product to open a premium details modal featuring an interactive 3D model viewport (supports rotation, zoom, drag) and technical attributes (cost, brand, dimensions, color, type).
 - **Mobile Responsive Tabbed Layout:** On mobile screens, the terminal automatically transforms into a single-panel interface with bottom navigation tabs (`🏷️ Products` and `🛒 Cart` with a live badge item count) to prevent squishing and ensure fluid operations.
 
@@ -138,6 +140,7 @@ The **POS Inventory System** is an application developed to help gadget peripher
    - **Database QA:** Evaluates natural language queries to generate safe SQL read commands.
    - **Continuous Conversation Context:** Tracks history states using sessionStorage to handle follow-up statements.
    - **Action Intent Execution:** Processes modification requests (like restocking, updating retail prices, and cost prices) directly into transactions. Includes support for bulk multi-command updates in a single prompt.
+   6. **Camera-Based Barcode Scanning:** POS terminal integrates the `html5-qrcode` library to decode barcodes/QR codes via the device camera, matching scanned codes against the loaded product catalog to add items to cart in real time.
 
 # Database
 ## Database Name
