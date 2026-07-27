@@ -1,10 +1,15 @@
 <?php
+session_start();
 require '../src/Database.php';
 
 $database = new Database();
 $pdo = $database->getConnection();
 
 session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+  header("Location: login.php");
+  exit;
+}
 
 ?>
 
@@ -278,7 +283,11 @@ session_start();
 
       <div class="sidebar-logout">
         <a href="logout.php">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+          </svg>
           <span>Logout</span>
         </a>
       </div>
