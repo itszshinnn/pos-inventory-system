@@ -10,6 +10,7 @@ $pdo = $database->getConnection();
 $loginError = '';
 $signupError = '';
 $signupSuccess = '';
+$lockoutSecondsLeft = null;
 
 if (isset($_POST['login'])) {
     $maxAttempts = 5;
@@ -21,14 +22,17 @@ if (isset($_POST['login'])) {
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
     $stmt = $pdo->prepare("
-        SELECT COUNT(*) FROM login_attempts
-        WHERE username = ? AND attempted_at > (NOW() - INTERVAL ? MINUTE)
+        SELECT COUNT(*), MAX(attempted_at) FROM login_attempts
+        WHERE (username = ? OR ip_address = ?)
+          AND attempted_at > (NOW() - INTERVAL ? MINUTE)
     ");
-    $stmt->execute([$username, $lockoutMinutes]);
-    $recentFailures = $stmt->fetchColumn();
+    $stmt->execute([$username, $ip, $lockoutMinutes]);
+    [$recentFailures, $lastAttemptAt] = $stmt->fetch(PDO::FETCH_NUM);
 
     if ($recentFailures >= $maxAttempts) {
-        $loginError = "Too many failed login attempts. Please wait a minute before trying again.";
+        $unlockAt = strtotime($lastAttemptAt) + ($lockoutMinutes * 60);
+        $lockoutSecondsLeft = max(0, $unlockAt - time());
+        $loginError = "Too many failed login attempts. Please wait before trying again.";
     } else {
         $stmt = $pdo->prepare("
             SELECT * FROM users
@@ -45,8 +49,8 @@ if (isset($_POST['login'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            $clear = $pdo->prepare("DELETE FROM login_attempts WHERE username = ?");
-            $clear->execute([$username]);
+            $clear = $pdo->prepare("DELETE FROM login_attempts WHERE username = ? OR ip_address = ?");
+            $clear->execute([$username, $ip]);
 
             $log = $pdo->prepare("
                 INSERT INTO login_logs
@@ -79,6 +83,7 @@ if (isset($_POST['login'])) {
                 $loginError = "Invalid username or password. ({$remaining} attempts remaining)";
             } else {
                 $loginError = "Too many failed attempts. Account locked for a minute.";
+                $lockoutSecondsLeft = $lockoutMinutes * 60;
             }
         }
     }
@@ -306,6 +311,13 @@ if (isset($_POST['login'])) {
             box-shadow: 0 4px 12px rgba(27, 78, 245, 0.15);
         }
 
+        .btn-submit:disabled {
+            background: #a3adc2;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
         @media(max-width: 480px) {
             .login-card {
                 padding: 30px 24px;
@@ -327,9 +339,12 @@ if (isset($_POST['login'])) {
 
         <form id="loginForm" method="POST">
             <?php if ($loginError): ?>
-                <div class="alert-error">
+                <div
+                    class="alert-error"
+                    id="loginAlert"
+                    <?= $lockoutSecondsLeft !== null ? 'data-seconds="' . (int) $lockoutSecondsLeft . '"' : '' ?>>
                     <i class="fa-solid fa-circle-exclamation"></i>
-                    <span><?= htmlspecialchars($loginError) ?></span>
+                    <span id="loginErrorMsg"><?= htmlspecialchars($loginError) ?></span>
                 </div>
             <?php endif; ?>
 
@@ -362,7 +377,7 @@ if (isset($_POST['login'])) {
                 </div>
             </div>
 
-            <button type="submit" name="login" class="btn-submit">
+            <button type="submit" name="login" class="btn-submit" id="loginSubmitBtn">
                 Login
             </button>
         </form>
@@ -382,6 +397,39 @@ if (isset($_POST['login'])) {
             }
         }
         sessionStorage.removeItem("sidebarState");
+
+        // Lockout countdown
+        (function () {
+            const alertEl = document.getElementById('loginAlert');
+            if (!alertEl || !alertEl.dataset.seconds) return;
+
+            let secondsLeft = parseInt(alertEl.dataset.seconds, 10);
+            if (isNaN(secondsLeft) || secondsLeft <= 0) return;
+
+            const msgEl = document.getElementById('loginErrorMsg');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            submitBtn.disabled = true;
+
+            const render = () => {
+                const m = Math.floor(secondsLeft / 60);
+                const s = secondsLeft % 60;
+                const timeStr = m > 0 ? `${m}m ${s}s` : `${s}s`;
+                msgEl.textContent = `Too many failed attempts. Try again in ${timeStr}.`;
+            };
+
+            render();
+
+            const timer = setInterval(() => {
+                secondsLeft--;
+                if (secondsLeft <= 0) {
+                    clearInterval(timer);
+                    msgEl.textContent = "You can try logging in again now.";
+                    submitBtn.disabled = false;
+                } else {
+                    render();
+                }
+            }, 1000);
+        })();
     </script>
 
 </body>

@@ -143,4 +143,69 @@
     <change_amount>0.00</change_amount>
     <cost_of_goods_sold>7999.00</cost_of_goods_sold>
   </row>
+  <row>
+    <id>12</id>
+    <order_no>0012</order_no>
+    <user_id>2</user_id>
+    <total_amount>10999.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <discount_type/>
+    <payment_method>GCash</payment_method>
+    <created_at>2026-07-27 22:00:44</created_at>
+    <cash_received>10999.00</cash_received>
+    <change_amount>0.00</change_amount>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>13</id>
+    <order_no>0013</order_no>
+    <user_id>2</user_id>
+    <total_amount>10999.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <discount_type/>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-07-27 22:10:32</created_at>
+    <cash_received>11000.00</cash_received>
+    <change_amount>1.00</change_amount>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>14</id>
+    <order_no>0014</order_no>
+    <user_id>2</user_id>
+    <total_amount>10999.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <discount_type/>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-07-27 22:12:27</created_at>
+    <cash_received>11000.00</cash_received>
+    <change_amount>1.00</change_amount>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>15</id>
+    <order_no>0015</order_no>
+    <user_id>2</user_id>
+    <total_amount>10999.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <discount_type/>
+    <payment_method>Cash</payment_method>
+    <created_at>2026-07-27 22:13:48</created_at>
+    <cash_received>11000.00</cash_received>
+    <change_amount>1.00</change_amount>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
+  <row>
+    <id>16</id>
+    <order_no>0016</order_no>
+    <user_id>2</user_id>
+    <total_amount>10999.00</total_amount>
+    <discount_amount>0.00</discount_amount>
+    <discount_type/>
+    <payment_method>GCash</payment_method>
+    <created_at>2026-07-27 22:14:46</created_at>
+    <cash_received>10999.00</cash_received>
+    <change_amount>0.00</change_amount>
+    <cost_of_goods_sold>7999.00</cost_of_goods_sold>
+  </row>
 </orders>

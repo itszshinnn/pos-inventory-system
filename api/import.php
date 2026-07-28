@@ -15,14 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['xml_file'])) {
         $file = $_FILES['xml_file']['tmp_name'];
         $xmlManager->importXML($file);
         
-        header("Location: ../Inventory_frontend/xml.php?success=imported");
+        header("Location: ../views/xml.php?success=imported");
         exit;
     } catch (Exception $e) {
-        header("Location: ../Inventory_frontend/xml.php?error=" . urlencode($e->getMessage()));
+        header("Location: ../views/xml.php?error=" . urlencode($e->getMessage()));
         exit;
     }
 } else {
-    header("Location: ../Inventory_frontend/xml.php");
+    header("Location: ../views/xml.php");
     exit;
 }
 ?>

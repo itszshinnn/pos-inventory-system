@@ -416,19 +416,19 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             </div>
 
             <div class="form-section">
-              <div class="section-header">Product Specifications (Optional)</div>
+              <div class="section-header">Product Specifications</div>
               <div class="grid-row">
                 <div class="input-group">
-                  <label>Brand</label>
-                  <input type="text" id="prodBrand" class="modern-input" placeholder="e.g. Razer, Logitech, ASUS" />
+                  <label>Brand <span style="color:#e05c5c;">*</span></label>
+                  <input type="text" id="prodBrand" class="modern-input" placeholder="e.g. Razer, Logitech, ASUS" required />
                 </div>
                 <div class="input-group">
-                  <label>Color</label>
-                  <input type="text" id="prodColor" class="modern-input" placeholder="e.g. Black, White, RGB" />
+                  <label>Color <span style="color:#e05c5c;">*</span></label>
+                  <input type="text" id="prodColor" class="modern-input" placeholder="e.g. Black, White, RGB" required />
                 </div>
                 <div class="input-group">
-                  <label>Type / Series</label>
-                  <input type="text" id="prodType" class="modern-input" placeholder="e.g. Wireless, Mechanical" />
+                  <label>Type / Series <span style="color:#e05c5c;">*</span></label>
+                  <input type="text" id="prodType" class="modern-input" placeholder="e.g. Wireless, Mechanical" required />
                 </div>
               </div>
               <div class="grid-row" style="margin-top: 14px;">
@@ -549,6 +549,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       if (!price_bought || price_bought < 0) return showToast('Please enter a valid cost price.', true);
       if (!price || price < 0) return showToast('Please enter a valid selling price.', true);
       if (!stock || stock < 0) return showToast('Please enter a valid stock quantity.', true);
+      if (!brand) return showToast('Please enter a brand.', true);
+      if (!color) return showToast('Please enter a color.', true);
+      if (!type) return showToast('Please enter a type/series.', true);
 
       const formData = new FormData();
       formData.append('name', name);

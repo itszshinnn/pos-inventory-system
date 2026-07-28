@@ -132,7 +132,7 @@
     <id>17</id>
     <product_id>1</product_id>
     <quantity_received>20</quantity_received>
-    <quantity_remaining>1</quantity_remaining>
+    <quantity_remaining>0</quantity_remaining>
     <unit_cost>7999.00</unit_cost>
     <created_at>2026-07-26 23:54:21</created_at>
   </row>
@@ -140,7 +140,7 @@
     <id>18</id>
     <product_id>1</product_id>
     <quantity_received>20</quantity_received>
-    <quantity_remaining>20</quantity_remaining>
+    <quantity_remaining>16</quantity_remaining>
     <unit_cost>7999.00</unit_cost>
     <created_at>2026-07-27 00:01:31</created_at>
   </row>
@@ -159,5 +159,37 @@
     <quantity_remaining>1</quantity_remaining>
     <unit_cost>399.00</unit_cost>
     <created_at>2026-07-27 00:38:49</created_at>
+  </row>
+  <row>
+    <id>21</id>
+    <product_id>1</product_id>
+    <quantity_received>4</quantity_received>
+    <quantity_remaining>4</quantity_remaining>
+    <unit_cost>7999.00</unit_cost>
+    <created_at>2026-07-27 22:17:02</created_at>
+  </row>
+  <row>
+    <id>22</id>
+    <product_id>1</product_id>
+    <quantity_received>10</quantity_received>
+    <quantity_remaining>10</quantity_remaining>
+    <unit_cost>7999.00</unit_cost>
+    <created_at>2026-07-28 00:05:13</created_at>
+  </row>
+  <row>
+    <id>23</id>
+    <product_id>1</product_id>
+    <quantity_received>5</quantity_received>
+    <quantity_remaining>5</quantity_remaining>
+    <unit_cost>7999.00</unit_cost>
+    <created_at>2026-07-28 11:32:27</created_at>
+  </row>
+  <row>
+    <id>24</id>
+    <product_id>16</product_id>
+    <quantity_received>20</quantity_received>
+    <quantity_remaining>20</quantity_remaining>
+    <unit_cost>999.00</unit_cost>
+    <created_at>2026-07-28 11:40:57</created_at>
   </row>
 </product_batches>

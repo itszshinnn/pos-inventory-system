@@ -1354,7 +1354,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="discount-row" style="margin-top: 8px; display: flex; align-items: center; gap: 6px;">
           <input type="text" class="discount-input" id="promoCodeInput" placeholder="Enter Promo Code" style="flex: 1; text-transform: uppercase;">
-          <button class="discount-preset-btn" onclick="applyPromoCode()" style="padding: 8px 12px; height: 36px; line-height: 20px; font-size: 12px; white-space: nowrap; border-radius: 6px; margin: 0; background: #1B4EF5; color: white;">Apply</button>
+          <button class="discount-preset-btn" id="promoApplyBtn" onclick="applyPromoCode()" style="padding: 8px 12px; height: 36px; line-height: 20px; font-size: 12px; white-space: nowrap; border-radius: 6px; margin: 0; background: #1B4EF5; color: white;">Apply</button>
+          <button class="discount-preset-btn" id="promoRemoveBtn" onclick="removePromoCode()" title="Remove promo" style="display: none; padding: 8px 10px; height: 36px; line-height: 20px; font-size: 12px; border-radius: 6px; margin: 0; background: #ff4b4b; color: white;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
 
         <div class="summary-row">
@@ -2012,6 +2015,12 @@ if (!isset($_SESSION['user_id'])) {
 
           selectedDiscountPreset = "Promo: " + data.code;
 
+          document.getElementById('discountInput').disabled = true;
+          document.getElementById('discountType').disabled = true;
+          document.getElementById('promoCodeInput').disabled = true;
+          document.getElementById('promoApplyBtn').style.display = 'none';
+          document.getElementById('promoRemoveBtn').style.display = 'inline-flex';
+
           alert(`Promo code applied: ${data.code} (${data.discount_value}${data.discount_type === 'percent' ? '%' : ' Php'} Off)`);
 
           applyDiscount();
@@ -2023,11 +2032,29 @@ if (!isset($_SESSION['user_id'])) {
       }
     }
 
+    function removePromoCode() {
+      document.getElementById('discountInput').value = '';
+      document.getElementById('discountInput').disabled = false;
+      document.getElementById('discountType').disabled = false;
+      document.getElementById('promoCodeInput').value = '';
+      document.getElementById('promoCodeInput').disabled = false;
+      document.getElementById('promoApplyBtn').style.display = 'inline-flex';
+      document.getElementById('promoRemoveBtn').style.display = 'none';
+
+      selectedDiscountPreset = null;
+      applyDiscount();
+    }
+
     function clearOrder() {
       cart = {};
       renderCart();
       renderProducts();
       document.getElementById('discountInput').value = '';
+      document.getElementById('discountInput').disabled = false;
+      document.getElementById('discountType').disabled = false;
+      document.getElementById('promoCodeInput').disabled = false;
+      document.getElementById('promoApplyBtn').style.display = 'inline-flex';
+      document.getElementById('promoRemoveBtn').style.display = 'none';
       clearPresetSelection();
     }
 
